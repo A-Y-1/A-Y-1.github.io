@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="计算机网络微课笔记01在打算开始学习计算机网络时，找到了湖科大一位老师的计算机网络微课堂课程。看了前几节后，发现这门课这门课程配图要点明确，讲解清晰，且课程也比较简短，所以我决定在读自顶向下之前先过一下这门课，并记录笔记。如果想学习计算机网络，推荐观看这门课程入门，只需要很短的时间就可以学习到很多内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络微课笔记01">
+<meta property="og:url" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="计算机网络微课笔记01在打算开始学习计算机网络时，找到了湖科大一位老师的计算机网络微课堂课程。看了前几节后，发现这门课这门课程配图要点明确，讲解清晰，且课程也比较简短，所以我决定在读自顶向下之前先过一下这门课，并记录笔记。如果想学习计算机网络，推荐观看这门课程入门，只需要很短的时间就可以学习到很多内容。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分组交换.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/三种交换的对比.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E9%80%9F%E7%8E%87.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%B8%A6%E5%AE%BD.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/时延.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%88%A9%E7%94%A8%E7%8E%87.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E4%B8%A2%E5%8C%85%E7%8E%87.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/前4个性能指标.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/4%E4%B8%AA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSI.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TCPip%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构分层.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层主要任务.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层传输媒体.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/双绞线.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/光纤.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/微波.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/传输方式-同步异步.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制1.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制-常用编码.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制1.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制2.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/信道极限容量.jpg">
+<meta property="article:published_time" content="2022-07-22T04:35:01.000Z">
+<meta property="article:modified_time" content="2022-07-25T01:39:17.521Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg">
+
+<link rel="canonical" href="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计算机网络微课笔记01 | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络微课笔记01
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-22 12:35:01" itemprop="dateCreated datePublished" datetime="2022-07-22T12:35:01+08:00">2022-07-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-25 09:39:17" itemprop="dateModified" datetime="2022-07-25T09:39:17+08:00">2022-07-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="计算机网络微课笔记01"><a href="#计算机网络微课笔记01" class="headerlink" title="计算机网络微课笔记01"></a><div align="center">计算机网络微课笔记01</div></h1><p style="text-indent:2em">在打算开始学习计算机网络时，找到了湖科大一位老师的<a herf="https://www.bilibili.com/video/BV1c4411d7jb?vd_source=463e5b3e4b18e5453477b57388c2e427">计算机网络微课堂</a>课程。看了前几节后，发现这门课这门课程配图要点明确，讲解清晰，且课程也比较简短，所以我决定在读自顶向下之前先过一下这门课，并记录笔记。如果想学习计算机网络，推荐观看这门课程入门，只需要很短的时间就可以学习到很多内容。</p>
+
+<span id="more"></span>
+
+<h2 id="第一章-概述"><a href="#第一章-概述" class="headerlink" title="第一章 概述"></a>第一章 概述</h2><h3 id="1-因特网概述"><a href="#1-因特网概述" class="headerlink" title="1.因特网概述"></a>1.因特网概述</h3><h3 id="1-1-网络、互联网和因特网"><a href="#1-1-网络、互联网和因特网" class="headerlink" title="1.1 网络、互联网和因特网"></a>1.1 网络、互联网和因特网</h3><ul>
+<li>网络由若干结点和连接这些结点的<strong>链路</strong>组成</li>
+<li>多个网络可以通过路由器互连起来，构成覆盖范围更大的网络，即互联网，因此互联网是<strong>“网络的网络”</strong></li>
+<li>因特网是世界上最大的互连网络</li>
+</ul>
+<blockquote>
+<p>internet：通用名词，泛指多个计算机网络互连而成的网络，在这些网络之间的通信协议可以是任意的</p>
+<p>Internet：专指全球最大的，由众多网络互连而成的计算机网络，采用TCP&#x2F;IP协议族作为通信规则</p>
+</blockquote>
+<h4 id="1-2-因特网发展的三个阶段"><a href="#1-2-因特网发展的三个阶段" class="headerlink" title="1.2 因特网发展的三个阶段"></a>1.2 因特网发展的三个阶段</h4><ul>
+<li>从单个网络ARPANET向互联网发展</li>
+<li>逐步建成三级结构的因特网(NSFNET)</li>
+<li>逐步形成了多层次ISP结构的因特网</li>
+</ul>
+<blockquote>
+<p>ISP：因特网服务提供者，提供IP地址，有了IP地址就可以接入因特网。常见的ISP包括中国电信，中国移动等。</p>
+</blockquote>
+<p>ISP三层结构：</p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg" style="zoom:70%;">
+
+<h4 id="1-3-因特网的标准化工作"><a href="#1-3-因特网的标准化工作" class="headerlink" title="1.3 因特网的标准化工作"></a>1.3 因特网的标准化工作</h4><ul>
+<li>面向公众</li>
+<li>因特网协会ISOC对因特网进行全面管理</li>
+</ul>
+<h4 id="1-4-因特网的组成"><a href="#1-4-因特网的组成" class="headerlink" title="1.4 因特网的组成"></a>1.4 因特网的组成</h4><ul>
+<li>边缘部分：由所有连接在因特网的<strong>主机</strong>组成，用户直接使用，用来进行通信和资源共享</li>
+<li>核心部分：由大量网络和连接这些网络的<strong>路由器</strong>组成，为边缘部分提供服务</li>
+</ul>
+<h3 id="2-三种交换方式"><a href="#2-三种交换方式" class="headerlink" title="2.三种交换方式"></a>2.三种交换方式</h3><h4 id="2-1-电路交换"><a href="#2-1-电路交换" class="headerlink" title="2.1 电路交换"></a>2.1 电路交换</h4><ul>
+<li>电话交换机接通电话线的方式称为电路交换</li>
+<li>交换：按照某种方式动态分配传输线路的资源</li>
+<li>三个步骤：建立连接-通话-释放连接</li>
+</ul>
+<h4 id="2-2-分组交换"><a href="#2-2-分组交换" class="headerlink" title="2.2 分组交换"></a>2.2 分组交换</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分组交换.jpg" style="zoom:35%;">
+
+<h4 id="2-3-报文交换"><a href="#2-3-报文交换" class="headerlink" title="2.3 报文交换"></a>2.3 报文交换</h4><ul>
+<li>与分组交换类似，交换结点采用存储转发方式，但对报文的大小没有限制，主要用于早期的电报通信网</li>
+</ul>
+<h4 id="2-4-三种交换方式的对比"><a href="#2-4-三种交换方式的对比" class="headerlink" title="2.4 三种交换方式的对比"></a>2.4 三种交换方式的对比</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/三种交换的对比.jpg" style="zoom: 33%;">
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>电路交换</td>
+<td>通信时延小<br>有序传输<br>没有冲突<br>使用范围广<br>实时性强<br><br>控制简单</td>
+<td>建立连接时间长<br>线路独占，使用效率低<br>灵活性差(故障后需要重新建立连接)<br>难以规格化(数据直达，不同规格终端难以通信)</td>
+</tr>
+<tr>
+<td>报文交换</td>
+<td>无需建立连接<br>动态分配线路<br>提高线路可靠性(某条路径故障，选择另一条路径)<br>提高线路利用率<br>提供多目标服务</td>
+<td>引起转发时延<br>需要较大的存储缓存空间<br>需要额外信息量(目标地址等)</td>
+</tr>
+<tr>
+<td>分组交换</td>
+<td>无需建立连接<br>线路利用率高<br>简化存储管理(相对于报文交换，分组长度固定)<br>加速传输(分组的转发和存储可同时进行)<br>减少出错概率和重发数据量</td>
+<td>引起转发时延<br>需要传输额外数据<br><br>失序，丢失，重复分组等问题<br>虚电路存在呼叫建立，数据传输和虚电路释放三个过程</td>
+</tr>
+</tbody></table>
+<h3 id="3-计算机网络的定义和分类"><a href="#3-计算机网络的定义和分类" class="headerlink" title="3.计算机网络的定义和分类"></a>3.计算机网络的定义和分类</h3><h4 id="3-1-计算机网络的定义"><a href="#3-1-计算机网络的定义" class="headerlink" title="3.1 计算机网络的定义"></a>3.1 计算机网络的定义</h4><ul>
+<li>最简单的定义：<strong>互连</strong>的，<strong>自洽</strong>的计算机的<strong>集合</strong></li>
+<li>较好的定义：通用的，可编程的硬件互连而成，可用来传送多种不同类型的数据能支持广泛的和日益增长的应用</li>
+</ul>
+<h4 id="3-2-分类"><a href="#3-2-分类" class="headerlink" title="3.2 分类"></a>3.2 分类</h4><ul>
+<li>按交换技术分类：电路交换&#x2F;报文交换&#x2F;分组交换</li>
+<li>按使用者分类：公用网&#x2F;专用网</li>
+<li>按传输介质分类：有线&#x2F;无线网络</li>
+<li>按覆盖范围分类：广域网WAN&#x2F;城域网MAN&#x2F;局域网LAN&#x2F;个域网PAN</li>
+<li>按拓扑结构分类：总线型&#x2F;星型&#x2F;环形&#x2F;网状型</li>
+</ul>
+<h3 id="4-计算机网络的性能指标"><a href="#4-计算机网络的性能指标" class="headerlink" title="4.计算机网络的性能指标"></a>4.计算机网络的性能指标</h3><h4 id="4-1-速率"><a href="#4-1-速率" class="headerlink" title="4.1 速率"></a>4.1 速率</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E9%80%9F%E7%8E%87.jpg" class>
+
+<h4 id="4-2-带宽"><a href="#4-2-带宽" class="headerlink" title="4.2 带宽"></a>4.2 带宽</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%B8%A6%E5%AE%BD.jpg" class>
+
+<h4 id="4-3-吞吐量"><a href="#4-3-吞吐量" class="headerlink" title="4.3 吞吐量"></a>4.3 吞吐量</h4><ul>
+<li>吞吐量表示单位时间内通过某个网络(或信道、接口)的数据量。</li>
+<li>吞吐量受网络的带宽或额定速率的限制</li>
+</ul>
+<h4 id="4-4-时延"><a href="#4-4-时延" class="headerlink" title="4.4 时延"></a>4.4 时延</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/时延.jpg" style="zoom:33%;">
+
+<h4 id="4-5-时延带宽积"><a href="#4-5-时延带宽积" class="headerlink" title="4.5 时延带宽积"></a>4.5 时延带宽积</h4><ul>
+<li>传播时延和带宽的乘积：即连续发送数据时，第一个字节到达终点时，发送端已经发送了时延带宽积的字节</li>
+</ul>
+<h4 id="4-6-往返时间RTT"><a href="#4-6-往返时间RTT" class="headerlink" title="4.6 往返时间RTT"></a>4.6 往返时间RTT</h4><ul>
+<li>双向交互所需的时间</li>
+</ul>
+<h4 id="4-7-利用率"><a href="#4-7-利用率" class="headerlink" title="4.7 利用率"></a>4.7 利用率</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%88%A9%E7%94%A8%E7%8E%87.jpg" class>
+
+<h4 id="4-8-丢包率"><a href="#4-8-丢包率" class="headerlink" title="4.8 丢包率"></a>4.8 丢包率</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E4%B8%A2%E5%8C%85%E7%8E%87.jpg" class>
+
+
+
+<p><strong>8个性能指标总结如下：</strong></p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/前4个性能指标.jpg" style="zoom:90%;">
+
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/4%E4%B8%AA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87.jpg" class>
+
+
+
+<h3 id="5-计算机网络体系结构"><a href="#5-计算机网络体系结构" class="headerlink" title="5.计算机网络体系结构"></a>5.计算机网络体系结构</h3><h4 id="5-1-常见结构"><a href="#5-1-常见结构" class="headerlink" title="5.1 常见结构"></a>5.1 常见结构</h4><p><strong>OSI参考模型</strong></p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSI.jpg" style="zoom:50%;">
+
+<p><strong>TCP</strong>&#x2F;<strong>IP协议模型</strong></p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TCPip%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg" class>
+
+<p><strong>原理体系结构</strong></p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构.jpg" style="zoom:50%;">
+
+<h4 id="5-2-分层必要性"><a href="#5-2-分层必要性" class="headerlink" title="5.2 分层必要性"></a>5.2 分层必要性</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构分层.jpg" style="zoom:80%;">
+
+<h4 id="5-3-分层思想举例"><a href="#5-3-分层思想举例" class="headerlink" title="5.3 分层思想举例"></a>5.3 分层思想举例</h4><h4 id="5-4-专用术语"><a href="#5-4-专用术语" class="headerlink" title="5.4 专用术语"></a>5.4 专用术语</h4><ul>
+<li>实体：任何可发送或接收信息的硬件或软件进程</li>
+<li>对等实体：通信双方的相同层次</li>
+<li>协议：逻辑通信的规则集合</li>
+<li>协议三要素：语法（格式），语义，同步</li>
+<li>服务访问点：同一系统中相邻两层的实体交换信息的逻辑接口</li>
+<li>协议数据单元PDU：对等层次之间传送的数据包</li>
+<li>服务数据单元SDU：统一系统内，层与层之间交换的数据包</li>
+</ul>
+<h2 id="第二章-物理层"><a href="#第二章-物理层" class="headerlink" title="第二章 物理层"></a>第二章 物理层</h2><h3 id="1-物理层协议的主要任务"><a href="#1-物理层协议的主要任务" class="headerlink" title="1.物理层协议的主要任务"></a>1.物理层协议的主要任务</h3><ul>
+<li>考虑怎样才能在连接各种计算机的传输媒体上传输数据比特流</li>
+</ul>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层主要任务.jpg" style="zoom:50%;">
+
+
+
+<h3 id="2-传输媒体"><a href="#2-传输媒体" class="headerlink" title="2.传输媒体"></a>2.传输媒体</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层传输媒体.jpg" style="zoom:40%;">
+
+<p><strong>双绞线</strong>：</p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/双绞线.jpg" style="zoom:50%;">
+
+<p><strong>光纤</strong>：</p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/光纤.jpg" style="zoom:50%;">
+
+<p><strong>微波</strong>：</p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/微波.jpg" style="zoom:80%;">
+
+<h3 id="3-传输方式"><a href="#3-传输方式" class="headerlink" title="3.传输方式"></a>3.传输方式</h3><ul>
+<li>串行传输&#x2F;并行传输</li>
+<li>同步传输&#x2F;异步传输</li>
+<li>单工&#x2F;半双工&#x2F;全双工通信</li>
+</ul>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/传输方式-同步异步.jpg" style="zoom:60%;">
+
+<h3 id="4-编码与调制"><a href="#4-编码与调制" class="headerlink" title="4.编码与调制"></a>4.编码与调制</h3><p><strong>编码</strong></p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制1.jpg" style="zoom:50%;">
+
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制-常用编码.jpg" style="zoom:50%;">
+
+<p><strong>调制</strong></p>
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制1.jpg" style="zoom:50%;">
+
+<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制2.jpg" style="zoom:50%;">
+
+<h3 id="5-信道的极限容量"><a href="#5-信道的极限容量" class="headerlink" title="5.信道的极限容量"></a>5.信道的极限容量</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/信道极限容量.jpg" style="zoom:80%;">
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/01/hello/" rel="prev" title="Hello!">
+      <i class="fa fa-chevron-left"></i> Hello!
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B001"><span class="nav-text">计算机网络微课笔记01</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%A6%82%E8%BF%B0"><span class="nav-text">第一章 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%A6%82%E8%BF%B0"><span class="nav-text">1.因特网概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%BD%91%E7%BB%9C%E3%80%81%E4%BA%92%E8%81%94%E7%BD%91%E5%92%8C%E5%9B%A0%E7%89%B9%E7%BD%91"><span class="nav-text">1.1 网络、互联网和因特网</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-%E5%9B%A0%E7%89%B9%E7%BD%91%E5%8F%91%E5%B1%95%E7%9A%84%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="nav-text">1.2 因特网发展的三个阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-%E5%9B%A0%E7%89%B9%E7%BD%91%E7%9A%84%E6%A0%87%E5%87%86%E5%8C%96%E5%B7%A5%E4%BD%9C"><span class="nav-text">1.3 因特网的标准化工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-%E5%9B%A0%E7%89%B9%E7%BD%91%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-text">1.4 因特网的组成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="nav-text">2.三种交换方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.1 电路交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.2 分组交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%8A%A5%E6%96%87%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.3 报文交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-text">2.4 三种交换方式的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB"><span class="nav-text">3.计算机网络的定义和分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">3.1 计算机网络的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E5%88%86%E7%B1%BB"><span class="nav-text">3.2 分类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-text">4.计算机网络的性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E9%80%9F%E7%8E%87"><span class="nav-text">4.1 速率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E5%B8%A6%E5%AE%BD"><span class="nav-text">4.2 带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%90%9E%E5%90%90%E9%87%8F"><span class="nav-text">4.3 吞吐量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-%E6%97%B6%E5%BB%B6"><span class="nav-text">4.4 时延</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-%E6%97%B6%E5%BB%B6%E5%B8%A6%E5%AE%BD%E7%A7%AF"><span class="nav-text">4.5 时延带宽积</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-%E5%BE%80%E8%BF%94%E6%97%B6%E9%97%B4RTT"><span class="nav-text">4.6 往返时间RTT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-%E5%88%A9%E7%94%A8%E7%8E%87"><span class="nav-text">4.7 利用率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-%E4%B8%A2%E5%8C%85%E7%8E%87"><span class="nav-text">4.8 丢包率</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-text">5.计算机网络体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E5%B8%B8%E8%A7%81%E7%BB%93%E6%9E%84"><span class="nav-text">5.1 常见结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-%E5%88%86%E5%B1%82%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-text">5.2 分层必要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-%E5%88%86%E5%B1%82%E6%80%9D%E6%83%B3%E4%B8%BE%E4%BE%8B"><span class="nav-text">5.3 分层思想举例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-%E4%B8%93%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-text">5.4 专用术语</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-text">第二章 物理层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%89%A9%E7%90%86%E5%B1%82%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BB%BB%E5%8A%A1"><span class="nav-text">1.物理层协议的主要任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BC%A0%E8%BE%93%E5%AA%92%E4%BD%93"><span class="nav-text">2.传输媒体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="nav-text">3.传输方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%BC%96%E7%A0%81%E4%B8%8E%E8%B0%83%E5%88%B6"><span class="nav-text">4.编码与调制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BF%A1%E9%81%93%E7%9A%84%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F"><span class="nav-text">5.信道的极限容量</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">3k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

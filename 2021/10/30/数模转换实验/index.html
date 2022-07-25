@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="D级任务一.实验任务对74194进行仿真验证，掌握Quartus仿真的基本原则和常规步骤，记录移位寄存器的数据读写，并描述仿真波形，分析结果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数模转换实验">
+<meta property="og:url" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="D级任务一.实验任务对74194进行仿真验证，掌握Quartus仿真的基本原则和常规步骤，记录移位寄存器的数据读写，并描述仿真波形，分析结果。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A2.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A3.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A4.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告5-16574389752276.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告6.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告7.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告8.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告9.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告10.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告11.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告12.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告13.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告14.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告15.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告16.png">
+<meta property="article:published_time" content="2021-10-30T06:48:29.000Z">
+<meta property="article:modified_time" content="2022-07-22T04:30:59.276Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="HNU">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png">
+
+<link rel="canonical" href="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数模转换实验 | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数模转换实验
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-30 14:48:29" itemprop="dateCreated datePublished" datetime="2021-10-30T14:48:29+08:00">2021-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-22 12:30:59" itemprop="dateModified" datetime="2022-07-22T12:30:59+08:00">2022-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HNU%E7%94%B5%E5%AD%90%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E4%B8%8E%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">HNU电子测试平台与工具</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>961</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="D级任务"><a href="#D级任务" class="headerlink" title="D级任务"></a><div align="center">D级任务</div></h1><h2 id="一-实验任务"><a href="#一-实验任务" class="headerlink" title="一.实验任务"></a>一.实验任务</h2><p style="text-indent:2em">对74194进行仿真验证，掌握Quartus仿真的基本原则和常规步骤，记录移位寄存器的数据读写，并描述仿真波形，分析结果。</p>
+
+<span id="more"></span>
+
+<h2 id="二-实验过程"><a href="#二-实验过程" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><h3 id="1-电路连接"><a href="#1-电路连接" class="headerlink" title="1.电路连接"></a>1.电路连接</h3><img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png" class>
+
+<h3 id="2-功能仿真"><a href="#2-功能仿真" class="headerlink" title="2.功能仿真"></a>2.功能仿真</h3><p style="text-indent:2em">仿真结果如图所示：</p>
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A2.png" class>
+
+<h3 id="3-波形分析"><a href="#3-波形分析" class="headerlink" title="3.波形分析"></a>3.波形分析</h3><p style="text-indent:2em">50ns：s=11，并行置位，qabcd=abcd=1010</p>
+
+<p style="text-indent:2em">125ns：clrn=0，低电平有效，异步清零，qabcd=0</p>
+
+<p style="text-indent:2em">250ns：s=01，串行右移，sr=1，qabcd=1000</p>
+
+<p style="text-indent:2em">350ns：s=01，串行右移，sr=0，qabcd=0100</p>
+
+<p style="text-indent:2em">450ns：s=10，串行左移，sl=1，qabcd=1001</p>
+
+<p style="text-indent:2em">550ns，s=10，串行左移，sl=0，qabcd=0010</p>
+
+<p style="text-indent:2em">此后s=00，ckrn=1，qabcd保持为0010</p>
+
+<h2 id="三-实验结果"><a href="#三-实验结果" class="headerlink" title="三.实验结果"></a>三.实验结果</h2><p style="text-indent:2em">经功能仿真验证，74149的工作与表中相同。</p>
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A3.png" class>
+
+<h1 id="C级任务"><a href="#C级任务" class="headerlink" title="C级任务"></a><div align="center">C级任务</div></h1><h2 id="一-实验任务-1"><a href="#一-实验任务-1" class="headerlink" title="一.实验任务"></a>一.实验任务</h2><p style="text-indent:2em">在DAC0832电路中依据导线命名循迹跨页跨层查到FPGA操作DAC0832的有关控制信号输入端管脚PIN号、数据输入端的管脚PIN号和DAC输出端测量点位置。</p>
+
+<h2 id="二-实验过程-1"><a href="#二-实验过程-1" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><h3 id="1-电路图"><a href="#1-电路图" class="headerlink" title="1.电路图"></a>1.电路图</h3><p style="text-indent:2em">DAC0832电路如下图所示：</p>
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A4.png" class>
+
+<h3 id="2-控制信号输入端管脚PIN号"><a href="#2-控制信号输入端管脚PIN号" class="headerlink" title="2.控制信号输入端管脚PIN号"></a>2.控制信号输入端管脚PIN号</h3><p style="text-indent:2em">输入控制信号为CS和WR1，这两个输入信号由DAC_CS控制，因此只需要找到DAC_CS的输入端管脚。在顶层原理图找到cs，wr1，跨层查找电路，找到输入端管脚号为Pin11.</p>
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告5-16574389752276.png" style="zoom:60%;">
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告6.png" style="zoom:80%;">
+
+<h3 id="3-数据输入端管脚号"><a href="#3-数据输入端管脚号" class="headerlink" title="3.数据输入端管脚号"></a>3.数据输入端管脚号</h3><p style="text-indent:2em">数据输入信号共8个，对应序号为4-7、13-16。</p>
+                                                       <img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告7.png" style="zoom:50%;">
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告8.png" style="zoom:60%;">
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告9.png" style="zoom:60%;">
+
+<p style="text-indent:2em">根据顶层图得到输入端的引脚号为：PIN_205-208、PIN_213-216。</p>
+
+<h3 id="4-DAC输出端测量点位置"><a href="#4-DAC输出端测量点位置" class="headerlink" title="4.DAC输出端测量点位置"></a>4.DAC输出端测量点位置</h3><p style="text-indent:2em">输出由U12输出1，U11输出9决定，可以找到测量点应在DA位置。</p>
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告10.png" style="zoom:60%;">
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告11.png" style="zoom:60%;">
+
+
+
+<h1 id="B级任务"><a href="#B级任务" class="headerlink" title=" B级任务"></a><div align="center"> B级任务</div></h1><h2 id="一-实验任务-2"><a href="#一-实验任务-2" class="headerlink" title="一.实验任务"></a>一.实验任务</h2><p style="text-indent:2em">Proteus中，建工程绘制电路，使用仪器测出数字编码信号转换后的模拟电压值.列表记录并画出“编码-电压”转换函数图。</p>
+
+<h2 id="二-实验过程-2"><a href="#二-实验过程-2" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><h3 id="1-电路绘制"><a href="#1-电路绘制" class="headerlink" title="1.电路绘制"></a>1.电路绘制</h3><img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告12.png" style="zoom:60%;">
+
+<h3 id="2-编码-电压”转换函数图"><a href="#2-编码-电压”转换函数图" class="headerlink" title="2.编码-电压”转换函数图"></a>2.编码-电压”转换函数图</h3><img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告13.png" style="zoom:60%;">
+
+<p style="text-indent:2em">函数可近似为y=0.02x+d，d是一个极小的截距。</p>
+
+<h1 id="A级任务"><a href="#A级任务" class="headerlink" title="A级任务"></a><div align="center">A级任务</div></h1><h2 id="一-实验任务-3"><a href="#一-实验任务-3" class="headerlink" title="一.实验任务"></a>一.实验任务</h2><p style="text-indent:2em">VHDL编写波形发生器并仿真验证。</p>
+
+<h2 id="二-实验过程-3"><a href="#二-实验过程-3" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><p style="text-indent:2em">本任务DDS及.mif文件的生成均参考网络资源，只进行了波形验证。</p>
+
+<p style="text-indent:2em">波形设置:</p>
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告14.png" style="zoom:50%;">
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告15.png" style="zoom: 50%;">
+
+<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告16.png" style="zoom: 80%;">
+
+<p style="text-indent:2em">正弦波周期64us，与mif文件中的数据对应。</p>
+
+<h1 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a><div align="center"><strong>实验总结</strong></div></h1><ul>
+<li>熟悉了功能仿真验证的方法</li>
+<li>了解74149芯片的功能及使用方法</li>
+<li>了解了更多关于数模转换的方法知识</li>
+<li>学习了Proteus的使用方法</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HNU/" rel="tag"># HNU</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/01/hello/" rel="next" title="Hello!">
+      Hello! <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#D%E7%BA%A7%E4%BB%BB%E5%8A%A1"><span class="nav-text">D级任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1"><span class="nav-text">一.实验任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="nav-text">二.实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%94%B5%E8%B7%AF%E8%BF%9E%E6%8E%A5"><span class="nav-text">1.电路连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8A%9F%E8%83%BD%E4%BB%BF%E7%9C%9F"><span class="nav-text">2.功能仿真</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%B3%A2%E5%BD%A2%E5%88%86%E6%9E%90"><span class="nav-text">3.波形分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-text">三.实验结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E7%BA%A7%E4%BB%BB%E5%8A%A1"><span class="nav-text">C级任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1-1"><span class="nav-text">一.实验任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B-1"><span class="nav-text">二.实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%94%B5%E8%B7%AF%E5%9B%BE"><span class="nav-text">1.电路图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%8E%A7%E5%88%B6%E4%BF%A1%E5%8F%B7%E8%BE%93%E5%85%A5%E7%AB%AF%E7%AE%A1%E8%84%9APIN%E5%8F%B7"><span class="nav-text">2.控制信号输入端管脚PIN号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E8%BE%93%E5%85%A5%E7%AB%AF%E7%AE%A1%E8%84%9A%E5%8F%B7"><span class="nav-text">3.数据输入端管脚号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-DAC%E8%BE%93%E5%87%BA%E7%AB%AF%E6%B5%8B%E9%87%8F%E7%82%B9%E4%BD%8D%E7%BD%AE"><span class="nav-text">4.DAC输出端测量点位置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#B%E7%BA%A7%E4%BB%BB%E5%8A%A1"><span class="nav-text"> B级任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1-2"><span class="nav-text">一.实验任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B-2"><span class="nav-text">二.实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%94%B5%E8%B7%AF%E7%BB%98%E5%88%B6"><span class="nav-text">1.电路绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BC%96%E7%A0%81-%E7%94%B5%E5%8E%8B%E2%80%9D%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0%E5%9B%BE"><span class="nav-text">2.编码-电压”转换函数图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A%E7%BA%A7%E4%BB%BB%E5%8A%A1"><span class="nav-text">A级任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1-3"><span class="nav-text">一.实验任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B-3"><span class="nav-text">二.实验过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%80%BB%E7%BB%93"><span class="nav-text">实验总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">3k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
