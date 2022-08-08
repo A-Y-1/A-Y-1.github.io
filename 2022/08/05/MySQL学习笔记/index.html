@@ -28,7 +28,7 @@
 <meta property="og:description" content="MySQL学习笔记|MySQL基础从0开始的MySQL学习。学习课程为【中字】SQL进阶教程 | 史上最易懂SQL教程！10小时零基础成长SQL大师。这门课相对其他B站的MySQL课程来说学时非常少，够用来快速入门学习基础。参考书是《MySQL必知必会》。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-05T04:35:01.000Z">
-<meta property="article:modified_time" content="2022-08-06T08:56:35.052Z">
+<meta property="article:modified_time" content="2022-08-06T13:09:45.965Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-06 16:56:35" itemprop="dateModified" datetime="2022-08-06T16:56:35+08:00">2022-08-06</time>
+                <time title="修改时间：2022-08-06 21:09:45" itemprop="dateModified" datetime="2022-08-06T21:09:45+08:00">2022-08-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,7 +222,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -289,7 +289,16 @@
 
 
 
-<h3 id><a href="#" class="headerlink" title></a></h3>
+<h2 id="三-连接"><a href="#三-连接" class="headerlink" title="三.连接"></a>三.连接</h2><h3 id="1-INNER-JOIN内连接"><a href="#1-INNER-JOIN内连接" class="headerlink" title="1.INNER JOIN内连接"></a>1.INNER JOIN内连接</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM orders</span><br><span class="line">JOIN customers</span><br><span class="line">	ON orders.customer_id = customers.customer_id;</span><br></pre></td></tr></table></figure>
+
+<p>yk如果两个表有一个相同的列字段，使用JOIN就会产生一个列不明确的错误，因此需要加上表格名前缀（以下这个例子还使用了别名）：yz</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT order_id,o.cutomer_id,first_name</span><br><span class="line">FROM orders AS o</span><br><span class="line">JOIN customers AS c</span><br><span class="line">	ON o.customer_id = c.customer_id;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-跨数据库连接"><a href="#2-跨数据库连接" class="headerlink" title="2.跨数据库连接"></a>2.跨数据库连接</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM order_item oi</span><br><span class="line">JOIN sql_inventory.products p</span><br><span class="line">	ON oi.product_id = p.product_id;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-自连接"><a href="#3-自连接" class="headerlink" title="3.自连接"></a>3.自连接</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line">SELECT e.employee_id,e.first_name,m.first_name AS manager</span><br><span class="line">FROM employees e</span><br><span class="line">JOIN employees m</span><br><span class="line">	ON e.reports_to = m.employee_id;</span><br></pre></td></tr></table></figure>
+
+
     </div>
 
     
@@ -369,7 +378,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-MySQL%E5%9F%BA%E7%A1%80"><span class="nav-text">MySQL学习笔记|MySQL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80-%E6%A6%82%E8%BF%B0"><span class="nav-text">一.概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93-amp-SQL"><span class="nav-text">1.数据库&amp;SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-MySQL%E4%BD%BF%E7%94%A8"><span class="nav-text">2.MySQL使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%BD%95"><span class="nav-text">登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USE-amp-SHOW"><span class="nav-text">USE&amp;SHOW</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C-%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5"><span class="nav-text">二.选择语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SELECT%E5%AD%90%E5%8F%A5"><span class="nav-text">1.SELECT子句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-WHERE%E5%AD%90%E5%8F%A5-amp-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-text">2.WHERE子句&amp;运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ORDER-BY%E5%AD%90%E5%8F%A5"><span class="nav-text">3.ORDER BY子句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-LIMIT%E5%AD%90%E5%8F%A5"><span class="nav-text">4.LIMIT子句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text"></span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-MySQL%E5%9F%BA%E7%A1%80"><span class="nav-text">MySQL学习笔记|MySQL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80-%E6%A6%82%E8%BF%B0"><span class="nav-text">一.概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93-amp-SQL"><span class="nav-text">1.数据库&amp;SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-MySQL%E4%BD%BF%E7%94%A8"><span class="nav-text">2.MySQL使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%BD%95"><span class="nav-text">登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USE-amp-SHOW"><span class="nav-text">USE&amp;SHOW</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C-%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5"><span class="nav-text">二.选择语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SELECT%E5%AD%90%E5%8F%A5"><span class="nav-text">1.SELECT子句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-WHERE%E5%AD%90%E5%8F%A5-amp-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-text">2.WHERE子句&amp;运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ORDER-BY%E5%AD%90%E5%8F%A5"><span class="nav-text">3.ORDER BY子句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-LIMIT%E5%AD%90%E5%8F%A5"><span class="nav-text">4.LIMIT子句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E8%BF%9E%E6%8E%A5"><span class="nav-text">三.连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-INNER-JOIN%E5%86%85%E8%BF%9E%E6%8E%A5"><span class="nav-text">1.INNER JOIN内连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B7%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="nav-text">2.跨数据库连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%87%AA%E8%BF%9E%E6%8E%A5"><span class="nav-text">3.自连接</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -439,12 +448,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">7k</span>
+    <span title="站点总字数">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6 分钟</span>
+    <span title="站点阅读时长">7 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
