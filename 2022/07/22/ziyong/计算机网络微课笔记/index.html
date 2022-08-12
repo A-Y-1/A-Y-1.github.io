@@ -20,86 +20,86 @@
     var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="计算机网络微课笔记在打算开始学习计算机网络时，找到了湖科大一位老师的计算机网络微课堂课程。看了前几节后，发现这门课这门课程配图要点明确，讲解清晰，且课程也比较简短，所以我决定在读自顶向下之前先过一下这门课，并记录笔记。如果想学习计算机网络，推荐观看这门课程入门，只需要很短的时间就可以学习到很多内容。">
+  <meta name="description" content="在打算开始学习计算机网络时，找到了湖科大一位老师的计算机网络微课堂课程。这门课程配图要点明确，讲解清晰，且课程也比较简短。因此学习本课程并记录了笔记。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机网络微课笔记">
-<meta property="og:url" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:url" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="橙的博客">
-<meta property="og:description" content="计算机网络微课笔记在打算开始学习计算机网络时，找到了湖科大一位老师的计算机网络微课堂课程。看了前几节后，发现这门课这门课程配图要点明确，讲解清晰，且课程也比较简短，所以我决定在读自顶向下之前先过一下这门课，并记录笔记。如果想学习计算机网络，推荐观看这门课程入门，只需要很短的时间就可以学习到很多内容。">
+<meta property="og:description" content="在打算开始学习计算机网络时，找到了湖科大一位老师的计算机网络微课堂课程。这门课程配图要点明确，讲解清晰，且课程也比较简短。因此学习本课程并记录了笔记。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分组交换.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/三种交换的对比.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E9%80%9F%E7%8E%87.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%B8%A6%E5%AE%BD.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/时延.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%88%A9%E7%94%A8%E7%8E%87.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E4%B8%A2%E5%8C%85%E7%8E%87.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/前4个性能指标.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/4%E4%B8%AA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSI.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TCPip%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构分层.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层主要任务.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层传输媒体.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/双绞线.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/光纤.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/微波.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/传输方式-同步异步.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制1.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制-常用编码.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制1.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制2.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/信道极限容量.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/数据链路概述.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/封装成帧.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC生成多项式.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC例题.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/差错检测补.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/停止等待协议.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/GBN.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/SR.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/PPP.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/静态划分信道.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/隐蔽站问题.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/退避冻结.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CSMACA.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/RTS.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC格式.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC地址类型.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/IP地址.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/集线器与交换机.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/交换机自学习.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/STP.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VLAN.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VLAN1Q.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ACCESS.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TRUNK.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/HYBRID.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分类编址的IP.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/划分子网的IP.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/无分类编址IPV4.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/定长子网掩码.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/变长子网掩码.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/静态路由配置.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/常见路由协议.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/RIP.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF邻居.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF多点接入.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF区域.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/IP数据报首部格式.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VPN&NAT.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分组交换.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/三种交换的对比.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E9%80%9F%E7%8E%87.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%B8%A6%E5%AE%BD.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/时延.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%88%A9%E7%94%A8%E7%8E%87.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E4%B8%A2%E5%8C%85%E7%8E%87.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/前4个性能指标.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/4%E4%B8%AA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSI.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TCPip%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构分层.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层主要任务.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层传输媒体.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/双绞线.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/光纤.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/微波.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/传输方式-同步异步.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制1.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制-常用编码.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制1.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制2.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/信道极限容量.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/数据链路概述.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/封装成帧.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC生成多项式.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC例题.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/差错检测补.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/停止等待协议.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/GBN.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/SR.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/PPP.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/静态划分信道.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/隐蔽站问题.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/退避冻结.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CSMACA.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/RTS.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC格式.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC地址类型.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/IP地址.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/集线器与交换机.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/交换机自学习.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/STP.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VLAN.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VLAN1Q.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ACCESS.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TRUNK.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/HYBRID.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分类编址的IP.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/划分子网的IP.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/无分类编址IPV4.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/定长子网掩码.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/变长子网掩码.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/静态路由配置.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/常见路由协议.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/RIP.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF邻居.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF多点接入.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF区域.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/IP数据报首部格式.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VPN&NAT.jpg">
 <meta property="article:published_time" content="2022-07-22T04:35:01.000Z">
-<meta property="article:modified_time" content="2022-08-12T10:26:01.837Z">
+<meta property="article:modified_time" content="2022-08-12T10:32:02.876Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg">
 
-<link rel="canonical" href="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/">
+<link rel="canonical" href="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/">
 
 
 <script id="page-configurations">
@@ -233,7 +233,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/a0.jpg">
@@ -263,7 +263,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-12 18:26:01" itemprop="dateModified" datetime="2022-08-12T18:26:01+08:00">2022-08-12</time>
+                <time title="修改时间：2022-08-12 18:32:02" itemprop="dateModified" datetime="2022-08-12T18:32:02+08:00">2022-08-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -288,7 +288,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.5k</span>
+              <span>7.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -307,7 +307,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="计算机网络微课笔记"><a href="#计算机网络微课笔记" class="headerlink" title="计算机网络微课笔记"></a><div align="center">计算机网络微课笔记</div></h1><p style="text-indent:2em">在打算开始学习计算机网络时，找到了湖科大一位老师的<a herf="https://www.bilibili.com/video/BV1c4411d7jb?vd_source=463e5b3e4b18e5453477b57388c2e427">计算机网络微课堂</a>课程。看了前几节后，发现这门课这门课程配图要点明确，讲解清晰，且课程也比较简短，所以我决定在读自顶向下之前先过一下这门课，并记录笔记。如果想学习计算机网络，推荐观看这门课程入门，只需要很短的时间就可以学习到很多内容。</p>
+        <p style="text-indent:2em">在打算开始学习计算机网络时，找到了湖科大一位老师的<a herf="https://www.bilibili.com/video/BV1c4411d7jb?vd_source=463e5b3e4b18e5453477b57388c2e427">计算机网络微课堂</a>课程。这门课程配图要点明确，讲解清晰，且课程也比较简短。因此学习本课程并记录了笔记。</p>
 
 <span id="more"></span>
 
@@ -329,7 +329,7 @@
 <p>ISP：因特网服务提供者，提供IP地址，有了IP地址就可以接入因特网。常见的ISP包括中国电信，中国移动等。</p>
 </blockquote>
 <p>ISP三层结构：</p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg" style="zoom:70%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ISP三层结构.jpg" style="zoom:70%;">
 
 <h4 id="1-3-因特网的标准化工作"><a href="#1-3-因特网的标准化工作" class="headerlink" title="1.3 因特网的标准化工作"></a>1.3 因特网的标准化工作</h4><ul>
 <li>面向公众</li>
@@ -344,12 +344,12 @@
 <li>交换：按照某种方式动态分配传输线路的资源</li>
 <li>三个步骤：建立连接-通话-释放连接</li>
 </ul>
-<h4 id="2-2-分组交换"><a href="#2-2-分组交换" class="headerlink" title="2.2 分组交换"></a>2.2 分组交换</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分组交换.jpg" style="zoom:35%;">
+<h4 id="2-2-分组交换"><a href="#2-2-分组交换" class="headerlink" title="2.2 分组交换"></a>2.2 分组交换</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分组交换.jpg" style="zoom:35%;">
 
 <h4 id="2-3-报文交换"><a href="#2-3-报文交换" class="headerlink" title="2.3 报文交换"></a>2.3 报文交换</h4><ul>
 <li>与分组交换类似，交换结点采用存储转发方式，但对报文的大小没有限制，主要用于早期的电报通信网</li>
 </ul>
-<h4 id="2-4-三种交换方式的对比"><a href="#2-4-三种交换方式的对比" class="headerlink" title="2.4 三种交换方式的对比"></a>2.4 三种交换方式的对比</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/三种交换的对比.jpg" style="zoom: 33%;">
+<h4 id="2-4-三种交换方式的对比"><a href="#2-4-三种交换方式的对比" class="headerlink" title="2.4 三种交换方式的对比"></a>2.4 三种交换方式的对比</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/三种交换的对比.jpg" style="zoom: 33%;">
 
 <table>
 <thead>
@@ -386,15 +386,15 @@
 <li>按覆盖范围分类：广域网WAN&#x2F;城域网MAN&#x2F;局域网LAN&#x2F;个域网PAN</li>
 <li>按拓扑结构分类：总线型&#x2F;星型&#x2F;环形&#x2F;网状型</li>
 </ul>
-<h3 id="4-计算机网络的性能指标"><a href="#4-计算机网络的性能指标" class="headerlink" title="4.计算机网络的性能指标"></a>4.计算机网络的性能指标</h3><h4 id="4-1-速率"><a href="#4-1-速率" class="headerlink" title="4.1 速率"></a>4.1 速率</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E9%80%9F%E7%8E%87.jpg" class>
+<h3 id="4-计算机网络的性能指标"><a href="#4-计算机网络的性能指标" class="headerlink" title="4.计算机网络的性能指标"></a>4.计算机网络的性能指标</h3><h4 id="4-1-速率"><a href="#4-1-速率" class="headerlink" title="4.1 速率"></a>4.1 速率</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E9%80%9F%E7%8E%87.jpg" class>
 
-<h4 id="4-2-带宽"><a href="#4-2-带宽" class="headerlink" title="4.2 带宽"></a>4.2 带宽</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%B8%A6%E5%AE%BD.jpg" class>
+<h4 id="4-2-带宽"><a href="#4-2-带宽" class="headerlink" title="4.2 带宽"></a>4.2 带宽</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%B8%A6%E5%AE%BD.jpg" class>
 
 <h4 id="4-3-吞吐量"><a href="#4-3-吞吐量" class="headerlink" title="4.3 吞吐量"></a>4.3 吞吐量</h4><ul>
 <li>吞吐量表示单位时间内通过某个网络(或信道、接口)的数据量。</li>
 <li>吞吐量受网络的带宽或额定速率的限制</li>
 </ul>
-<h4 id="4-4-时延"><a href="#4-4-时延" class="headerlink" title="4.4 时延"></a>4.4 时延</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/时延.jpg" style="zoom:33%;">
+<h4 id="4-4-时延"><a href="#4-4-时延" class="headerlink" title="4.4 时延"></a>4.4 时延</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/时延.jpg" style="zoom:33%;">
 
 <h4 id="4-5-时延带宽积"><a href="#4-5-时延带宽积" class="headerlink" title="4.5 时延带宽积"></a>4.5 时延带宽积</h4><ul>
 <li>传播时延和带宽的乘积：即连续发送数据时，第一个字节到达终点时，发送端已经发送了时延带宽积的字节</li>
@@ -402,29 +402,29 @@
 <h4 id="4-6-往返时间RTT"><a href="#4-6-往返时间RTT" class="headerlink" title="4.6 往返时间RTT"></a>4.6 往返时间RTT</h4><ul>
 <li>双向交互所需的时间</li>
 </ul>
-<h4 id="4-7-利用率"><a href="#4-7-利用率" class="headerlink" title="4.7 利用率"></a>4.7 利用率</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%88%A9%E7%94%A8%E7%8E%87.jpg" class>
+<h4 id="4-7-利用率"><a href="#4-7-利用率" class="headerlink" title="4.7 利用率"></a>4.7 利用率</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E5%88%A9%E7%94%A8%E7%8E%87.jpg" class>
 
-<h4 id="4-8-丢包率"><a href="#4-8-丢包率" class="headerlink" title="4.8 丢包率"></a>4.8 丢包率</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E4%B8%A2%E5%8C%85%E7%8E%87.jpg" class>
+<h4 id="4-8-丢包率"><a href="#4-8-丢包率" class="headerlink" title="4.8 丢包率"></a>4.8 丢包率</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/%E4%B8%A2%E5%8C%85%E7%8E%87.jpg" class>
 
 
 
 <p><strong>8个性能指标总结如下：</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/前4个性能指标.jpg" style="zoom:90%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/前4个性能指标.jpg" style="zoom:90%;">
 
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/4%E4%B8%AA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87.jpg" class>
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/4%E4%B8%AA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87.jpg" class>
 
 
 
 <h3 id="5-计算机网络体系结构"><a href="#5-计算机网络体系结构" class="headerlink" title="5.计算机网络体系结构"></a>5.计算机网络体系结构</h3><h4 id="5-1-常见结构"><a href="#5-1-常见结构" class="headerlink" title="5.1 常见结构"></a>5.1 常见结构</h4><p><strong>OSI参考模型</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSI.jpg" style="zoom:50%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSI.jpg" style="zoom:50%;">
 
 <p><strong>TCP</strong>&#x2F;<strong>IP协议模型</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TCPip%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg" class>
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TCPip%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg" class>
 
 <p><strong>原理体系结构</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构.jpg" style="zoom:50%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构.jpg" style="zoom:50%;">
 
-<h4 id="5-2-分层必要性"><a href="#5-2-分层必要性" class="headerlink" title="5.2 分层必要性"></a>5.2 分层必要性</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构分层.jpg" style="zoom:80%;">
+<h4 id="5-2-分层必要性"><a href="#5-2-分层必要性" class="headerlink" title="5.2 分层必要性"></a>5.2 分层必要性</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/原理体系结构分层.jpg" style="zoom:80%;">
 
 <h4 id="5-3-分层思想举例"><a href="#5-3-分层思想举例" class="headerlink" title="5.3 分层思想举例"></a>5.3 分层思想举例</h4><h4 id="5-4-专用术语"><a href="#5-4-专用术语" class="headerlink" title="5.4 专用术语"></a>5.4 专用术语</h4><ul>
 <li>实体：任何可发送或接收信息的硬件或软件进程</li>
@@ -438,20 +438,20 @@
 <h2 id="第二章-物理层"><a href="#第二章-物理层" class="headerlink" title="第二章 物理层"></a>第二章 物理层</h2><h3 id="1-物理层协议的主要任务"><a href="#1-物理层协议的主要任务" class="headerlink" title="1.物理层协议的主要任务"></a>1.物理层协议的主要任务</h3><ul>
 <li>考虑怎样才能在连接各种计算机的传输媒体上传输数据比特流</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层主要任务.jpg" style="zoom:50%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层主要任务.jpg" style="zoom:50%;">
 
 
 
-<h3 id="2-传输媒体"><a href="#2-传输媒体" class="headerlink" title="2.传输媒体"></a>2.传输媒体</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层传输媒体.jpg" style="zoom:40%;">
+<h3 id="2-传输媒体"><a href="#2-传输媒体" class="headerlink" title="2.传输媒体"></a>2.传输媒体</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/物理层传输媒体.jpg" style="zoom:40%;">
 
 <p><strong>双绞线</strong>：</p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/双绞线.jpg" style="zoom:50%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/双绞线.jpg" style="zoom:50%;">
 
 <p><strong>光纤</strong>：</p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/光纤.jpg" style="zoom:50%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/光纤.jpg" style="zoom:50%;">
 
 <p><strong>微波</strong>：</p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/微波.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/微波.jpg" style="zoom:80%;">
 
 
 
@@ -460,27 +460,27 @@
 <li>同步传输&#x2F;异步传输</li>
 <li>单工&#x2F;半双工&#x2F;全双工通信</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/传输方式-同步异步.jpg" style="zoom:60%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/传输方式-同步异步.jpg" style="zoom:60%;">
 
 
 
 <h3 id="4-编码与调制"><a href="#4-编码与调制" class="headerlink" title="4.编码与调制"></a>4.编码与调制</h3><p><strong>编码</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制1.jpg" style="zoom:50%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制1.jpg" style="zoom:50%;">
 
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制-常用编码.jpg" style="zoom:50%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/编码与调制-常用编码.jpg" style="zoom:50%;">
 
 <p><strong>调制</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制1.jpg" style="zoom:50%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制1.jpg" style="zoom:50%;">
 
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制2.jpg" style="zoom:50%;">
-
-
-
-<h3 id="5-信道的极限容量"><a href="#5-信道的极限容量" class="headerlink" title="5.信道的极限容量"></a>5.信道的极限容量</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/信道极限容量.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/调制2.jpg" style="zoom:50%;">
 
 
 
-<h2 id="第三章-数据链路层"><a href="#第三章-数据链路层" class="headerlink" title="第三章 数据链路层"></a>第三章 数据链路层</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/数据链路概述.jpg" style="zoom:80%;">
+<h3 id="5-信道的极限容量"><a href="#5-信道的极限容量" class="headerlink" title="5.信道的极限容量"></a>5.信道的极限容量</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/信道极限容量.jpg" style="zoom:80%;">
+
+
+
+<h2 id="第三章-数据链路层"><a href="#第三章-数据链路层" class="headerlink" title="第三章 数据链路层"></a>第三章 数据链路层</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/数据链路概述.jpg" style="zoom:80%;">
 
 <p><strong>三个重要问题</strong>：</p>
 <ul>
@@ -488,7 +488,7 @@
 <li>差错检测</li>
 <li>可靠传输</li>
 </ul>
-<h3 id="2-封装成帧"><a href="#2-封装成帧" class="headerlink" title="2.封装成帧"></a>2.封装成帧</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/封装成帧.jpg" style="zoom:80%;">
+<h3 id="2-封装成帧"><a href="#2-封装成帧" class="headerlink" title="2.封装成帧"></a>2.封装成帧</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/封装成帧.jpg" style="zoom:80%;">
 
 <ul>
 <li>字节填充：在数据部分出现的帧定界符前添加转义字节</li>
@@ -498,14 +498,14 @@
 <li>奇偶校验：漏检率高，一般不采用</li>
 <li>循环校验CRC：</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC.jpg" style="zoom:80%;">
 
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC生成多项式.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC生成多项式.jpg" style="zoom:80%;">
 
 <p><strong>例</strong>：</p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC例题.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CRC例题.jpg" style="zoom:80%;">
 
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/差错检测补.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/差错检测补.jpg" style="zoom:80%;">
 
 
 
@@ -516,26 +516,26 @@
 
 
 <h3 id="5-可靠传输的实现机制"><a href="#5-可靠传输的实现机制" class="headerlink" title="5.可靠传输的实现机制"></a>5.可靠传输的实现机制</h3><p><strong>停止-等待协议SW</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/停止等待协议.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/停止等待协议.jpg" style="zoom:80%;">
 
 <p><strong>回退N帧协议GBN</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/GBN.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/GBN.jpg" style="zoom:80%;">
 
 <p><strong>选择重传协议SR</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/SR.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/SR.jpg" style="zoom:80%;">
 
 
 
 <h3 id="6-点对点PPP协议"><a href="#6-点对点PPP协议" class="headerlink" title="6.点对点PPP协议"></a>6.点对点PPP协议</h3><ul>
 <li>点对点协议PPP是目前使用最广泛的点对点数据链路层协议</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/PPP.jpg" style="zoom:100%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/PPP.jpg" style="zoom:100%;">
 
 
 
-<h3 id="7-媒体接入控制"><a href="#7-媒体接入控制" class="headerlink" title="7.媒体接入控制"></a>7.媒体接入控制</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC.jpg" style="zoom:80%;">
+<h3 id="7-媒体接入控制"><a href="#7-媒体接入控制" class="headerlink" title="7.媒体接入控制"></a>7.媒体接入控制</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC.jpg" style="zoom:80%;">
 
-<h4 id="静态划分信道"><a href="#静态划分信道" class="headerlink" title="静态划分信道"></a><strong>静态划分信道</strong></h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/静态划分信道.jpg" style="zoom:80%;">
+<h4 id="静态划分信道"><a href="#静态划分信道" class="headerlink" title="静态划分信道"></a><strong>静态划分信道</strong></h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/静态划分信道.jpg" style="zoom:80%;">
 
 <h4 id="随机接入"><a href="#随机接入" class="headerlink" title="随机接入"></a>随机接入</h4><p><strong>CSMA&#x2F;CD协议：</strong></p>
 <p>现在的以太网基于交换机和全双工连接，不会有碰撞，因此没有必要使用CSMA&#x2F;CD协议</p>
@@ -574,7 +574,7 @@
 <ul>
 <li>802.11无线局域网在MAC层使用CSMA&#x2F;CA协议，尽量减小碰撞发送的概率。不能使用CSMA&#x2F;CD协议的原因是在无线局域网中无法实现碰撞检测(隐蔽站问题)。在使用CSMA&#x2F;CA协议的同时，还使用停止等待协议来实现可靠传输。</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/隐蔽站问题.jpg" style="zoom:40%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/隐蔽站问题.jpg" style="zoom:40%;">
 
 <ul>
 <li>为了尽可能避免碰撞，CSMA&#x2F;CA协议的退避算法不同，且信道从忙态转为空闲时，都要执行退避算法。<ul>
@@ -583,7 +583,7 @@
 </ul>
 </li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/退避冻结.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/退避冻结.jpg" style="zoom:80%;">
 
 <ul>
 <li>802.11标准规定，所有的站在完成发送后，必须再等待一段帧间间隔(IFS)时间才能发送下一帧。帧间间隔的长短取决于该站要发送的帧的优先级。<ul>
@@ -592,13 +592,13 @@
 </ul>
 </li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CSMACA.jpg" style="zoom:60%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/CSMACA.jpg" style="zoom:60%;">
 
 <ul>
 <li>在802.11无线局域网的MAC帧首部中有一个持续期字段，用于填入本帧结束后还要占用信道多久时间，其他站点通过该字段实现虚拟载波监听</li>
 <li>802.11标准允许要发送数据的站点对信道进行预约，先发送请求发送RTS帧，收到响应允许发送CTS帧后，发送数据帧。RTS和CTS帧很短，碰撞概率和开销很小，因此付出很小的代价进行信道预约是值得的。</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/RTS.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/RTS.jpg" style="zoom:80%;">
 
 
 
@@ -607,11 +607,11 @@
 <li>在每个主机发送的帧中必须携带标识发送主机和接收主机的地址，这类地址用于媒体接入控制(MAC)，因此这类地址被称为<font color="blue">MAC地址</font>(也被称为硬件地址或物理地址)。尽管可能被称为物理地址，<font color="red">MAC地址不属于物理层</font>。</li>
 <li>一般情况下，用户主机包含两个网络适配器：有线局域网适配器(有线网卡),h和无线局域网适配器(无线网卡)。每个网络适配器都有一个全球唯一的MAC地址，而交换机和路由器往往拥有更多的网络接口，拥有更多的MAC地址。<font color="red">MAC地址是对网络上各接口的唯一标识，而不是对网络上设备的唯一标识</font>。</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC格式.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC格式.jpg" style="zoom:80%;">
 
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC地址类型.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/MAC地址类型.jpg" style="zoom:80%;">
 
-<h4 id="IP地址-网络层"><a href="#IP地址-网络层" class="headerlink" title="IP地址(网络层)"></a>IP地址(网络层)</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/IP地址.jpg" style="zoom:80%;">
+<h4 id="IP地址-网络层"><a href="#IP地址-网络层" class="headerlink" title="IP地址(网络层)"></a>IP地址(网络层)</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/IP地址.jpg" style="zoom:80%;">
 
 <h4 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h4><ul>
 <li>地址解析协议ARP将IP地址解析为MAC地址。</li>
@@ -621,29 +621,29 @@
 <li>除ARP请求和响应外，ARP还有其他类型的报文(如检测IP地址冲突的无故ARP)。</li>
 <li>ARP没有安全验证机制，存在ARP欺骗(攻击)问题。</li>
 </ul>
-<h3 id="9-集线器与交换机"><a href="#9-集线器与交换机" class="headerlink" title="9.集线器与交换机"></a>9.集线器与交换机</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/集线器与交换机.jpg" style="zoom:80%;">
+<h3 id="9-集线器与交换机"><a href="#9-集线器与交换机" class="headerlink" title="9.集线器与交换机"></a>9.集线器与交换机</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/集线器与交换机.jpg" style="zoom:80%;">
 
 
 
-<h3 id="10-以太网交换机自学习和转发帧的流程"><a href="#10-以太网交换机自学习和转发帧的流程" class="headerlink" title="10.以太网交换机自学习和转发帧的流程"></a>10.以太网交换机自学习和转发帧的流程</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/交换机自学习.jpg" style="zoom:80%;">
+<h3 id="10-以太网交换机自学习和转发帧的流程"><a href="#10-以太网交换机自学习和转发帧的流程" class="headerlink" title="10.以太网交换机自学习和转发帧的流程"></a>10.以太网交换机自学习和转发帧的流程</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/交换机自学习.jpg" style="zoom:80%;">
 
 
 
-<h3 id="11-以太网交换机的生成树协议STP"><a href="#11-以太网交换机的生成树协议STP" class="headerlink" title="11.以太网交换机的生成树协议STP"></a>11.以太网交换机的生成树协议STP</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/STP.jpg" style="zoom:80%;">
+<h3 id="11-以太网交换机的生成树协议STP"><a href="#11-以太网交换机的生成树协议STP" class="headerlink" title="11.以太网交换机的生成树协议STP"></a>11.以太网交换机的生成树协议STP</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/STP.jpg" style="zoom:80%;">
 
 
 
-<h3 id="12-虚拟局域网VLAN"><a href="#12-虚拟局域网VLAN" class="headerlink" title="12.虚拟局域网VLAN"></a>12.虚拟局域网VLAN</h3><h4 id="虚拟局域网VLAN"><a href="#虚拟局域网VLAN" class="headerlink" title="虚拟局域网VLAN"></a>虚拟局域网VLAN</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VLAN.jpg" style="zoom:80%;">
+<h3 id="12-虚拟局域网VLAN"><a href="#12-虚拟局域网VLAN" class="headerlink" title="12.虚拟局域网VLAN"></a>12.虚拟局域网VLAN</h3><h4 id="虚拟局域网VLAN"><a href="#虚拟局域网VLAN" class="headerlink" title="虚拟局域网VLAN"></a>虚拟局域网VLAN</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VLAN.jpg" style="zoom:80%;">
 
 <h4 id="虚拟局域网VLAN的实现"><a href="#虚拟局域网VLAN的实现" class="headerlink" title="虚拟局域网VLAN的实现"></a>虚拟局域网VLAN的实现</h4><p><strong>IEEE 802.1Q帧</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VLAN1Q.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VLAN1Q.jpg" style="zoom:80%;">
 
 <p><strong>交换机的端口</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ACCESS.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/ACCESS.jpg" style="zoom:80%;">
 
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TRUNK.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/TRUNK.jpg" style="zoom:80%;">
 
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/HYBRID.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/HYBRID.jpg" style="zoom:80%;">
 
 
 
@@ -675,17 +675,17 @@
 </ul>
 </li>
 </ul>
-<h3 id="3-IPV4地址"><a href="#3-IPV4地址" class="headerlink" title="3.IPV4地址"></a>3.IPV4地址</h3><h4 id="分类编址的IPV4地址"><a href="#分类编址的IPV4地址" class="headerlink" title="分类编址的IPV4地址"></a>分类编址的IPV4地址</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分类编址的IP.jpg" style="zoom:100%;">
+<h3 id="3-IPV4地址"><a href="#3-IPV4地址" class="headerlink" title="3.IPV4地址"></a>3.IPV4地址</h3><h4 id="分类编址的IPV4地址"><a href="#分类编址的IPV4地址" class="headerlink" title="分类编址的IPV4地址"></a>分类编址的IPV4地址</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/分类编址的IP.jpg" style="zoom:100%;">
 
-<h4 id="划分子网的IPV4地址"><a href="#划分子网的IPV4地址" class="headerlink" title="划分子网的IPV4地址"></a>划分子网的IPV4地址</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/划分子网的IP.jpg" style="zoom:80%;">
+<h4 id="划分子网的IPV4地址"><a href="#划分子网的IPV4地址" class="headerlink" title="划分子网的IPV4地址"></a>划分子网的IPV4地址</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/划分子网的IP.jpg" style="zoom:80%;">
 
-<h4 id="无分类编址的IPV4地址"><a href="#无分类编址的IPV4地址" class="headerlink" title="无分类编址的IPV4地址"></a>无分类编址的IPV4地址</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/无分类编址IPV4.jpg" style="zoom:80%;">
+<h4 id="无分类编址的IPV4地址"><a href="#无分类编址的IPV4地址" class="headerlink" title="无分类编址的IPV4地址"></a>无分类编址的IPV4地址</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/无分类编址IPV4.jpg" style="zoom:80%;">
 
 <h4 id="IPV4地址的应用规划"><a href="#IPV4地址的应用规划" class="headerlink" title="IPV4地址的应用规划"></a>IPV4地址的应用规划</h4><p><strong>定长子网掩码</strong>FLSM</p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/定长子网掩码.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/定长子网掩码.jpg" style="zoom:80%;">
 
 <p><strong>变长子网掩码</strong>VLSM</p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/变长子网掩码.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/变长子网掩码.jpg" style="zoom:80%;">
 
 
 
@@ -695,7 +695,7 @@
 <li><p>路由器转发IP数据报：检查IP数据报首部是否出错，无错则根据目的地址在路由表中查找匹配的条目进行转发</p>
 </li>
 </ul>
-<h3 id="5-静态路由配置"><a href="#5-静态路由配置" class="headerlink" title="5.静态路由配置"></a>5.静态路由配置</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/静态路由配置.jpg" style="zoom:80%;">
+<h3 id="5-静态路由配置"><a href="#5-静态路由配置" class="headerlink" title="5.静态路由配置"></a>5.静态路由配置</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/静态路由配置.jpg" style="zoom:80%;">
 
 
 
@@ -704,16 +704,16 @@
 <li>动态路由选择：路由器通过路由选择协议自动获取路由信息，能适应网络状态变化，适用于大规模网络</li>
 </ul>
 <p><strong>常见的路由选择协议</strong></p>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/常见路由协议.jpg" style="zoom:80%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/常见路由协议.jpg" style="zoom:80%;">
 
-<h4 id="路由信息协议RIP"><a href="#路由信息协议RIP" class="headerlink" title="路由信息协议RIP"></a>路由信息协议RIP</h4><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/RIP.jpg" style="zoom:100%;">
+<h4 id="路由信息协议RIP"><a href="#路由信息协议RIP" class="headerlink" title="路由信息协议RIP"></a>路由信息协议RIP</h4><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/RIP.jpg" style="zoom:100%;">
 
 <h4 id="开放最短路径优先OSPF"><a href="#开放最短路径优先OSPF" class="headerlink" title="开放最短路径优先OSPF"></a>开放最短路径优先OSPF</h4><ul>
 <li>开放最短路径优先OSPF是公开的使用最短路径算法SPF的协议，算法保证<font color="red">不会产生路由环路</font></li>
 <li>OSPF<font color="red">基于链路状态</font>。链路状态指路由器和哪些路由器相邻，以及相应链路的<font color="red">代价</font>(费用，距离，时延，带宽等，由网络管理人员决定)</li>
 <li>OSPF相邻路由器之间通过交换<font color="red">问候(Hello)分组</font>，建立和维护邻居关系</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF邻居.jpg" style="zoom:100%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF邻居.jpg" style="zoom:100%;">
 
 <ul>
 <li><p>使用OSPF的每个路由器都会产生<font color="red">链路状态通告LSA</font>，LSA包括：直连网络的链路状态信息；邻居路由器的链路状态信息</p>
@@ -738,12 +738,12 @@
 <li><p>OSPF在多点接入网络应用：</p>
 </li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF多点接入.jpg" style="zoom:100%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF多点接入.jpg" style="zoom:100%;">
 
 <ul>
 <li>为了使OSPF能够用于规模很大的网络，OSPF把一个自治系统再划分为若干个更小的范围，叫做区域</li>
 </ul>
-<img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF区域.jpg" style="zoom:100%;">
+<img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/OSPF区域.jpg" style="zoom:100%;">
 
 <h4 id="边界网关协议BGP"><a href="#边界网关协议BGP" class="headerlink" title="边界网关协议BGP"></a>边界网关协议BGP</h4><ul>
 <li>外部网关协议EGP在不同自治系统之间选择一条能够到达目的网络且比较好的路由，由于个自治系统度量路由的代价不同，无法用代价衡量最佳路由，因此EGP不一定要找到一条最佳路由</li>
@@ -764,7 +764,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="7-IPv4数据报的首部格式"><a href="#7-IPv4数据报的首部格式" class="headerlink" title="7.IPv4数据报的首部格式"></a>7.IPv4数据报的首部格式</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/IP数据报首部格式.jpg" style="zoom:100%;">
+<h3 id="7-IPv4数据报的首部格式"><a href="#7-IPv4数据报的首部格式" class="headerlink" title="7.IPv4数据报的首部格式"></a>7.IPv4数据报的首部格式</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/IP数据报首部格式.jpg" style="zoom:100%;">
 
 <ul>
 <li>版本：表示IP协议的版本</li>
@@ -832,7 +832,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="9-虚拟专用网VPN与网络地址转换NAT"><a href="#9-虚拟专用网VPN与网络地址转换NAT" class="headerlink" title="9.虚拟专用网VPN与网络地址转换NAT"></a>9.虚拟专用网VPN与网络地址转换NAT</h3><img src="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VPN&NAT.jpg" style="zoom:100%;">
+<h3 id="9-虚拟专用网VPN与网络地址转换NAT"><a href="#9-虚拟专用网VPN与网络地址转换NAT" class="headerlink" title="9.虚拟专用网VPN与网络地址转换NAT"></a>9.虚拟专用网VPN与网络地址转换NAT</h3><img src="/2022/07/22/ziyong/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/VPN&NAT.jpg" style="zoom:100%;">
 
 
 
@@ -858,7 +858,7 @@
       <i class="fa fa-chevron-left"></i> Hello!
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/08/05/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="MySQL学习笔记|MySQL基础">
+    <a href="/2022/08/05/ziyong/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="MySQL学习笔记|MySQL基础">
       MySQL学习笔记|MySQL基础 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -919,7 +919,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0"><span class="nav-text">计算机网络微课笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%A6%82%E8%BF%B0"><span class="nav-text">第一章 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%A6%82%E8%BF%B0"><span class="nav-text">1.因特网概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%BD%91%E7%BB%9C%E3%80%81%E4%BA%92%E8%81%94%E7%BD%91%E5%92%8C%E5%9B%A0%E7%89%B9%E7%BD%91"><span class="nav-text">1.1 网络、互联网和因特网</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-%E5%9B%A0%E7%89%B9%E7%BD%91%E5%8F%91%E5%B1%95%E7%9A%84%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="nav-text">1.2 因特网发展的三个阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-%E5%9B%A0%E7%89%B9%E7%BD%91%E7%9A%84%E6%A0%87%E5%87%86%E5%8C%96%E5%B7%A5%E4%BD%9C"><span class="nav-text">1.3 因特网的标准化工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-%E5%9B%A0%E7%89%B9%E7%BD%91%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-text">1.4 因特网的组成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="nav-text">2.三种交换方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.1 电路交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.2 分组交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%8A%A5%E6%96%87%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.3 报文交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-text">2.4 三种交换方式的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB"><span class="nav-text">3.计算机网络的定义和分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">3.1 计算机网络的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E5%88%86%E7%B1%BB"><span class="nav-text">3.2 分类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-text">4.计算机网络的性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E9%80%9F%E7%8E%87"><span class="nav-text">4.1 速率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E5%B8%A6%E5%AE%BD"><span class="nav-text">4.2 带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%90%9E%E5%90%90%E9%87%8F"><span class="nav-text">4.3 吞吐量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-%E6%97%B6%E5%BB%B6"><span class="nav-text">4.4 时延</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-%E6%97%B6%E5%BB%B6%E5%B8%A6%E5%AE%BD%E7%A7%AF"><span class="nav-text">4.5 时延带宽积</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-%E5%BE%80%E8%BF%94%E6%97%B6%E9%97%B4RTT"><span class="nav-text">4.6 往返时间RTT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-%E5%88%A9%E7%94%A8%E7%8E%87"><span class="nav-text">4.7 利用率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-%E4%B8%A2%E5%8C%85%E7%8E%87"><span class="nav-text">4.8 丢包率</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-text">5.计算机网络体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E5%B8%B8%E8%A7%81%E7%BB%93%E6%9E%84"><span class="nav-text">5.1 常见结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-%E5%88%86%E5%B1%82%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-text">5.2 分层必要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-%E5%88%86%E5%B1%82%E6%80%9D%E6%83%B3%E4%B8%BE%E4%BE%8B"><span class="nav-text">5.3 分层思想举例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-%E4%B8%93%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-text">5.4 专用术语</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-text">第二章 物理层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%89%A9%E7%90%86%E5%B1%82%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BB%BB%E5%8A%A1"><span class="nav-text">1.物理层协议的主要任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BC%A0%E8%BE%93%E5%AA%92%E4%BD%93"><span class="nav-text">2.传输媒体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="nav-text">3.传输方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%BC%96%E7%A0%81%E4%B8%8E%E8%B0%83%E5%88%B6"><span class="nav-text">4.编码与调制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BF%A1%E9%81%93%E7%9A%84%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F"><span class="nav-text">5.信道的极限容量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第三章 数据链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B0%81%E8%A3%85%E6%88%90%E5%B8%A7"><span class="nav-text">2.封装成帧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B"><span class="nav-text">3.差错检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="nav-text">4.可靠传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="nav-text">5.可靠传输的实现机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%82%B9%E5%AF%B9%E7%82%B9PPP%E5%8D%8F%E8%AE%AE"><span class="nav-text">6.点对点PPP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%AA%92%E4%BD%93%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6"><span class="nav-text">7.媒体接入控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%88%92%E5%88%86%E4%BF%A1%E9%81%93"><span class="nav-text">静态划分信道</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%8E%A5%E5%85%A5"><span class="nav-text">随机接入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-MAC%E5%9C%B0%E5%9D%80%EF%BC%8CIP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE"><span class="nav-text">8.MAC地址，IP地址与ARP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MAC%E5%9C%B0%E5%9D%80"><span class="nav-text">MAC地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-text">IP地址(网络层)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARP%E5%8D%8F%E8%AE%AE"><span class="nav-text">ARP协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E9%9B%86%E7%BA%BF%E5%99%A8%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-text">9.集线器与交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%87%AA%E5%AD%A6%E4%B9%A0%E5%92%8C%E8%BD%AC%E5%8F%91%E5%B8%A7%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-text">10.以太网交换机自学习和转发帧的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP"><span class="nav-text">11.以太网交换机的生成树协议STP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN"><span class="nav-text">12.虚拟局域网VLAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN"><span class="nav-text">虚拟局域网VLAN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">虚拟局域网VLAN的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-text">第四章 网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0-1"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="nav-text">2.网络层提供的两种服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-IPV4%E5%9C%B0%E5%9D%80"><span class="nav-text">3.IPV4地址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80%E7%9A%84IPV4%E5%9C%B0%E5%9D%80"><span class="nav-text">分类编址的IPV4地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%92%E5%88%86%E5%AD%90%E7%BD%91%E7%9A%84IPV4%E5%9C%B0%E5%9D%80"><span class="nav-text">划分子网的IPV4地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80%E7%9A%84IPV4%E5%9C%B0%E5%9D%80"><span class="nav-text">无分类编址的IPV4地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPV4%E5%9C%B0%E5%9D%80%E7%9A%84%E5%BA%94%E7%94%A8%E8%A7%84%E5%88%92"><span class="nav-text">IPV4地址的应用规划</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-IP%E6%95%B0%E6%8D%AE%E6%8A%A5%E7%9A%84%E5%8F%91%E9%80%81%E4%B8%8E%E8%BD%AC%E5%8F%91"><span class="nav-text">4.IP数据报的发送与转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"><span class="nav-text">5.静态路由配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE"><span class="nav-text">6.路由选择协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E4%BF%A1%E6%81%AF%E5%8D%8F%E8%AE%AERIP"><span class="nav-text">路由信息协议RIP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E6%94%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E4%BC%98%E5%85%88OSPF"><span class="nav-text">开放最短路径优先OSPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AEBGP"><span class="nav-text">边界网关协议BGP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-IPv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E7%9A%84%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-text">7.IPv4数据报的首部格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEICMP"><span class="nav-text">8.网际控制报文协议ICMP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E8%99%9A%E6%8B%9F%E4%B8%93%E7%94%A8%E7%BD%91VPN%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2NAT"><span class="nav-text">9.虚拟专用网VPN与网络地址转换NAT</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%A6%82%E8%BF%B0"><span class="nav-text">第一章 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%A6%82%E8%BF%B0"><span class="nav-text">1.因特网概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%BD%91%E7%BB%9C%E3%80%81%E4%BA%92%E8%81%94%E7%BD%91%E5%92%8C%E5%9B%A0%E7%89%B9%E7%BD%91"><span class="nav-text">1.1 网络、互联网和因特网</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-%E5%9B%A0%E7%89%B9%E7%BD%91%E5%8F%91%E5%B1%95%E7%9A%84%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="nav-text">1.2 因特网发展的三个阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-%E5%9B%A0%E7%89%B9%E7%BD%91%E7%9A%84%E6%A0%87%E5%87%86%E5%8C%96%E5%B7%A5%E4%BD%9C"><span class="nav-text">1.3 因特网的标准化工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-%E5%9B%A0%E7%89%B9%E7%BD%91%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-text">1.4 因特网的组成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="nav-text">2.三种交换方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.1 电路交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.2 分组交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%8A%A5%E6%96%87%E4%BA%A4%E6%8D%A2"><span class="nav-text">2.3 报文交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-text">2.4 三种交换方式的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB"><span class="nav-text">3.计算机网络的定义和分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">3.1 计算机网络的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E5%88%86%E7%B1%BB"><span class="nav-text">3.2 分类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-text">4.计算机网络的性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E9%80%9F%E7%8E%87"><span class="nav-text">4.1 速率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E5%B8%A6%E5%AE%BD"><span class="nav-text">4.2 带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%90%9E%E5%90%90%E9%87%8F"><span class="nav-text">4.3 吞吐量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-%E6%97%B6%E5%BB%B6"><span class="nav-text">4.4 时延</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-%E6%97%B6%E5%BB%B6%E5%B8%A6%E5%AE%BD%E7%A7%AF"><span class="nav-text">4.5 时延带宽积</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-%E5%BE%80%E8%BF%94%E6%97%B6%E9%97%B4RTT"><span class="nav-text">4.6 往返时间RTT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-%E5%88%A9%E7%94%A8%E7%8E%87"><span class="nav-text">4.7 利用率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-%E4%B8%A2%E5%8C%85%E7%8E%87"><span class="nav-text">4.8 丢包率</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-text">5.计算机网络体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E5%B8%B8%E8%A7%81%E7%BB%93%E6%9E%84"><span class="nav-text">5.1 常见结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-%E5%88%86%E5%B1%82%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-text">5.2 分层必要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-%E5%88%86%E5%B1%82%E6%80%9D%E6%83%B3%E4%B8%BE%E4%BE%8B"><span class="nav-text">5.3 分层思想举例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-%E4%B8%93%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-text">5.4 专用术语</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-text">第二章 物理层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%89%A9%E7%90%86%E5%B1%82%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BB%BB%E5%8A%A1"><span class="nav-text">1.物理层协议的主要任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BC%A0%E8%BE%93%E5%AA%92%E4%BD%93"><span class="nav-text">2.传输媒体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="nav-text">3.传输方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%BC%96%E7%A0%81%E4%B8%8E%E8%B0%83%E5%88%B6"><span class="nav-text">4.编码与调制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BF%A1%E9%81%93%E7%9A%84%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F"><span class="nav-text">5.信道的极限容量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第三章 数据链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B0%81%E8%A3%85%E6%88%90%E5%B8%A7"><span class="nav-text">2.封装成帧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B"><span class="nav-text">3.差错检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="nav-text">4.可靠传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="nav-text">5.可靠传输的实现机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%82%B9%E5%AF%B9%E7%82%B9PPP%E5%8D%8F%E8%AE%AE"><span class="nav-text">6.点对点PPP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%AA%92%E4%BD%93%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6"><span class="nav-text">7.媒体接入控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%88%92%E5%88%86%E4%BF%A1%E9%81%93"><span class="nav-text">静态划分信道</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%8E%A5%E5%85%A5"><span class="nav-text">随机接入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-MAC%E5%9C%B0%E5%9D%80%EF%BC%8CIP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE"><span class="nav-text">8.MAC地址，IP地址与ARP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MAC%E5%9C%B0%E5%9D%80"><span class="nav-text">MAC地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-text">IP地址(网络层)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARP%E5%8D%8F%E8%AE%AE"><span class="nav-text">ARP协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E9%9B%86%E7%BA%BF%E5%99%A8%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-text">9.集线器与交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%87%AA%E5%AD%A6%E4%B9%A0%E5%92%8C%E8%BD%AC%E5%8F%91%E5%B8%A7%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-text">10.以太网交换机自学习和转发帧的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP"><span class="nav-text">11.以太网交换机的生成树协议STP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN"><span class="nav-text">12.虚拟局域网VLAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN"><span class="nav-text">虚拟局域网VLAN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">虚拟局域网VLAN的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-text">第四章 网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0-1"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="nav-text">2.网络层提供的两种服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-IPV4%E5%9C%B0%E5%9D%80"><span class="nav-text">3.IPV4地址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80%E7%9A%84IPV4%E5%9C%B0%E5%9D%80"><span class="nav-text">分类编址的IPV4地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%92%E5%88%86%E5%AD%90%E7%BD%91%E7%9A%84IPV4%E5%9C%B0%E5%9D%80"><span class="nav-text">划分子网的IPV4地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80%E7%9A%84IPV4%E5%9C%B0%E5%9D%80"><span class="nav-text">无分类编址的IPV4地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPV4%E5%9C%B0%E5%9D%80%E7%9A%84%E5%BA%94%E7%94%A8%E8%A7%84%E5%88%92"><span class="nav-text">IPV4地址的应用规划</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-IP%E6%95%B0%E6%8D%AE%E6%8A%A5%E7%9A%84%E5%8F%91%E9%80%81%E4%B8%8E%E8%BD%AC%E5%8F%91"><span class="nav-text">4.IP数据报的发送与转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"><span class="nav-text">5.静态路由配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE"><span class="nav-text">6.路由选择协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E4%BF%A1%E6%81%AF%E5%8D%8F%E8%AE%AERIP"><span class="nav-text">路由信息协议RIP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E6%94%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E4%BC%98%E5%85%88OSPF"><span class="nav-text">开放最短路径优先OSPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AEBGP"><span class="nav-text">边界网关协议BGP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-IPv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E7%9A%84%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-text">7.IPv4数据报的首部格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEICMP"><span class="nav-text">8.网际控制报文协议ICMP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E8%99%9A%E6%8B%9F%E4%B8%93%E7%94%A8%E7%BD%91VPN%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2NAT"><span class="nav-text">9.虚拟专用网VPN与网络地址转换NAT</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -935,7 +935,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -989,12 +989,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">16k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">15 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

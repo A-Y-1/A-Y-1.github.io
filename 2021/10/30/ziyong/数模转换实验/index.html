@@ -23,34 +23,34 @@
   <meta name="description" content="D级任务一.实验任务对74194进行仿真验证，掌握Quartus仿真的基本原则和常规步骤，记录移位寄存器的数据读写，并描述仿真波形，分析结果。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数模转换实验">
-<meta property="og:url" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/index.html">
+<meta property="og:url" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/index.html">
 <meta property="og:site_name" content="橙的博客">
 <meta property="og:description" content="D级任务一.实验任务对74194进行仿真验证，掌握Quartus仿真的基本原则和常规步骤，记录移位寄存器的数据读写，并描述仿真波形，分析结果。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A2.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A3.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A4.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告5-16574389752276.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告6.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告7.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告8.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告9.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告10.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告11.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告12.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告13.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告14.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告15.png">
-<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告16.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A2.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A3.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A4.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告5-16574389752276.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告6.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告7.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告8.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告9.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告10.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告11.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告12.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告13.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告14.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告15.png">
+<meta property="og:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告16.png">
 <meta property="article:published_time" content="2021-10-30T06:48:29.000Z">
 <meta property="article:modified_time" content="2022-07-22T04:30:59.276Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="HNU">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png">
+<meta name="twitter:image" content="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png">
 
-<link rel="canonical" href="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/">
+<link rel="canonical" href="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/">
 
 
 <script id="page-configurations">
@@ -184,7 +184,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/a0.jpg">
@@ -262,11 +262,11 @@
 
 <span id="more"></span>
 
-<h2 id="二-实验过程"><a href="#二-实验过程" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><h3 id="1-电路连接"><a href="#1-电路连接" class="headerlink" title="1.电路连接"></a>1.电路连接</h3><img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png" class>
+<h2 id="二-实验过程"><a href="#二-实验过程" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><h3 id="1-电路连接"><a href="#1-电路连接" class="headerlink" title="1.电路连接"></a>1.电路连接</h3><img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A1.png" class>
 
 <h3 id="2-功能仿真"><a href="#2-功能仿真" class="headerlink" title="2.功能仿真"></a>2.功能仿真</h3><p style="text-indent:2em">仿真结果如图所示：</p>
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A2.png" class>
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A2.png" class>
 
 <h3 id="3-波形分析"><a href="#3-波形分析" class="headerlink" title="3.波形分析"></a>3.波形分析</h3><p style="text-indent:2em">50ns：s=11，并行置位，qabcd=abcd=1010</p>
 
@@ -284,42 +284,42 @@
 
 <h2 id="三-实验结果"><a href="#三-实验结果" class="headerlink" title="三.实验结果"></a>三.实验结果</h2><p style="text-indent:2em">经功能仿真验证，74149的工作与表中相同。</p>
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A3.png" class>
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A3.png" class>
 
 <h1 id="C级任务"><a href="#C级任务" class="headerlink" title="C级任务"></a><div align="center">C级任务</div></h1><h2 id="一-实验任务-1"><a href="#一-实验任务-1" class="headerlink" title="一.实验任务"></a>一.实验任务</h2><p style="text-indent:2em">在DAC0832电路中依据导线命名循迹跨页跨层查到FPGA操作DAC0832的有关控制信号输入端管脚PIN号、数据输入端的管脚PIN号和DAC输出端测量点位置。</p>
 
 <h2 id="二-实验过程-1"><a href="#二-实验过程-1" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><h3 id="1-电路图"><a href="#1-电路图" class="headerlink" title="1.电路图"></a>1.电路图</h3><p style="text-indent:2em">DAC0832电路如下图所示：</p>
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A4.png" class>
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A4.png" class>
 
 <h3 id="2-控制信号输入端管脚PIN号"><a href="#2-控制信号输入端管脚PIN号" class="headerlink" title="2.控制信号输入端管脚PIN号"></a>2.控制信号输入端管脚PIN号</h3><p style="text-indent:2em">输入控制信号为CS和WR1，这两个输入信号由DAC_CS控制，因此只需要找到DAC_CS的输入端管脚。在顶层原理图找到cs，wr1，跨层查找电路，找到输入端管脚号为Pin11.</p>
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告5-16574389752276.png" style="zoom:60%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告5-16574389752276.png" style="zoom:60%;">
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告6.png" style="zoom:80%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告6.png" style="zoom:80%;">
 
 <h3 id="3-数据输入端管脚号"><a href="#3-数据输入端管脚号" class="headerlink" title="3.数据输入端管脚号"></a>3.数据输入端管脚号</h3><p style="text-indent:2em">数据输入信号共8个，对应序号为4-7、13-16。</p>
-                                                       <img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告7.png" style="zoom:50%;">
+                                                       <img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告7.png" style="zoom:50%;">
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告8.png" style="zoom:60%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告8.png" style="zoom:60%;">
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告9.png" style="zoom:60%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告9.png" style="zoom:60%;">
 
 <p style="text-indent:2em">根据顶层图得到输入端的引脚号为：PIN_205-208、PIN_213-216。</p>
 
 <h3 id="4-DAC输出端测量点位置"><a href="#4-DAC输出端测量点位置" class="headerlink" title="4.DAC输出端测量点位置"></a>4.DAC输出端测量点位置</h3><p style="text-indent:2em">输出由U12输出1，U11输出9决定，可以找到测量点应在DA位置。</p>
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告10.png" style="zoom:60%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告10.png" style="zoom:60%;">
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告11.png" style="zoom:60%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告11.png" style="zoom:60%;">
 
 
 
 <h1 id="B级任务"><a href="#B级任务" class="headerlink" title=" B级任务"></a><div align="center"> B级任务</div></h1><h2 id="一-实验任务-2"><a href="#一-实验任务-2" class="headerlink" title="一.实验任务"></a>一.实验任务</h2><p style="text-indent:2em">Proteus中，建工程绘制电路，使用仪器测出数字编码信号转换后的模拟电压值.列表记录并画出“编码-电压”转换函数图。</p>
 
-<h2 id="二-实验过程-2"><a href="#二-实验过程-2" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><h3 id="1-电路绘制"><a href="#1-电路绘制" class="headerlink" title="1.电路绘制"></a>1.电路绘制</h3><img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告12.png" style="zoom:60%;">
+<h2 id="二-实验过程-2"><a href="#二-实验过程-2" class="headerlink" title="二.实验过程"></a>二.实验过程</h2><h3 id="1-电路绘制"><a href="#1-电路绘制" class="headerlink" title="1.电路绘制"></a>1.电路绘制</h3><img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告12.png" style="zoom:60%;">
 
-<h3 id="2-编码-电压”转换函数图"><a href="#2-编码-电压”转换函数图" class="headerlink" title="2.编码-电压”转换函数图"></a>2.编码-电压”转换函数图</h3><img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告13.png" style="zoom:60%;">
+<h3 id="2-编码-电压”转换函数图"><a href="#2-编码-电压”转换函数图" class="headerlink" title="2.编码-电压”转换函数图"></a>2.编码-电压”转换函数图</h3><img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告13.png" style="zoom:60%;">
 
 <p style="text-indent:2em">函数可近似为y=0.02x+d，d是一个极小的截距。</p>
 
@@ -329,11 +329,11 @@
 
 <p style="text-indent:2em">波形设置:</p>
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告14.png" style="zoom:50%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告14.png" style="zoom:50%;">
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告15.png" style="zoom: 50%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告15.png" style="zoom: 50%;">
 
-<img src="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告16.png" style="zoom: 80%;">
+<img src="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/数模转换实验报告16.png" style="zoom: 80%;">
 
 <p style="text-indent:2em">正弦波周期64us，与mif文件中的数据对应。</p>
 
@@ -360,13 +360,10 @@
 
         
     <div class="post-nav">
+      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2021/10/30/ziyong/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/" rel="prev" title="数模转换实验">
-      <i class="fa fa-chevron-left"></i> 数模转换实验
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/05/01/hello/" rel="next" title="Hello!">
-      Hello! <i class="fa fa-chevron-right"></i>
+    <a href="/2021/10/30/%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%AE%9E%E9%AA%8C/" rel="next" title="数模转换实验">
+      数模转换实验 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
