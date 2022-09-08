@@ -28,7 +28,7 @@
 <meta property="og:description" content="数据库系统概论(王珊 萨师煊 编著)笔记。  第一章 绪论1.数据库系统概述1.1数据库的4个基本概念 数据：描述事物的符号记录称为数据。数据的含义称为数据的语义，数据与其语义是不可分的。 数据库：长期存储在计算机内、有组织的、可共享的大量数据的集合。数据库中的数据按一定的数据模型组织、描述和存储，具有较小的冗余度、较高的数据独立性和易扩展性，并可为各种用户共享。 数据库管理系统(DBMS)：科学">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-03T11:01:29.000Z">
-<meta property="article:modified_time" content="2022-09-04T03:49:08.329Z">
+<meta property="article:modified_time" content="2022-09-08T03:10:36.410Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-04 11:49:08" itemprop="dateModified" datetime="2022-09-04T11:49:08+08:00">2022-09-04</time>
+                <time title="修改时间：2022-09-08 11:10:36" itemprop="dateModified" datetime="2022-09-08T11:10:36+08:00">2022-09-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,14 +222,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -374,7 +374,213 @@
 <li>数据库模式即全局逻辑结构是数据库的中心与关键，独立于数据库的其他层次。</li>
 <li>当模式改变时，修改映像使外模式不变，这保证了数据与程序的逻辑独立性。当存储结构(内模式)改变时，修改映像使模式保持不变，这保证了数据与程序的物理独立性。</li>
 </ul>
-<h1 id="第二章-关系数据库"><a href="#第二章-关系数据库" class="headerlink" title="第二章 关系数据库"></a>第二章 关系数据库</h1>
+<h1 id="第二章-关系数据库"><a href="#第二章-关系数据库" class="headerlink" title="第二章 关系数据库"></a>第二章 关系数据库</h1><h2 id="1-关系数据结构及形式化定义"><a href="#1-关系数据结构及形式化定义" class="headerlink" title="1.关系数据结构及形式化定义"></a>1.关系数据结构及形式化定义</h2><h3 id="1-1关系"><a href="#1-1关系" class="headerlink" title="1.1关系"></a>1.1关系</h3><p style="text-indent:2em">以下是集合论角度下关系数据结构的形式化定义。
+
+<ul>
+<li>域：一组具有相同数据类型的值的集合。</li>
+<li>笛卡尔积：域上的一种集合运算。<ul>
+<li>笛卡尔积中的每一个元素叫做一个n元组，元组中每个值叫做一个分量。</li>
+<li>一个域允许的不同取值个数称为这个域的基数。</li>
+</ul>
+</li>
+<li>域D1，D2，D3……的子集叫做在域D1，D2…上的关系，表示为R(D1，D2，…，D3)，R表示关系的名字，n是关系的目或度。n&#x3D;1时为单元关系，n&#x3D;2时为二元关系。</li>
+<li>若关系中的某一属性组的值能唯一标识一个元组，而其子集不能，则该属性组为候选码。</li>
+<li>若一个关系有多个候选码，则选定其中一个为主码。</li>
+<li>候选码的诸属性称为主属性。其他属性为非主属性。</li>
+<li>最极端的情况下，所有属性为关系模式的候选码，称为全码。</li>
+<li>关系可以有三种类型：基本关系，查询表和视图表。</li>
+<li>基本关系具有以下六条性质：<ul>
+<li>列是同质的。</li>
+<li>不同的列可出自同一个域。</li>
+<li>列可交换。</li>
+<li>元组候选码不能取相同值。</li>
+<li>行可交换。</li>
+<li>分量必须是原子的，每一个分量必须是不可分的数据项。</li>
+</ul>
+</li>
+</ul>
+</p><h3 id="1-2关系模式"><a href="#1-2关系模式" class="headerlink" title="1.2关系模式"></a>1.2关系模式</h3><p style="text-indent:2em">关系的描述称为关系模式。可以形式化表示为R(U，D，DOM，F)。通常简记为R(U)。
+
+<ul>
+<li>R：关系名</li>
+<li>U：属性名集合</li>
+<li>DOM：属性来自的域</li>
+<li>F：属性间数据的依赖关系集合</li>
+</ul>
+</p><h2 id="2-关系操作"><a href="#2-关系操作" class="headerlink" title="2.关系操作"></a>2.关系操作</h2><h3 id="2-1基本的关系操作"><a href="#2-1基本的关系操作" class="headerlink" title="2.1基本的关系操作"></a>2.1基本的关系操作</h3><p style="text-indent:2em">五种基本的关系操作：选择、投影、并、差、笛卡尔积。其他操作如连接，除，交可用基本操作定义和导出。
+
+</p><h3 id="2-2关系数据语言分类"><a href="#2-2关系数据语言分类" class="headerlink" title="2.2关系数据语言分类"></a>2.2关系数据语言分类</h3><ul>
+<li>关系代数语言(ISBL)</li>
+<li>关系演算语言<ul>
+<li>元组关系演算语言(ALPHA)</li>
+<li>域关系演算语言(QBE)</li>
+</ul>
+</li>
+<li>具有关系代数和关系演算双重特点的语言(SQL)</li>
+</ul>
+<h2 id="3-关系的完整性"><a href="#3-关系的完整性" class="headerlink" title="3.关系的完整性"></a>3.关系的完整性</h2><ul>
+<li>实体完整性：主属性不能取空值</li>
+<li>参照完整性：F是基本关系的一个或一组属性，但不是R的码，Ks是基本关系S的主码，如果F与Ks对应，F是R的外码，并称R为参照关系，S为被参照关系。R和S不一定不同。<ul>
+<li>一个关系的属性为另一个关系的主码，则这个属性是这个关系的外码，这个关系为参照关系。</li>
+<li>参照完整性规则：外码的取值或者为空，或者为被参照关系的某个元组的主码值。</li>
+</ul>
+</li>
+<li>用户定义的完整性</li>
+</ul>
+<h2 id="4-关系代数"><a href="#4-关系代数" class="headerlink" title="4.关系代数"></a>4.关系代数</h2><h1 id="第三章-关系数据库标准语言SQL"><a href="#第三章-关系数据库标准语言SQL" class="headerlink" title="第三章 关系数据库标准语言SQL"></a>第三章 关系数据库标准语言SQL</h1><h2 id="1-数据定义"><a href="#1-数据定义" class="headerlink" title="1.数据定义"></a>1.数据定义</h2><table>
+<thead>
+<tr>
+<th>操作对象</th>
+<th>创建</th>
+<th>删除</th>
+<th>修改</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>模式</td>
+<td>CREATE SCHEMA</td>
+<td>DROP SCHEMA</td>
+<td></td>
+</tr>
+<tr>
+<td>表</td>
+<td>CREATE TABLE</td>
+<td>DROP TABLE</td>
+<td>ALTER TABLE</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>CREATE VIEW</td>
+<td>DROP VIEW</td>
+<td></td>
+</tr>
+<tr>
+<td>索引</td>
+<td>CREATE INDEX</td>
+<td>DROP INDEX</td>
+<td>ALTER INDEX</td>
+</tr>
+</tbody></table>
+<h3 id="1-1模式定义和删除"><a href="#1-1模式定义和删除" class="headerlink" title="1.1模式定义和删除"></a>1.1模式定义和删除</h3><p style="text-indent:2em">模式定义语句如下：
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> SCHEMA <span class="operator">&lt;</span>模式名<span class="operator">&gt;</span> <span class="keyword">AUTHORIZATION</span> <span class="operator">&lt;</span>用户名<span class="operator">&gt;</span> [<span class="operator">&lt;</span>表定义子句<span class="operator">&gt;</span><span class="operator">|</span><span class="operator">&lt;</span>视图定义子句<span class="operator">&gt;</span><span class="operator">|</span><span class="operator">&lt;</span>授权定义子句<span class="operator">&gt;</span>]</span><br></pre></td></tr></table></figure>
+
+</p><p style="text-indent:2em">删除模式语句如下：
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> SCHEMA <span class="operator">&lt;</span>模式名<span class="operator">&gt;</span><span class="operator">&lt;</span>CASCADE<span class="operator">|</span>RESTRICT<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+</p><h3 id="1-2基本表的定义和修改"><a href="#1-2基本表的定义和修改" class="headerlink" title="1.2基本表的定义和修改"></a>1.2基本表的定义和修改</h3><p><strong>表的定义</strong></p>
+<p style="text-indent:2em">定义基本表：
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="operator">&lt;</span>表名<span class="operator">&gt;</span>(<span class="operator">&lt;</span>列名<span class="operator">&gt;</span><span class="operator">&lt;</span>数据类型<span class="operator">&gt;</span>[列级完整性约束条件])</span><br></pre></td></tr></table></figure>
+
+</p><p style="text-indent:2em">例：
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*建立一个学生表*/</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student(</span><br><span class="line">	Sno <span class="type">CHAR</span>(<span class="number">9</span>)<span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    Sname <span class="type">CHAR</span>(<span class="number">20</span>)<span class="keyword">UNIQUE</span>,</span><br><span class="line">    Ssex <span class="type">CHAR</span>(<span class="number">2</span>),</span><br><span class="line">    Sage <span class="type">SMALLINT</span>,</span><br><span class="line">    Sdept <span class="type">CHAR</span>(<span class="number">20</span>)</span><br><span class="line">);</span><br><span class="line"><span class="comment">/*建立一个课程表*/</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Course(</span><br><span class="line">	Cno <span class="type">CHAR</span>(<span class="number">4</span>) <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    Cname <span class="type">CHAR</span>(<span class="number">40</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    Cpno <span class="type">CHAR</span>(<span class="number">4</span>),</span><br><span class="line">    Ccredit <span class="type">SMALLINT</span>,</span><br><span class="line">    <span class="comment">/*表级完整性约束条件*/</span></span><br><span class="line">    <span class="keyword">FOREIGN</span> KEY (Cpno) <span class="keyword">REFERENCES</span> Course(Cno)</span><br><span class="line">);</span><br><span class="line"><span class="comment">/*建立学生选课表SC*/</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SC(</span><br><span class="line">	Sno <span class="type">CHAR</span>(<span class="number">9</span>),</span><br><span class="line">    Cno <span class="type">CHAR</span>(<span class="number">4</span>),</span><br><span class="line">    Grade <span class="type">SMALLINT</span>,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(Sno,Cno),</span><br><span class="line">    <span class="keyword">FOREIGN</span> KEY(Sno) <span class="keyword">REFERENCES</span> Student(Sno),</span><br><span class="line">    <span class="keyword">FOREIGN</span> KEY(Cno) <span class="keyword">REFERENCES</span> Cource(Cno)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+</p><p style="text-indent:2em">表中的每一个属性都来自一个域，域的概念用数据类型实现，以下是常用的几种数据类型：
+
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CHAR(N),CHARACTER(N)</td>
+<td>定长字符串</td>
+</tr>
+<tr>
+<td>VARCHAR(N),CHARACTERVARING(N)</td>
+<td>最大长度为n的字符串</td>
+</tr>
+<tr>
+<td>CLOB</td>
+<td>字符串大对象</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>二进制大对象</td>
+</tr>
+<tr>
+<td>INT,INTEGER</td>
+<td>长整数</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>短整数</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>大整数</td>
+</tr>
+<tr>
+<td>NUMERIC(P,D)</td>
+<td>定点数，p位数，小数点后有d位</td>
+</tr>
+<tr>
+<td>DECIMAL(P,D),DEC(P,D)</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>REAL</td>
+<td>单精度浮点</td>
+</tr>
+<tr>
+<td>DOUBLE PRECISION</td>
+<td>双精度浮点</td>
+</tr>
+<tr>
+<td>FLOAT(N)</td>
+<td>可选精度浮点</td>
+</tr>
+<tr>
+<td>BOOLEAN</td>
+<td>逻辑布尔量</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>日期，YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>时间，HH:MM:SS</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>时间戳类型</td>
+</tr>
+<tr>
+<td>INTERVAL</td>
+<td>时间间隔类型</td>
+</tr>
+</tbody></table>
+</p><p style="text-indent:2em">每一个表都属于一种模式，使用以下方法可以定义基本表所属的模式：
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> TEST.Student(...);</span><br></pre></td></tr></table></figure>
+
+</p><p><strong>表的修改</strong></p>
+<p style="text-indent:2em">修改基本表的格式为：
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span><span class="operator">&lt;</span>表名<span class="operator">&gt;</span></span><br><span class="line">[<span class="keyword">ADD</span>[<span class="keyword">COLUMN</span>]<span class="operator">&lt;</span>新列名<span class="operator">&gt;</span><span class="operator">&lt;</span>数据类型<span class="operator">&gt;</span>[完整性约束]]</span><br><span class="line">[<span class="keyword">ADD</span><span class="operator">&lt;</span>表级完整性约束<span class="operator">&gt;</span>]</span><br><span class="line">[<span class="keyword">DROP</span> [<span class="keyword">COLUMN</span>]<span class="operator">&lt;</span>列名<span class="operator">&gt;</span>[CASCADE<span class="operator">|</span>RESTRICT]]</span><br><span class="line">[<span class="keyword">DROP</span> <span class="keyword">CONSTRAINT</span><span class="operator">&lt;</span>完整性约束名<span class="operator">&gt;</span>[RESTRICT<span class="operator">|</span>CASCADE]]</span><br><span class="line">[<span class="keyword">ALTER</span> <span class="keyword">COLUMN</span><span class="operator">&lt;</span>列名<span class="operator">&gt;</span><span class="operator">&lt;</span>数据类型<span class="operator">&gt;</span>];</span><br></pre></td></tr></table></figure>
+
+</p><p style="text-indent:2em">例：
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student <span class="keyword">ADD</span> S_entrance <span class="type">DATE</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student <span class="keyword">ALTER</span> <span class="keyword">COLUMN</span> Sage <span class="type">INT</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Course <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span>(Cname);</span><br></pre></td></tr></table></figure>
+
+</p><h3 id="1-3建立索引"><a href="#1-3建立索引" class="headerlink" title="1.3建立索引"></a>1.3建立索引</h3><p style="text-indent:2em">建立索引是加快查询速度的有效手段。建立索引的一般格式为：
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [<span class="keyword">UNIQUE</span>][CLUSTER] INDEX<span class="operator">&lt;</span>索引名<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">ON</span> <span class="operator">&lt;</span>表名<span class="operator">&gt;</span>(<span class="operator">&lt;</span>列名<span class="operator">&gt;</span>[<span class="operator">&lt;</span>次序<span class="operator">&gt;</span>][,<span class="operator">&lt;</span>列名<span class="operator">&gt;</span>[次序]]...)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>UNIQUE表示索引的每一个索引值只对应唯一的数据记录。</li>
+<li>CLUSTER表示聚簇索引。</li>
+<li>次序可选为ASC升序或DESC降序，默认为升序ASC</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX Stusno <span class="keyword">ON</span> Student(Sno);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX Cousno <span class="keyword">ON</span> Cource(Cno);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX SCno <span class="keyword">ON</span> SC(Sno <span class="keyword">ASC</span>,Cno <span class="keyword">DESC</span>);</span><br></pre></td></tr></table></figure>
+
+</p><h2 id="2-数据查询"><a href="#2-数据查询" class="headerlink" title="2.数据查询"></a>2.数据查询</h2>
     </div>
 
     
@@ -395,7 +601,10 @@
     <a href="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="git学习笔记">
       <i class="fa fa-chevron-left"></i> git学习笔记
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="next" title="刷题记录">
+      刷题记录 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -454,7 +663,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%BB%AA%E8%AE%BA"><span class="nav-text">第一章 绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="nav-text">1.数据库系统概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%844%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.1数据库的4个基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E6%8A%80%E6%9C%AF%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%8F%91%E5%B1%95"><span class="nav-text">1.2数据管理技术的产生和发展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-text">1.3数据库系统的特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.数据模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E6%A6%82%E5%BF%B5%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.1概念模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BB%84%E6%88%90%E8%A6%81%E7%B4%A0"><span class="nav-text">2.2数据模型的组成要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.3常用的数据模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%93%E6%9E%84-%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84"><span class="nav-text">3.数据库系统的结构(三级模式结构)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">第二章 关系数据库</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%BB%AA%E8%AE%BA"><span class="nav-text">第一章 绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="nav-text">1.数据库系统概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%844%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.1数据库的4个基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E6%8A%80%E6%9C%AF%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%8F%91%E5%B1%95"><span class="nav-text">1.2数据管理技术的产生和发展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-text">1.3数据库系统的特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.数据模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E6%A6%82%E5%BF%B5%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.1概念模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BB%84%E6%88%90%E8%A6%81%E7%B4%A0"><span class="nav-text">2.2数据模型的组成要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.3常用的数据模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%93%E6%9E%84-%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84"><span class="nav-text">3.数据库系统的结构(三级模式结构)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">第二章 关系数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BD%A2%E5%BC%8F%E5%8C%96%E5%AE%9A%E4%B9%89"><span class="nav-text">1.关系数据结构及形式化定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E5%85%B3%E7%B3%BB"><span class="nav-text">1.1关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F"><span class="nav-text">1.2关系模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%85%B3%E7%B3%BB%E6%93%8D%E4%BD%9C"><span class="nav-text">2.关系操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%85%B3%E7%B3%BB%E6%93%8D%E4%BD%9C"><span class="nav-text">2.1基本的关系操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E8%AF%AD%E8%A8%80%E5%88%86%E7%B1%BB"><span class="nav-text">2.2关系数据语言分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%85%B3%E7%B3%BB%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">3.关系的完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0"><span class="nav-text">4.关系代数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A0%87%E5%87%86%E8%AF%AD%E8%A8%80SQL"><span class="nav-text">第三章 关系数据库标准语言SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89"><span class="nav-text">1.数据定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%A8%A1%E5%BC%8F%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%A0%E9%99%A4"><span class="nav-text">1.1模式定义和删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E5%9F%BA%E6%9C%AC%E8%A1%A8%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E4%BF%AE%E6%94%B9"><span class="nav-text">1.2基本表的定义和修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95"><span class="nav-text">1.3建立索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.数据查询</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -470,20 +679,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -524,12 +733,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">33k</span>
+    <span title="站点总字数">43k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">30 分钟</span>
+    <span title="站点阅读时长">39 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

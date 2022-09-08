@@ -161,6 +161,218 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">编译原理笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-09-07 21:20:29 / 修改时间：22:00:16" itemprop="dateCreated datePublished" datetime="2022-09-07T21:20:29+08:00">2022-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>718</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p style="text-indent:2em">编译原理学习笔记。</p>
+
+<h1 id="第一章-引论"><a href="#第一章-引论" class="headerlink" title="第一章 引论"></a>第一章 引论</h1><h2 id="1-语言处理器"><a href="#1-语言处理器" class="headerlink" title="1.语言处理器"></a>1.语言处理器</h2><ul>
+<li>编译器</li>
+<li>解释器</li>
+</ul>
+<h2 id="2-编译器的结构"><a href="#2-编译器的结构" class="headerlink" title="2.编译器的结构"></a>2.编译器的结构</h2><ul>
+<li>词法分析：将语素转换为词法单元</li>
+<li>语法分析：使用词法单元创建树形的中间表示，常用语法树。</li>
+<li>语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。</li>
+<li>中间代码生成</li>
+<li>代码优化</li>
+<li>代码生成：以源程序的中间表示形式作为输入，映射到目标语言。</li>
+</ul>
+<h2 id="3-程序设计语言的发展历程"><a href="#3-程序设计语言的发展历程" class="headerlink" title="3.程序设计语言的发展历程"></a>3.程序设计语言的发展历程</h2><h2 id="4-编译器相关科学"><a href="#4-编译器相关科学" class="headerlink" title="4.编译器相关科学"></a>4.编译器相关科学</h2><h2 id="5-编译技术应用"><a href="#5-编译技术应用" class="headerlink" title="5.编译技术应用"></a>5.编译技术应用</h2><h2 id="6-程序设计语言基础"><a href="#6-程序设计语言基础" class="headerlink" title="6.程序设计语言基础"></a>6.程序设计语言基础</h2><ul>
+<li>静态和动态的区别：使用的策略可处理编译时刻可决定的问题，则为静态策略；一个只允许在运行程序时作出决定的策略则为动态策略。</li>
+<li>声明的作用域：仅阅读程序就可以确定一个声明的作用域，则该语言使用的是静态作用域。</li>
+<li>环境：名字到存储位置的映射。</li>
+<li>状态：内存位置到值的映射。</li>
+<li>块结构：{}界定一个块。</li>
+<li>静态作用域规则：如果名字x的声明D属于B块，那么D的作用域包含整个B，但是以任意深度嵌套在B中，重新生命了x的所有块C不在此作用域中。</li>
+<li>动态作用域：一个作用域策略依赖于一个或多个在程序执行时刻才能知道的因素，就是动态的。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//动态作用域例：</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> a (x+1)</span></span><br><span class="line"><span class="type">int</span> x = <span class="number">2</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">b</span><span class="params">()</span> &#123; <span class="type">int</span> x =<span class="number">1</span>; <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,a);&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">c</span><span class="params">()</span> &#123;<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,a);&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;b();c();&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>参数传递：参数可以通过值或引用的方式从调用过程传递给被调用过程。通过值传递传递大型对象时，实际被传递的是指向这些对象的引用。</li>
+<li>别名：当参数被以引用传递方式传递时，两个形式参数可能会指向同一个对象，这会造成一个变量的修改改变了另一个变量的值。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">刷题记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-04 19:26:01" itemprop="dateCreated datePublished" datetime="2022-09-04T19:26:01+08:00">2022-09-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-08 13:54:50" itemprop="dateModified" datetime="2022-09-08T13:54:50+08:00">2022-09-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p style="text-indent:2em">此前在leetcode按类别刷了一些题，不过时间久了就又忘记了，也没有稳固好自己的算法基础。恰好这学期有算法设计与分析课程，空余时间也比较多，打算好好的刷一些题并好好记录。刷题还是打算按类别刷，记录主要是备注题目情况，重点题也会记录些思路和理解。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -192,7 +404,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-04 11:49:08" itemprop="dateModified" datetime="2022-09-04T11:49:08+08:00">2022-09-04</time>
+                <time title="修改时间：2022-09-08 11:10:36" itemprop="dateModified" datetime="2022-09-08T11:10:36+08:00">2022-09-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -210,14 +422,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -397,7 +609,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-03 19:00:12" itemprop="dateModified" datetime="2022-09-03T19:00:12+08:00">2022-09-03</time>
+                <time title="修改时间：2022-09-07 22:01:24" itemprop="dateModified" datetime="2022-09-07T22:01:24+08:00">2022-09-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -415,14 +627,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.1k</span>
+              <span>12k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>11 分钟</span>
             </span>
 
         </div>
@@ -492,7 +704,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-12 18:30:08" itemprop="dateModified" datetime="2022-08-12T18:30:08+08:00">2022-08-12</time>
+                <time title="修改时间：2022-09-06 20:01:53" itemprop="dateModified" datetime="2022-09-06T20:01:53+08:00">2022-09-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -529,7 +741,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p style="text-indent:2em">从0开始的MySQL学习。学习课程为<a herf="https://www.bilibili.com/video/BV1UE41147KC?p=5&vd_source=463e5b3e4b18e5453477b57388c2e427">【中字】SQL进阶教程 | 史上最易懂SQL教程！10小时零基础成长SQL大师</a>。这门课相对其他B站的MySQL课程来说学时非常少，够用来快速入门学习基础。参考书是《MySQL必知必会》。</p>
+          <p style="text-indent:2em">从0开始的MySQL学习。学习课程为<a herf="https://www.bilibili.com/video/BV1UE41147KC?p=5&vd_source=463e5b3e4b18e5453477b57388c2e427">【中字】SQL进阶教程 | 史上最易懂SQL教程！10小时零基础成长SQL大师</a>。这门课相对其他B站的MySQL课程来说学时非常少，够用来快速入门学习基础。参考书是《MySQL必知必会》。网课笔记从第二章开始。</p>
+
+<h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一.概述"></a>一.概述</h1><h2 id="1-数据库-amp-SQL"><a href="#1-数据库-amp-SQL" class="headerlink" title="1.数据库&amp;SQL"></a>1.数据库&amp;SQL</h2><ul>
+<li>数据库：保存有组织的数据的容器<ul>
+<li>表：特定类型的数据的结构化清单</li>
+<li>列：列是表中的一个字段，所有表由一个或多个列组成</li>
+<li>主键：唯一标识表中特定行的一列称为主键</li>
+</ul>
+</li>
+<li>SQL：结构化查询语言，用于与数据库进行通信</li>
+</ul>
+<h2 id="2-MySQL使用"><a href="#2-MySQL使用" class="headerlink" title="2.MySQL使用"></a>2.MySQL使用</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/mysql/mysql-install.html">https://www.runoob.com/mysql/mysql-install.html</a></p>
+<p style="text-indent:2em">安装时记录好root 用户的初始默认密码。不安装在默认路径，把bin添加到环境变量中方便cmd直接使用MySQL，不用每次切路径。另外还安装了MySQL Workbench，课程也是使用的这个。
+
+</p><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p  #-P <span class="number">3306</span>(默认端口) -h localhost</span><br><span class="line">Enter Password：	 #输入密码登录</span><br><span class="line">#登录后修改下密码，下面这个语句是在我电脑上可以成功修改的</span><br><span class="line">ALTER user &#x27;root&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;<span class="number">12345678</span>&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="USE-amp-SHOW"><a href="#USE-amp-SHOW" class="headerlink" title="USE&amp;SHOW"></a>USE&amp;SHOW</h3><ul>
+<li>USE + 数据库名：选择数据库</li>
+<li>SHOW DATABASS：显示可用数据库</li>
+<li>SHOW TABLES：获取数据库表的列表</li>
+<li>SHOW COLUMNS FROM 表名：显示表列</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/08/05/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more" rel="contents">
@@ -889,20 +1122,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -943,12 +1176,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">33k</span>
+    <span title="站点总字数">43k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">30 分钟</span>
+    <span title="站点阅读时长">39 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
