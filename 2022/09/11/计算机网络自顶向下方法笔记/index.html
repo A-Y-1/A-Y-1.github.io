@@ -27,11 +27,13 @@
 <meta property="og:site_name" content="橙的博客">
 <meta property="og:description" content="《计算机网络自顶向下方法》学习笔记。之前学习过计算机网络微课，已经对计网中的很多概念都有了印象和一定的了解了，这时候再读自顶向下感觉比较轻松了。但是自己还是更喜欢自底向上的方式，因为自顶向下时，尽管只需要知道下层能为上层提供服务，但是对下层的大致了解没有建立，感觉并不够顺畅。这本书没有涉及太多物理层的内容，第一章为概述。从第二章应用层开始，自顶向下讲解计算机网络。以下是阅读笔记。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/SMTP.jpg">
 <meta property="article:published_time" content="2022-09-11T13:17:29.000Z">
-<meta property="article:modified_time" content="2022-09-12T08:17:31.444Z">
+<meta property="article:modified_time" content="2022-09-15T02:33:01.830Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/SMTP.jpg">
 
 <link rel="canonical" href="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/">
 
@@ -197,7 +199,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-12 16:17:31" itemprop="dateModified" datetime="2022-09-12T16:17:31+08:00">2022-09-12</time>
+                <time title="修改时间：2022-09-15 10:33:01" itemprop="dateModified" datetime="2022-09-15T10:33:01+08:00">2022-09-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,14 +224,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
+              <span>4.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -322,6 +324,73 @@
 
 <p style="text-indent:2em">Web缓存器带来的一个问题是存放在缓存器中的副本可能不是最新的，因此需要有方式去证实请求的对象是最新的。解决这个问题的方式是使用条件GET方法，在首部行中添加"If-Modified-Since"，这样只在指定日期后对象被修改过，才发送该对象。</p>
 
+<h2 id="3-因特网中的电子邮件"><a href="#3-因特网中的电子邮件" class="headerlink" title="3.因特网中的电子邮件"></a>3.因特网中的电子邮件</h2><p style="text-indent:2em">因特网邮件系统有三个主要组成部分：<b>用户代理，邮件服务器，简单邮件传输协议(SMTP)。</b></p><p style="text-indent:2em">发送邮件的过程如下：
+    用户代理------>邮件服务器-----SMTP----->邮件服务器----->用户代理</p>
+
+<ul>
+<li>用户代理允许用户阅读、回复、转发、保存和撰写报文。</li>
+<li>邮件服务器负责发送和接收邮件，服务器上有一个邮箱，管理和维护着接收到的报文。</li>
+<li>SMTP是电子邮件使用的应用层协议，使用该协议从发送方的邮件服务器向接收方的邮件服务器发送邮件。<ul>
+<li>SMTP一般不使用中间邮件服务器发送邮件，而是两个服务器之间发送。</li>
+<li>SMTP限制报文体只能采用简单的7bitASCII表示。</li>
+<li>SMTP使用持续的TCP连接发送报文。</li>
+</ul>
+</li>
+</ul>
+<img src="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/SMTP.jpg" style="zoom:100%;">
+
+<ul>
+<li>SMTP与HTTP的对比<ul>
+<li>HTTP是一个拉协议，SMTP是一个推协议。</li>
+<li>SMTP要求每个报文采用7bitASCII码格式</li>
+<li>HTTP将每个对象封装到自己的HTTP响应报文中，而SMTP把所有报文对象放在一个报文之中。</li>
+</ul>
+</li>
+</ul>
+<p style="text-indent:2em">SMTP是一个推协议，由发送邮件的服务器将文件发给接收邮件的服务器，接收邮件的用户是不能使用该协议获取接收到的邮件的。获取接收到的邮件使用的是<b>邮件访问协议</b>。流行的邮件访问协议有：第三版的邮局协议<font color="red">POP3</font>；因特网邮件访问协议<font color="red">IMAP</font>；HTTP。
+
+</p><p><strong>POP3</strong></p>
+<p style="text-indent:2em">POP3协议简单，但功能有限。用户代理打开与邮件服务器的TCP连接后，POP3开始工作。POP3工作有三个阶段：</p>
+
+<ul>
+<li>特许：用户代理发送用户名和口令以鉴别用户。</li>
+<li>事务处理：用户代理取回报文，对报文进行删除标记，取消删除标记，获取邮件的统计信息。获取报文有以下两种方式：<ul>
+<li>下载并保留</li>
+<li>下载并删除</li>
+</ul>
+</li>
+<li>更新：结束POP3会话，删除被标记为删除的报文。</li>
+</ul>
+<p><strong>IMAP</strong></p>
+<p style="text-indent:2em">使用POP3协议只能获取报文，不能在服务器上创建文件夹对报文进行管理。为了解决这个或一些其他问题，产生了IMAP协议。IMAP服务器把每个报文与一个文件夹联系起来，报文到达时与INBOX文件夹相关联，而收件人能够把邮件移到一个新的文件夹中，阅读，删除或是移动到别的文件夹。IMAP还提供了查询邮件的命令，且IMAP维护了IMAP会话的用户状态信息(文件夹的名字等)。另外，IMAP还<b>允许用户代理获取报文某些部分的命令</b>。这样当用户处于低带宽连接时，可以选择性的只取回(MIME)报文的一部分。</p>
+
+<p><strong>基于Web的电子邮件</strong></p>
+<p style="text-indent:2em">今天，基于Web的邮件已经非常常见了。这种电子邮件，用户代理就是浏览器，用户和远程邮箱之间的通信通过HTTP进行。用户发送和获取电子邮件时，都通过HTTP协议在浏览器和邮件服务器之间进行报文传输，但是邮件服务器之间发送和接收报文仍然使用SMTP。</p>
+
+<h2 id="4-DNS：因特网的目录服务"><a href="#4-DNS：因特网的目录服务" class="headerlink" title="4.DNS：因特网的目录服务"></a>4.DNS：因特网的目录服务</h2><h3 id="4-1-DNS概述与DNS服务"><a href="#4-1-DNS概述与DNS服务" class="headerlink" title="4.1 DNS概述与DNS服务"></a>4.1 DNS概述与DNS服务</h3><p style="text-indent:2em">因特网上的主机可以使用多种方式标识。一种易于记忆的方式是主机名，而路由器所需要的标识则是更为具体的IP地址。将主机名转换到IP地址，就是<b>域名系统</b>DNS的任务。</p>
+
+<ul>
+<li>DNS是由分层的DNS服务器实现的分布式数据库。</li>
+<li>DNS是使主机能够查询分布式数据库的应用层协议。</li>
+<li>DNS协议运行在UDP上，使用53端口。</li>
+</ul>
+<p style="text-indent:2em">除了进行主机名到IP地址的转换，DNS还提供了以下服务：</p>
+
+<ul>
+<li>主机别名：一个主机除了规范主机名外，还可以有其他别名。通过DNS可以获取别名对应的规范主机名和IP地址。</li>
+<li>邮件服务器别名：和主机别名相同，邮件服务器也可以使用别名，通过DNS获取规范主机名和IP地址。</li>
+<li>负载分配：一个站点可能会被冗余分布在多台服务器上，有不同的IP地址。这些IP地址构成了一个IP地址集，DNS服务器可以在这些IP地址中循环次序选择，达到负载分配的作用。</li>
+</ul>
+<h3 id="4-2-DNS工作原理"><a href="#4-2-DNS工作原理" class="headerlink" title="4.2 DNS工作原理"></a>4.2 DNS工作原理</h3><p style="text-indent:2em">使用单个DNS服务器有单点故障、通信容量，远距离集中(高时延)，维护等问题，因此DNS采用了分布式的设计方案。按照层次，DNS服务器分为三种：<font color="red">根DNS服务器；顶级域服务器；权威DNS服务器</font>。除了以上三个层次外，还有一类重要的DNS服务器是<font color="red">本地DNS服务器</font>。本地DNS服务器一般离主机很近，起到代理的作用。在进行DNS查询时，有两种查询方式：递归查询和迭代查询。<b>通常，请求主机到本地DNS服务器的查询是递归的，其余的查询是迭代的。</b></p>
+
+<p style="text-indent:2em">为了改善时延性能和减少报文传输，DNS还广泛使用了<b>缓存技术</b>。DNS服务器会缓存主机名/IP地址对，一段时间后才丢弃缓存信息。</p>
+
+<h2 id="5-P2P文件分发"><a href="#5-P2P文件分发" class="headerlink" title="5.P2P文件分发"></a>5.P2P文件分发</h2><p style="text-indent:2em">使用P2P体系结构的网络应用对总是打开的基础设施服务器有最小的依赖。P2P体系结构具有内在自扩展性，无论有多少对等方，P2P体系结构的应用的文件分发时间都小于客户-服务器体系结构的应用。BitToreent是一种用于文件分发的流行P2P协议，以下是BitTorrent的部分功能原理。</p>
+
+<p style="text-indent:2em">在BitTorrent协议中，参与一个文件分发的所有对等方的集合称为一个<b>洪流</b>。洪流中的对等方互相下载等长度的文件块(典型长度256KB)。对等方刚进入洪流时没有块，一段时间后就持有了块，并可为其他对等方上载块。每个洪流有一个<b>追踪器</b>，当对等方加入洪流时，将向追踪器注册自己，并周期性通知追踪器自己仍在洪流中。</p>
+
+<p style="text-indent:2em">当一个对等方A加入洪流后，追踪器会给出一个对等方子集及这些对等方的IP地址，A可以从中选择临近的对等方建立TCP连接，交换块列表。选择向邻居请求哪些块使用的策略是<b>最稀缺优先</b>，首先请求邻居中副本最少的块，从而加快这些块的分发。而响应邻居的哪些请求则使用的是一种对换算法，优先响应前四个给A提供数据最高速率的邻居(他们被称为<b>疏通</b>)，并且还会每30s随机选择一个对等方B，如果B的速率够高，就把B换进前四位列表。这样对等方能够趋向于找到彼此的协调的速率上载。除了这五个对等方外，其他相邻的对等方不会收到A的块。这种激励机制被称为“一报还一报”。</p>
+
 
     </div>
 
@@ -402,7 +471,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-text">第二章 应用层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86"><span class="nav-text">1.应用层协议原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-text">1.1 应用程序体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="nav-text">1.2 数据通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%8F%AF%E4%BE%9B%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BD%BF%E7%94%A8%E7%9A%84%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="nav-text">1.3 可供应用程序使用的运输服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%8F%90%E4%BE%9B%E7%9A%84%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="nav-text">1.4 因特网提供的运输服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Web%E5%92%8CHTTP"><span class="nav-text">2.Web和HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-HTTP%E6%A6%82%E5%86%B5"><span class="nav-text">2.1 HTTP概况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E9%9D%9E%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5"><span class="nav-text">2.2 非持续连接和持续连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-HTTP%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-text">2.3 HTTP报文格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-cookie"><span class="nav-text">2.4 cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Web%E7%BC%93%E5%AD%98"><span class="nav-text">2.5 Web缓存</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-text">第二章 应用层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86"><span class="nav-text">1.应用层协议原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-text">1.1 应用程序体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="nav-text">1.2 数据通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%8F%AF%E4%BE%9B%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BD%BF%E7%94%A8%E7%9A%84%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="nav-text">1.3 可供应用程序使用的运输服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%8F%90%E4%BE%9B%E7%9A%84%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="nav-text">1.4 因特网提供的运输服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Web%E5%92%8CHTTP"><span class="nav-text">2.Web和HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-HTTP%E6%A6%82%E5%86%B5"><span class="nav-text">2.1 HTTP概况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E9%9D%9E%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5"><span class="nav-text">2.2 非持续连接和持续连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-HTTP%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-text">2.3 HTTP报文格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-cookie"><span class="nav-text">2.4 cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Web%E7%BC%93%E5%AD%98"><span class="nav-text">2.5 Web缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%9B%A0%E7%89%B9%E7%BD%91%E4%B8%AD%E7%9A%84%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6"><span class="nav-text">3.因特网中的电子邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-DNS%EF%BC%9A%E5%9B%A0%E7%89%B9%E7%BD%91%E7%9A%84%E7%9B%AE%E5%BD%95%E6%9C%8D%E5%8A%A1"><span class="nav-text">4.DNS：因特网的目录服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-DNS%E6%A6%82%E8%BF%B0%E4%B8%8EDNS%E6%9C%8D%E5%8A%A1"><span class="nav-text">4.1 DNS概述与DNS服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-DNS%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">4.2 DNS工作原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-P2P%E6%96%87%E4%BB%B6%E5%88%86%E5%8F%91"><span class="nav-text">5.P2P文件分发</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -472,12 +541,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">51k</span>
+    <span title="站点总字数">57k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">47 分钟</span>
+    <span title="站点阅读时长">52 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
