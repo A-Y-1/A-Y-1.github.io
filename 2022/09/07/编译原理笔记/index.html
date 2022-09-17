@@ -20,18 +20,22 @@
     var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="编译原理学习笔记。  第一章 引论1.语言处理器 编译器 解释器  2.编译器的结构 词法分析：将语素转换为词法单元 语法分析：使用词法单元创建树形的中间表示，常用语法树。 语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。 中间代码生成 代码优化 代码生成：以源程序的中间表示形式作为输入，映射到目标语言。  3.程序设计语言的发展历程4.编译器相关科学5.编译技术应用6.程序设计语言">
+  <meta name="description" content="编译原理学习笔记。参考：  编译原理(龙书)  编译原理(哈工大)  笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。    第一章 引论1.语言处理器 编译器 解释器  2.编译器的结构 词法分析：将语素转换为词法单元 语法分析：使用词法单元创建树形的中间表示，常用语法树。 语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。 中间代码生成 代码优化 代码生成：以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译原理笔记">
 <meta property="og:url" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="橙的博客">
-<meta property="og:description" content="编译原理学习笔记。  第一章 引论1.语言处理器 编译器 解释器  2.编译器的结构 词法分析：将语素转换为词法单元 语法分析：使用词法单元创建树形的中间表示，常用语法树。 语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。 中间代码生成 代码优化 代码生成：以源程序的中间表示形式作为输入，映射到目标语言。  3.程序设计语言的发展历程4.编译器相关科学5.编译技术应用6.程序设计语言">
+<meta property="og:description" content="编译原理学习笔记。参考：  编译原理(龙书)  编译原理(哈工大)  笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。    第一章 引论1.语言处理器 编译器 解释器  2.编译器的结构 词法分析：将语素转换为词法单元 语法分析：使用词法单元创建树形的中间表示，常用语法树。 语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。 中间代码生成 代码优化 代码生成：以">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/词法单元.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/状态转换.jpg">
 <meta property="article:published_time" content="2022-09-07T13:20:29.000Z">
-<meta property="article:modified_time" content="2022-09-12T08:22:16.856Z">
+<meta property="article:modified_time" content="2022-09-16T08:54:34.558Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png">
 
 <link rel="canonical" href="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/">
 
@@ -197,7 +201,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-12 16:22:16" itemprop="dateModified" datetime="2022-09-12T16:22:16+08:00">2022-09-12</time>
+                <time title="修改时间：2022-09-16 16:54:34" itemprop="dateModified" datetime="2022-09-16T16:54:34+08:00">2022-09-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,14 +226,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>718</span>
+              <span>3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -241,7 +245,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p style="text-indent:2em">编译原理学习笔记。</p>
+        <p style="text-indent:2em">编译原理学习笔记。参考：</p>
+
+<p style="text-indent:2em">编译原理(龙书)</p>
+
+<p style="text-indent:2em"><a herf="“https://www.bilibili.com/video/BV1zW411t7YE?p=1”">编译原理(哈工大)</a></p>
+
+<p style="text-indent:2em">笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。</p>
+
+
 
 <h1 id="第一章-引论"><a href="#第一章-引论" class="headerlink" title="第一章 引论"></a>第一章 引论</h1><h2 id="1-语言处理器"><a href="#1-语言处理器" class="headerlink" title="1.语言处理器"></a>1.语言处理器</h2><ul>
 <li>编译器</li>
@@ -271,6 +283,74 @@
 <li>别名：当参数被以引用传递方式传递时，两个形式参数可能会指向同一个对象，这会造成一个变量的修改改变了另一个变量的值。</li>
 </ul>
 <span id="more"></span>
+
+<h1 id="第二章-词法分析"><a href="#第二章-词法分析" class="headerlink" title="第二章 词法分析"></a>第二章 词法分析</h1><p style="text-indent:2em">在开始词法分析之前，需要了解一些基本概念。</p>
+
+<h2 id="1-词法-amp-语法分析基本概念"><a href="#1-词法-amp-语法分析基本概念" class="headerlink" title="1.词法&amp;语法分析基本概念"></a>1.词法&amp;语法分析基本概念</h2><p><strong>字母表</strong></p>
+<p style="text-indent:2em">字母表是有穷符号的集合。两个字母表可以进行乘积，幂，正闭包，克林闭包运算。</p>
+
+<ul>
+<li>乘积：{0,1}{a,b} &#x3D; {0a,0b,1a,1b}</li>
+<li>幂：{0,1}^3 &#x3D; {0,1}{0,1}{0,1}</li>
+<li>正闭包：{a,b,c,d}+ &#x3D; {a,b,c,d,aa,ab……}</li>
+<li>克林闭包：{a,b,c,d}* &#x3D; {a,b,c,d}+ ε(空串)</li>
+</ul>
+<p><strong>串</strong></p>
+<p style="text-indent:2em">串是字母表中符号的一个有穷集合，串s的长度通常记作|s|。串的运算为连接和幂，串x=str1，y=str2，则xy=str1str2，幂运算同理。
+
+</p><p><strong>文法</strong></p>
+<p style="text-indent:2em">文法是用来描述<b>语法结构(语言规则)</b>的。一个自然语言的文法例子如下：
+
+<ul>
+<li>&lt;句子&gt; -&gt; &lt;名词短语&gt;&lt;动词短语&gt;</li>
+<li>&lt;名词短语&gt; -&gt; &lt;形容词&gt;&lt;名词短语&gt;</li>
+<li>&lt;名词短语&gt; -&gt; &lt;名词&gt;</li>
+<li>…其他规则</li>
+<li>&lt;形容词&gt; -&gt; {…}</li>
+<li>&lt;名词&gt; -&gt; {…}</li>
+</ul>
+</p><p style="text-indent:2em">文法的形式化定义：G=(Vt,Vn,P,S)。</p>
+
+<ul>
+<li><p>Vt：终结符集合。终结符是文法所定义语言的<font color="blue">基本符号</font>。例如Vt&#x3D;{difficult，parse，course…..}</p>
+</li>
+<li><p>Vn：非终结符集合。非终结符是表示<font color="blue">语法成分</font>的符号，也被称为语法变量。例：{&lt;句子&gt;，&lt;名词短语&gt;，&lt;动词&gt;……}</p>
+</li>
+<li><p>P：产生式集合。产生式描述了终结符(基本符号)和非终结符(语法成分)组成串的方式。一般形式为：α→β。例如：&lt;句子&gt;→&lt;动词短语&gt;&lt;名词短语&gt;。另外，同一个非终结符(语法成分)的产生式可以组合在一起表示，用|分隔：<br>list → list + digit，list → list-digit可以合并成list → list+digit | list-digit。(|的优先级最低)</p>
+</li>
+<li><p>S：开始符号，文法中最大的语法成分。例：S&#x3D;&lt;句子&gt;</p>
+</li>
+</ul>
+<p style="text-indent:2em">有了语言规则，就可以判断一个词串是否是一个语言的句子了。句子可以进行推导，也可以进行规约，分别对应着生成语言和识别语言的角度，下面是自然语言的例子：</p>
+
+<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png" style="zoom:70%;">
+
+<h2 id="2-词法分析和词法分析器"><a href="#2-词法分析和词法分析器" class="headerlink" title="2.词法分析和词法分析器"></a>2.词法分析和词法分析器</h2><p style="text-indent:2em">词法分析是编译的第一个阶段，任务是<b>把源程序的输入字符(词素)转换为已知语言的成分(词法单元序列)。</b>转换后的词法单元序列会交给语法分析器进行语法分析。通常语法分析起有一个getNextToken命令让词法分析器读取输入字符，直到词法分析器能识别一个词素，并将该词素生成为词法单元交给语法分析器。实现一个词法分析器有两种方式，第一种是<font color="blue">手动用代码实现</font>(需要画状态转移图辅助)，另一种是<font color="blue">使用词法分析器生成工具</font>(需要使用正则表达式描述出词素的模式)。</p>
+
+<p style="text-indent:2em">下面是词法分析使用的术语：</p>
+
+<ul>
+<li>词法单元：由一个词法单元名和一个可选属性值组成。词法单元名是表示词法单位的抽象符号，属性值表示了词法单元的相关信息。比如一个词法单元“id”表示程序设计语言的标识符，那么属性值就是指向这个具体的标识符信息(在符号表里)的指针；一个词法单元“number”表示数字常量，那么属性值就是这个数字常量的具体值。</li>
+<li>模式：描述了一个词法单元的词素可能具有的形式。</li>
+<li>词素：源程序的一个字符序列，和一个词法单元的模式匹配，可以被识别为一个词法单元的实例。</li>
+</ul>
+<p style="text-indent:2em">例：</p>
+
+<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/词法单元.jpg" style="zoom:70%;">
+
+<h2 id="3-输入缓冲"><a href="#3-输入缓冲" class="headerlink" title="3.输入缓冲"></a>3.输入缓冲</h2><p style="text-indent:2em">识别输入流中的词素之前，首先要读入输入流。为了处理输入的字符，需要使用两个缓冲区。每个缓冲区容量都是N个字符，通常N是一个磁盘块的大小。处理读入字符流时有两个指针，lexemeBegin指针指向当前词素的开始处，forward指针一直扫描，直到发现某个模式匹配为止。如果forward已经扫描到了EOF，就再读入N个字符到另一个缓冲区，这样只要词素的长度不大于N，就不会在识别到词素之前覆盖掉缓冲区中的词素。EOF也被称为哨兵标记，输入的末尾和缓冲区的末尾都有该字符。</p>
+
+<h2 id="4-正则表达式"><a href="#4-正则表达式" class="headerlink" title="4.正则表达式"></a>4.正则表达式</h2><p style="text-indent:2em">正则表达式是用来描述语言的一种方式，可以描述字母表上的符号通过并，连接，闭包这些运算而得到的语言。用符号给正则表达式命名，然后进行定义，写法与文法很相似，例如用正则表达式表示无符号数(5280,0.01234,6.336E4，1.89E-4)的串number：</p>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">digit ——→ 0|1|...|9</span><br><span class="line">digits ——→ digit digit*</span><br><span class="line">optionalFraction ——→ . digits | e</span><br><span class="line">optionalExponent ——→ (E(+|-|e)digits) | e</span><br><span class="line">number ——→ digits optionalFraction optionalExponent</span><br></pre></td></tr></table></figure>
+
+<p style="text-indent:2em">正则表达式还有一些扩展的写法，如后缀+表示语言的及其正闭包，后缀?表示零个或一个出现，字符类可以用[a-z]表示a|b|...|z。</p>
+
+<h2 id="5-状态转换图"><a href="#5-状态转换图" class="headerlink" title="5.状态转换图"></a>5.状态转换图</h2><p style="text-indent:2em">构造一个状态转换图可以体现词素转换的过程，每识别一个字符，就更新到下一个状态，如果已经找到了词素对应的词法单元，当前的字符不是上一个词法单元中的一部分，则要让forward指针回退一个位置。下面这个例子清晰的表现了状态转换图是怎么体现词素识别过程的。</p>
+
+<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/状态转换.jpg" style="zoom:70%;">
+
+<p style="text-indent:2em">对于保留字(if，else)的识别，通常为这些保留字建立单独的状态图。也可以将其先填入符号表中，识别该词法单元后，如果符号表中没有该符号，就说明不是保留字，添加到符号表，并返回条目指针作为属性。</p>
     </div>
 
     
@@ -353,7 +433,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%AE%BA"><span class="nav-text">第一章 引论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-text">1.语言处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">2.编译器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">3.程序设计语言的发展历程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%A7%91%E5%AD%A6"><span class="nav-text">4.编译器相关科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E5%BA%94%E7%94%A8"><span class="nav-text">5.编译技术应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">6.程序设计语言基础</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%AE%BA"><span class="nav-text">第一章 引论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-text">1.语言处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">2.编译器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">3.程序设计语言的发展历程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%A7%91%E5%AD%A6"><span class="nav-text">4.编译器相关科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E5%BA%94%E7%94%A8"><span class="nav-text">5.编译技术应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">6.程序设计语言基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第二章 词法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%8D%E6%B3%95-amp-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.词法&amp;语法分析基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-text">2.词法分析和词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E7%BC%93%E5%86%B2"><span class="nav-text">3.输入缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">4.正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE"><span class="nav-text">5.状态转换图</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -423,12 +503,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">57k</span>
+    <span title="站点总字数">59k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">52 分钟</span>
+    <span title="站点阅读时长">54 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
