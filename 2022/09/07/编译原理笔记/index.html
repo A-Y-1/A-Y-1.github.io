@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="编译原理学习笔记。参考：  编译原理(龙书)  编译原理(哈工大)  笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。    第一章 引论1.语言处理器 编译器 解释器  2.编译器的结构 词法分析：将语素转换为词法单元 语法分析：使用词法单元创建树形的中间表示，常用语法树。 语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。 中间代码生成 代码优化 代码生成：以">
+  <meta name="description" content="编译原理学习笔记。参考：  编译原理(龙书)  编译原理(哈工大)  笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。  第一章 引论1.语言处理器 编译器 解释器  2.编译器的结构 词法分析：将语素转换为词法单元 语法分析：使用词法单元创建树形的中间表示，常用语法树。 语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。 中间代码生成 代码优化 代码生成：以源程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译原理笔记">
 <meta property="og:url" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="橙的博客">
-<meta property="og:description" content="编译原理学习笔记。参考：  编译原理(龙书)  编译原理(哈工大)  笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。    第一章 引论1.语言处理器 编译器 解释器  2.编译器的结构 词法分析：将语素转换为词法单元 语法分析：使用词法单元创建树形的中间表示，常用语法树。 语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。 中间代码生成 代码优化 代码生成：以">
+<meta property="og:description" content="编译原理学习笔记。参考：  编译原理(龙书)  编译原理(哈工大)  笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。  第一章 引论1.语言处理器 编译器 解释器  2.编译器的结构 词法分析：将语素转换为词法单元 语法分析：使用词法单元创建树形的中间表示，常用语法树。 语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。 中间代码生成 代码优化 代码生成：以源程">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/词法单元.jpg">
@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA到DFA.jpg">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa1.jpg">
 <meta property="article:published_time" content="2022-09-07T13:20:29.000Z">
-<meta property="article:modified_time" content="2022-09-18T03:07:37.789Z">
+<meta property="article:modified_time" content="2022-09-18T03:19:42.131Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-18 11:07:37" itemprop="dateModified" datetime="2022-09-18T11:07:37+08:00">2022-09-18</time>
+                <time title="修改时间：2022-09-18 11:19:42" itemprop="dateModified" datetime="2022-09-18T11:19:42+08:00">2022-09-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,8 +261,6 @@
 <p style="text-indent:2em"><a herf="“https://www.bilibili.com/video/BV1zW411t7YE?p=1”">编译原理(哈工大)</a></p>
 
 <p style="text-indent:2em">笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。</p>
-
-
 
 <h1 id="第一章-引论"><a href="#第一章-引论" class="headerlink" title="第一章 引论"></a>第一章 引论</h1><h2 id="1-语言处理器"><a href="#1-语言处理器" class="headerlink" title="1.语言处理器"></a>1.语言处理器</h2><ul>
 <li>编译器</li>
