@@ -20,15 +20,20 @@
     var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="橙的博客">
-<meta property="og:url" content="https://a-y-1.github.io/tags/git/index.html">
+  <meta name="description" content="《计算机网络自顶向下方法》学习笔记02:运输层。运输层介于应用层与王网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。  第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络自顶向下方法笔记02">
+<meta property="og:url" content="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/index.html">
 <meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="《计算机网络自顶向下方法》学习笔记02:运输层。运输层介于应用层与王网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。  第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-19T01:48:22.000Z">
+<meta property="article:modified_time" content="2022-09-19T02:01:35.587Z">
 <meta property="article:author" content="橙">
+<meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://a-y-1.github.io/tags/git/">
+<link rel="canonical" href="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/">
 
 
 <script id="page-configurations">
@@ -36,12 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: git | 橙的博客</title>
+  <title>计算机网络自顶向下方法笔记02 | 橙的博客</title>
   
 
 
@@ -155,51 +160,114 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">git
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络自顶向下方法笔记02
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-09-19 09:48:22 / 修改时间：10:01:35" itemprop="dateCreated datePublished" datetime="2022-09-19T09:48:22+08:00">2022-09-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>390</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+        <p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记02:运输层。运输层介于应用层与王网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。</p>
+
+<h1 id="第三章-运输层"><a href="#第三章-运输层" class="headerlink" title="第三章 运输层"></a>第三章 运输层</h1><h2 id="1-概述和运输层服务"><a href="#1-概述和运输层服务" class="headerlink" title="1.概述和运输层服务"></a>1.概述和运输层服务</h2><p style="text-indent:2em">运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为<b>报文段</b>，将报文段交给网络层，由网络层发送到目的地。</p>
+
+<p style="text-indent:2em">因特网提供了两种可用的运输层协议：UDP(用户数据报协议)，TCP(传输控制协议)。UDP提供不可靠服务，而TCP提供面向连接的可靠数据传输，还提供拥塞控制。网络层的协议即网际协议IP，提供的是不可靠服务，不确保报文段的交付和按序交付，因此本章主要讨论的一个问题是TCP如何提供<font color="red">可靠数据传输</font>，另一个主要讨论的问题是TCP如何实现<font color="red">拥塞控制</font>。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-08-30T21:07:29+08:00"
-              content="2022-08-30">
-          08-30
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">git学习笔记</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/" rel="prev" title="计算机网络自顶向下方法笔记01">
+      <i class="fa fa-chevron-left"></i> 计算机网络自顶向下方法笔记01
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
@@ -252,6 +320,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%BF%90%E8%BE%93%E5%B1%82"><span class="nav-text">第三章 运输层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0%E5%92%8C%E8%BF%90%E8%BE%93%E5%B1%82%E6%9C%8D%E5%8A%A1"><span class="nav-text">1.概述和运输层服务</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

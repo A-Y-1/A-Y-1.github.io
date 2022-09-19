@@ -22,20 +22,20 @@
 
   <meta name="description" content="《计算机网络自顶向下方法》学习笔记。之前学习过计算机网络微课，已经对计网中的很多概念都有了印象和一定的了解了，这时候再读自顶向下感觉比较轻松了。但是自己还是更喜欢自底向上的方式，因为自顶向下时，尽管只需要知道下层能为上层提供服务，但是对下层的大致了解没有建立，感觉并不够顺畅。这本书没有涉及太多物理层的内容，第一章为概述。从第二章应用层开始，自顶向下讲解计算机网络。以下是阅读笔记。  第二章 应用层">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机网络自顶向下方法笔记">
-<meta property="og:url" content="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="计算机网络自顶向下方法笔记01">
+<meta property="og:url" content="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/index.html">
 <meta property="og:site_name" content="橙的博客">
 <meta property="og:description" content="《计算机网络自顶向下方法》学习笔记。之前学习过计算机网络微课，已经对计网中的很多概念都有了印象和一定的了解了，这时候再读自顶向下感觉比较轻松了。但是自己还是更喜欢自底向上的方式，因为自顶向下时，尽管只需要知道下层能为上层提供服务，但是对下层的大致了解没有建立，感觉并不够顺畅。这本书没有涉及太多物理层的内容，第一章为概述。从第二章应用层开始，自顶向下讲解计算机网络。以下是阅读笔记。  第二章 应用层">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/SMTP.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/SMTP.jpg">
 <meta property="article:published_time" content="2022-09-11T13:17:29.000Z">
-<meta property="article:modified_time" content="2022-09-17T03:27:38.219Z">
+<meta property="article:modified_time" content="2022-09-19T01:49:01.044Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/SMTP.jpg">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/SMTP.jpg">
 
-<link rel="canonical" href="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/">
+<link rel="canonical" href="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/">
 
 
 <script id="page-configurations">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>计算机网络自顶向下方法笔记 | 橙的博客</title>
+  <title>计算机网络自顶向下方法笔记01 | 橙的博客</title>
   
 
 
@@ -169,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/a0.jpg">
@@ -182,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          计算机网络自顶向下方法笔记
+          计算机网络自顶向下方法笔记01
         </h1>
 
         <div class="post-meta">
@@ -199,7 +199,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-17 11:27:38" itemprop="dateModified" datetime="2022-09-17T11:27:38+08:00">2022-09-17</time>
+                <time title="修改时间：2022-09-19 09:49:01" itemprop="dateModified" datetime="2022-09-19T09:49:01+08:00">2022-09-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -335,7 +335,7 @@
 </ul>
 </li>
 </ul>
-<img src="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B0/SMTP.jpg" style="zoom:100%;">
+<img src="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/SMTP.jpg" style="zoom:100%;">
 
 <ul>
 <li>SMTP与HTTP的对比<ul>
@@ -430,7 +430,10 @@
     <a href="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" rel="prev" title="编译原理笔记">
       <i class="fa fa-chevron-left"></i> 编译原理笔记
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/" rel="next" title="计算机网络自顶向下方法笔记02">
+      计算机网络自顶向下方法笔记02 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -505,7 +508,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
