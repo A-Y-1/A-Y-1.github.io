@@ -28,7 +28,7 @@
 <meta property="og:description" content="《计算机网络自顶向下方法》学习笔记02:运输层。运输层介于应用层与王网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。  第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-19T01:48:22.000Z">
-<meta property="article:modified_time" content="2022-09-19T02:01:35.587Z">
+<meta property="article:modified_time" content="2022-09-23T11:12:55.657Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -189,10 +189,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-09-19 09:48:22 / 修改时间：10:01:35" itemprop="dateCreated datePublished" datetime="2022-09-19T09:48:22+08:00">2022-09-19</time>
+              <time title="创建时间：2022-09-19 09:48:22" itemprop="dateCreated datePublished" datetime="2022-09-19T09:48:22+08:00">2022-09-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-23 19:12:55" itemprop="dateModified" datetime="2022-09-23T19:12:55+08:00">2022-09-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -216,14 +222,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>390</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -240,6 +246,44 @@
 <h1 id="第三章-运输层"><a href="#第三章-运输层" class="headerlink" title="第三章 运输层"></a>第三章 运输层</h1><h2 id="1-概述和运输层服务"><a href="#1-概述和运输层服务" class="headerlink" title="1.概述和运输层服务"></a>1.概述和运输层服务</h2><p style="text-indent:2em">运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为<b>报文段</b>，将报文段交给网络层，由网络层发送到目的地。</p>
 
 <p style="text-indent:2em">因特网提供了两种可用的运输层协议：UDP(用户数据报协议)，TCP(传输控制协议)。UDP提供不可靠服务，而TCP提供面向连接的可靠数据传输，还提供拥塞控制。网络层的协议即网际协议IP，提供的是不可靠服务，不确保报文段的交付和按序交付，因此本章主要讨论的一个问题是TCP如何提供<font color="red">可靠数据传输</font>，另一个主要讨论的问题是TCP如何实现<font color="red">拥塞控制</font>。</p>
+
+<span id="more"></span>
+
+<h2 id="2-多路复用与多路分解"><a href="#2-多路复用与多路分解" class="headerlink" title="2.多路复用与多路分解"></a>2.多路复用与多路分解</h2><p style="text-indent:2em">运输层从紧邻其下的网络层接收报文段。运输层负责将报文段进程交付给主机上运行的适当进程。一个进程有一个或多个<b>套接字</b>，运输层实际上是将数据交给中间的套接字。接收主机可能同时有多个套接字，因此每个套接字都有一个唯一的标识符。为了将运输层报文段定向到合适的套接字，运输层报文段有一些字段，包含了套接字的标识符。通过这些字段，将运输层报文段中的数据交付到正确的套接字的工作称为<b>多路分解</b>。从不同套接字中收集数据块，将数据块封装并添加首部信息产生报文段，发送到网络层的过程工作称为<b>多路复用</b>。</p>
+
+<p style="text-indent:2em">每个套接字都有唯一的标识符，每个报文段都有特殊字段来指示该报文要交付到的套接字。套接字需要使用端口号进行标识。端口号是一个16bit的数，其中0-1023为熟知端口号。保留给HTTP,FTP等熟知的应用层协议。</p>
+
+<p style="text-indent:2em">一个UDP套接字是一个二元组标识的，包含一个目的IP地址(标识主机)和一个目的端口号(标识具体的套接字)。接收主机的运输层收到报文段后，通过首部中的目的端口号，将报文段定向到相应的套接字。
+</p><p style="text-indent:2em">一个TCP套接字是由一个四元组(源IP地址，源端口号，目的IP地址，目的端口号)标识的。这四个值标识了一个连接，接收主机通过四个值将报文段定向到对应套接字。由于TCP是面向连接的，不同的源IP地址和源端口号与同一个目的IP的同个目的端口号建立的是不同的连接，使用的也是不同的套接字。但是初始创建连接时，连接还没有建立，因此使用的是同一个套接字(欢迎套接字)。连接建立后，接收端进程将创建一个新的套接字供该连接使用。</p>
+
+<h2 id="3-无连接运输-UDP"><a href="#3-无连接运输-UDP" class="headerlink" title="3.无连接运输:UDP"></a>3.无连接运输:UDP</h2><p style="text-indent:2em">UDP是无连接的运输，只在IP的基础上进行复用和分解，并增加了少量的差错检测。UDP不能提供可靠的传输服务，但有以下优点：</p>
+
+<ul>
+<li>控制更加精细。采用UDP时，UDP会将数据打包直接传递给网络层，不像TCP存在拥塞控制机制，发送可能受到遏制。</li>
+<li>无需建立连接。UDP不会引入建立连接的时延。因此DNS就是运行在UDP之上的。</li>
+<li>无连接状态。UDP不维护连接状态。而TCP则需要维护包括接收和发送缓存，拥塞控制参数和确认号等连接状态。</li>
+<li>分组首部开销小。仅有8字节。</li>
+</ul>
+<p style="text-indent:2em">除了不能提供可靠传输，UDP还可能导致其他问题，因为缺乏拥塞控制，UDP可能导致发送方接收方之间的高丢包率，挤垮TCP会话。</p>
+
+<p style="text-indent:2em">UDP报文段由源端口号，目的端口号，长度和校验和组成，共8个字节。其中的校验和提供了差错检测功能，因为链路层协议可能没有提供差错检测，而报文段的传输可能经过一条没有使用差错检测协议的链路。因此UDP在端到端基础上，在运输层提供差错检测，这称为端到端原则。</p>
+
+<h2 id="4-可靠数据传输原理"><a href="#4-可靠数据传输原理" class="headerlink" title="*4.可靠数据传输原理"></a>*4.可靠数据传输原理</h2><p style="text-indent:2em">可靠传输问题不仅在运输层出现，也在链路层及应用层出现。实现可靠传输服务是<b>可靠数据传输协议</b>的任务。一般情况下，都是在下层协议提供不可靠数据传输(udt)下，建立可靠数据传输协议。由于可靠数据传输(rdt)不仅适用于运输层，收发端交换的数据以下称为分组，而不是运输层的报文段。</p>
+
+<h3 id="4-1-构造可靠数据传输协议"><a href="#4-1-构造可靠数据传输协议" class="headerlink" title="4.1 构造可靠数据传输协议"></a>4.1 构造可靠数据传输协议</h3><p><strong>经完全可靠信道的可靠数据传输</strong> <strong>rdt1.0</strong></p>
+<p style="text-indent:2em">经完全可靠信道的可靠数据传输，接收与发送方不需要进行任何通信。发送方只需接收高层的数据，产生分组并发送到信道中，而接收方只需要从信道接收分组，从分组中取出数据交给上层。</p>
+
+<p><strong>经具有比特差错信道的可靠数据传输</strong> <strong>rdt2.0</strong></p>
+<p style="text-indent:2em">实际情况下，底层信道的模型是会出现比特差错的模型，在分组的传输，传播或缓存的过程中都可能出现比特差错。为了处理差错，接收方需要对接收到的分组进行确认，发出<b>肯定确认</b>告知发送方分组被接收，发出<b>否定确认</b>告知发送方重发分组。基于这种重传机制的可靠数据传输协议称为<font color="red">自动重传协议(ARQ)</font>。ARQ协议需要三种功能处理比特差错的情况：</p>
+
+<ul>
+<li>差错检测：通过检验和字段，使接收方能够检测到比特差错。</li>
+<li>接收方反馈：接收方需要进行肯定确认(ACK)，否定确认(NAK)，只需要一个bit的分组就可以进行确认。</li>
+<li>重传：接收方接收到有差错的分组时，发送方重传分组。</li>
+</ul>
+<p style="text-indent:2em">采用以上这种重传机制，发送方在发送分组后，将等待接收方的确认分组，决定是否重传还是传输新的分组。由于这种行为，rdt2.0这样的协议被称为<font color="red">停等协议</font>。</p>
+
+<p style="text-indent:2em">由于信道本身可能出现差错，因此必须考虑确认分组ACK或NCK出现差错的情况。在这种情况下，发送方不知道接收方是否正确收到了分组。解决该问题的方式是，如果发送分组不能确定接收方是否接收到了正确的分组，就重新发送分组。这种方式给信道引入了<b>冗余分组</b>。但是接收方还需要知道接收到的是新的分组还是重传的分组，因此对于分组需要进行一个序号，需要只需要为0或1，让接收方能够区别分组是否和上一个接收到的分组一样就可以。</p>
 
     </div>
 
@@ -320,7 +364,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%BF%90%E8%BE%93%E5%B1%82"><span class="nav-text">第三章 运输层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0%E5%92%8C%E8%BF%90%E8%BE%93%E5%B1%82%E6%9C%8D%E5%8A%A1"><span class="nav-text">1.概述和运输层服务</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%BF%90%E8%BE%93%E5%B1%82"><span class="nav-text">第三章 运输层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0%E5%92%8C%E8%BF%90%E8%BE%93%E5%B1%82%E6%9C%8D%E5%8A%A1"><span class="nav-text">1.概述和运输层服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%8E%E5%A4%9A%E8%B7%AF%E5%88%86%E8%A7%A3"><span class="nav-text">2.多路复用与多路分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%97%A0%E8%BF%9E%E6%8E%A5%E8%BF%90%E8%BE%93-UDP"><span class="nav-text">3.无连接运输:UDP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86"><span class="nav-text">*4.可靠数据传输原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%9E%84%E9%80%A0%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="nav-text">4.1 构造可靠数据传输协议</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -390,12 +434,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">66k</span>
+    <span title="站点总字数">70k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:01</span>
+    <span title="站点阅读时长">1:04</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

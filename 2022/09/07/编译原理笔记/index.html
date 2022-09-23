@@ -39,8 +39,11 @@
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa构造例.jpg">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa.jpg">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa1.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/语法分析例.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/最左推导例.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/递归下降分析.jpg">
 <meta property="article:published_time" content="2022-09-07T13:20:29.000Z">
-<meta property="article:modified_time" content="2022-09-20T10:21:13.484Z">
+<meta property="article:modified_time" content="2022-09-23T13:31:14.099Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
@@ -210,7 +213,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-20 18:21:13" itemprop="dateModified" datetime="2022-09-20T18:21:13+08:00">2022-09-20</time>
+                <time title="修改时间：2022-09-23 21:31:14" itemprop="dateModified" datetime="2022-09-23T21:31:14+08:00">2022-09-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,14 +238,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.5k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -440,6 +443,38 @@
 
 <img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa1.jpg" style="zoom:40%;">
 
+<h1 id="第三章-语法分析"><a href="#第三章-语法分析" class="headerlink" title="第三章 语法分析"></a>第三章 语法分析</h1><p style="text-indent:2em">语法分析的任务是根据给定的文法识别输入句子中的各个成分，并构建分析树。如果输入串的各个单词从左自右为分析树的叶子节点，那么这个串就是该语言的一个句子。按照分析树的构造方向，语法分析可以分为两类：自顶向下的语法分析，自底向上的语法分析。</p>
+
+<h2 id="1-自顶向下分析概述"><a href="#1-自顶向下分析概述" class="headerlink" title="1.自顶向下分析概述"></a>1.自顶向下分析概述</h2><p style="text-indent:2em">自顶向下从根节点向底部节点构造分析树，可以看成是从文法开始符号S推导出词串w的过程。</p>
+
+<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/语法分析例.jpg" style="zoom:40%;">
+
+<p style="text-indent:2em">在进行推导的过程中需要解决两个问题：</p>
+
+<ul>
+<li>替换当前句中的哪个<font color="blue">非终结符</font></li>
+<li>用该终结符的哪个<font color="blue">候选式</font>进行替换</li>
+</ul>
+<p style="text-indent:2em">对于第一个问题，有两种选择方式：最左推导；最右推导。</p>
+
+<ul>
+<li>最左推导：总是选择每个句型的最左非终结符进行替换。</li>
+<li>最右推导：总是选择每个句型的最右非终结符进行替换。</li>
+</ul>
+<p style="text-indent:2em">对应于推导，语法分析也可以使用规约的方式，因此有相应的最左规约和最右规约。</p>
+
+<p style="text-indent:2em">在自底向上的分析中，总是采用最左归约的方式，因此把最左归约称为规范归约，而最右推导相应地称为规范推导。</p>
+
+<p style="text-indent:2em">一个串总是自左向右进行语法分析，因此自顶向下的语法分析采用<b>最左推导的方式</b>。构造语法分析树时，选定最左非终结符的产生式，将串的字符与产生式相匹配。</p>
+
+<p style="text-indent:2em">例：</p>
+
+<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/最左推导例.jpg" style="zoom:40%;">
+
+<p style="text-indent:2em">自顶向下语法分析是具体通过<b>递归下降分析</b>实现的。递归下降分析中，每个非终结符都有一个过程，从文法开始符号的S对应过程开始，递归调用文法中其它非终结符对应的过程，直到整个输入串都被扫描。</p>
+
+<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/递归下降分析.jpg" style="zoom:100%;">
+
     </div>
 
     
@@ -522,7 +557,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%AE%BA"><span class="nav-text">第一章 引论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-text">1.语言处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">2.编译器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">3.程序设计语言的发展历程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%A7%91%E5%AD%A6"><span class="nav-text">4.编译器相关科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E5%BA%94%E7%94%A8"><span class="nav-text">5.编译技术应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">6.程序设计语言基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第二章 词法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%8D%E6%B3%95-amp-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.词法&amp;语法分析基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-text">2.词法分析和词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E7%BC%93%E5%86%B2"><span class="nav-text">3.输入缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">*4.正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE"><span class="nav-text">5.状态转换图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Lex"><span class="nav-text">6.词法分析工具Lex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*7.有穷自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-NFA"><span class="nav-text">7.1 不确定的有穷自动机(NFA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-DFA"><span class="nav-text">7.2 确定的有穷自动机(DFA)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*8.正则表达式到自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0NFA"><span class="nav-text">8.1 正则表达式到NFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-NFA%E5%88%B0DFA"><span class="nav-text">8.2 NFA到DFA</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%AE%BA"><span class="nav-text">第一章 引论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-text">1.语言处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">2.编译器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">3.程序设计语言的发展历程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%A7%91%E5%AD%A6"><span class="nav-text">4.编译器相关科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E5%BA%94%E7%94%A8"><span class="nav-text">5.编译技术应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">6.程序设计语言基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第二章 词法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%8D%E6%B3%95-amp-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.词法&amp;语法分析基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-text">2.词法分析和词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E7%BC%93%E5%86%B2"><span class="nav-text">3.输入缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">*4.正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE"><span class="nav-text">5.状态转换图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Lex"><span class="nav-text">6.词法分析工具Lex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*7.有穷自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-NFA"><span class="nav-text">7.1 不确定的有穷自动机(NFA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-DFA"><span class="nav-text">7.2 确定的有穷自动机(DFA)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*8.正则表达式到自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0NFA"><span class="nav-text">8.1 正则表达式到NFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-NFA%E5%88%B0DFA"><span class="nav-text">8.2 NFA到DFA</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第三章 语法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0"><span class="nav-text">1.自顶向下分析概述</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -592,12 +627,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">66k</span>
+    <span title="站点总字数">70k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:01</span>
+    <span title="站点阅读时长">1:04</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
