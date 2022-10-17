@@ -28,7 +28,7 @@
 <meta property="og:description" content="《计算机网络自顶向下方法》学习笔记02:运输层。 运输层介于应用层与网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。  第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-19T01:48:22.000Z">
-<meta property="article:modified_time" content="2022-10-08T11:56:11.438Z">
+<meta property="article:modified_time" content="2022-10-17T14:14:47.949Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-08 19:56:11" itemprop="dateModified" datetime="2022-10-08T19:56:11+08:00">2022-10-08</time>
+                <time title="修改时间：2022-10-17 22:14:47" itemprop="dateModified" datetime="2022-10-17T22:14:47+08:00">2022-10-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,7 +222,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7k</span>
+              <span>7.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -327,7 +327,7 @@
 <li>源端口：16bit，写入源端口号，用来标识发送该TCP报文段的应用进程。</li>
 <li>目的端口：16bit，写入目的端口号，用来标识接收该TCP报文段的应用进程。</li>
 <li>序号：32bit，指出本TCP报文段数据载荷的第一个字节的序号。</li>
-<li>确认号：32bit，指出期望收到对方下一个TCP报文段的数据载荷的第一个字节的序号，同时也是对之前收到的所有数据的确认。</li>
+<li><font color="red">确认号：32bit，指出期望收到对方下一个TCP报文段的数据载荷的第一个字节的序号</font>，同时也是对之前收到的所有数据的确认。<font color="orange"><b>(这和GBN和SR中的分组确认ACK是不一样的！！！！！！！！！！！！！！！！！！！！！！！)</b></font></li>
 <li>确认标志位ACK：取值为1时确认号字段才有效，取值为0时确认号字段无效。TCP规定，连接建立后所有传送的TCP报文ACK均置1。</li>
 <li>数据偏移：4bit，以4字节为单位。用来指出TCP报文段的数据载荷部分的起始处距离TCP报文段的起始处有多远。这个字段实际上是指出了TCP报文段的首部长度。取值为20-60。</li>
 <li>保留：6bit，保留，目前置为0。</li>
@@ -456,7 +456,7 @@
 </ul>
 </li>
 <li>拥塞避免<ul>
-<li>每收到一个确认报文，增加一个MSS</li>
+<li>每个RTT，增加一个MSS</li>
 <li>发生丢包时，与慢启动的反应相同</li>
 <li>收到三个冗余ACK时，进入快恢复状态</li>
 </ul>
