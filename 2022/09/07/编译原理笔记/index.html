@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/最左推导例.jpg">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/递归下降分析.jpg">
 <meta property="article:published_time" content="2022-09-07T13:20:29.000Z">
-<meta property="article:modified_time" content="2022-10-05T06:19:39.341Z">
+<meta property="article:modified_time" content="2022-10-17T12:41:53.728Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
@@ -213,7 +213,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-05 14:19:39" itemprop="dateModified" datetime="2022-10-05T14:19:39+08:00">2022-10-05</time>
+                <time title="修改时间：2022-10-17 20:41:53" itemprop="dateModified" datetime="2022-10-17T20:41:53+08:00">2022-10-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,7 +238,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.5k</span>
+              <span>8.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -477,12 +477,20 @@
 </tbody></table>
 <p style="text-indent:2em">状态的变化可以直接查表，再加上驱动代码就可以构成词法分析器：</p>
 
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">nextToken</span>()&#123;</span><br><span class="line">    state = <span class="number">0</span>;</span><br><span class="line">    stack = [];</span><br><span class="line">    <span class="keyword">while</span>(state!=ERROR)&#123;</span><br><span class="line">        c = <span class="built_in">getchar</span>();</span><br><span class="line">        <span class="keyword">if</span>(state is ACCEPT) <span class="built_in">clear</span>(stack);</span><br><span class="line">        <span class="built_in">push</span>(state);</span><br><span class="line">        state = table[state][c];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(state is <span class="keyword">not</span> ACCEPT)&#123;</span><br><span class="line">        state = <span class="built_in">pop</span>();</span><br><span class="line">        <span class="built_in">rollback</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">nextToken</span>()&#123;</span><br><span class="line">    state = <span class="number">0</span>;</span><br><span class="line">    stack = [];</span><br><span class="line">    <span class="keyword">while</span>(state!=ERROR)&#123;</span><br><span class="line">        c = <span class="built_in">getchar</span>();</span><br><span class="line">        <span class="keyword">if</span>(state is ACCEPT) <span class="built_in">clear</span>(stack);</span><br><span class="line">        <span class="built_in">push</span>(state);</span><br><span class="line">        state = table[state][c];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(state is <span class="keyword">not</span> ACCEPT)&#123;</span><br><span class="line">        state = <span class="built_in">pop</span>();</span><br><span class="line">        <span class="built_in">rollback</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(state is ACCEPT) <span class="keyword">return</span> ACCEPT_TOKEN;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p style="text-indent:2em">还有使用跳转表的代码实现，使用goto语句进行状态跳转，if语句进行字符判断并状态跳转。这样实现的方式优点是不需要存储状态表，当状态表很大，状态非常多的时候，这样能节省许多空间。</p>
 
 <h1 id="第三章-语法分析"><a href="#第三章-语法分析" class="headerlink" title="第三章 语法分析"></a>第三章 语法分析</h1><p style="text-indent:2em">语法分析的任务是根据给定的文法识别输入句子中的各个成分，并构建分析树。如果输入串的各个单词从左自右为分析树的叶子节点，那么这个串就是该语言的一个句子。按照分析树的构造方向，语法分析可以分为两类：自顶向下的语法分析，自底向上的语法分析。</p>
 
+<p style="text-indent:2em">在语法分析中，使用<b>上下文无关文法(CFG)</b>来描述语言的规则。一个上下文无关文法的定义为:G=(T,N,P,S)</p>
+
+<ul>
+<li>T：终结符集合</li>
+<li>N：非终结符集合</li>
+<li>P：一组产生式规则</li>
+<li>S：唯一的开始符号</li>
+</ul>
 <h2 id="1-自顶向下分析概述"><a href="#1-自顶向下分析概述" class="headerlink" title="1.自顶向下分析概述"></a>1.自顶向下分析概述</h2><p style="text-indent:2em">自顶向下从根节点向底部节点构造分析树，可以看成是从文法开始符号S推导出词串w的过程。</p>
 
 <img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/语法分析例.jpg" style="zoom:40%;">
@@ -523,9 +531,20 @@
 
 <ul>
 <li>每个非终结符构造一个分析函数</li>
-<li>用前看符号知道产生式规则的选择</li>
-<li></li>
+<li>用前看符号指导产生式规则的选择</li>
 </ul>
+<p style="text-indent:2em">示例如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//产生式</span></span><br><span class="line">X -&gt; aBcD   </span><br><span class="line">	|bD</span><br><span class="line">B -&gt; …   </span><br><span class="line">D -&gt; …         </span><br><span class="line"><span class="comment">//每个非终结符的函数</span></span><br><span class="line"><span class="built_in">parse_X</span>()&#123;</span><br><span class="line">    token = <span class="built_in">nextToken</span>();</span><br><span class="line">    <span class="keyword">if</span>(token==a)&#123;</span><br><span class="line">        move token;</span><br><span class="line">        <span class="built_in">parse_B</span>();</span><br><span class="line">        <span class="keyword">if</span>(token==c)&#123;</span><br><span class="line">            move token;</span><br><span class="line">            <span class="built_in">parse_D</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">error</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(token==b)&#123;</span><br><span class="line">        move token;</span><br><span class="line">        <span class="built_in">parse_D</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">error</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p style="text-indent:2em">当产生式的多个选择中含有公因子，前看符号就无法指导分支选择了，因此需要提取左公因子，方法如下：</p>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">A -&gt; aB1</span><br><span class="line">	|aB2</span><br><span class="line">	|aB3</span><br><span class="line">	...</span><br><span class="line"><span class="comment"># 提取左公因子</span></span><br><span class="line">A -&gt; aA<span class="string">&#x27;</span></span><br><span class="line"><span class="string">A&#x27;</span>-&gt;B1|B2|B3|...</span><br></pre></td></tr></table></figure>
+
+<p style="text-indent:2em">另一个可能出现的问题是，当产生式为一个递归式时，将无法调用产生式右部非终结符的分析函数，因此需要将左递归消除，方法如下：</p>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A -&gt; Aa|B</span><br><span class="line"><span class="comment"># 消除左递归</span></span><br><span class="line">A -&gt; BA<span class="string">&#x27;			#推导结束的时候，一定有一个B在开始的位置上</span></span><br><span class="line"><span class="string">A&#x27;</span>-&gt; aA<span class="string">&#x27;|ε			#B之后有多个a</span></span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -625,7 +644,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -679,12 +698,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">90k</span>
+    <span title="站点总字数">92k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:21</span>
+    <span title="站点阅读时长">1:23</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
