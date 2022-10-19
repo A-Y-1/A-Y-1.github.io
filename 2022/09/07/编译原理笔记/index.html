@@ -238,7 +238,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.2k</span>
+              <span>8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -287,54 +287,49 @@
 <li>动态作用域：一个作用域策略依赖于一个或多个在程序执行时刻才能知道的因素，就是动态的。</li>
 </ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//动态作用域例：</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> a (x+1)</span></span><br><span class="line"><span class="type">int</span> x = <span class="number">2</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">b</span><span class="params">()</span> &#123; <span class="type">int</span> x =<span class="number">1</span>; <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,a);&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">c</span><span class="params">()</span> &#123;<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,a);&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;b();c();&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>参数传递：参数可以通过值或引用的方式从调用过程传递给被调用过程。通过值传递传递大型对象时，实际被传递的是指向这些对象的引用。</li>
 <li>别名：当参数被以引用传递方式传递时，两个形式参数可能会指向同一个对象，这会造成一个变量的修改改变了另一个变量的值。</li>
 </ul>
 <span id="more"></span>
-
 <h1 id="第二章-词法分析"><a href="#第二章-词法分析" class="headerlink" title="第二章 词法分析"></a>第二章 词法分析</h1><p style="text-indent:2em">在开始词法分析之前，需要了解一些基本概念。</p>
 
 <h2 id="1-词法-amp-语法分析基本概念"><a href="#1-词法-amp-语法分析基本概念" class="headerlink" title="1.词法&amp;语法分析基本概念"></a>1.词法&amp;语法分析基本概念</h2><p><strong>字母表</strong></p>
 <p style="text-indent:2em">字母表是有穷符号的集合。两个字母表可以进行乘积，幂，正闭包，克林闭包运算。</p>
 
 <ul>
-<li>乘积：{0,1}{a,b} &#x3D; {0a,0b,1a,1b}</li>
-<li>幂：{0,1}^3 &#x3D; {0,1}{0,1}{0,1}</li>
-<li>正闭包：{a,b,c,d}+ &#x3D; {a,b,c,d,aa,ab……}</li>
-<li>克林闭包：{a,b,c,d}* &#x3D; {a,b,c,d}+ ε(空串)</li>
+<li>乘积：{0,1}{a,b} = {0a,0b,1a,1b}</li>
+<li>幂：{0,1}^3 = {0,1}{0,1}{0,1}</li>
+<li>正闭包：{a,b,c,d}+ = {a,b,c,d,aa,ab……}</li>
+<li>克林闭包：{a,b,c,d}* = {a,b,c,d}+ ε(空串)</li>
 </ul>
 <p><strong>串</strong></p>
 <p style="text-indent:2em">串是字母表中符号的一个有穷集合，串s的长度通常记作|s|。串的运算为连接和幂，串x=str1，y=str2，则xy=str1str2，幂运算同理。
 
-</p><p><strong>文法</strong></p>
-<p style="text-indent:2em">文法是用来描述<b>语法结构(语言规则)</b>的。一个自然语言的文法例子如下：
+**文法**
+
+</p><p style="text-indent:2em">文法是用来描述<b>语法结构(语言规则)</b>的。一个自然语言的文法例子如下：
+
+- <句子> -> <名词短语><动词短语>
+- <名词短语> -> <形容词><名词短语>
+- <名词短语> -> <名词>
+- ...其他规则
+- <形容词> -> {...}
+- <名词> -> {...}
+
+<p style="text-indent:2em">文法的形式化定义：G=(Vt,Vn,P,S)。</p>
 
 <ul>
-<li>&lt;句子&gt; -&gt; &lt;名词短语&gt;&lt;动词短语&gt;</li>
-<li>&lt;名词短语&gt; -&gt; &lt;形容词&gt;&lt;名词短语&gt;</li>
-<li>&lt;名词短语&gt; -&gt; &lt;名词&gt;</li>
-<li>…其他规则</li>
-<li>&lt;形容词&gt; -&gt; {…}</li>
-<li>&lt;名词&gt; -&gt; {…}</li>
-</ul>
-</p><p style="text-indent:2em">文法的形式化定义：G=(Vt,Vn,P,S)。</p>
-
-<ul>
-<li><p>Vt：终结符集合。终结符是文法所定义语言的<font color="blue">基本符号</font>。例如Vt&#x3D;{difficult，parse，course…..}</p>
-</li>
-<li><p>Vn：非终结符集合。非终结符是表示<font color="blue">语法成分</font>的符号，也被称为语法变量。例：{&lt;句子&gt;，&lt;名词短语&gt;，&lt;动词&gt;……}</p>
-</li>
+<li>Vt：终结符集合。终结符是文法所定义语言的<font color="blue">基本符号</font>。例如Vt={difficult，parse，course…..}</li>
+<li>Vn：非终结符集合。非终结符是表示<font color="blue">语法成分</font>的符号，也被称为语法变量。例：{&lt;句子&gt;，&lt;名词短语&gt;，&lt;动词&gt;……}</li>
 <li><p>P：产生式集合。产生式描述了终结符(基本符号)和非终结符(语法成分)组成串的方式。一般形式为：α→β。例如：&lt;句子&gt;→&lt;动词短语&gt;&lt;名词短语&gt;。另外，同一个非终结符(语法成分)的产生式可以组合在一起表示，用|分隔：<br>list → list + digit，list → list-digit可以合并成list → list+digit | list-digit。(|的优先级最低)</p>
 </li>
-<li><p>S：开始符号，文法中最大的语法成分。例：S&#x3D;&lt;句子&gt;</p>
+<li><p>S：开始符号，文法中最大的语法成分。例：S=&lt;句子&gt;</p>
 </li>
 </ul>
 <p style="text-indent:2em">有了语言规则，就可以判断一个词串是否是一个语言的句子了。句子可以进行推导，也可以进行规约，分别对应着生成语言和识别语言的角度，下面是自然语言的例子：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png" style="zoom:70%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png" style="zoom:70%;"></p>
 <h2 id="2-词法分析和词法分析器"><a href="#2-词法分析和词法分析器" class="headerlink" title="2.词法分析和词法分析器"></a>2.词法分析和词法分析器</h2><p style="text-indent:2em">词法分析是编译的第一个阶段，任务是<b>把源程序的输入字符(词素)转换为已知语言的成分(词法单元序列)。</b>转换后的词法单元序列会交给语法分析器进行语法分析。通常语法分析起有一个getNextToken命令让词法分析器读取输入字符，直到词法分析器能识别一个词素，并将该词素生成为词法单元交给语法分析器。实现一个词法分析器有两种方式，第一种是<font color="blue">手动用代码实现</font>(需要画状态转移图辅助)，另一种是<font color="blue">使用词法分析器生成工具</font>(需要使用正则表达式描述出词素的模式)。</p>
 
 <p style="text-indent:2em">下面是词法分析使用的术语：</p>
@@ -346,32 +341,27 @@
 </ul>
 <p style="text-indent:2em">例：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/词法单元.jpg" style="zoom:70%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/词法单元.jpg" style="zoom:70%;"></p>
 <h2 id="3-输入缓冲"><a href="#3-输入缓冲" class="headerlink" title="3.输入缓冲"></a>3.输入缓冲</h2><p style="text-indent:2em">识别输入流中的词素之前，首先要读入输入流。为了处理输入的字符，需要使用两个缓冲区。每个缓冲区容量都是N个字符，通常N是一个磁盘块的大小。处理读入字符流时有两个指针，lexemeBegin指针指向当前词素的开始处，forward指针一直扫描，直到发现某个模式匹配为止。如果forward已经扫描到了EOF，就再读入N个字符到另一个缓冲区，这样只要词素的长度不大于N，就不会在识别到词素之前覆盖掉缓冲区中的词素。EOF也被称为哨兵标记，输入的末尾和缓冲区的末尾都有该字符。</p>
 
 <h2 id="4-正则表达式"><a href="#4-正则表达式" class="headerlink" title="*4.正则表达式"></a>*4.正则表达式</h2><p style="text-indent:2em">正则表达式是用来描述语言的一种方式，可以描述字母表上的符号通过并，连接，闭包这些运算而得到的语言。用符号给正则表达式命名，然后进行定义，写法与文法很相似，例如用正则表达式表示无符号数(5280,0.01234,6.336E4，1.89E-4)的串number：</p>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">digit ——→ 0|1|...|9</span><br><span class="line">digits ——→ digit digit*</span><br><span class="line">optionalFraction ——→ . digits | e</span><br><span class="line">optionalExponent ——→ (E(+|-|e)digits) | e</span><br><span class="line">number ——→ digits optionalFraction optionalExponent</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">正则表达式还有一些扩展的写法，如后缀+表示语言的及其正闭包，后缀?表示零个或一个出现，字符类可以用[a-z]表示a|b|...|z。</p>
 
 <h2 id="5-状态转换图"><a href="#5-状态转换图" class="headerlink" title="5.状态转换图"></a>5.状态转换图</h2><p style="text-indent:2em">构造一个状态转换图可以体现词素转换的过程，每识别一个字符，就更新到下一个状态，如果已经找到了词素对应的词法单元，当前的字符不是上一个词法单元中的一部分，则要让forward指针回退一个位置。下面这个例子清晰的表现了状态转换图是怎么体现词素识别过程的。</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/状态转换.jpg" style="zoom:70%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/状态转换.jpg" style="zoom:70%;"></p>
 <p style="text-indent:2em">对于保留字(if，else)的识别，通常为这些保留字建立单独的状态图。也可以将其先填入符号表中，识别该词法单元后，如果符号表中没有该符号，就说明不是保留字，添加到符号表，并返回条目指针作为属性。</p>
 
 <h2 id="6-词法分析工具Lex"><a href="#6-词法分析工具Lex" class="headerlink" title="6.词法分析工具Lex"></a>6.词法分析工具Lex</h2><p style="text-indent:2em">开始介绍词法分析时，提到了将词素转换为词法单元有两种方式：第一种是<font color="blue">手动用代码实现</font>(需要画状态转移图辅助)，另一种是<font color="blue">使用词法分析器生成工具</font>(需要使用正则表达式描述出词素的模式)。画状态转移图的方式已经介绍过了。而Lex就是另一种方式的工具，即词法分析器生成工具。
 
 </p><p style="text-indent:2em">Lex中，使用正则表达式描述词法单元的模式，Lex编译器将输入的模式转换成一个状态转换图，并生成相应的实现代码，存放到lex.yy.c文件中。Lex编译器编译的内容是由Lex语言表示的。因此Lex的使用方式如下：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/Lex.jpg" style="zoom:70%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/Lex.jpg" style="zoom:70%;"></p>
 <p style="text-indent:2em">Lex程序结构如下：</p>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">声明部分</span><br><span class="line">%%</span><br><span class="line">转换规则</span><br><span class="line">%%</span><br><span class="line">辅助函数</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>声明部分：包括变量和明示常量(如一个词法单元的名字)。</li>
 <li>转换规则：形式为：模式{动作}，模式为正则表达式，动作则是代码片段。</li>
@@ -380,11 +370,10 @@
 <p style="text-indent:2em">仅看上面的结构很难理解Lex程序到底是怎么构造的，需要结合下面这个例子来理解各个部分：</p>
 
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line">	<span class="comment">/*明示常量:LT,LE,NE,...,ID,NUMBER...*/</span></span><br><span class="line">    <span class="comment">/*这部分(%&#123;%&#125;)里面的内容会直接复制到C代码中*/</span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> LT 10000</span></span><br><span class="line">    ......</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 一些正则表达式 */</span></span><br><span class="line">delim   [ \t\n]</span><br><span class="line">ws 	    &#123;delim&#125;+</span><br><span class="line">letter	[a-zA-Z]</span><br><span class="line">digit	[<span class="number">0</span><span class="number">-9</span>]</span><br><span class="line">id		&#123;letter&#125;(&#123;letter&#125;|&#123;digit&#125;)*</span><br><span class="line">number	&#123;digit&#125;+(\.&#123;digit&#125;+)?(E[+-]?&#123;digit&#125;+)?						<span class="comment">//\.表示‘.’</span></span><br><span class="line">%%</span><br><span class="line">    </span><br><span class="line">&#123;ws&#125;	&#123;&#125;</span><br><span class="line"><span class="keyword">if</span>		&#123;<span class="keyword">return</span>(IF);&#125;												<span class="comment">//保留字先被列出</span></span><br><span class="line">then	&#123;<span class="keyword">return</span>(THEN);&#125;</span><br><span class="line"><span class="keyword">else</span>	&#123;<span class="keyword">return</span>(ELSE);&#125;</span><br><span class="line">&#123;id&#125;	&#123;yyval = (<span class="type">int</span>)installID();<span class="keyword">return</span>(ID);&#125;</span><br><span class="line">&#123;number&#125;&#123;yyval = (<span class="type">int</span>)installNum();<span class="keyword">return</span>(NUMBER);&#125;</span><br><span class="line"><span class="string">&quot;&lt;&quot;</span>		&#123;yyval = LT;<span class="keyword">return</span>(RELOP);&#125;</span><br><span class="line">......</span><br><span class="line">%%</span><br><span class="line">    </span><br><span class="line"><span class="type">int</span> <span class="title function_">installID</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    将找到的词素放到符号表中</span></span><br><span class="line"><span class="comment">    返回一个指向符号表的指针到yyval，这是个全局变量，语法分析器或编译器等后续组件可以使用</span></span><br><span class="line"><span class="comment">    把词法单元名返回到语法分析器。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">最后，如果Lex遇到了冲突，即一个词素可以被识别为多种词法单元，按照以下规则处理：</p>
 
 <ul>
-<li>选择最长前缀(例如选择&lt;&#x3D;，而不是&lt;)。</li>
+<li>选择最长前缀(例如选择&lt;=，而不是&lt;)。</li>
 <li>有多个模式可匹配，选择在Lex中先被列出的。</li>
 </ul>
 <p style="text-indent:2em">书中还提到了关键字不是保留字的情况，这里不讨论。</p>
@@ -401,8 +390,7 @@
 </ul>
 <h3 id="7-1-不确定的有穷自动机-NFA"><a href="#7-1-不确定的有穷自动机-NFA" class="headerlink" title="7.1 不确定的有穷自动机(NFA)"></a>7.1 不确定的有穷自动机(NFA)</h3><p style="text-indent:2em">一个NFA由以下几个部分组成：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa.jpg" style="zoom:70%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa.jpg" style="zoom:70%;"></p>
 <p style="text-indent:2em">不管是NFA还是DFA，实际上都可以用转换图来表示，但是NFA与状态转换图的不同在于：</p>
 
 <ul>
@@ -411,16 +399,13 @@
 </ul>
 <p style="text-indent:2em">下面是一个识别正则表达式(a|b)*abb的NFA的转换图:</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA例.jpg" style="zoom:70%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA例.jpg" style="zoom:70%;"></p>
 <p style="text-indent:2em">上面的状态3表示串被接收，所有该FA接受的串构成的集合记为L(M)，称为被<b>该FA定义(或接收)的语言</b>。从状态0接收到‘a’，可能到达状态0，也可能到达状态1，因此这个FA是不确定有穷自动机NFA。除了状态转换图以外，转换表也可以表示NFA，以下是上图的NFA对应的转换表：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/转换表.jpg" style="zoom:70%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/转换表.jpg" style="zoom:70%;"></p>
 <p style="text-indent:2em">上面已经看到NFA接收一个符号，可能转换到不同状态的特点了，下面的例子展现了另一个特点，空串也可以作为状态转换的标号：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/空串NFA.jpg" style="zoom:70%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/空串NFA.jpg" style="zoom:70%;"></p>
 <h3 id="7-2-确定的有穷自动机-DFA"><a href="#7-2-确定的有穷自动机-DFA" class="headerlink" title="7.2 确定的有穷自动机(DFA)"></a>7.2 确定的有穷自动机(DFA)</h3><p style="text-indent:2em">DFA是NFA的特例，特点是：</p>
 
 <ul>
@@ -433,26 +418,22 @@
 
 <h3 id="8-1-正则表达式到NFA"><a href="#8-1-正则表达式到NFA" class="headerlink" title="8.1 正则表达式到NFA"></a>8.1 正则表达式到NFA</h3><p style="text-indent:2em">对正则表达式进行NFA的构造只要按照以下规则：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA构造.jpg" style="zoom:40%;">
-
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa构造例.jpg" style="zoom:40%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA构造.jpg" style="zoom:40%;"></p>
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa构造例.jpg" style="zoom:40%;"></p>
 <h3 id="8-2-NFA到DFA"><a href="#8-2-NFA到DFA" class="headerlink" title="8.2 NFA到DFA"></a>8.2 NFA到DFA</h3><p style="text-indent:2em">有了NFA后，需要将NFA转换为DFA。这个过程采用的是<b>子集构造法</b>。基本思想是：DFA的每个状态是NFA的状态集合(例如NFA中的某个状态A，得到字符x后可能回到A，可能到B或C，那么转换到DFA后，ABC就是为一个状态集合，表示DFA中的一个状态。)。下面直接看两个例子：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa.jpg" style="zoom:40%;">
-
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa1.jpg" style="zoom:40%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa.jpg" style="zoom:40%;"></p>
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa1.jpg" style="zoom:40%;"></p>
 <h3 id="8-3-DFA最小化"><a href="#8-3-DFA最小化" class="headerlink" title="8.3 DFA最小化"></a>8.3 DFA最小化</h3><p style="text-indent:2em">对于同一个语言，存在多个识别该语言的DFA。使用DFA来实现词法分析器，总是希望使用的DFA状态数最少。因此需要进行DFA最小化。DFA最小化通常使用的是Hopcroft算法，也称为基于等价类的算法。</p>
 
 <p style="text-indent:2em">该算法的原理是，假设有一个状态集合S，如果有一个字符c，可以将S切割，那么这个S就被切割成S1，S2。不断的进行切割，直到不可切割时，每个集合S1，S2...中的状态就是可以合并的。字符c可以切割S这样解释，假设状态1,2,3一开始都在集合S中，状态1和状态2接收到字符c都转换为状态4，而状态3接收到c不转换到状态4，那么就说字符c可以切割集合S，集合S被切割成S1(状态1，状态2)和S2(状态3)。最开始的时候，现将所有状态分成两个集合，接收状态的集合和非接受状态的集合。该算法的描述如下：</p>
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">split</span>(S)</span><br><span class="line">    foreach (character c)</span><br><span class="line">    	<span class="keyword">if</span>(c can split S)</span><br><span class="line">            split S <span class="type">int</span> T1,...,<span class="function">Tk</span></span><br><span class="line"><span class="function"><span class="title">hopcroft</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    split all nodes into N,A</span></span><br><span class="line"><span class="function">    <span class="title">while</span> <span class="params">(set is still changes)</span></span></span><br><span class="line"><span class="function">    	<span class="title">split</span><span class="params">(S)</span></span></span><br></pre></td></tr></table></figure>
-
 <h2 id="9-DFA到词法分析器代码"><a href="#9-DFA到词法分析器代码" class="headerlink" title="9.DFA到词法分析器代码"></a>9.DFA到词法分析器代码</h2><p style="text-indent:2em">能够从正则表达式构建NFA，将NFA转换到DFA并最小化，最后一步就是将DFA转变成词法分析器的代码。DFA是一个有向图，可以表示为转移表，哈希表等不同的表示，具体的表示取决于在实际实现中对时间空间的权衡。</p>
 
 <p style="text-indent:2em">先看一下转移表的表示：</p>
 
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -462,7 +443,8 @@
 <th>c</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>0</td>
 <td>1</td>
 <td></td>
@@ -474,11 +456,12 @@
 <td>1</td>
 <td>1</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p style="text-indent:2em">状态的变化可以直接查表，再加上驱动代码就可以构成词法分析器：</p>
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">nextToken</span>()&#123;</span><br><span class="line">    state = <span class="number">0</span>;</span><br><span class="line">    stack = [];</span><br><span class="line">    <span class="keyword">while</span>(state!=ERROR)&#123;</span><br><span class="line">        c = <span class="built_in">getchar</span>();</span><br><span class="line">        <span class="keyword">if</span>(state is ACCEPT) <span class="built_in">clear</span>(stack);</span><br><span class="line">        <span class="built_in">push</span>(state);</span><br><span class="line">        state = table[state][c];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(state is <span class="keyword">not</span> ACCEPT)&#123;</span><br><span class="line">        state = <span class="built_in">pop</span>();</span><br><span class="line">        <span class="built_in">rollback</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(state is ACCEPT) <span class="keyword">return</span> ACCEPT_TOKEN;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">还有使用跳转表的代码实现，使用goto语句进行状态跳转，if语句进行字符判断并状态跳转。这样实现的方式优点是不需要存储状态表，当状态表很大，状态非常多的时候，这样能节省许多空间。</p>
 
 <h1 id="第三章-语法分析"><a href="#第三章-语法分析" class="headerlink" title="第三章 语法分析"></a>第三章 语法分析</h1><p style="text-indent:2em">语法分析的任务是根据给定的文法识别输入句子中的各个成分，并构建分析树。如果输入串的各个单词从左自右为分析树的叶子节点，那么这个串就是该语言的一个句子。按照分析树的构造方向，语法分析可以分为两类：自顶向下的语法分析，自底向上的语法分析。</p>
@@ -493,8 +476,7 @@
 </ul>
 <h2 id="1-自顶向下分析概述"><a href="#1-自顶向下分析概述" class="headerlink" title="1.自顶向下分析概述"></a>1.自顶向下分析概述</h2><p style="text-indent:2em">自顶向下从根节点向底部节点构造分析树，可以看成是从文法开始符号S推导出词串w的过程。</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/语法分析例.jpg" style="zoom:40%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/语法分析例.jpg" style="zoom:40%;"></p>
 <p style="text-indent:2em">在进行推导的过程中需要解决两个问题：</p>
 
 <ul>
@@ -515,16 +497,13 @@
 
 <p style="text-indent:2em">例：</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/最左推导例.jpg" style="zoom:40%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/最左推导例.jpg" style="zoom:40%;"></p>
 <p style="text-indent:2em">自顶向下语法分析是具体通过<b>递归下降分析</b>实现的。递归下降分析中，每个非终结符都有一个过程，从文法开始符号的S对应过程开始，递归调用文法中其它非终结符对应的过程，直到整个输入串都被扫描。</p>
 
-<img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/递归下降分析.jpg" style="zoom:100%;">
-
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/递归下降分析.jpg" style="zoom:100%;"></p>
 <h2 id="2-自顶向下分析"><a href="#2-自顶向下分析" class="headerlink" title="2.自顶向下分析"></a>2.自顶向下分析</h2><h3 id="需要回朔的自顶向下算法"><a href="#需要回朔的自顶向下算法" class="headerlink" title="需要回朔的自顶向下算法"></a>需要回朔的自顶向下算法</h3><p style="text-indent:2em">自顶向下分析的伪代码描述如下：</p>
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">tokens[];</span><br><span class="line">i=<span class="number">0</span>;</span><br><span class="line"><span class="comment">//栈中一开始只有开始符号</span></span><br><span class="line">stack=[s];								</span><br><span class="line"><span class="keyword">while</span>(stack!=[])</span><br><span class="line">    <span class="keyword">if</span>(stack[top] is a terminal t)&#123;</span><br><span class="line">        <span class="comment">//匹配成功</span></span><br><span class="line">        <span class="keyword">if</span>(t==tokens[i++]) <span class="built_in">pop</span>();</span><br><span class="line">        <span class="comment">//匹配失败，要把刚刚入栈的元素出栈，换回原来的非终结符</span></span><br><span class="line">		<span class="keyword">else</span> <span class="built_in">backtrack</span>();</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(stack[top] is a nonterminal T)&#123;</span><br><span class="line">        <span class="comment">//非终结符出栈，换为产生式中的成分，从右往左入栈</span></span><br><span class="line">        <span class="built_in">pop</span>();</span><br><span class="line">		<span class="built_in">push</span>(the next right hand side of T)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">在尝试用产生式进行匹配时，不可避免的需要进行回朔，这导致分析效率存在极大的问题。实际情况中，总是需要线性时间的算法，因此有了<b>递归下降分析算法和LL分析算法</b>。</p>
 
 <h3 id="递归下降分析-预测分析算法"><a href="#递归下降分析-预测分析算法" class="headerlink" title="递归下降分析(预测分析算法)"></a>递归下降分析(预测分析算法)</h3><p style="text-indent:2em">递归下降分析算法也是自顶向下分析，但是通过前看符号避免回朔，基本思想如下：</p>
@@ -536,16 +515,13 @@
 <p style="text-indent:2em">示例如下：</p>
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//产生式</span></span><br><span class="line">X -&gt; aBcD   </span><br><span class="line">	|bD</span><br><span class="line">B -&gt; …   </span><br><span class="line">D -&gt; …         </span><br><span class="line"><span class="comment">//每个非终结符的函数</span></span><br><span class="line"><span class="built_in">parse_X</span>()&#123;</span><br><span class="line">    token = <span class="built_in">nextToken</span>();</span><br><span class="line">    <span class="keyword">if</span>(token==a)&#123;</span><br><span class="line">        move token;</span><br><span class="line">        <span class="built_in">parse_B</span>();</span><br><span class="line">        <span class="keyword">if</span>(token==c)&#123;</span><br><span class="line">            move token;</span><br><span class="line">            <span class="built_in">parse_D</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">error</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(token==b)&#123;</span><br><span class="line">        move token;</span><br><span class="line">        <span class="built_in">parse_D</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">error</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">当产生式的多个选择中含有公因子，前看符号就无法指导分支选择了，因此需要提取左公因子，方法如下：</p>
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">A -&gt; aB1</span><br><span class="line">	|aB2</span><br><span class="line">	|aB3</span><br><span class="line">	...</span><br><span class="line"><span class="comment"># 提取左公因子</span></span><br><span class="line">A -&gt; aA<span class="string">&#x27;</span></span><br><span class="line"><span class="string">A&#x27;</span>-&gt;B1|B2|B3|...</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">另一个可能出现的问题是，当产生式为一个递归式时，将无法调用产生式右部非终结符的分析函数，因此需要将左递归消除，方法如下：</p>
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A -&gt; Aa|B</span><br><span class="line"><span class="comment"># 消除左递归</span></span><br><span class="line">A -&gt; BA<span class="string">&#x27;			#推导结束的时候，一定有一个B在开始的位置上</span></span><br><span class="line"><span class="string">A&#x27;</span>-&gt; aA<span class="string">&#x27;|ε			#B之后有多个a</span></span><br></pre></td></tr></table></figure>
-
-
+</名词></形容词></名词></名词短语></名词短语></形容词></名词短语></动词短语></名词短语></句子></p>
     </div>
 
     
@@ -698,12 +674,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">92k</span>
+    <span title="站点总字数">94k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:23</span>
+    <span title="站点阅读时长">1:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

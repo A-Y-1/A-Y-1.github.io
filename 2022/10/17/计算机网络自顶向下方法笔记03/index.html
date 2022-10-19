@@ -28,7 +28,7 @@
 <meta property="og:description" content="《计算机网络自顶向下方法》学习笔记03:网络层。 网络层提供了主机到主机的通信服务。网络中的每一台主机和路由器都有网络层部分。网络层能够被分解为两部分，数据平面和控制平面。  第四章 网络层：数据平面1.概述网络层的任务是取得源主机的报文段，将其封装为数据报，通过路由器的转发，将数据报发送到目的主机的网络层。可以说，网络层的作用就是将分组从一台主机移动到另一台主机。网络层的功能可分为两部分：">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-10-17T09:13:22.000Z">
-<meta property="article:modified_time" content="2022-10-17T10:38:01.007Z">
+<meta property="article:modified_time" content="2022-10-19T14:23:46.000Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -189,10 +189,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-10-17 17:13:22 / 修改时间：18:38:01" itemprop="dateCreated datePublished" datetime="2022-10-17T17:13:22+08:00">2022-10-17</time>
+              <time title="创建时间：2022-10-17 17:13:22" itemprop="dateCreated datePublished" datetime="2022-10-17T17:13:22+08:00">2022-10-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-19 22:23:46" itemprop="dateModified" datetime="2022-10-19T22:23:46+08:00">2022-10-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -216,14 +222,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>3.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -247,7 +253,6 @@
 <p style="text-indent:2em">本章主要讨论的是网络层的<b>转发</b>功能。</p>
 
 <span id="more"></span>
-
 <h2 id="2-路由器工作原理"><a href="#2-路由器工作原理" class="headerlink" title="2.路由器工作原理"></a>2.路由器工作原理</h2><p style="text-indent:2em">路由器由如下几个组件构成：</p>
 
 <ul>
@@ -259,7 +264,6 @@
 <h3 id="输入端口处理"><a href="#输入端口处理" class="headerlink" title="输入端口处理"></a>输入端口处理</h3><p style="text-indent:2em">输入端口的处理：</p>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">线路端接-----&gt;数据链路处理(协议，拆封)-----&gt;查找，转发，排队-----&gt;交换结构</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">在输入端口，路由器将使用转发表查找输出端口，然后将分组交给交换结构。转发表是由路由选择处理器计算和更新的。转发表可能由路由选择协议计算，也可能接收远程SDN控制器的内容，再复制到线路卡上。</p>
 
 <h3 id="交换"><a href="#交换" class="headerlink" title="交换"></a>交换</h3><p style="text-indent:2em">通过交换结构，路由器将分组从输入端口转发到一个输出端口。交换的方式有以下几种：</p>
@@ -272,7 +276,6 @@
 <h3 id="输出端口处理"><a href="#输出端口处理" class="headerlink" title="输出端口处理"></a>输出端口处理</h3><p style="text-indent:2em">输出端口的处理如下：</p>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">交换结构-----&gt;排队(缓存管理)-----&gt;数据链路处理(协议，封装)-----&gt;线路端接</span><br></pre></td></tr></table></figure>
-
 <h3 id="排队"><a href="#排队" class="headerlink" title="排队"></a>排队</h3><p style="text-indent:2em">排队可能出现在输入端口，也可能出现在输出端口，这取决于流量负载，交换结构的速率等。随着队列增长，路由器缓存空间耗尽，就会发生丢包。</p>
 
 <p style="text-indent:2em">在输入端口，如果两个分组是发往同一个输出端口，就会有一个分组被阻塞，必须在队列中等待。而排在该等待分组后面的分组也要等待，尽管他的输出端口没有被占用，这种现象叫做输入排队交换机中的线路前部阻塞。</p>
@@ -287,8 +290,53 @@
 <li>先进先出</li>
 <li>优先权排队</li>
 <li>循环排队</li>
-<li>加权公平排队(WFQ)：在循环排队的基础上，为每个类分配一个权，该类收到的服务为这个权值&#x2F;所有类别权值之和。然而事实上，不能打断一个分组的传输开始传输另一个分组，因此保证权重是不现实的。</li>
+<li>加权公平排队(WFQ)：在循环排队的基础上，为每个类分配一个权，该类收到的服务为这个权值/所有类别权值之和。然而事实上，不能打断一个分组的传输开始传输另一个分组，因此保证权重是不现实的。</li>
 </ul>
+<h2 id="3-网际协议"><a href="#3-网际协议" class="headerlink" title="3.网际协议"></a>3.网际协议</h2><h3 id="3-1-IPv4数据报首部格式"><a href="#3-1-IPv4数据报首部格式" class="headerlink" title="3.1 IPv4数据报首部格式"></a>3.1 IPv4数据报首部格式</h3><ul>
+<li>版本：表示IP协议的版本</li>
+<li>首部长度：4字节，表示IP数据报首部的长度，该字段的取值以4字节为单位，最小取值为5，表示只有20字节固定部分，最大取值为15，表示IP数据报首部包含20字节固定部分和最大40字节可变部分</li>
+<li>可选字段：用于支持排错，测量，安全等，由于长度不定增加了路由器处理IP数据报的开销，实际上很少使用</li>
+<li>填充：填充保证IP数据报首部为4字节的整数倍</li>
+<li>区分服务字段：用数值提供不同等级的服务质量，一般情况下都不使用该字段</li>
+<li>总长度字段：表示IP数据报总长度(首部+数据载荷)</li>
+<li>标识，标志，片偏移用于IP数据报分片。当IP数据报长度超过帧的数据载荷的最大长度(最大传输单元MTU)，无法封装，需要分片<ul>
+<li>标识：同一个数据报的各分片数据报有相同标识。IP软件维持计数器，每产生一个数据报，计数加1，并将该值赋给标识字段</li>
+<li>标志：3bit<ul>
+<li>DF位：1表示允许分片</li>
+<li>MF位：1表示还有分片，0表示这是最后一个分片</li>
+<li>保留位：必须为0</li>
+</ul>
+</li>
+<li>片偏移：以8个字节为单位。指出分片数据报的数据载荷部分偏移其原数据报的位置</li>
+</ul>
+</li>
+<li>生存时间TTL：最初以秒为单位，最大生存周期为255秒，在路由器转发时减去在本路由器上耗费的时间。现在以跳数为单位，路由器转发时-1。</li>
+<li>协议字段：指明数据部分是何种协议数据单元<ul>
+<li>1：ICMP报文</li>
+<li>6：TCP报文</li>
+</ul>
+</li>
+<li>首部检验和：使用因特网检验和检测首部在传输过程中是否出现差错。由于IP层不提供可靠传输服务，因此IPv6中，路由器不再计算首部校验和。</li>
+</ul>
+<h3 id="3-2-IPv4数据报分片"><a href="#3-2-IPv4数据报分片" class="headerlink" title="3.2 IPv4数据报分片"></a>3.2 IPv4数据报分片</h3><p style="text-indent:2em">一个链路层帧能承载的最大数据量叫做<b>最大传送单元MTU</b>。每个IP数据报的大小都受到MTU的限制。在传输过程中，不同链路可能存在不同的MTU，这导致IP数据报可能不得不被分成多部分。为了避免路由器的性能受影响，IPv4的设计者将数据报的重组工作放到<b>端系统</b>中。当目的主机的网络层收到一系列数据报时，通过IP数据报首部的标识，标志和片偏移字段将IPv4数据报重组。</p>
+
+<h3 id="3-3-IPv4编址"><a href="#3-3-IPv4编址" class="headerlink" title="3.3 IPv4编址"></a>3.3 IPv4编址</h3><p style="text-indent:2em">主机与物理链路的边界称为接口，路由器与任何一条链路的边界也称为接口。每台主机与路由器都能发送和接收IP数据报，因此每个接口都有自己的IP地址。每个IP地址长度为32bit，用点分十进制表示。例如：192.32.216.9/24。/24表示<b>子网掩码</b>，表示一个子网络的前24位都是相同的，后8位用于区分子网中的主机。需要注意，<font color="blue">路由器接口也可以构成子网。</font></p>
+
+<p style="text-indent:2em">早期的IP地址，网络部分被限制为8,16,24位，从而将子网分为A,B,C三类网络，这种编址被称为<b>分类编址</b>。由于分类编址不够灵活，只有三种分类，现在采用的是<b>CIDR无类别域间路由选择</b>，IP地址都表示为a.b.c.d/x。</p>
+
+<p style="text-indent:2em">每个接口都需要有一个IP地址，这个地址并不是随着设备的产生就分配好的，而是获取的。首先，一个组织要获取一块地址，需要向ISP请求，而ISP的IP地址分配是由因特网名字和编号分配机构管理的。一个组织获取了一块地址，就可以为组织内的主机与路由器接口逐个分配IP地址。路由器中的IP地址常由管理员手工配置。而主机地址的配置，可以手工进行，但主要是使用<b>动态主机配置协议DHCP</b>完成的。DHCP允许主机自动获取一个临时的IP地址，还允许主机获取子网掩码，第一条路由器地址(默认网关)，DNS服务器地址等信息。DHCP被称为即插即用协议或零配置协议，因为有能让主机自动连接进一个网络的能力。每个子网都有一个DHCP服务器，或一个中继代理。一个主机通过DHCP获取一个IP地址的过程如下：</p>
+
+<ul>
+<li>DHCP服务器发现：主机在UDP分组中向端口67发送<strong>DHCP发现报文</strong>。源IP地址为0.0.0.0，目的IP地址为广播地址255.255.255.255。</li>
+<li>DHCP服务器提供：接收到DHCP发现报文后，DHCP服务器广播响应报文，报文的内容包含IP地址，租用期等。</li>
+<li>DHCP请求：客户向选中的DHCP服务器(可能有多个DHCP服务器，客户可以择优选择)发送DHCP请求报文，回显配置参数。</li>
+<li>DHCP ACK：服务器用DHCP ACK报文响应请求。</li>
+</ul>
+<h3 id="3-4-网络地址转换"><a href="#3-4-网络地址转换" class="headerlink" title="3.4 网络地址转换"></a>3.4 网络地址转换</h3><p style="text-indent:2em">一个子网从ISP获取一块地址后，就可以管理和分配地址了，但一个子网很可能扩张，例如在一个家庭中，电子设备越来越多。对于这种情况，可以使用一种简单的方法来管理地址：<b>网络地址转换NAT</b>。家庭网络内的编址可以为10.0.0.0/8，这是RFC保留的一部分IP地址空间，用于家庭网络等专用网络或具有专用地址的地域。这些地址只能在特定的网络中使用，不能在更大的网络空间使用。NAT使能路由器的作用就是将家庭网络中的专用地址进行转换，对外界隐藏网络内部细节。所有离开家庭网络的地址都是同一个，所有进入该网络的目的IP地址也是同一个。NAT路由器有一张<b>NAT路由表</b>，将内部主机IP地址，源端口号，与一个新端口号联系起来。NAT路由器完成了数据报到内部网络的转发工作。</p>
+
+<p style="text-indent:2em">采用这种方式，内部网络的端口号和IP都被NAT转换为新IP和新端口号了，如果内部网络运行服务器，就会导致没有确定的用于等待的周知端口，解决方案是采用<b>NAT穿越</b>工具和通用即插即用协议。</p>
+
+<h3 id="3-5-IPv6"><a href="#3-5-IPv6" class="headerlink" title="3.5 IPv6"></a>3.5 IPv6</h3><p style="text-indent:2em">为了应对IPv4地址空间耗尽的问题，以及对IPv4实践中的问题进行优化，IPv6发布了。IPv6有128bit的地址容量，这样地址将不会耗尽了。比起IPv4，IPv6不支持分片和重新组装，直接丢弃数据报，使用ICMP报文告知发送方发送更小的IP数据报。首部检验和也不存在了，因为运输层和数据链路层已经提供了检验操作，所以去除了IP数据报的检验，这也减少了处理分组的时间，因为首部中有TTL字段，原来每一条都要重新计算检验和。现在从IPv4到IPv6的迁移正在进行中，实践出了建隧道等方法，但要完全完成这个迁移，仍然需要解决很多困难和时间。</p>
 
     </div>
 
@@ -369,7 +417,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2"><span class="nav-text">第四章 网络层：数据平面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%B7%AF%E7%94%B1%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">2.路由器工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E7%AB%AF%E5%8F%A3%E5%A4%84%E7%90%86"><span class="nav-text">输入端口处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2"><span class="nav-text">交换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%AB%AF%E5%8F%A3%E5%A4%84%E7%90%86"><span class="nav-text">输出端口处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E9%98%9F"><span class="nav-text">排队</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2"><span class="nav-text">第四章 网络层：数据平面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%B7%AF%E7%94%B1%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">2.路由器工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E7%AB%AF%E5%8F%A3%E5%A4%84%E7%90%86"><span class="nav-text">输入端口处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2"><span class="nav-text">交换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%AB%AF%E5%8F%A3%E5%A4%84%E7%90%86"><span class="nav-text">输出端口处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E9%98%9F"><span class="nav-text">排队</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%BD%91%E9%99%85%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.网际协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-IPv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-text">3.1 IPv4数据报首部格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-IPv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%88%86%E7%89%87"><span class="nav-text">3.2 IPv4数据报分片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-IPv4%E7%BC%96%E5%9D%80"><span class="nav-text">3.3 IPv4编址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="nav-text">3.4 网络地址转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-IPv6"><span class="nav-text">3.5 IPv6</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -439,12 +487,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">92k</span>
+    <span title="站点总字数">94k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:23</span>
+    <span title="站点阅读时长">1:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

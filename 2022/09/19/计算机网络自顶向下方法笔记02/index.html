@@ -28,7 +28,7 @@
 <meta property="og:description" content="《计算机网络自顶向下方法》学习笔记02:运输层。 运输层介于应用层与网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。  第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-19T01:48:22.000Z">
-<meta property="article:modified_time" content="2022-10-17T14:14:47.949Z">
+<meta property="article:modified_time" content="2022-10-18T07:28:17.433Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-17 22:14:47" itemprop="dateModified" datetime="2022-10-17T22:14:47+08:00">2022-10-17</time>
+                <time title="修改时间：2022-10-18 15:28:17" itemprop="dateModified" datetime="2022-10-18T15:28:17+08:00">2022-10-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -249,7 +249,6 @@
 <p style="text-indent:2em">因特网提供了两种可用的运输层协议：UDP(用户数据报协议)，TCP(传输控制协议)。UDP提供不可靠服务，而TCP提供面向连接的可靠数据传输，还提供拥塞控制。网络层的协议即网际协议IP，提供的是不可靠服务，不确保报文段的交付和按序交付，因此本章主要讨论的一个问题是TCP如何提供<font color="red">可靠数据传输</font>，另一个主要讨论的问题是TCP如何实现<font color="red">拥塞控制</font>。</p>
 
 <span id="more"></span>
-
 <h2 id="2-多路复用与多路分解"><a href="#2-多路复用与多路分解" class="headerlink" title="2.多路复用与多路分解"></a>2.多路复用与多路分解</h2><p style="text-indent:2em">运输层从紧邻其下的网络层接收报文段。运输层负责将报文段进程交付给主机上运行的适当进程。一个进程有一个或多个<b>套接字</b>，运输层实际上是将数据交给中间的套接字。接收主机可能同时有多个套接字，因此每个套接字都有一个唯一的标识符。为了将运输层报文段定向到合适的套接字，运输层报文段有一些字段，包含了套接字的标识符。通过这些字段，将运输层报文段中的数据交付到正确的套接字的工作称为<b>多路分解</b>。从不同套接字中收集数据块，将数据块封装并添加首部信息产生报文段，发送到网络层的过程工作称为<b>多路复用</b>。</p>
 
 <p style="text-indent:2em">每个套接字都有唯一的标识符，每个报文段都有特殊字段来指示该报文要交付到的套接字。套接字需要使用端口号进行标识。端口号是一个16bit的数，其中0-1023为熟知端口号。保留给HTTP,FTP等熟知的应用层协议。</p>
@@ -299,7 +298,6 @@
 <h3 id="4-3-回退N步-GBN"><a href="#4-3-回退N步-GBN" class="headerlink" title="4.3 回退N步(GBN)"></a>4.3 回退N步(GBN)</h3><p style="text-indent:2em">在<b>回退N步协议GBN</b>中，允许发送方发送多个分组，不需等待确认，但是未确认的分组数不能超过某个最大允许数N。定义基序号base为最早未确认分组的序号，下一个序号nextseqnum为下一个待发分组的序号，则：</p>
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">				|base				|nextseqnum			</span><br><span class="line">---------------------------------------------------------------------</span><br><span class="line">  已发送且确认的  |  已发送未确认		|未发送的			|</span><br><span class="line">                ----------------------------------------</span><br><span class="line">                    			窗口长度 N</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">GBN协议也常被称为滑动窗口协议。分组的序号在分组首部的字段(k位)，范围为0-2^k-1。GBN发送方响应三种事件：</p>
 
 <ul>
@@ -335,13 +333,13 @@
 <li>校验和：16bit，检查范围包括TCP报文段的首部和数据载荷两部分。在计算校验和时，要在TCP报文段的前面加上12字节的伪首部。</li>
 <li>同步标志位SYN：在TCP连接建立时用来同步序号。</li>
 <li>终止标志位FIN：用来释放TCP连接。</li>
-<li>复位标志位RST：用来复位TCP连接。当RST&#x3D;1时，表明TCP连接出现了异常，必须释放连接，然后再重新建立连接。RST置1还用来拒绝一个非法的报文段或拒绝打开一个TCP连接。</li>
+<li>复位标志位RST：用来复位TCP连接。当RST=1时，表明TCP连接出现了异常，必须释放连接，然后再重新建立连接。RST置1还用来拒绝一个非法的报文段或拒绝打开一个TCP连接。</li>
 <li>推送标志位PSH：接收方的TCP收到该标志位为1的报文段会<font color="red">尽快上交应用进程</font>，而不必等到接受缓存都填满后再向上交付。</li>
 <li>紧急标志位URG：取值为1时紧急指针字段有效。取值为0时紧急指针字段无效。</li>
 <li>紧急指针：占16bit，以字节为单位，用来指明紧急数据的长度。</li>
 </ul>
 <blockquote>
-<p>​		当发送方有紧急数据时，可将紧急数据插队到发送缓存的最前面，并立即封装到一个TCP报文段中进行发送。紧急指针会指出本报文段数据再和部分包含了多长的紧急数据，紧急数据之后是普通数据。</p>
+<p>​        当发送方有紧急数据时，可将紧急数据插队到发送缓存的最前面，并立即封装到一个TCP报文段中进行发送。紧急指针会指出本报文段数据再和部分包含了多长的紧急数据，紧急数据之后是普通数据。</p>
 </blockquote>
 <ul>
 <li>扩展首部<ul>
@@ -357,25 +355,23 @@
 
 <p style="text-indent:2em">TCP连接的往返时间通过某个时刻测量的SAMPLERTT进行估计，且为了得到一个典型的RTT，要对SAMPLERTT取均值，还要反映RTT的波动。因此SAMPLERTT均值如下：</p>
 
-<p>$$<br>EsitimatedRTT&#x3D;(1-α)RTT+αRTT<br>$$</p>
-<p style="text-indent:2em">按照RFC文档，α取1/8。除了RTT均值外，RTT偏差也有计算意义，定义如下：</p>
+<script type="math/tex; mode=display">
+EsitimatedRTT=(1-α)RTT+αRTT</script><p style="text-indent:2em">按照RFC文档，α取1/8。除了RTT均值外，RTT偏差也有计算意义，定义如下：</p>
 
-<p>$$<br>DevRTT&#x3D;(1-β)DevRTT+β|SampleRTT-EstimatedRTT|<br>$$</p>
-<p style="text-indent:2em">β推荐值为0.25。根据以上的平均RTT和RTT偏差，超时间隔定义如下：</p>
+<script type="math/tex; mode=display">
+DevRTT=(1-β)DevRTT+β|SampleRTT-EstimatedRTT|</script><p style="text-indent:2em">β推荐值为0.25。根据以上的平均RTT和RTT偏差，超时间隔定义如下：</p>
 
-<p>$$<br>TimeoutInterval&#x3D;EstimatedRTT+4DevRTT<br>$$</p>
-<p style="text-indent:2em">使用上式计算，当波动较小时，间隔就小一些，波动较大，间隔大一些。初始的TimeoutInterval推荐为1s。<b>出现超时后，该值加倍</b>，以免后继报文段过早出现超时。只要收到报文段并更新EstimatedRTT，就更新该值。</p>
+<script type="math/tex; mode=display">
+TimeoutInterval=EstimatedRTT+4DevRTT</script><p style="text-indent:2em">使用上式计算，当波动较小时，间隔就小一些，波动较大，间隔大一些。初始的TimeoutInterval推荐为1s。<b>出现超时后，该值加倍</b>，以免后继报文段过早出现超时。只要收到报文段并更新EstimatedRTT，就更新该值。</p>
 
 <h3 id="5-4-可靠数据传输"><a href="#5-4-可靠数据传输" class="headerlink" title="5.4 可靠数据传输"></a>5.4 可靠数据传输</h3><p style="text-indent:2em">TCP在IP的不可靠的尽力而为服务上创建了可靠数据传输服务，基于可靠传输的基本原理。由于定时器的管理需要相当大的开销，因此TCP使用单一的定时器。TCP发送方只处理三类时间：从上层程序接收数据；定时器超时；收到ACK；。简化的描述如下：</p>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">loop&#123;</span><br><span class="line">	switch(event)</span><br><span class="line">		event1:</span><br><span class="line">			接收上层应用的数据e，生成具有nextseqnum的TCP报文段</span><br><span class="line">			if（定时器没有运行）	启动定时器</span><br><span class="line">			向IP传输报文段</span><br><span class="line">			nextseqnum=nextseqnum+length(data)</span><br><span class="line">			break;</span><br><span class="line">		event2：</span><br><span class="line">			重传具有最小序号且仍未应答的报文段</span><br><span class="line">			启动定时器</span><br><span class="line">			break;</span><br><span class="line">		event3：</span><br><span class="line">			if（y&gt;sendbase）｛</span><br><span class="line">				sendbase = y;</span><br><span class="line">				if（存在未被确认的报文段） 启动定时器</span><br><span class="line">			｝</span><br><span class="line">			break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">每当超时重传发生后，TCP都会重传该报文段，并将超时间隔设置为先前值的两倍。这提供了一个形式受限的拥塞控制，避免持续重传分组，导致拥塞更加严重。</p>
 
 <p style="text-indent:2em">超时重传的一个问题是超时周期可能过长，从而增加了端到端的时延。实际上发送方除了超时外，还可以通过注意到<b>冗余ACK</b>来提前重发报文。接收方在一定间隔没有等到新的报文，或是收到了失序的报文，都会发送ACK，如果报文段丢失，那么接收方很可能发送多个冗余ACK。一旦发送方接收到三个冗余ACK，就执行<b>快速重传</b>。采用快速重传，事件三的处理修改如下：</p>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">event3:</span><br><span class="line">	if（y&gt;sendbase）｛</span><br><span class="line">		sendbase=y;</span><br><span class="line">		if（存在未被确认的报文段） 启动定时器</span><br><span class="line">	｝</span><br><span class="line">	else｛</span><br><span class="line">		对y收到的冗余ACK+1</span><br><span class="line">		if（冗余ACK数==3） 重新发送具有序号y的报文段</span><br><span class="line">	｝</span><br></pre></td></tr></table></figure>
-
 <p style="text-indent:2em">TCP采用的是累积确认的方式，看起来符合GBN可靠传输，但许多TCP实现会将失序但正确的报文缓存起来。TCP接收方也可以有选择的确认，采用类似SR的方式。</p>
 
 <h3 id="5-5-流量控制"><a href="#5-5-流量控制" class="headerlink" title="5.5 流量控制"></a>5.5 流量控制</h3><p style="text-indent:2em">接受方接收到报文段后，将报文段存放到接收缓存当中，应用进程从中取出数据。如果应用程序读取的速度较慢，而发送方发送的数据太多太快，就会导致接收缓存溢出。因此TCP提供了<b>流量控制服务</b>，使发送方的发送速率与接收方应用程序的读取速率匹配。这与拥塞控制很相似，但是完全是处于不同的原因。</p>
@@ -388,11 +384,11 @@
 </ul>
 <p style="text-indent:2em">不允许接收缓存溢出，则lastbyterecv-lastbyteread<=rcvbuffer。则接收窗口为：< p>
 
-<p>$$<br>rwnd&#x3D;rcvbuffer-[lastbyterecv-lastbyteread]<br>$$</p>
-<p style="text-indent:2em">rwnd是一个动态的值。在起始时，rwnd=recvbuffer，此后接收主机会维护该值，并将其发给发送主机，而发送主机需要进行如下的控制：</p>
+<script type="math/tex; mode=display">
+rwnd=rcvbuffer-[lastbyterecv-lastbyteread]</script><p style="text-indent:2em">rwnd是一个动态的值。在起始时，rwnd=recvbuffer，此后接收主机会维护该值，并将其发给发送主机，而发送主机需要进行如下的控制：</p>
 
-<p>$$<br>lastbytesent-lastbyteacked&lt;&#x3D;rwnd<br>$$</p>
-<p style="text-indent:2em">为了避免发送主机收到rwnd=0后被阻塞，如果接收窗口为0，发送主机将发送一个只有一个字节的报文段，接收主机将会回发确认，并在确认报文中包含一个新的非0rwnd值。</p>
+<script type="math/tex; mode=display">
+lastbytesent-lastbyteacked<=rwnd</script><p style="text-indent:2em">为了避免发送主机收到rwnd=0后被阻塞，如果接收窗口为0，发送主机将发送一个只有一个字节的报文段，接收主机将会回发确认，并在确认报文中包含一个新的非0rwnd值。</p>
 
 <p style="text-indent:2em">TCP提供了以上的流量控制服务，UDP是不提供这样的服务的。因此如果使用UDP，进程从缓存中读取报文段的速度不够快，缓存将会溢出，并丢失报文段。</p>
 
@@ -401,7 +397,7 @@
 <ul>
 <li>第一步：SYN报文段发送。客户端向服务器发送特殊的TCP报文段，其中SYN字段为1，初始序号client_isn随机选择。</li>
 <li>第二步：SYNACK报文段发送。服务器接收到SYN报文段后，会为连接建立缓存和变量，并向客户发送允许连接的报文段，这个报文段中SYN为1，确认号字段为client_isn+1，服务器的初始序号为随机的server_isn。</li>
-<li>第三步：收到SYNACK后，客户端也为该连接分配缓存和变量，并发送一个报文给服务器，对允许连接的报文进行确认，确认字段为server_isn+1，SYN&#x3D;0，此时报文段负载中可以携带数据了。</li>
+<li>第三步：收到SYNACK后，客户端也为该连接分配缓存和变量，并发送一个报文给服务器，对允许连接的报文进行确认，确认字段为server_isn+1，SYN=0，此时报文段负载中可以携带数据了。</li>
 </ul>
 <p style="text-indent:2em">TCP连接的释放比较简单，客户进程发送一个特殊的报文段，FIN字段为1，服务器接收到后发送确认报文段，此时客户到服务器的TCP连接就关闭了，接下来服务器到客户的TCP连接的关闭也是一样的。因此TCP连接的关闭需要四个报文段完成。客户接收到服务器的FIN报文段后，会进入等待状态，并发送ACK，经过等待后，这个连接就正式关闭了。</p>
 
@@ -452,7 +448,7 @@
 <li>慢启动<ul>
 <li>起始时，cwnd的值以一个MSS开始，每当一个报文被确认，就增加一个MSS</li>
 <li>维护一个慢启动阈值<font color="red">ssthresh</font>，当cwnd达到ssthresh，就进入拥塞避免模式</li>
-<li>出现丢包时，cwnd设置为1，重新开始慢启动，ssthresh值设置为检测到拥塞时的cwnd&#x2F;2</li>
+<li>出现丢包时，cwnd设置为1，重新开始慢启动，ssthresh值设置为检测到拥塞时的cwnd/2</li>
 </ul>
 </li>
 <li>拥塞避免<ul>
@@ -470,11 +466,11 @@
 
 <h3 id="7-2-对TCP吞吐量的宏观描述"><a href="#7-2-对TCP吞吐量的宏观描述" class="headerlink" title="7.2 对TCP吞吐量的宏观描述"></a>7.2 对TCP吞吐量的宏观描述</h3><p style="text-indent:2em">有了TCP的拥塞控制算法，可以考虑长期存活的TCP连接的吞吐量了。当窗口长度是w，往返时间为RTT，TCP的发送速率大约是W/RTT，在一个窗口内发送了w后，收到前一半发送的分组的ACK，因此发送速率约为W/RTT。不考虑慢开始阶段(指数增长，很快结束)，发生丢包时，假设速率减半，再增加到W/RTT。在以上情况下，TCP的速率重复从W/2RTT到W/RTT的过程，在两个值之间线性增长，可以得出一个高度理想化的TCP稳态动态性模型：</p>
 
-<p>$$<br>一条连接的平均吞吐量 &#x3D; \frac{0.75W}{RTT}<br>$$</p>
-<p style="text-indent:2em">在高带宽路径中，结合MSS和丢包率L，可以得出一条TCP连接的吞吐量公式：</p>
+<script type="math/tex; mode=display">
+一条连接的平均吞吐量 = \frac{0.75W}{RTT}</script><p style="text-indent:2em">在高带宽路径中，结合MSS和丢包率L，可以得出一条TCP连接的吞吐量公式：</p>
 
-<p>$$<br>一条连接的平均吞吐量 &#x3D; \frac{1.22MSS}{RTT\sqrt{L}}<br>$$</p>
-<h3 id="7-3-公平性"><a href="#7-3-公平性" class="headerlink" title="7.3 公平性"></a>7.3 公平性</h3><p style="text-indent:2em">如果有多条TCP连接，通过同一段瓶颈链路，TCP趋于给竞争的多条TCP连接提供平等的带宽共享。书上给出了理想化的证明，在连接有相同MSS和RTT的情况下，公平性是可以保证的。然而现实中这种理想情况并不存在，多媒体应用可以使用UDP连接压制TCP流量，Web浏览器常使用并行连接传输多个对象，带宽的占用并不是公平的。</p>
+<script type="math/tex; mode=display">
+一条连接的平均吞吐量 = \frac{1.22MSS}{RTT\sqrt{L}}</script><h3 id="7-3-公平性"><a href="#7-3-公平性" class="headerlink" title="7.3 公平性"></a>7.3 公平性</h3><p style="text-indent:2em">如果有多条TCP连接，通过同一段瓶颈链路，TCP趋于给竞争的多条TCP连接提供平等的带宽共享。书上给出了理想化的证明，在连接有相同MSS和RTT的情况下，公平性是可以保证的。然而现实中这种理想情况并不存在，多媒体应用可以使用UDP连接压制TCP流量，Web浏览器常使用并行连接传输多个对象，带宽的占用并不是公平的。</p>
 
 <h3 id="7-4-明确拥塞通告"><a href="#7-4-明确拥塞通告" class="headerlink" title="7.4 明确拥塞通告"></a>7.4 明确拥塞通告</h3><p style="text-indent:2em">拥塞控制的另一类是网络明确向TCP双方发送拥塞信号，这种形式的网络辅助拥塞控制称为明确网络拥塞控制通告ECN。这种形式下，路由器使用一种ECNbit指示该路由器正在经历拥塞，并将该标记携带在IP数据报中，发送给目的主机，再由目的主机告知源主机，实现拥塞控制。</p>
 </=min{rwnd，cwnd}。由于此处仅探讨拥塞控制，先假设接收缓存无限大，这样发送速率就只与cwnd有关。通过cwnd的值，就可以调整向连接发送数据的速率了。></p></=rcvbuffer。则接收窗口为：<></p>
@@ -630,12 +626,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">92k</span>
+    <span title="站点总字数">94k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:23</span>
+    <span title="站点阅读时长">1:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
@@ -720,6 +716,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

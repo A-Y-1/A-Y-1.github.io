@@ -247,13 +247,11 @@
         <p style="text-indent:2em">git学习笔记。学习视频：<a herf="https://www.bilibili.com/video/BV1MU4y1Y7h5?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&vd_source=463e5b3e4b18e5453477b57388c2e427">黑马程序员git教程</a></p>
 
 <span id="more"></span>
-
 <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一.概述"></a>一.概述</h1><h2 id="1-版本控制器的方式"><a href="#1-版本控制器的方式" class="headerlink" title="1.版本控制器的方式"></a>1.版本控制器的方式</h2><ul>
 <li>集中式版本控制工具：版本库集中存放在中央服务器，team里每个人work时从中央服务器下载代码，必须联网才能工作，局域网或互联网。个人修改后然后提交到中央版本库。（例：SVN）</li>
 <li>分布式版本控制工具：没有“中央服务器”，每个人的电脑上都是一个完整的版本库，工作时，不需要联网。多人协作只需要各自的修改推送给对方，就能互相看到对方的修改。（git）</li>
 </ul>
 <h2 id="2-git工作流程"><a href="#2-git工作流程" class="headerlink" title="2.git工作流程"></a>2.git工作流程</h2><img src="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.jpg" class>
-
 <ul>
 <li>clone（克隆）: 从远程仓库中克隆代码到本地仓库。</li>
 <li>checkout （检出）:从本地仓库中检出一个仓库分支然后进行修订。</li>
@@ -270,19 +268,18 @@
 <h2 id="2-基础操作指令"><a href="#2-基础操作指令" class="headerlink" title="2.基础操作指令"></a>2.基础操作指令</h2><p style="text-indent:2em">git工作目录下对于文件的修改(增加、删除、更新)会存在几个状态，这些修改的状态会随着我们执行git 的命令而发生变化。</p>
 
 <img src="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%8A%B6%E6%80%81.jpg" class>
-
 <ul>
 <li>git add 工作区-&gt;暂存区（git add .所有文件添加到暂存区）。</li>
 <li>git commit 暂存区-&gt;本地仓库（-m进行注释）。</li>
 <li>git status 查看状态。</li>
 <li>git log 查看提交日志。<ul>
-<li>–all 显示所有分支。</li>
-<li>–pretty&#x3D;oneline 显示一行信息。</li>
-<li>–abbrev-commit 使得输出的commited更简短。</li>
-<li>–graph 以图的形式显示。</li>
+<li>—all 显示所有分支。</li>
+<li>—pretty=oneline 显示一行信息。</li>
+<li>—abbrev-commit 使得输出的commited更简短。</li>
+<li>—graph 以图的形式显示。</li>
 </ul>
 </li>
-<li>git reset –hard commitID 版本回退。</li>
+<li>git reset —hard commitID 版本回退。</li>
 <li>git reflog 查看已经删除的记录。</li>
 <li>添加文件至忽略列表：创建.gitignore文件，将不需要仓库管理的文件名保存到该文件中。</li>
 </ul>
@@ -302,24 +299,24 @@
 <li>开发中分支使用原则与流程<ul>
 <li>master （生产） 分支。</li>
 <li>develop（开发）分支：从master创建的分支，一般作为开发部门的主要开发分支。</li>
-<li>feature&#x2F;xxxx分支：从develop创建的分支，一般是同期并行开发，但不同期上线时创建的分支，分支上的研发任务完成后合并到develop分支。</li>
-<li>hotfix&#x2F;xxxx分支：从master派生的分支，一般作为线上bug修复使用，修复完成后需要合并到master、test、 develop分支。</li>
+<li>feature/xxxx分支：从develop创建的分支，一般是同期并行开发，但不同期上线时创建的分支，分支上的研发任务完成后合并到develop分支。</li>
+<li>hotfix/xxxx分支：从master派生的分支，一般作为线上bug修复使用，修复完成后需要合并到master、test、 develop分支。</li>
 </ul>
 </li>
 </ul>
 <h1 id="三-git远程仓库"><a href="#三-git远程仓库" class="headerlink" title="三.git远程仓库"></a>三.git远程仓库</h1><h2 id="1-配置公钥"><a href="#1-配置公钥" class="headerlink" title="1.配置公钥"></a>1.配置公钥</h2><ul>
 <li>生产公钥：ssh-keygen -t rsa</li>
-<li>获取公钥：cat ~&#x2F;.ssh&#x2F;id_rsa.pub</li>
+<li>获取公钥：cat ~/.ssh/id_rsa.pub</li>
 <li>验证是否配置成功：ssh -T url</li>
 </ul>
 <h2 id="2-远程仓库操作"><a href="#2-远程仓库操作" class="headerlink" title="2.远程仓库操作"></a>2.远程仓库操作</h2><ul>
 <li>添加远程仓库：git remote add &lt;远端名称&gt; &lt;仓库路径&gt;，远端名称默认为origin</li>
 <li>查看远程仓库：git remote</li>
-<li>推送到远程仓库：git push [-f] [–set-upstream] [远端名称] [本地分支名][:远端分支名] 。例如：git push origin master:master<ul>
+<li>推送到远程仓库：git push [-f] [—set-upstream] [远端名称] [本地分支名][:远端分支名] 。例如：git push origin master:master<ul>
 <li>远程分支名和本地分支名相同可只写本地分支名。</li>
-<li>push 失败时，先尝试<font color="red">git pull –rebase origin master</font>，再重新push。</li>
+<li>push 失败时，先尝试<font color="red">git pull —rebase origin master</font>，再重新push。</li>
 <li>-f 表示强制覆盖。</li>
-<li>–set-upstream 推送到远端的同时并且建立起和远端分支的关联关系。</li>
+<li>—set-upstream 推送到远端的同时并且建立起和远端分支的关联关系。</li>
 <li>如果当前分支已经和远端分支关联，则可以省略分支名和远端名。</li>
 </ul>
 </li>
@@ -489,12 +486,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">92k</span>
+    <span title="站点总字数">94k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:23</span>
+    <span title="站点阅读时长">1:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
