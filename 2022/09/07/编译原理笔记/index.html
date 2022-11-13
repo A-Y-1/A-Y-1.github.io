@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="编译原理学习笔记。参考：  笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。一些课程学习过程中，发现与书中不同的情况在下面列出，这些不同主要在语法分析部分，不影响语法分析的算法思想和过程，列出来仅是为了避免在学习过程中产生困惑。   本校课程学习中，自顶向下的语法分析计算了NULLABLE集，FIRST集，FOLLOW集，FIRST_S集，其中的FIRST_S集更常见的说法是">
+  <meta name="description" content="编译原理学习笔记。参考：  编译原理(中科大)：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV16h411X7JY?p&#x3D;1 编译原理(哈工大)：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1zW411t7YE?p&#x3D;1 笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。主要的算法都是来自《现代编译原理：c语言描述》(虎书)，因为与一般学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译原理笔记">
 <meta property="og:url" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="橙的博客">
-<meta property="og:description" content="编译原理学习笔记。参考：  笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。一些课程学习过程中，发现与书中不同的情况在下面列出，这些不同主要在语法分析部分，不影响语法分析的算法思想和过程，列出来仅是为了避免在学习过程中产生困惑。   本校课程学习中，自顶向下的语法分析计算了NULLABLE集，FIRST集，FOLLOW集，FIRST_S集，其中的FIRST_S集更常见的说法是">
+<meta property="og:description" content="编译原理学习笔记。参考：  编译原理(中科大)：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV16h411X7JY?p&#x3D;1 编译原理(哈工大)：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1zW411t7YE?p&#x3D;1 笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。主要的算法都是来自《现代编译原理：c语言描述》(虎书)，因为与一般学习">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/词法单元.jpg">
@@ -46,8 +46,9 @@
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221101215556978.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221102000502457.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221102105130932.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221107152240619.png">
 <meta property="article:published_time" content="2022-09-07T13:20:29.000Z">
-<meta property="article:modified_time" content="2022-11-02T13:48:05.192Z">
+<meta property="article:modified_time" content="2022-11-07T10:44:48.421Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
@@ -217,7 +218,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-02 21:48:05" itemprop="dateModified" datetime="2022-11-02T21:48:05+08:00">2022-11-02</time>
+                <time title="修改时间：2022-11-07 18:44:48" itemprop="dateModified" datetime="2022-11-07T18:44:48+08:00">2022-11-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,14 +243,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>12k</span>
+              <span>13k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>11 分钟</span>
+              <span>12 分钟</span>
             </span>
 
         </div>
@@ -263,11 +264,14 @@
       
         <p style="text-indent:2em">编译原理学习笔记。参考：</p>
 
-<p style="text-indent:2em">笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。一些课程学习过程中，发现与书中不同的情况在下面列出，这些不同主要在语法分析部分，不影响语法分析的算法思想和过程，列出来仅是为了避免在学习过程中产生困惑。</p>
+<p>编译原理(中科大)：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16h411X7JY?p=1">https://www.bilibili.com/video/BV16h411X7JY?p=1</a></p>
+<p>编译原理(哈工大)：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zW411t7YE?p=1">https://www.bilibili.com/video/BV1zW411t7YE?p=1</a></p>
+<p style="text-indent:2em">笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。主要的算法都是来自《现代编译原理：c语言描述》(虎书)，因为与一般学习编译原理用的龙书有差异，将需要注意的情况在下面列出，这些不同主要在语法分析部分，不影响语法分析的算法思想和过程，列出来仅是为了避免在学习过程中产生困惑。</p>
 
 <ul>
-<li>本校课程学习中，自顶向下的语法分析计算了NULLABLE集，FIRST集，FOLLOW集，FIRST_S集，其中的FIRST_S集更常见的说法是SELECT集。</li>
-<li>在使用以下也即编译原理(中科大)网课中的方法计算FIRST集，FOLLOW集中，不包含#符号和$符号，实际这两个符号也只是标记结束，不影响语法分析过程。</li>
+<li>自顶向下的语法分析计算了NULLABLE集，FIRST集，FOLLOW集，FIRST_S集，其中的FIRST_S集更常见的说法是SELECT集。</li>
+<li>使用算法计算FIRST(N)集时，没有将空串加入FIRST集，这是因为已经计算了NULLABLE集，不需要把空串包含到FIRST集当中了。</li>
+<li>在使用虎书的方法计算FIRST集，FOLLOW集中，不包含#符号和$符号，实际这两个符号也只是标记结束，不影响语法分析过程。</li>
 </ul>
 <h1 id="第一章-引论"><a href="#第一章-引论" class="headerlink" title="第一章 引论"></a>第一章 引论</h1><h2 id="1-语言处理器"><a href="#1-语言处理器" class="headerlink" title="1.语言处理器"></a>1.语言处理器</h2><ul>
 <li>编译器</li>
@@ -550,7 +554,7 @@
 
 <p style="text-indent:2em">FOLLOW(N)集的算法如下：</p>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//伪代码描述</span><br><span class="line">while(有任何非终结符的FOLLOW集还发生变化)&#123;</span><br><span class="line">    for(每个产生式N-&gt;β1...βn)&#123;</span><br><span class="line">        tail = FOLLOW(N);</span><br><span class="line">        for(i=n;i&gt;0;i++)&#123;</span><br><span class="line">            if(βi==a) tail = a;</span><br><span class="line">            if(βi==M)&#123;</span><br><span class="line">                FOLLOW(M) ∪= tail;</span><br><span class="line">                if(M in NULLABLE) tail ∪= FIRST(M);</span><br><span class="line">                else tail = FIRST(M);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; 	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//伪代码描述</span><br><span class="line">while(有任何非终结符的FOLLOW集还发生变化)&#123;</span><br><span class="line">    for(每个产生式N-&gt;β1...βn)&#123;</span><br><span class="line">        tail = FOLLOW(N);</span><br><span class="line">        for(i=n;i&gt;0;i--)&#123;</span><br><span class="line">            if(βi==a) tail = a;</span><br><span class="line">            if(βi==M)&#123;</span><br><span class="line">                FOLLOW(M) ∪= tail;</span><br><span class="line">                /*M可以为空串，则M前面出现的非终结符的FOLLOW集包含FIRST(M)，也包含M后面可能出现的终结符，因此这里是并*/</span><br><span class="line">                if(M in NULLABLE) tail ∪= FIRST(M);</span><br><span class="line">                else tail = FIRST(M);</span><br><span class="line">                /*如果M不可以为空串，那么M前面的非终结符的FOLLOW集只有FIRST(M)，不能有M后面的东西了*/</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; 	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p style="text-indent:2em">计算FOLLOW集是一个遍历产生式，对每个非终结符出现的情况，向非终结符的FOLLOW集添加元素的过程。</p>
 
 <p style="text-indent:2em">有了NULLABLE，FIRST，FOLLOW集，就可以求产生式的FIRST_S集(SELECT集)了。</p>
@@ -563,7 +567,7 @@
 <p style="text-indent:2em">什么时候进行移进，什么时候进行规约，实际上也是通过预先构造的分析表完成的。分析表为以下形式：</p>
 
 <p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221101215423962.png" style="zoom:80%;"></p>
-<p style="text-indent:2em">分析时使用两个栈，一个状态栈，一个记号栈，根据上面的分析表进行移进和规约。状态栈栈顶根据记号栈栈顶进行状态变化。</p>
+<p style="text-indent:2em">其中的$表示结束，表示可以接收，结束语法分析。通常将需要分析的文法进行拓展，补充一条产生式。例如一个文法由S开始，在这个文法中加入一条产生式S'->S$，其他产生式不变，然后再进行语法分析。这个新的文法也被称为是原文法的<b>增广文法</b>。分析时使用两个栈，一个状态栈，一个记号栈，根据上面的分析表进行移进和规约。状态栈栈顶根据记号栈栈顶进行状态变化。</p>
 
 <p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221101215556978.png" style="zoom:80%;"></p>
 <p style="text-indent:2em">重点就在于构建分析表，考虑不采用前看符号的自顶向下分析，即LR(0)算法中，分析表的构建。</p>
@@ -574,17 +578,45 @@
 <li>构造DFA</li>
 <li>根据DFA生成LR(0)分析表</li>
 </ul>
-<p style="text-indent:2em">构造的DFA形式如下，可以看出通过终结符产生的状态是移进的过程，通过非终结符产生的状态是规约。遇到了非终结符，就将遇到的非终结符加入到状态中。</p>
+<p style="text-indent:2em">构造的DFA形式如下，每一个产生式被称作一个<b>项目</b>，每一个状态是状态集或者称为<b>项目集</b>。可以看出通过终结符产生的状态是移进的过程，通过非终结符产生的状态是规约。<font color="blue">遇到了非终结符，就将遇到的非终结符的产生式加入到状态中。</font>这一步也被称为求项集的闭包。</p>
 
 <p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221102000502457.png" style="zoom:80%;"></p>
 <p style="text-indent:2em">根据DFA构造分析表的过程比较简单，注意移进，规约，转移这三个动作就可以了。在分析表中，用<b><font color="red">sn</font></b>表示移进，<b><font color="red">rn</font></b>表示规约，<b><font color="red">gn</font></b>表示转移。</p>
 
 <h3 id="SLR分析算法"><a href="#SLR分析算法" class="headerlink" title="SLR分析算法"></a>SLR分析算法</h3><p style="text-indent:2em">LR(0)分析算法有两个缺点。第一个缺点是延迟了错误发现的时机，当已经读入的记号可以规约时，就进行规约，哪怕后续的记号是错误的，也先把读入的全部规约后才发现后续的错误；另一个缺点是可能存在冲突，例如有产生式S->T和S->T+，既可以移进也可以规约，无法一步作出正确的选择。为了解决LR(0)分析算法的问题，在LR(0)的基础上，修改规约表项的生成，就是<b>SLR分析算法。</b></p>
 
-<p style="text-indent:2em">SLR分析算法相比于LR(0)的修改之处为：生成分析表时，若某状态包含A->α·，只对FOLLOW(A)中的输入记号添加对产生式A->α的规约操作。因此对于上面在LR(0)中已经见到过的分析表，使用SLR分析算法构建的表如下：</p>
+<p style="text-indent:2em">SLR分析算法相比于LR(0)的修改之处为：生成分析表时，若某状态包含A->α·，只对<font color="red">FOLLOW(A)</font>中的输入记号添加对产生式A->α的规约操作。因此对于上面在LR(0)中已经见到过的分析表，使用SLR分析算法构建的表如下：</p>
 
 <p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221102105130932.png" style="zoom: 50%;"></p>
-<p style="text-indent:2em">如果最终产生的分析表没有冲突项，那么就说这个文法是<font color="red">SLR(1)文法</font>。</p>
+<p style="text-indent:2em">如果最终产生的分析表没有冲突项，那么就说这个文法是<font color="red">SLR文法</font>。可能的冲突有两种：<b>移进-规约冲突；规约-规约冲突</b>。在分析表中，体现为一个状态在接收到一个符号后，既可以移进又可以规约，或有两个不同的规约方法。</p>
+
+<h3 id="LR-1-分析算法"><a href="#LR-1-分析算法" class="headerlink" title="LR(1)分析算法"></a>LR(1)分析算法</h3><p style="text-indent:2em">在SLR分析算法中，最终得到的分析表仍然可能存在冲突，因为进行规约时，对于非终结符A，只要后面出现了FOLLOW(A)的元素就进行规约。分析表的作用就是为了选择正确的产生式，但是FOLLOW(A)对于确认在哪个产生式中发生了规约是不够精确的。因此考虑采用前看符号，确认产生式的选择，即采用<b>LR(1)</b>分析算法。</p>
+
+<p style="text-indent:2em">LR(1)中定义项目为[X ➝α•β, a]，其含义是：
+
+- 已读入α
+
+- 剩余的输入能够匹配βa；若β=ε，可以用该条产生式归约（α归约成X）
+
+</p><p style="text-indent:2em">LR(1)分析算法其他和LR(0)相同，仅状态集的产生和归约表项的产生不同。</p>
+
+<ul>
+<li><p>状态集(项目集)的产生：对项目为[X ➝ α •Y β, a]，添加[Y -&gt; • γ,b]到项目集(状态集)，其中b属于FIRST_S(βa)</p>
+</li>
+<li><p>归约表项的产生：对包含项目[X ➝ α β •, a]的状态，对输入a产生该产生式的归约项rn</p>
+</li>
+</ul>
+<p style="text-indent:2em">下面是一个LR(1)中产生项集闭包的例子，可以看到第一条产生式中遇到非终结符S，而第一条产生式S后面只有$，因此下面添加S的产生式到项集时，前看符号是FIRST_S($)={$}；第二条产生式遇到了L，L后面是=，该条产生式的前看符号是$，因此下面添加L的产生式到项集时，前看符号是FIRST_S(=$)={=}。</p>
+
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221107152240619.png" style="zoom:80%;"></p>
+<p style="text-indent:2em">最后总结一下自底向上分析的步骤：</p>
+
+<ul>
+<li>向原文法添加产生式S’-&gt;S$，产生增广文法</li>
+<li>使用DFA构造法产生状态转移过程，每个状态是一个项集</li>
+<li>根据DFA生成分析表</li>
+<li>利用状态栈和记号栈，使用分析表进行自底向上分析</li>
+</ul>
 </名词></形容词></名词></名词短语></名词短语></形容词></名词短语></动词短语></名词短语></句子></p>
     </div>
 
@@ -603,8 +635,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="prev" title="刷题记录">
-      <i class="fa fa-chevron-left"></i> 刷题记录
+    <a href="/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95V1/" rel="prev" title="刷题记录V1">
+      <i class="fa fa-chevron-left"></i> 刷题记录V1
     </a></div>
       <div class="post-nav-item">
     <a href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/" rel="next" title="计算机网络自顶向下方法笔记01">
@@ -668,7 +700,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%AE%BA"><span class="nav-text">第一章 引论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-text">1.语言处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">2.编译器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">3.程序设计语言的发展历程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%A7%91%E5%AD%A6"><span class="nav-text">4.编译器相关科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E5%BA%94%E7%94%A8"><span class="nav-text">5.编译技术应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">6.程序设计语言基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第二章 词法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%8D%E6%B3%95-amp-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.词法&amp;语法分析基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-text">2.词法分析和词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E7%BC%93%E5%86%B2"><span class="nav-text">3.输入缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">*4.正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE"><span class="nav-text">5.状态转换图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Lex"><span class="nav-text">6.词法分析工具Lex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*7.有穷自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-NFA"><span class="nav-text">7.1 不确定的有穷自动机(NFA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-DFA"><span class="nav-text">7.2 确定的有穷自动机(DFA)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*8.正则表达式到自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0NFA"><span class="nav-text">8.1 正则表达式到NFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-NFA%E5%88%B0DFA"><span class="nav-text">8.2 NFA到DFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-DFA%E6%9C%80%E5%B0%8F%E5%8C%96"><span class="nav-text">8.3 DFA最小化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-DFA%E5%88%B0%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E4%BB%A3%E7%A0%81"><span class="nav-text">9.DFA到词法分析器代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第三章 语法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0"><span class="nav-text">1.自顶向下分析概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90"><span class="nav-text">2.自顶向下分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E5%9B%9E%E6%9C%94%E7%9A%84%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E7%AE%97%E6%B3%95"><span class="nav-text">需要回朔的自顶向下算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90-%E9%A2%84%E6%B5%8B%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">递归下降分析(预测分析算法)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LL-1-%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">LL(1)分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E5%88%86%E6%9E%90"><span class="nav-text">3.自底向上分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LR-0"><span class="nav-text">LR(0)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SLR%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">SLR分析算法</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%AE%BA"><span class="nav-text">第一章 引论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-text">1.语言处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">2.编译器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">3.程序设计语言的发展历程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%A7%91%E5%AD%A6"><span class="nav-text">4.编译器相关科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E5%BA%94%E7%94%A8"><span class="nav-text">5.编译技术应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">6.程序设计语言基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第二章 词法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%8D%E6%B3%95-amp-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.词法&amp;语法分析基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-text">2.词法分析和词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E7%BC%93%E5%86%B2"><span class="nav-text">3.输入缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">*4.正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE"><span class="nav-text">5.状态转换图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Lex"><span class="nav-text">6.词法分析工具Lex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*7.有穷自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-NFA"><span class="nav-text">7.1 不确定的有穷自动机(NFA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-DFA"><span class="nav-text">7.2 确定的有穷自动机(DFA)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*8.正则表达式到自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0NFA"><span class="nav-text">8.1 正则表达式到NFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-NFA%E5%88%B0DFA"><span class="nav-text">8.2 NFA到DFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-DFA%E6%9C%80%E5%B0%8F%E5%8C%96"><span class="nav-text">8.3 DFA最小化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-DFA%E5%88%B0%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E4%BB%A3%E7%A0%81"><span class="nav-text">9.DFA到词法分析器代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第三章 语法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0"><span class="nav-text">1.自顶向下分析概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90"><span class="nav-text">2.自顶向下分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E5%9B%9E%E6%9C%94%E7%9A%84%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E7%AE%97%E6%B3%95"><span class="nav-text">需要回朔的自顶向下算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90-%E9%A2%84%E6%B5%8B%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">递归下降分析(预测分析算法)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LL-1-%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">LL(1)分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E5%88%86%E6%9E%90"><span class="nav-text">3.自底向上分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LR-0"><span class="nav-text">LR(0)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SLR%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">SLR分析算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LR-1-%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">LR(1)分析算法</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -684,7 +716,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -738,12 +770,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">98k</span>
+    <span title="站点总字数">102k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:29</span>
+    <span title="站点阅读时长">1:33</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
