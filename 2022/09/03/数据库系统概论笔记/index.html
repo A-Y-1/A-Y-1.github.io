@@ -28,7 +28,7 @@
 <meta property="og:description" content="数据库系统概论(王珊 萨师煊 编著)笔记。  第一章 绪论1.数据库系统概述1.1数据库的4个基本概念 数据：描述事物的符号记录称为数据。数据的含义称为数据的语义，数据与其语义是不可分的。 数据库：长期存储在计算机内、有组织的、可共享的大量数据的集合。数据库中的数据按一定的数据模型组织、描述和存储，具有较小的冗余度、较高的数据独立性和易扩展性，并可为各种用户共享。 数据库管理系统(DBMS)：科学">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-03T11:01:29.000Z">
-<meta property="article:modified_time" content="2022-11-12T02:50:05.495Z">
+<meta property="article:modified_time" content="2022-11-16T02:29:17.017Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-12 10:50:05" itemprop="dateModified" datetime="2022-11-12T10:50:05+08:00">2022-11-12</time>
+                <time title="修改时间：2022-11-16 10:29:17" itemprop="dateModified" datetime="2022-11-16T10:29:17+08:00">2022-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,14 +222,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>14k</span>
+              <span>16k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>13 分钟</span>
+              <span>14 分钟</span>
             </span>
 
         </div>
@@ -595,22 +595,28 @@
 <h3 id="2-2-存取控制"><a href="#2-2-存取控制" class="headerlink" title="2.2 存取控制"></a>2.2 存取控制</h3><p style="text-indent:2em">存取控制机制主要包括<b>定义用户权限</b>和<b>合法权限检查两部分</b>。两类根据数据库安全等级所支持的存取控制为：</p>
 
 <ul>
-<li>自主存取控制DAC</li>
-<li>强制存取控制MAC</li>
+<li>自主存取控制DAC(C1级安全)</li>
+<li>强制存取控制MAC(B1级安全)</li>
 </ul>
-<h3 id="2-3-自主存取控制方法"><a href="#2-3-自主存取控制方法" class="headerlink" title="2.3 自主存取控制方法"></a>2.3 自主存取控制方法</h3><p style="text-indent:2em">自主存取控制主要通过GRANT语句和REVOKE语句实现。</p>
+<h3 id="2-3-自主存取控制方法"><a href="#2-3-自主存取控制方法" class="headerlink" title="2.3 自主存取控制方法"></a>2.3 自主存取控制方法</h3><p style="text-indent:2em">自主存取控制方法中，用户对于不同的数据库对象有不同的存取权限，不同用户对同一对象也有不同的权限，用户还可以将自己的存取权限转授给他人。</p>
+
+<p style="text-indent:2em">自主存取控制主要通过GRANT语句和REVOKE语句实现。</p>
 
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># <span class="keyword">GRANT</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span></span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">TABLE</span> STUDENT</span><br><span class="line"><span class="keyword">TO</span> U1</span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION;	# 该用户可以以同样方式授权其他用户</span><br><span class="line"># <span class="keyword">REVOKE</span></span><br><span class="line"><span class="keyword">REVOKE</span> <span class="keyword">SELECT</span></span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">TABLE</span> STUDENT</span><br><span class="line"><span class="keyword">FROM</span> U1;</span><br></pre></td></tr></table></figure>
 <p style="text-indent:2em">对数据库模式的授权在创建用户时实现，数据库用户有三种权限：CONNECT,RESOURCE,DB。</p>
 
 <p style="text-indent:2em">数据库还支持对一组与数据库操作相关的权限命名，称为角色。使用CREATE ROLE语句创建，授权和收回权限的方式与对用户的操作相同。</p>
 
-<h3 id="2-4-强制存取控制方法"><a href="#2-4-强制存取控制方法" class="headerlink" title="2.4 强制存取控制方法"></a>2.4 强制存取控制方法</h3><p style="text-indent:2em">强制存取控制方法中，数据库管理系统所管理的全部实体被分为主体和客体。主体包括用户及用户进程，客体包括文件，基本表等。数据库系统为每个主体或客体的实例创建一个敏感度标记。敏感度标记被分为若干级别，如绝密，机密，秘密，公开。主体对客体的存取必须遵循以下规则：</p>
+<p style="text-indent:2em">自主存取控制的缺点是可能存在数据无意识的泄露。因为数据本身并无安全性标记。</p>
+
+<h3 id="2-4-强制存取控制方法"><a href="#2-4-强制存取控制方法" class="headerlink" title="2.4 强制存取控制方法"></a>2.4 强制存取控制方法</h3><p style="text-indent:2em">强制存取控制方法中，数据库管理系统所管理的全部实体被分为主体和客体。主体包括用户及用户进程，客体包括文件，基本表等。数据库系统为每个主体或客体的实例创建一个敏感度标记。每个数据库对象被标以一定的密级，每一个用户被授予某一个级别的许可证。对于任意一个对象，只有具有合法许可证的用户才可以存取。主体对客体的存取必须遵循以下规则：</p>
 
 <ul>
 <li>主体许可证级别大于或等于客体密级时，才能读取客体</li>
-<li>主题许可证级别小于或等于客体密级时，才能写客体</li>
+<li>主体许可证级别小于或等于客体密级时，才能写客体</li>
 </ul>
+<p style="text-indent:2em">第二条是为了防止恶意降低密级进行数据泄露。</p>
+
 <h2 id="3-视图机制"><a href="#3-视图机制" class="headerlink" title="3.视图机制"></a>3.视图机制</h2><p style="text-indent:2em">视图机制可以限制数据对象，把保密数据对无权存取的用户隐藏起来，提供一定程度的安全保护。</p>
 
 <h2 id="4-审计机制"><a href="#4-审计机制" class="headerlink" title="4.审计机制"></a>4.审计机制</h2><p style="text-indent:2em">审计功能把用户对数据库的所有操作记录下来放入审计日志，审计员可以通过审计日志监控数据库行为，找到非法存取数据的人，时间和内容等。审计机制提供了一种事后安全检查的机制。</p>
@@ -700,6 +706,8 @@
 
 <h3 id="2-6-BCNF-修正的第三范式"><a href="#2-6-BCNF-修正的第三范式" class="headerlink" title="2.6 BCNF(修正的第三范式)"></a>2.6 BCNF(修正的第三范式)</h3><p style="text-indent:2em">BCNF在第三范式的基础上，增加了要求：每一个决定因素都包含码。即所有属性都只完全函数依赖于码，不依赖于非码的一组属性。</p>
 
+<h3 id="2-7-4NF"><a href="#2-7-4NF" class="headerlink" title="2.7 4NF"></a>2.7 4NF</h3><p style="text-indent:2em">4NF消除了属性之间的非平凡且非函数依赖的多值依赖。</p>
+
 <h2 id="3-Armstrong公理系统"><a href="#3-Armstrong公理系统" class="headerlink" title="3.Armstrong公理系统"></a>3.Armstrong公理系统</h2><p style="text-indent:2em">Armstrong公理系统是讨论函数依赖的一个完备的公理系统，对于关系模式R<U，F>，有以下推理规则：</U，F></p>
 
 <ul>
@@ -714,14 +722,71 @@
 <ul>
 <li>设F为属性集U上的一组函数依赖，$X_F^+$={A|X→A能由F根据Armstrong公理系统导出}，称其为属性集X关于函数依赖集F的闭包。</li>
 </ul>
-<p style="text-indent:2em">如果函数依赖集F满足一些条件，则F为一个最小依赖集。下面直接给出求解最小依赖集的方法：</p>
+<p style="text-indent:2em">如果函数依赖集F满足一些条件，则F为一个最小依赖集。下面直接给出<font color="red">求解最小依赖集的方法</font>：</p>
 
 <ul>
 <li>使F中函数依赖的右部仅有一个属性</li>
 <li>去掉冗余的函数依赖</li>
 <li>去掉函数依赖左部冗余的属性</li>
 </ul>
+<h1 id="第七章"><a href="#第七章" class="headerlink" title="第七章"></a>第七章</h1><h2 id="1-概述-2"><a href="#1-概述-2" class="headerlink" title="1.概述"></a>1.概述</h2><p style="text-indent:2em">数据库设计是指对于一个给定的应用环境，构造优化的数据库逻辑模式和物理结构，并据此建立数据库及其应用系统，使之能够有效存储和管理数据，满足用户应用需求。特点是重视技术、管理、基础数据的收集和整理；结构(数据)设计和行为(处理)设计相结合。数据库设计的基本步骤如下：</p>
 
+<ul>
+<li>需求分析：通过调查分析，获得用户对数据库的信息要求，处理要求，安全性与完整性要求。</li>
+<li>概念结构设计：产生独立于数据库管理系统的概念模式(E-R图)。</li>
+<li>逻辑结构设计：将E-R图转换为数据模型，如关系模型。并按照用户处理和安全的要求建立必要的视图。</li>
+<li>物理结构设计：根据数据库管理系统特点和处理的需要，进行物理存储安排，建立索引，形成数据库内模式。</li>
+<li>数据库实施</li>
+<li>数据库运行和维护</li>
+</ul>
+<h2 id="2-需求分析"><a href="#2-需求分析" class="headerlink" title="2.需求分析"></a>2.需求分析</h2><h2 id="3-概念结构设计"><a href="#3-概念结构设计" class="headerlink" title="3.概念结构设计"></a>3.概念结构设计</h2><p style="text-indent:2em">将需求分析得到的用户需求抽象为概念模型的过程就是概念结构设计。概念模型通常用E-R模型来表示和描述。</p>
+
+<h3 id="3-1-E-R模型"><a href="#3-1-E-R模型" class="headerlink" title="3.1 E-R模型"></a>3.1 E-R模型</h3><p style="text-indent:2em">E-R模型由实体，属性，实体之间的联系等构成。实体型之间的联系包括一对一联系，一对多联系，多对多联系等，多个实体型之间也可以存在联系，单个实体型内也可以存在联系。这些实体与实体之间的联系用E-R图来表示。在E-R图中，对于实体，属性，联系的表示方法如下：</p>
+
+<ul>
+<li>实体型用矩形表示</li>
+<li>属性用椭圆表示</li>
+<li>联系用菱形表示</li>
+</ul>
+<p style="text-indent:2em">由于一个实体可能存在多个属性，为了表述清晰，可以不把属性在E-R图中画出，而是直接写出，例如：</p>
+<p style="text-indent:2em">实体：</p>
+
+<p style="text-indent:2em">实体名1(属性1，属性2，属性3...)</p>
+
+<p style="text-indent:2em">然后再给出E-R图。</p>
+
+<h3 id="3-2-概念结构设计"><a href="#3-2-概念结构设计" class="headerlink" title="3.2 概念结构设计"></a>3.2 概念结构设计</h3><p style="text-indent:2em">概念结构设计的第一步是对数据进行分类，确定实体，属性，联系。实体与属性划分时，能看作属性的尽量看作属性，并按照两条准则：</p>
+
+<ul>
+<li>属性不能和其他实体具有联系：例如人事管理系统中，如果职称与工资，补贴无关，就可以视作职工的属性。否则看作一个实体对待更合适。</li>
+<li>作为属性，不能有再需要描述的性质。</li>
+</ul>
+<p style="text-indent:2em">概念结构设计时，通常自顶向下确定需求，自底向上设计概念结构。首先设计各子系统的分E-R图，然后再集成起来，得到全局E-R图。集成过程一般有两步：</p>
+
+<ul>
+<li>合并：解决各分E-R图之间的冲突，合并分E-R图产生初步E-R图，冲突有以下几种：<ul>
+<li>属性冲突：域或取值单位冲突</li>
+<li>命名冲突</li>
+<li>结构冲突：同一对象有不同的抽象(在不同子系统分别看作实体，属性)，实体间的联系在不同系统中不同，同一实体有不同的属性等。</li>
+</ul>
+</li>
+<li>消除不必要的冗余，设计基本E-R图</li>
+</ul>
+<h2 id="4-逻辑结构设计"><a href="#4-逻辑结构设计" class="headerlink" title="4.逻辑结构设计"></a>4.逻辑结构设计</h2><p style="text-indent:2em">逻辑结构设计的任务是把概念结构设计的基本E-R图转变为与选定数据库管理系统对应的数据模型的逻辑结构。下面以关系模型为例介绍转换过程。</p>
+
+<p style="text-indent:2em">将E-R图转换为关系模型的逻辑结构。关系模型是一组关系模式的集合，转换实际上就是将E-R图转换为一些关系模式。其中，实体可以直接转换为关系模式，而联系则有以下情况：</p>
+
+<ul>
+<li>1;1联系可以转换为一个关系模式，也可以与任意一端的关系模式合并。</li>
+<li>1:n联系可以转换为一个关系模式，或与n端关系模式合并。</li>
+<li>m:n或多个实体间的联系可以转换为一个关系模式。</li>
+<li>具有相同码的关系模式可以合并。</li>
+</ul>
+<p style="text-indent:2em">完成转换后，可以对得到的数据模型进行优化，具体的方法是合并与分解，以规范化理论为依据，但不一定要规范化到程度很高，要考虑使用情况。</p>
+
+<p style="text-indent:2em">得到了全局的逻辑模型后，还应该根据局部应用的需求，为用户设计外模式，外模式使用应符合用户习惯的别名，且应该为不同用户设计不同的外模式，并简化用户对系统的使用。</p>
+
+<h2 id="5-物理结构设计"><a href="#5-物理结构设计" class="headerlink" title="5.物理结构设计"></a>5.物理结构设计</h2><h2 id="6-数据库的实施和维护"><a href="#6-数据库的实施和维护" class="headerlink" title="6.数据库的实施和维护"></a>6.数据库的实施和维护</h2>
     </div>
 
     
@@ -804,7 +869,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%BB%AA%E8%AE%BA"><span class="nav-text">第一章 绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="nav-text">1.数据库系统概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%844%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.1数据库的4个基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E6%8A%80%E6%9C%AF%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%8F%91%E5%B1%95"><span class="nav-text">1.2数据管理技术的产生和发展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-text">1.3数据库系统的特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.数据模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%A6%82%E5%BF%B5%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.1 概念模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BB%84%E6%88%90%E8%A6%81%E7%B4%A0"><span class="nav-text">*2.2 数据模型的组成要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.3 常用的数据模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%93%E6%9E%84-%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84"><span class="nav-text">*3.数据库系统的结构(三级模式结构)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">第二章 关系数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BD%A2%E5%BC%8F%E5%8C%96%E5%AE%9A%E4%B9%89"><span class="nav-text">1.关系数据结构及形式化定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E5%85%B3%E7%B3%BB"><span class="nav-text">1.1关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E8%AF%AD%E8%A8%80%E5%88%86%E7%B1%BB"><span class="nav-text">2.2关系数据语言分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%85%B3%E7%B3%BB%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">3.关系的完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0"><span class="nav-text">4.关系代数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A0%87%E5%87%86%E8%AF%AD%E8%A8%80SQL"><span class="nav-text">第三章 关系数据库标准语言SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89"><span class="nav-text">1.数据定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%A8%A1%E5%BC%8F%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%A0%E9%99%A4"><span class="nav-text">1.1模式定义和删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%8D%95%E8%A1%A8%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.1 单表查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.2 连接查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.3 嵌套查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E9%9B%86%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.4 集合查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0"><span class="nav-text">3.数据更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%8F%92%E5%85%A5"><span class="nav-text">3.1 插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><span class="nav-text">3.2 修改数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="nav-text">3.3 删除数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%A9%BA%E5%80%BC%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">4.空值的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%A7%86%E5%9B%BE"><span class="nav-text">5.视图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%88%A0%E9%99%A4%E8%A7%86%E5%9B%BE"><span class="nav-text">5.1 定义与删除视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%9F%A5%E8%AF%A2%E8%A7%86%E5%9B%BE"><span class="nav-text">5.2 查询视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE"><span class="nav-text">5.3 更新视图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">第四章 数据库安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A7%E6%8E%A7%E5%88%B6"><span class="nav-text">2.数据库安全性控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E9%89%B4%E5%88%AB"><span class="nav-text">2.1 用户身份鉴别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AD%98%E5%8F%96%E6%8E%A7%E5%88%B6"><span class="nav-text">2.2 存取控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E8%87%AA%E4%B8%BB%E5%AD%98%E5%8F%96%E6%8E%A7%E5%88%B6%E6%96%B9%E6%B3%95"><span class="nav-text">2.3 自主存取控制方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%BC%BA%E5%88%B6%E5%AD%98%E5%8F%96%E6%8E%A7%E5%88%B6%E6%96%B9%E6%B3%95"><span class="nav-text">2.4 强制存取控制方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%A7%86%E5%9B%BE%E6%9C%BA%E5%88%B6"><span class="nav-text">3.视图机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AE%A1%E8%AE%A1%E6%9C%BA%E5%88%B6"><span class="nav-text">4.审计机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%95%B0%E6%8D%AE%E5%8A%A0%E5%AF%86"><span class="nav-text">5.数据加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%85%B6%E4%BB%96%E5%AE%89%E5%85%A8%E6%80%A7%E4%BF%9D%E6%8A%A4"><span class="nav-text">6.其他安全性保护</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">第五章 数据库完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AE%9E%E4%BD%93%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">1.实体完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%8F%82%E7%85%A7%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">2.参照完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%94%A8%E6%88%B7%E5%AE%9A%E4%B9%89%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">3.用户定义的完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AE%8C%E6%95%B4%E6%80%A7%E7%BA%A6%E6%9D%9F%E5%91%BD%E5%90%8D"><span class="nav-text">4.完整性约束命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%96%AD%E8%A8%80"><span class="nav-text">5.断言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-text">6.触发器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA"><span class="nav-text">第六章 关系数据理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0-1"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%A7%84%E8%8C%83%E5%8C%96"><span class="nav-text">2.规范化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96"><span class="nav-text">2.1 函数依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%A0%81"><span class="nav-text">2.2 码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E8%8C%83%E5%BC%8F"><span class="nav-text">2.3 范式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2NF"><span class="nav-text">2.4 2NF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-3NF"><span class="nav-text">2.5 3NF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-BCNF-%E4%BF%AE%E6%AD%A3%E7%9A%84%E7%AC%AC%E4%B8%89%E8%8C%83%E5%BC%8F"><span class="nav-text">2.6 BCNF(修正的第三范式)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Armstrong%E5%85%AC%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="nav-text">3.Armstrong公理系统</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%BB%AA%E8%AE%BA"><span class="nav-text">第一章 绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="nav-text">1.数据库系统概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%844%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.1数据库的4个基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E6%8A%80%E6%9C%AF%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%8F%91%E5%B1%95"><span class="nav-text">1.2数据管理技术的产生和发展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-text">1.3数据库系统的特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.数据模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%A6%82%E5%BF%B5%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.1 概念模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BB%84%E6%88%90%E8%A6%81%E7%B4%A0"><span class="nav-text">*2.2 数据模型的组成要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.3 常用的数据模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%93%E6%9E%84-%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84"><span class="nav-text">*3.数据库系统的结构(三级模式结构)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">第二章 关系数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BD%A2%E5%BC%8F%E5%8C%96%E5%AE%9A%E4%B9%89"><span class="nav-text">1.关系数据结构及形式化定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E5%85%B3%E7%B3%BB"><span class="nav-text">1.1关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E8%AF%AD%E8%A8%80%E5%88%86%E7%B1%BB"><span class="nav-text">2.2关系数据语言分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%85%B3%E7%B3%BB%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">3.关系的完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0"><span class="nav-text">4.关系代数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A0%87%E5%87%86%E8%AF%AD%E8%A8%80SQL"><span class="nav-text">第三章 关系数据库标准语言SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89"><span class="nav-text">1.数据定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%A8%A1%E5%BC%8F%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%A0%E9%99%A4"><span class="nav-text">1.1模式定义和删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%8D%95%E8%A1%A8%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.1 单表查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.2 连接查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.3 嵌套查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E9%9B%86%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="nav-text">2.4 集合查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0"><span class="nav-text">3.数据更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%8F%92%E5%85%A5"><span class="nav-text">3.1 插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><span class="nav-text">3.2 修改数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="nav-text">3.3 删除数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%A9%BA%E5%80%BC%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">4.空值的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%A7%86%E5%9B%BE"><span class="nav-text">5.视图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%88%A0%E9%99%A4%E8%A7%86%E5%9B%BE"><span class="nav-text">5.1 定义与删除视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%9F%A5%E8%AF%A2%E8%A7%86%E5%9B%BE"><span class="nav-text">5.2 查询视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE"><span class="nav-text">5.3 更新视图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">第四章 数据库安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A7%E6%8E%A7%E5%88%B6"><span class="nav-text">2.数据库安全性控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E9%89%B4%E5%88%AB"><span class="nav-text">2.1 用户身份鉴别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AD%98%E5%8F%96%E6%8E%A7%E5%88%B6"><span class="nav-text">2.2 存取控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E8%87%AA%E4%B8%BB%E5%AD%98%E5%8F%96%E6%8E%A7%E5%88%B6%E6%96%B9%E6%B3%95"><span class="nav-text">2.3 自主存取控制方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%BC%BA%E5%88%B6%E5%AD%98%E5%8F%96%E6%8E%A7%E5%88%B6%E6%96%B9%E6%B3%95"><span class="nav-text">2.4 强制存取控制方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%A7%86%E5%9B%BE%E6%9C%BA%E5%88%B6"><span class="nav-text">3.视图机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AE%A1%E8%AE%A1%E6%9C%BA%E5%88%B6"><span class="nav-text">4.审计机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%95%B0%E6%8D%AE%E5%8A%A0%E5%AF%86"><span class="nav-text">5.数据加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%85%B6%E4%BB%96%E5%AE%89%E5%85%A8%E6%80%A7%E4%BF%9D%E6%8A%A4"><span class="nav-text">6.其他安全性保护</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">第五章 数据库完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AE%9E%E4%BD%93%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">1.实体完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%8F%82%E7%85%A7%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">2.参照完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%94%A8%E6%88%B7%E5%AE%9A%E4%B9%89%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-text">3.用户定义的完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AE%8C%E6%95%B4%E6%80%A7%E7%BA%A6%E6%9D%9F%E5%91%BD%E5%90%8D"><span class="nav-text">4.完整性约束命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%96%AD%E8%A8%80"><span class="nav-text">5.断言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-text">6.触发器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA"><span class="nav-text">第六章 关系数据理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0-1"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%A7%84%E8%8C%83%E5%8C%96"><span class="nav-text">2.规范化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96"><span class="nav-text">2.1 函数依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%A0%81"><span class="nav-text">2.2 码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E8%8C%83%E5%BC%8F"><span class="nav-text">2.3 范式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2NF"><span class="nav-text">2.4 2NF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-3NF"><span class="nav-text">2.5 3NF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-BCNF-%E4%BF%AE%E6%AD%A3%E7%9A%84%E7%AC%AC%E4%B8%89%E8%8C%83%E5%BC%8F"><span class="nav-text">2.6 BCNF(修正的第三范式)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-4NF"><span class="nav-text">2.7 4NF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Armstrong%E5%85%AC%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="nav-text">3.Armstrong公理系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0"><span class="nav-text">第七章</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0-2"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-text">2.需求分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%A6%82%E5%BF%B5%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-text">3.概念结构设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-E-R%E6%A8%A1%E5%9E%8B"><span class="nav-text">3.1 E-R模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%A6%82%E5%BF%B5%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-text">3.2 概念结构设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-text">4.逻辑结构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-text">5.物理结构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%9E%E6%96%BD%E5%92%8C%E7%BB%B4%E6%8A%A4"><span class="nav-text">6.数据库的实施和维护</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -820,7 +885,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -874,12 +939,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">102k</span>
+    <span title="站点总字数">120k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:33</span>
+    <span title="站点阅读时长">1:49</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

@@ -256,6 +256,165 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/" class="post-title-link" itemprop="url">编译原理实验二：Bison</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-08 09:50:29" itemprop="dateCreated datePublished" datetime="2022-11-08T09:50:29+08:00">2022-11-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-20 10:49:56" itemprop="dateModified" datetime="2022-11-20T10:49:56+08:00">2022-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h2><p>1.了解Bision基础知识，如何将文法产生式转换为Bison语句</p>
+<p>2.阅读/src/common/SyntaxTree.c，对应头文件 /include/SyntaxTree.h，理解分析树生成的过程。</p>
+<p>3.了解Bison与Flex的协同工作过程，理解pass_node函数并改写lab1代码。了解yylval工作原理。</p>
+<p>4.补全 src/parser/syntax_analyzer.y 文件和lexical_analyzer.l文件</p>
+<h2 id="实验难点"><a href="#实验难点" class="headerlink" title="实验难点"></a>实验难点</h2><h3 id="1-Bison的使用"><a href="#1-Bison的使用" class="headerlink" title="1.Bison的使用"></a>1.Bison的使用</h3><p style="text-indent:2em">Bison是一个语法分析器的生成工具，用于生成语法分析器。Bison可以将LALR文法转换可编译的c代码。Bison文件的扩展名为.y，在Bison文件中给出LALR文法以及一些分析动作，编译就可以产生一个语法分析器。</p>
+
+<p style="text-indent:2em">Bison文件以.y结尾，与Lex文件的编写规则类似，由%%区分的三部分构成：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"><span class="comment">/* 这部分代码会被原样拷贝到生成的 .c 文件的开头 */</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">yylex</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">yyerror</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *s)</span></span>;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*一些指令，如用%start指定起始符号，%token定义token*/</span></span><br><span class="line">%start reimu</span><br><span class="line">%token REIMU</span><br><span class="line">    </span><br><span class="line">%%</span><br><span class="line"><span class="comment">/*解析规则*/</span></span><br><span class="line">产生式  &#123;动作代码&#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"><span class="comment">/*辅助函数，会被复制到生成的.c文件的末尾*/</span></span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">Bison需要一个yylex来获取下一个词法单元，还需要一个yyerror提供报错。定义主函数，调用yyparse()，就可以让语法分析器工作。</p>
+
+<p style="text-indent:2em">在语法分析过程中，语法分析树的叶子节点是一个具体的语义值，该值的类型是YYSTYPE，在Bison中用%union指明。不同的节点对应着不同的终结符，可能为不同的类型，因此union中可以包含不同的数据类型。可以指明一个终结符或是非终结符的类型，以便后续的使用。可以使用%type <>或%token <>指明类型。其中%token是在声明词法单元名的同时指明类型，声明的token会由Bison导出到最终的.h文件中，让词法分析器也可以直接使用。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">%token &lt;num&gt; NUMBER		<span class="comment">/*声明词法单元名，并在&lt;&gt;中指明类型*/</span></span><br><span class="line">%type  &lt;typex&gt; expr		<span class="comment">/*指明类型*/</span></span><br><span class="line">...</span><br><span class="line">%<span class="keyword">union</span>&#123;</span><br><span class="line">    <span class="type">char</span> op;</span><br><span class="line">    <span class="type">double</span> num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">下面说明语法分析时的动作怎么编写。以一个边进行语法分析边按照语义执行的计算器为例，识别到加法语句的动作为：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E→E+E	&#123;E=E1+E2&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">在Bison中的实现：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">term : term ADDOP factor</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="keyword">switch</span> $<span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>: $$ = $<span class="number">1</span> + $<span class="number">3</span>; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>: $$ = $<span class="number">1</span> - $<span class="number">3</span>; <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">其中$$表示当前节点，$1,$2,$3表示产生式的成分，也是当前节点的子节点。由于采用自底向上分析(LALR)文法，构建语法树是推导的过程，这些子节点是已经解析的，当前节点则是规约产生的。使用节点union的哪个类型操作，是已经用<>在开头的%token和%type中指明的。</p>
+
+<p style="text-indent:2em">实际的编译器中，语法分析相应的动作通常是建立抽象语法树，进行语义分析，或是直接产生中间或目标代码。在本实验中，动作为自底向上构建语法分析树。</p>
+
+<h3 id="2-Bison与Flex的协同工作"><a href="#2-Bison与Flex的协同工作" class="headerlink" title="2.Bison与Flex的协同工作"></a>2.Bison与Flex的协同工作</h3><p style="text-indent:2em">Bison需要一个yylex来完成词法分析，这部分的工作是词法分析器完成的。词法分析器不仅要将词素识别为词法单元并返回词法单元值，还要返回词法单元的属性。这是通过yylval完成的。yylval是使用Bison生成的.c文件中声明的一个全局的变量，类型为YYSTYPE，即在Bison文件中%union声明的类型，使用这个类型将属性值传递。进行词法分析时，只要将属性值存入yylval，语法分析器就可以从yylval获取识别到的词法单元的属性值。</p>
+
+<p style="text-indent:2em">在实验中，yylval仅包含一个语法分析树的节点指针。节点中包含一个节点名。对于语法分析树的叶子节点，这个节点名就是词法单元的值，对于非叶子节点，这个节点名为语法成分名。在以下分析语法分析树的生成过程中，分析了节点及分析树是如何构造的。</p>
+
+<h3 id="3-分析树的生成过程"><a href="#3-分析树的生成过程" class="headerlink" title="3.分析树的生成过程"></a>3.分析树的生成过程</h3><p style="text-indent:2em">分析树的相关数据结构和方法定义在/include/SyntaxTree.h文件中，分析树的节点记录了父节点，子节点的指针，以及子节点数和节点名信息，相关的方法包括生成新的节点，添加子节点，创建语法树等。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//语法分析树的节点</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">_syntax_tree_node</span> &#123;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">_syntax_tree_node</span> * parent;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">_syntax_tree_node</span> * children[<span class="number">10</span>];</span><br><span class="line">	<span class="type">int</span> children_num;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> name[SYNTAX_TREE_NODE_NAME_MAX];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_syntax_tree_node</span> syntax_tree_node;</span><br><span class="line"><span class="comment">//相关函数</span></span><br><span class="line"><span class="function">syntax_tree_node * <span class="title">new_anon_syntax_tree_node</span><span class="params">()</span></span>;									<span class="comment">//创建新节点</span></span><br><span class="line"><span class="function">syntax_tree_node * <span class="title">new_syntax_tree_node</span><span class="params">(<span class="type">const</span> <span class="type">char</span> * name)</span></span>;						</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">syntax_tree_add_child</span><span class="params">(syntax_tree_node * parent, syntax_tree_node * child)</span></span>;	<span class="comment">//添加子节点</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">del_syntax_tree_node</span><span class="params">(syntax_tree_node * node, <span class="type">int</span> recursive)</span></span>;				<span class="comment">//删除节点</span></span><br><span class="line"><span class="function">syntax_tree* <span class="title">new_syntax_tree</span><span class="params">()</span></span>;													<span class="comment">//创建语法分析树</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">del_syntax_tree</span><span class="params">(syntax_tree * tree)</span></span>;										<span class="comment">//删除分析树</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print_syntax_tree</span><span class="params">(FILE * fout, syntax_tree * tree)</span></span>;						<span class="comment">//输出分析树</span></span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">每个终结符都对应着一个叶子节点，这个叶子节点在词法分析时就可以产生。在自底向上的分析过程中，首先产生的是叶子节点，在用产生式进行规约时向上构建语法分析树。叶子节点的产生在词法分析器中的pass_node()函数中实现，创建一个新的节点，并将其指针赋值给yylval，节点名为其成分(非终结符名或终结符名)，这样语法分析器就可以使用该节点构造语法分析树。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//生成节点并存入yylval传递给语法分析器</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pass_node</span><span class="params">(<span class="type">char</span> *text)</span></span>&#123;</span><br><span class="line">     yylval.node = <span class="built_in">new_syntax_tree_node</span>(text);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//识别词法单元时调用pass_node</span></span><br><span class="line">\+  &#123; pos_start = pos_end; pos_end += <span class="number">1</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> ADD; &#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">词法分析完成了叶子节点的产生，剩下的工作就由语法分析来完成了。构建的过程就是在每使用一个产生式进行规约时，建立一个新的节点表示当前产生式的非终结符，然后将产生式中的成分，也就是子节点的指针存入这个新节点中。当最后使用起始产生式规约时，产生的新节点就是语法分析树的根节点，就完成了向上构建语法分析树的工作。实验在Bison的.y文件中，已经给出了创建新节点并建立节点关系的函数，为node()函数，参数为产生式的非终结符名，产生式成分个数(也即子节点个数)，子节点的指针。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//产生一个语法分析树新节点的函数</span></span><br><span class="line"><span class="function">syntax_tree_node *<span class="title">node</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *node_name, <span class="type">int</span> children_num, ...)</span></span>;</span><br><span class="line"><span class="comment">//应用该函数构造语法分析树，根节点的构造</span></span><br><span class="line">program : declaration-list &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;program&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); gt-&gt;root = $$; &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h2><h3 id="1-词法分析部分"><a href="#1-词法分析部分" class="headerlink" title="1.词法分析部分"></a>1.词法分析部分</h3><p style="text-indent:2em">完善词法分析部分，即./src/parser/lexical_analyzer.l文件。只需要在识别动作中添加pass_node(yytext)产生词法单元叶子节点，通过yylval传递给语法分析器。对于注释，换行符和空格，不需要添加到语法分析树当中，因此创建节点和返回值，如果读到了就更新lines与pos，保证出错时可以定位，然后进行下一个词法单元的识别就可以了。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br><span class="line"></span><br><span class="line">\+  &#123; pos_start = pos_end; pos_end += <span class="number">1</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> ADD; &#125;</span><br><span class="line">\-   &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> SUB;&#125;</span><br><span class="line">\*   &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> MUL;&#125;</span><br><span class="line">\/   &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> DIV;&#125;</span><br><span class="line">\&lt;   &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> LT;&#125;</span><br><span class="line"><span class="string">&quot;&lt;=&quot;</span> &#123;pos_start = pos_end; pos_end+=<span class="number">2</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> LTE;&#125;</span><br><span class="line">\&gt;   &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> GT;&#125;</span><br><span class="line"><span class="string">&quot;&gt;=&quot;</span> &#123;pos_start = pos_end; pos_end+=<span class="number">2</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> GTE;&#125;</span><br><span class="line"><span class="string">&quot;==&quot;</span> &#123;pos_start = pos_end; pos_end+=<span class="number">2</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> EQ;&#125;	</span><br><span class="line"><span class="string">&quot;!=&quot;</span> &#123;pos_start = pos_end; pos_end+=<span class="number">2</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> NEQ;&#125;</span><br><span class="line">\=   &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> ASSIN;&#125;</span><br><span class="line">\;   &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> SEMICOLON;&#125;</span><br><span class="line">\,   &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> COMMA;&#125;</span><br><span class="line">\(  &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> LPARENTHESE;&#125;</span><br><span class="line">\)  &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> RPARENTHESE;&#125;</span><br><span class="line">\[  &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> LBRACKET;&#125;</span><br><span class="line">\]  &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> RBRACKET;&#125;</span><br><span class="line">\&#123;  &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> LBRACE;&#125;</span><br><span class="line">\&#125;  &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> RBRACE;&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;pos_start = pos_end; pos_end+=<span class="number">4</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> ELSE;&#125;</span><br><span class="line"><span class="keyword">if</span>   &#123;pos_start = pos_end; pos_end+=<span class="number">2</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> IF;&#125;</span><br><span class="line"><span class="type">int</span>  &#123;pos_start = pos_end; pos_end+=<span class="number">3</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> INT;&#125;</span><br><span class="line"><span class="type">float</span> &#123;pos_start = pos_end; pos_end+=<span class="number">5</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> FLOAT;&#125;</span><br><span class="line"><span class="keyword">return</span> &#123;pos_start = pos_end; pos_end+=<span class="number">6</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> RETURN;&#125;</span><br><span class="line"><span class="type">void</span>   &#123;pos_start = pos_end; pos_end+=<span class="number">4</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> VOID;&#125;</span><br><span class="line"><span class="keyword">while</span>  &#123;pos_start = pos_end; pos_end+=<span class="number">5</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> WHILE;&#125;</span><br><span class="line">[a-zA-Z]+ &#123;pos_start = pos_end; pos_end+=<span class="built_in">strlen</span>(yytext); <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> IDENTIFIER;&#125;</span><br><span class="line">[a-zA-Z]  &#123;pos_start = pos_end; pos_end++; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> LETTER;&#125;  </span><br><span class="line">[<span class="number">0</span><span class="number">-9</span>]+    &#123;pos_start = pos_end; pos_end+=<span class="built_in">strlen</span>(yytext); <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> INTEGER;&#125;</span><br><span class="line">[<span class="number">0</span><span class="number">-9</span>]+\.|[<span class="number">0</span><span class="number">-9</span>]*\.[<span class="number">0</span><span class="number">-9</span>]+ &#123;pos_start = pos_end; pos_end+=<span class="built_in">strlen</span>(yytext); <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> FLOATPOINT;&#125;</span><br><span class="line"><span class="string">&quot;[]&quot;</span> &#123;pos_start = pos_end; pos_end+=<span class="number">2</span>; <span class="built_in">pass_node</span>(yytext); <span class="keyword">return</span> ARRAY;&#125;</span><br><span class="line">\n  &#123;lines++;pos_end = <span class="number">1</span>;&#125; </span><br><span class="line"><span class="string">&quot;/*&quot;</span>([^*]|\*+[^*/])*\*+<span class="string">&quot;/&quot;</span>  &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">strlen</span>(yytext);i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(yytext[i]==<span class="string">&#x27;\n&#x27;</span>) &#123;</span><br><span class="line">            lines++;</span><br><span class="line">            pos_end = <span class="number">1</span>;	<span class="comment">//pos_start由pos_end得到，这里就不需要置1了</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> pos_end++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">[<span class="string">&quot; &quot;</span>|\t] &#123;pos_start = pos_end; pos_end+=<span class="built_in">strlen</span>(yytext);&#125;</span><br><span class="line">. &#123;pos_start = pos_end; pos_end+=<span class="built_in">strlen</span>(yytext);<span class="built_in">printf</span>(<span class="string">&quot;lexical analyze error at line %d pos %d\n&quot;</span>,lines,pos_start);&#125;</span><br><span class="line"></span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
+<h3 id="2-语法分析部分"><a href="#2-语法分析部分" class="headerlink" title="2.语法分析部分"></a>2.语法分析部分</h3><p style="text-indent:2em">完善词法分析部分，即./src/parser/lexical_analyzer.l文件。首先完成yylval的定义，在union中只含有一个节点指针。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%<span class="keyword">union</span> &#123;</span><br><span class="line">    syntax_tree_node *node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">接下来进行终结符(词法单元)的声明和非终结符的类型声明，类型都是语法分析树的节点指针，其中终结符名要和词法分析部分中的token一致，非终结符名和Cminus-f的语法规则中一致。声明如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">%start program</span><br><span class="line">%token &lt;node&gt; ADD SUB MUL DIV</span><br><span class="line">%token &lt;node&gt; LT LTE GT GTE EQ NEQ ASSIN</span><br><span class="line">%token &lt;node&gt; SEMICOLON COMMA LPARENTHESE RPARENTHESE LBRACKET RBRACKET LBRACE RBRACE</span><br><span class="line">%token &lt;node&gt; ELSE IF INT FLOAT RETURN VOID WHILE IDENTIFIER LETTER INTEGER FLOATPOINT ARRAY</span><br><span class="line">%type &lt;node&gt; type-specifier relop addop mulop</span><br><span class="line">%type &lt;node&gt; declaration-list declaration var-declaration fun-declaration local-declarations</span><br><span class="line">%type &lt;node&gt; compound-stmt statement-list statement expression-stmt iteration-stmt selection-stmt <span class="keyword">return</span>-stmt</span><br><span class="line">%type &lt;node&gt; simple-expression expression var additive-expression term factor integer <span class="type">float</span> call</span><br><span class="line">%type &lt;node&gt; params param-list param args arg-list program</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">最后补充语法规则的部分，规则按照给出的Cminus-f的语法编写，动作则是调用node()函数构造语法分析树的节点，参数为子节点个数和使用$n表示的子节点的指针，当产生式为空输入时，参数为0，子节点为空串。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">program : declaration-list &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;program&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); gt-&gt;root = $$; &#125; ;</span><br><span class="line">declaration-list : declaration-list declaration &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;declaration-list&quot;</span>, <span class="number">2</span>, $<span class="number">1</span>, $<span class="number">2</span>); &#125;</span><br><span class="line">                 | declaration &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;declaration-list&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">                 ;</span><br><span class="line">declaration : var-declaration &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;declaration&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">            | fun-declaration &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;declaration&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">            ;</span><br><span class="line">var-declaration : type-specifier IDENTIFIER SEMICOLON &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;var-declaration&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">                | type-specifier IDENTIFIER LBRACKET INTEGER RBRACKET SEMICOLON &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;var-declaration&quot;</span>, <span class="number">6</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>, $<span class="number">5</span>, $<span class="number">6</span>); &#125;</span><br><span class="line">                ;</span><br><span class="line">type-specifier : INT &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;type-specifier&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">               | FLOAT &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;type-specifier&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">               | VOID &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;type-specifier&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">               ;</span><br><span class="line">fun-declaration : type-specifier IDENTIFIER LPARENTHESE params RPARENTHESE compound-stmt &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;fun-declaration&quot;</span>, <span class="number">6</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>, $<span class="number">5</span>, $<span class="number">6</span>); &#125; ;</span><br><span class="line">params : param-list &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;params&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">       | VOID &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;params&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">       ;</span><br><span class="line">param-list : param-list COMMA param &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;param-list&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">           | param &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;param-list&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">           ;</span><br><span class="line">param : type-specifier IDENTIFIER &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;param&quot;</span>, <span class="number">2</span>, $<span class="number">1</span>, $<span class="number">2</span>); &#125;</span><br><span class="line">      | type-specifier IDENTIFIER ARRAY &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;param&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">      ;</span><br><span class="line">compound-stmt : LBRACE local-declarations statement-list RBRACE &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;compound-stmt&quot;</span>, <span class="number">4</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>); &#125; ;</span><br><span class="line">local-declarations : &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;local-declarations&quot;</span>, <span class="number">0</span>); &#125;</span><br><span class="line">                   | local-declarations var-declaration &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;local-declarations&quot;</span>, <span class="number">2</span>, $<span class="number">1</span>, $<span class="number">2</span>); &#125;</span><br><span class="line">                   ;</span><br><span class="line">statement-list : &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;statement-list&quot;</span>, <span class="number">0</span>); &#125;</span><br><span class="line">               | statement-list statement &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;statement-list&quot;</span>, <span class="number">2</span>, $<span class="number">1</span>, $<span class="number">2</span>); &#125;</span><br><span class="line">               ;</span><br><span class="line">statement : expression-stmt &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;statement&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">          | compound-stmt &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;statement&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">          | selection-stmt &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;statement&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">          | iteration-stmt &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;statement&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">          | <span class="keyword">return</span>-stmt &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;statement&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">          ;</span><br><span class="line">expression-stmt : expression SEMICOLON &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;expression-stmt&quot;</span>, <span class="number">2</span>, $<span class="number">1</span>, $<span class="number">2</span>); &#125;</span><br><span class="line">                | SEMICOLON &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;expression-stmt&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">                ;</span><br><span class="line">selection-stmt : IF LPARENTHESE expression RPARENTHESE statement &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;selection-stmt&quot;</span>, <span class="number">5</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>, $<span class="number">5</span>); &#125;</span><br><span class="line">               | IF LPARENTHESE expression RPARENTHESE statement ELSE statement &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;selection-stmt&quot;</span>, <span class="number">7</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>, $<span class="number">5</span>, $<span class="number">6</span>, $<span class="number">7</span>); &#125;</span><br><span class="line">               ;</span><br><span class="line">iteration-stmt : WHILE LPARENTHESE expression RPARENTHESE statement &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;iteration-stmt&quot;</span>, <span class="number">5</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>, $<span class="number">5</span>); &#125; ;</span><br><span class="line"><span class="keyword">return</span>-stmt : RETURN SEMICOLON &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;return-stmt&quot;</span>, <span class="number">2</span>, $<span class="number">1</span>, $<span class="number">2</span>); &#125;</span><br><span class="line">            | RETURN expression SEMICOLON &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;return-stmt&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">            ;</span><br><span class="line">expression : var ASSIN expression &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;expression&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">           | simple-expression &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;expression&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">           ;</span><br><span class="line">var : IDENTIFIER &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;var&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">    | IDENTIFIER LBRACKET expression RBRACKET &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;var&quot;</span>, <span class="number">4</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>); &#125;</span><br><span class="line">    ;</span><br><span class="line">simple-expression : additive-expression relop additive-expression &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;simple-expression&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">                  | additive-expression &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;simple-expression&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">                  ;</span><br><span class="line">relop : LTE &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;relop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      | LT &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;relop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      | GT &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;relop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      | GTE &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;relop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      | EQ &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;relop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      | NEQ &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;relop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      ;</span><br><span class="line">additive-expression : additive-expression addop term &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;additive-expression&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">                    | term &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;additive-expression&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">                    ;</span><br><span class="line">addop : ADD &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;addop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      | SUB &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;addop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      ;</span><br><span class="line">term : term mulop factor &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;term&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">     | factor &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;term&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">     ;</span><br><span class="line">mulop : MUL &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;mulop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      | DIV &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;mulop&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">      ;</span><br><span class="line">factor : LPARENTHESE expression RPARENTHESE &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;factor&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">       | var &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;factor&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">       | call &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;factor&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">       | integer &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;factor&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">       | <span class="type">float</span> &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;factor&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">       ;</span><br><span class="line">integer : INTEGER &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;integer&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125; ;</span><br><span class="line"><span class="type">float</span> : FLOATPOINT &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;float&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125; ;</span><br><span class="line">call : IDENTIFIER LPARENTHESE args RPARENTHESE &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;call&quot;</span>, <span class="number">4</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>); &#125; ;</span><br><span class="line">args : &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;args&quot;</span>, <span class="number">0</span>); &#125;</span><br><span class="line">     | arg-list &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;args&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">     ;</span><br><span class="line">arg-list : arg-list COMMA expression &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;arg-list&quot;</span>, <span class="number">3</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">         | expression &#123; $$ = <span class="built_in">node</span>(<span class="string">&quot;arg-list&quot;</span>, <span class="number">1</span>, $<span class="number">1</span>); &#125;</span><br><span class="line">         ;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">完成了以上的补充后，语法分析和词法分析就应该都可以正常进行了。尝试编译时提示缺少yyin的声明，在语法分析函数parse中使用了yyin来进行读入，yyin是词法分析Flex产生的变量，这里需要引入，因此在开头补充引入该文件指针变量。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> FILE *yyin;</span><br></pre></td></tr></table></figure>
+<h2 id="实验结果验证"><a href="#实验结果验证" class="headerlink" title="实验结果验证"></a>实验结果验证</h2><h3 id="1-给出的测试样例"><a href="#1-给出的测试样例" class="headerlink" title="1.给出的测试样例"></a>1.给出的测试样例</h3><p style="text-indent:2em">编译成功后执行命令./tests/lab2/test_syntax.sh easy和./tests/lab2/test_syntax.sh normal生成语法分析树。</p>
+
+<p><img src="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/image-20221117225728888.png" alt="image-20221117225728888" style="zoom:50%;"></p>
+<p><img src="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/image-20221117225129353.png" alt="image-20221117225129353" style="zoom:50%;"></p>
+<p style="text-indent:2em">diff命令验证结果是否正确。</p>
+
+<p><img src="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/image-20221117225853308.png" alt="image-20221117225853308" style="zoom:67%;"></p>
+<h3 id="2-自行编写的测试样例"><a href="#2-自行编写的测试样例" class="headerlink" title="2.自行编写的测试样例"></a>2.自行编写的测试样例</h3><p style="text-indent:2em">编写一个cminus-f程序进行语法分析，产生语法分析树。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> i;<span class="type">int</span> a[<span class="number">10</span>];<span class="type">int</span> j;</span><br><span class="line">    i=<span class="number">0</span>;j=<span class="number">10</span>;</span><br><span class="line">    <span class="built_in">quicksort</span>(a,i,j);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">quicksort</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> l, <span class="type">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> p;</span><br><span class="line">    <span class="keyword">if</span>(l&lt;r)&#123;</span><br><span class="line">        p = <span class="built_in">partition</span>(a,l,r);</span><br><span class="line">        <span class="built_in">quicksort</span>(a,l,p<span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">quicksort</span>(a,l,p+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">partition</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> l,<span class="type">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> temp;</span><br><span class="line">    temp = a[l];</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">        <span class="keyword">while</span>(temp&lt;=a[r])&#123;</span><br><span class="line">            r = r<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">if</span>(l==r)&#123;</span><br><span class="line">                a[l] = temp;</span><br><span class="line">                <span class="keyword">return</span> l;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        a[l] = a[r];</span><br><span class="line">        <span class="keyword">while</span>(temp&gt;=a[l])&#123;</span><br><span class="line">            l = l+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(l==r)&#123;</span><br><span class="line">                a[l] = temp;</span><br><span class="line">                <span class="keyword">return</span> l;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">没有语法错误，相应的语法分析树也是正确的。部分结果如下：</p>
+
+<p><img src="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/image-20221120100609743.png" alt="image-20221120100609743" style="zoom:80%;"></p>
+<p><img src="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/image-20221120100740684.png" alt="image-20221120100740684" style="zoom: 67%;"></p>
+<p style="text-indent:2em">编写一个存在语法错误的程序，cminus语法中变量不可以在一个声明语句声明多个同类型变量。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a[], <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> i,sum;</span><br><span class="line">    i = n;</span><br><span class="line">    sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        sum = sum+a[i];</span><br><span class="line">        i--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">程序给出了语法错误的位置。</p>
+
+<p><img src="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/image-20221120101730192.png" alt="image-20221120101730192" style="zoom:80%;"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/10/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B003/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -287,7 +446,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-31 11:23:35" itemprop="dateModified" datetime="2022-10-31T11:23:35+08:00">2022-10-31</time>
+                <time title="修改时间：2022-11-15 23:36:52" itemprop="dateModified" datetime="2022-11-15T23:36:52+08:00">2022-11-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -305,7 +464,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.3k</span>
+              <span>4.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -725,7 +884,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-13 22:07:56" itemprop="dateModified" datetime="2022-11-13T22:07:56+08:00">2022-11-13</time>
+                <time title="修改时间：2022-11-16 17:00:18" itemprop="dateModified" datetime="2022-11-16T17:00:18+08:00">2022-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -743,14 +902,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>13k</span>
+              <span>16k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>12 分钟</span>
+              <span>14 分钟</span>
             </span>
 
         </div>
@@ -937,7 +1096,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-12 10:50:05" itemprop="dateModified" datetime="2022-11-12T10:50:05+08:00">2022-11-12</time>
+                <time title="修改时间：2022-11-16 10:29:17" itemprop="dateModified" datetime="2022-11-16T10:29:17+08:00">2022-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -955,14 +1114,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>14k</span>
+              <span>16k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>13 分钟</span>
+              <span>14 分钟</span>
             </span>
 
         </div>
@@ -1107,101 +1266,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">算法笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-30 14:48:29" itemprop="dateCreated datePublished" datetime="2022-08-30T14:48:29+08:00">2022-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-14 15:19:15" itemprop="dateModified" datetime="2022-10-14T15:19:15+08:00">2022-10-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>18k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">《算法笔记》的笔记。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1273,7 +1337,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1327,12 +1391,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">102k</span>
+    <span title="站点总字数">120k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:33</span>
+    <span title="站点阅读时长">1:49</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
