@@ -20,23 +20,22 @@
     var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="git学习笔记。学习视频：黑马程序员git教程">
+  <meta name="description" content="《计算机网络自顶向下方法》学习笔记04:链路层。 网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。  第五章 链路层1.概述在网络中，每一个设备都可以称作是一个节点，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为链路(link)。为了将数据报传输到目的主机，数据包必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git学习笔记">
-<meta property="og:url" content="https://a-y-1.github.io/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="计算机网络自顶向下方法笔记03">
+<meta property="og:url" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/index.html">
 <meta property="og:site_name" content="橙的博客">
-<meta property="og:description" content="git学习笔记。学习视频：黑马程序员git教程">
+<meta property="og:description" content="《计算机网络自顶向下方法》学习笔记04:链路层。 网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。  第五章 链路层1.概述在网络中，每一个设备都可以称作是一个节点，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为链路(link)。为了将数据报传输到目的主机，数据包必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://a-y-1.github.io/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%8A%B6%E6%80%81.jpg">
-<meta property="article:published_time" content="2022-08-30T13:07:29.000Z">
-<meta property="article:modified_time" content="2022-09-04T02:58:06.919Z">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221201231249088.png">
+<meta property="article:published_time" content="2022-12-01T14:07:22.000Z">
+<meta property="article:modified_time" content="2022-12-01T15:28:29.058Z">
 <meta property="article:author" content="橙">
-<meta property="article:tag" content="git">
+<meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://a-y-1.github.io/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.jpg">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221201231249088.png">
 
-<link rel="canonical" href="https://a-y-1.github.io/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+<link rel="canonical" href="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/">
 
 
 <script id="page-configurations">
@@ -49,7 +48,7 @@
   };
 </script>
 
-  <title>git学习笔记 | 橙的博客</title>
+  <title>计算机网络自顶向下方法笔记03 | 橙的博客</title>
   
 
 
@@ -170,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/a0.jpg">
@@ -183,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          git学习笔记
+          计算机网络自顶向下方法笔记03
         </h1>
 
         <div class="post-meta">
@@ -192,23 +191,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-08-30 21:07:29" itemprop="dateCreated datePublished" datetime="2022-08-30T21:07:29+08:00">2022-08-30</time>
+              <time title="创建时间：2022-12-01 22:07:22 / 修改时间：23:28:29" itemprop="dateCreated datePublished" datetime="2022-12-01T22:07:22+08:00">2022-12-01</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-04 10:58:06" itemprop="dateModified" datetime="2022-09-04T10:58:06+08:00">2022-09-04</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9D%82/" itemprop="url" rel="index"><span itemprop="name">杂</span></a>
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
                 </span>
             </span>
 
@@ -225,7 +218,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -244,95 +237,48 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p style="text-indent:2em">git学习笔记。学习视频：<a herf="https://www.bilibili.com/video/BV1MU4y1Y7h5?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&vd_source=463e5b3e4b18e5453477b57388c2e427">黑马程序员git教程</a></p>
+        <p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记04:链路层。</p>
+<p style="text-indent:2em">网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。</p>
+
+<h1 id="第五章-链路层"><a href="#第五章-链路层" class="headerlink" title="第五章 链路层"></a>第五章 链路层</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p style="text-indent:2em">在网络中，每一个设备都可以称作是一个<b>节点</b>，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为<b>链路(link)</b>。为了将数据报传输到目的主机，数据包必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上首部和尾部(校验位)，被称为<b>帧</b>。链路层主要提供以下的服务，本章也主要介绍以下内容的相关问题：</p>
+
+<ul>
+<li>封装成帧：网络层数据报经链路传输之前，需要封装成帧。</li>
+<li>链路接入：规定帧在链路上传输的规则(媒体访问控制协议MAC)。</li>
+<li>可靠交付：在易于产生高差错率的链路中，可能提供可靠交付服务。由于在运输层也提供了可靠交付的服务，在链路层提供该服务不是必要的，许多链路层协议不提供可靠交付服务。</li>
+<li>差错检测和纠正：检测在链路层传输过程中的差错，并可能进行纠错。</li>
+</ul>
+<p style="text-indent:2em">以上链路层的服务主要在路由器的线路卡或主机的网络适配器中实现的。原来的网络适配器通常是一张卡，可以插入PC的PCI卡槽，现在的网络适配器基本上都综合到了主机的主板。大部分链路层在硬件中实现，但还有一部分在主机CPU的软件实现，因此链路层是整个网络层次中硬件与软件交接的位置。</p>
 
 <span id="more"></span>
-<h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一.概述"></a>一.概述</h1><h2 id="1-版本控制器的方式"><a href="#1-版本控制器的方式" class="headerlink" title="1.版本控制器的方式"></a>1.版本控制器的方式</h2><ul>
-<li>集中式版本控制工具：版本库集中存放在中央服务器，team里每个人work时从中央服务器下载代码，必须联网才能工作，局域网或互联网。个人修改后然后提交到中央版本库。（例：SVN）</li>
-<li>分布式版本控制工具：没有“中央服务器”，每个人的电脑上都是一个完整的版本库，工作时，不需要联网。多人协作只需要各自的修改推送给对方，就能互相看到对方的修改。（git）</li>
-</ul>
-<h2 id="2-git工作流程"><a href="#2-git工作流程" class="headerlink" title="2.git工作流程"></a>2.git工作流程</h2><img src="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.jpg" class>
-<ul>
-<li>clone（克隆）: 从远程仓库中克隆代码到本地仓库。</li>
-<li>checkout （检出）:从本地仓库中检出一个仓库分支然后进行修订。</li>
-<li>add（添加）: 在提交前先将代码提交到暂存区。</li>
-<li>commit（提交）: 提交到本地仓库。本地仓库中保存修改的各个历史版本。</li>
-<li>fetch (抓取) ： 从远程库，抓取到本地仓库，不进行任何的合并动作，一般操作比较少。</li>
-<li>pull (拉取) ： 从远程库拉到本地库，自动进行合并(merge)，然后放到到工作区，相当于fetch+merge。</li>
-<li>push（推送） : 修改完成后，需要和团队成员共享代码时，将代码推送到远程仓库。</li>
-</ul>
-<h1 id="二-git常用命令"><a href="#二-git常用命令" class="headerlink" title="二.git常用命令"></a>二.git常用命令</h1><h2 id="1-获取本地仓库"><a href="#1-获取本地仓库" class="headerlink" title="1.获取本地仓库"></a>1.获取本地仓库</h2><ul>
-<li>创建空目录作为本地仓库。</li>
-<li>git init创建本地仓库，创建完成后文件夹下可看到隐藏的git目录。</li>
-</ul>
-<h2 id="2-基础操作指令"><a href="#2-基础操作指令" class="headerlink" title="2.基础操作指令"></a>2.基础操作指令</h2><p style="text-indent:2em">git工作目录下对于文件的修改(增加、删除、更新)会存在几个状态，这些修改的状态会随着我们执行git 的命令而发生变化。</p>
+<h2 id="2-差错检测和纠正技术"><a href="#2-差错检测和纠正技术" class="headerlink" title="2.差错检测和纠正技术"></a>2.差错检测和纠正技术</h2><p style="text-indent:2em">链路层提供了比特级的差错检测和纠正，对于节点之间传输可能发生的错误进行检测与纠正。为了检错与纠正，要在数据的尾部添加一些比特。差错检测和纠正只能尽可能的检测错误并纠正，并不能处理所有的错误。接下来主要介绍三种差错检测技术：奇偶校验(检错与纠错的基本思想)，检验和(主要用于运输层)，循环冗余检测(通常应用在链路层)。</p>
 
-<img src="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%8A%B6%E6%80%81.jpg" class>
-<ul>
-<li>git add 工作区-&gt;暂存区（git add .所有文件添加到暂存区）。</li>
-<li>git commit 暂存区-&gt;本地仓库（-m进行注释）。</li>
-<li>git status 查看状态。</li>
-<li>git log 查看提交日志。<ul>
-<li>—all 显示所有分支。</li>
-<li>—pretty=oneline 显示一行信息。</li>
-<li>—abbrev-commit 使得输出的commited更简短。</li>
-<li>—graph 以图的形式显示。</li>
-</ul>
-</li>
-<li>git reset —hard commitID 版本回退。</li>
-<li>git reflog 查看已经删除的记录。</li>
-<li>添加文件至忽略列表：创建.gitignore文件，将不需要仓库管理的文件名保存到该文件中。</li>
-</ul>
-<h2 id="3-git分支"><a href="#3-git分支" class="headerlink" title="3.git分支"></a>3.git分支</h2><p style="text-indent:2em">几乎所有的版本控制系统都以某种形式支持分支。 使用分支意味着你可以把你的工作从开发主线上分离 开来进行重大的Bug修改、开发新的功能，以免影响开发主线。</p>
+<h3 id="2-1-奇偶校验"><a href="#2-1-奇偶校验" class="headerlink" title="2.1 奇偶校验"></a>2.1 奇偶校验</h3><p style="text-indent:2em">奇偶校验是最为简单的差错检测和纠正技术。给数据添加一个附加的bit，使数据以及这一位的值中有偶数个1，这就是偶校验，奇校验同理。显然，奇偶校验码只有发生了奇数个错误的时候才可以检出，偶数个错误无法检出。而且这样也无法进行差错纠正。如果需要进行差错纠正，需要使用二维的奇偶校验码，及把数据表示为行和列，对每行和每列都添加一个奇偶校验码，就可以定位到错误的位置，纠正错误。</p>
+
+<h3 id="2-2-检验和"><a href="#2-2-检验和" class="headerlink" title="2.2 检验和"></a>2.2 检验和</h3><p style="text-indent:2em">检验和方法就是将所有数据的bit加起来，用得到的和作为检错码。在运输层的TCP和UDP就是使用检验和进行差错检测，将所有数据的bit求和，然后取反作为检验和，接收方将数据和检验和求和，得到的是全1则说明没有产生差错。</p>
+
+<p style="text-indent:2em">检验和的差错检测能力较弱，显然多个错误还是可能检测不出，因此在链路层中采用了循环冗余检测(CRC)方法进行差错检测和纠正，循环冗余检测更为复杂，但是由于链路层主要在硬件上，可以使用硬件实现检测，因此可以快速得到循环冗余检测的结果。</p>
+
+<h3 id="2-3-循环冗余校验"><a href="#2-3-循环冗余校验" class="headerlink" title="2.3 循环冗余校验"></a>2.3 循环冗余校验</h3><p style="text-indent:2em">在链路层上广泛应用的差错检测技术是<b>循环冗余检测编码CRC，也称为多项式编码</b>。</p>
+
+<p style="text-indent:2em">CRC编码中，发送方与接收方首先约定一个<b>生成多项式</b>，一个多项式对应了一个01串。例如多项式:</p>
+
+<script type="math/tex; mode=display">
+1*X^4+1*X^3+0*X^2+1*X^1+1</script><p style="text-indent:2em">对应的01串是11011。假设数据为D，CRC冗余位为R，则DR应该可以整除该多项式对应的01串。由此，可以先假设R=0000，位数是多项式的最高次项(即多项式01串有5位，余数最多只有4位)，然后用DR除多项式对应的01串，得到的余数就是CRC冗余位。在书中有这种计算方法的详细证明。</p>
+
+<p><img src="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221201231249088.png" alt="image-20221201231249088" style="zoom:80%;"></p>
+<p style="text-indent:2em">每个CRC都可以检测小于r+1位的突发差错。在国际标准中，已经定义了各个位数的生成多项式。</p>
+
+<h2 id="3-多路访问链路和协议"><a href="#3-多路访问链路和协议" class="headerlink" title="3.多路访问链路和协议"></a>3.多路访问链路和协议</h2><p style="text-indent:2em">网络中的链路有两种类型：<b>点对点链路</b>和<b>广播链路</b>。点对点链路中，一个链路上只有一个发送方和接收方，只需要正常发送和接收数据。而广播链路中，许多节点都连接在相同的，共享的，单一的广播信道上，在这样的信道上传输数据。以太网和无线局域网都是使用广播链路，这里也先介绍并重点介绍广播链路的协议和技术。</p>
+
+<p style="text-indent:2em">在广播链路上，许多节点都需要发送和接收数据，必须协调各个节点对信道的访问，这就是<b>多路访问问题</b>。有许多不同的<b>多路访问协议</b>用于解决该问题，这些协议可以被划分为三类：</p>
 
 <ul>
-<li>git branch 查看分支。</li>
-<li>git branch 分支名 创建新分支。</li>
-<li>git checkout 分支名 切换分支 （-b 创建并切换到新分支）。</li>
-<li>git merge 分支名称 分支合并。</li>
-<li>git brach -d b1删除分支时，做各种检查；-D则不做任何检查，强制删除。</li>
-<li>解决冲突：<ul>
-<li>处理文件中冲突的地方。</li>
-<li>. 将解决完冲突的文件加入暂存区(add)，提交到仓库(commit)。</li>
+<li>信道划分协议：信道资源被预先划分。</li>
+<li>随机接入协议：传输节点总是以信道全部速率进行发送，如果发生了碰撞，就反复重发该帧，直到成功发送。每次重发之前要等待一个随机的时延，每个节点的时延都是独立的，因此节点可能交错发送数据，这样就可以在共享信道上完成数据传输。</li>
+<li>轮流协议：节点轮流发送。</li>
 </ul>
-</li>
-<li>开发中分支使用原则与流程<ul>
-<li>master （生产） 分支。</li>
-<li>develop（开发）分支：从master创建的分支，一般作为开发部门的主要开发分支。</li>
-<li>feature/xxxx分支：从develop创建的分支，一般是同期并行开发，但不同期上线时创建的分支，分支上的研发任务完成后合并到develop分支。</li>
-<li>hotfix/xxxx分支：从master派生的分支，一般作为线上bug修复使用，修复完成后需要合并到master、test、 develop分支。</li>
-</ul>
-</li>
-</ul>
-<h1 id="三-git远程仓库"><a href="#三-git远程仓库" class="headerlink" title="三.git远程仓库"></a>三.git远程仓库</h1><h2 id="1-配置公钥"><a href="#1-配置公钥" class="headerlink" title="1.配置公钥"></a>1.配置公钥</h2><ul>
-<li>生产公钥：ssh-keygen -t rsa</li>
-<li>获取公钥：cat ~/.ssh/id_rsa.pub</li>
-<li>验证是否配置成功：ssh -T url</li>
-</ul>
-<h2 id="2-远程仓库操作"><a href="#2-远程仓库操作" class="headerlink" title="2.远程仓库操作"></a>2.远程仓库操作</h2><ul>
-<li>添加远程仓库：git remote add &lt;远端名称&gt; &lt;仓库路径&gt;，远端名称默认为origin</li>
-<li>查看远程仓库：git remote</li>
-<li>推送到远程仓库：git push [-f] [—set-upstream] [远端名称] [本地分支名][:远端分支名] 。例如：git push origin master:master<ul>
-<li>远程分支名和本地分支名相同可只写本地分支名。</li>
-<li>push 失败时，先尝试<font color="red">git pull —rebase origin master</font>，再重新push。</li>
-<li>-f 表示强制覆盖。</li>
-<li>—set-upstream 推送到远端的同时并且建立起和远端分支的关联关系。</li>
-<li>如果当前分支已经和远端分支关联，则可以省略分支名和远端名。</li>
-</ul>
-</li>
-<li>从远程仓库克隆：git clone &lt;仓库路径&gt;  [本地目录]，本地目录可以省略。</li>
-<li>从远程仓库中抓取：git fetch [remote name] [branch name]<ul>
-<li>抓取指令就是将仓库里的更新都抓取到本地，不会进行合并。</li>
-<li>如果不指定远端名称和分支名，则抓取所有分支。</li>
-</ul>
-</li>
-<li>拉取：git pull [remote name] [branch name]<ul>
-<li>拉取指令就是将远端仓库的修改拉到本地并自动进行合并，等同于fetch+merge 。</li>
-<li>如果不指定远端名称和分支名，则抓取所有并更新当前分支。</li>
-</ul>
-</li>
-<li>解决合并冲突：拉取到本地解决冲突后，再推送到远程仓库。</li>
-</ul>
+<p style="text-indent:2em">下面分别介绍这三类协议：</p>
 
     </div>
 
@@ -342,7 +288,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
           </div>
 
         
@@ -351,13 +297,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" rel="prev" title="算法笔记">
-      <i class="fa fa-chevron-left"></i> 算法笔记
+    <a href="/2022/11/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95V2/" rel="prev" title="刷题记录V2">
+      <i class="fa fa-chevron-left"></i> 刷题记录V2
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/09/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E7%AC%94%E8%AE%B0/" rel="next" title="数据库系统概论笔记">
-      数据库系统概论笔记 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -416,7 +359,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80-%E6%A6%82%E8%BF%B0"><span class="nav-text">一.概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">1.版本控制器的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-git%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-text">2.git工作流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-text">二.git常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%8E%B7%E5%8F%96%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93"><span class="nav-text">1.获取本地仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4"><span class="nav-text">2.基础操作指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-git%E5%88%86%E6%94%AF"><span class="nav-text">3.git分支</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89-git%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-text">三.git远程仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%85%8D%E7%BD%AE%E5%85%AC%E9%92%A5"><span class="nav-text">1.配置公钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="nav-text">2.远程仓库操作</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第五章 链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E5%92%8C%E7%BA%A0%E6%AD%A3%E6%8A%80%E6%9C%AF"><span class="nav-text">2.差错检测和纠正技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.1 奇偶校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="nav-text">2.2 检验和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.3 循环冗余校验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E9%93%BE%E8%B7%AF%E5%92%8C%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.多路访问链路和协议</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
