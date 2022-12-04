@@ -28,8 +28,10 @@
 <meta property="og:description" content="《计算机网络自顶向下方法》学习笔记04:链路层。 网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。  第五章 链路层1.概述在网络中，每一个设备都可以称作是一个节点，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为链路(link)。为了将数据报传输到目的主机，数据包必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221201231249088.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221204165049326.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221204170057042.png">
 <meta property="article:published_time" content="2022-12-01T14:07:22.000Z">
-<meta property="article:modified_time" content="2022-12-01T15:28:29.058Z">
+<meta property="article:modified_time" content="2022-12-04T09:55:19.573Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -191,10 +193,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-12-01 22:07:22 / 修改时间：23:28:29" itemprop="dateCreated datePublished" datetime="2022-12-01T22:07:22+08:00">2022-12-01</time>
+              <time title="创建时间：2022-12-01 22:07:22" itemprop="dateCreated datePublished" datetime="2022-12-01T22:07:22+08:00">2022-12-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-04 17:55:19" itemprop="dateModified" datetime="2022-12-04T17:55:19+08:00">2022-12-04</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -218,14 +226,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -279,6 +287,76 @@
 <li>轮流协议：节点轮流发送。</li>
 </ul>
 <p style="text-indent:2em">下面分别介绍这三类协议：</p>
+
+<h3 id="3-1-信道划分协议"><a href="#3-1-信道划分协议" class="headerlink" title="3.1 信道划分协议"></a>3.1 信道划分协议</h3><p style="text-indent:2em">信道划分协议是在共享信道节点之间划分广播信道带宽的协议。按照划分的方法，主要分为三种：<b>时分多路复用TDM、频分多路复用FDM、码分多址CDMA</b>。</p><p style="text-indent:2em">时分多路复用TDM是将时间划分为时间帧，再将时间帧划分为时隙。每个节点在循环的时间帧中都占有一个时隙，在这个时隙内发送数据。时隙的长度保证至少能传输一个数据分组。TDM的缺点在于，无论一个节点是否需要发送数据，他都拥有一个时隙，当其不发送数据时，这个时隙就被浪费掉了。</p>
+
+<p style="text-indent:2em">频分多路复用FDM将R bit/s的信道划分为不同的频段，假设有N个节点，则每个频段的带宽只有R/N，每个节点使用一个频段。FDM的缺点也是显然的，限制了一个节点只能使用R/N的带宽，无论其他节点是否有数据要发送。</p>
+
+<p style="text-indent:2em">码分多址CDMA不对信道进行划分，而是为每个节点分配一个不同的编码，在信道中，节点使用唯一的编码来传递数据，这使得不同的节点可以同时传输，而数据接收方只要知道编码就可以正确接收，不在乎其他节点的干扰。CDMA与无线信道紧密相关，在无线网络章节中有重点讨论。</p>
+
+<h3 id="3-2-随即接入协议"><a href="#3-2-随即接入协议" class="headerlink" title="3.2 随即接入协议"></a>3.2 随即接入协议</h3><p style="text-indent:2em">随机接入协议中，节点总是以全部速率发送数据，当有碰撞时，就重发发生碰撞的帧，直到该帧成功发送。但是重发不是在碰撞后立刻进行的，而是等待一个随机时延，而不同节点独立选择随机时延，因此碰撞发生后，可能交错发送数据，从而正确完成传输。随机接入协议有许多种，接下来重点介绍其中的三种。</p>
+
+<p><strong>时隙ALOHA</strong></p>
+<p style="text-indent:2em">时隙ALOHA协议时最简单的随即接入协议之一。在该协议中，有如下假设：</p>
+
+<ul>
+<li>所有帧由L比特组成</li>
+<li>时间被划分为长度为L/R秒的时隙</li>
+<li>节点只在时隙起点开始传播帧</li>
+<li>每个节点都知道时隙何时开始</li>
+<li>如果一个时隙中发生了碰撞，所有节点在该时隙结束前检测到碰撞</li>
+</ul>
+<p style="text-indent:2em">对于节点而言，在该协议的处理如下：</p>
+
+<ul>
+<li>有新帧要发送时，等到下一个时隙开始并在该时隙传输整个帧</li>
+<li>如果没有碰撞，节点成功传输该帧</li>
+<li>如果有碰撞，该节点在时隙结束之前检测到碰撞，以概率p在后续时隙中重传该帧</li>
+</ul>
+<p style="text-indent:2em">ALOHA协议中，节点传输的过程大致如下：</p>
+
+<p><img src="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221204165049326.png" alt="image-20221204165049326" style="zoom:80%;"></p>
+<p style="text-indent:2em">现在考虑时隙ALOHA的传输效率。假设有N个节点，对于一个节点，成功发送数据的概率为p(1-p)^(N-1)，因为有N个节点，任一节点成功传输的概率为Np(1-p)^(N-1)。求其极限，可以得到最大效率为0.37(0.364)。因此当有大量节点要传输数据时，有效传输速率最多仅有0.37R bps。</p>
+
+<p><strong>ALOHA</strong></p>
+<p style="text-indent:2em">上述的ALOHA起始已经是改进的版本了。最早的纯ALOHA更加简单，不限制节点发送数据的时间，即不进行同步。在这种情况下，假设时间单位为时隙，一个节点要在t0 ~ t0+1发送一个帧，那么t0-1 ~ t0不可以有帧发送，t0 ~ t0+1也不可以有其他帧发送，否则都会产生碰撞，因此一个节点发送的时间落在两个时隙时间，两个时隙都不能有其他节点发送，这个概率为p(1-p)^(2(N-1))，求极限后，最大效率为0.184，刚好是时隙ALOHA的一半。</p>
+
+<p><img src="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221204170057042.png" alt="image-20221204170057042" style="zoom:67%;"></p>
+<p><strong>载波侦听多路访问CSMA</strong></p>
+<p style="text-indent:2em">载波侦听多路访问协议(CSMA)是一类通过侦听来尽量避免碰撞并减少碰撞后无效传输的协议。</p>
+
+<ul>
+<li>载波侦听(CS)：一个节点在传输前先听信道，等待到信道上有一小段时间都没有数据传输，就开始传输。</li>
+<li>多路访问(MA)：多个节点共享信道。</li>
+</ul>
+<p style="text-indent:2em">一般提到CSMA，都是指CSMA/CD或CSMA/CA，即具有碰撞检测(CD)的载波侦听多路访问和碰撞避免(CA)的载波侦听多路访问。下面先介绍CSMA/CD，这个协议其实在现在的网络中已经没有必要使用了，因为以太网交换机一般是全双工的，一条线路发数据，一条线路接收数据，不会产生冲突。CSMA/CA一般用于无线网络，因为无线网络中碰撞检测困难，在无线网络章节中介绍。</p>
+
+<p><strong>具有碰撞检测的载波侦听多路访问CSMA/CD</strong></p>
+<p style="text-indent:2em">如果能检测到信道中的碰撞，就可以在碰撞后立刻放弃传输损坏的帧，避免传输一个无用的帧，改善性能。检测方式就是适配器在传输时检测是否有来自其他适配器的信号能量，如果有，就中止当前帧的传输。不过这也对帧长和传输时间有了要求，如果一个正在传输的帧发生了碰撞，那么碰撞信号传回来到适配器的时间，应该小于帧传输的时间，这样才能提前停止无效帧的传输，提高性能。因此在CSMA/CD中，做以下约定：</p>
+
+<ul>
+<li>使用CSMA/CD协议的以太网争用期(碰撞窗口)<ul>
+<li>发送帧的主机最多经过以太网端到端往返传播时延2t时间，就可检测到碰撞，这个时间称为争用期</li>
+<li>争用期内没有检测到碰撞则确定不会发生碰撞</li>
+<li>以太网规定2t取值为512比特时间</li>
+</ul>
+</li>
+<li>使用CSMA/CD协议的以太网的最小帧长和最大帧长<ul>
+<li>最小帧长 = 争用期*信道带宽(10Mbps的以太网，最小帧长为64字节)</li>
+<li>最小帧长保证了主机可在帧发送完成前检测到该帧是否发生了碰撞</li>
+<li>为了防止主机长时间占用总线，以太网的帧长有限制(V2的MAC帧最大长度为1518字节)</li>
+</ul>
+</li>
+</ul>
+<p style="text-indent:2em">概括而言，<b>信号从起始节点到下一个节点的往返时间，必须小于传输最小帧的时间。</b>这样碰撞才能在该帧发送完之前才能检测到。</p>
+
+<p style="text-indent:2em">当发生碰撞时，重发的间隔时间称为随机退避时间，CSMA/CD协议使用的截断二进制指数退避算法如下：</p>
+
+<ul>
+<li>随机退避时间 = 争用期2t * 随机数r，r从离散整数集合{0,1…,(2^k-1)}中随机取一个，k = Min[重传次数，10]</li>
+<li>重传16次仍不成功时，表示同时又太多主机打算发送数据，此时丢弃该帧并向高层报告</li>
+</ul>
+<h3 id="3-3-轮询协议"><a href="#3-3-轮询协议" class="headerlink" title="3.3 轮询协议"></a>3.3 轮询协议</h3><p style="text-indent:2em">最后一类协议是轮流协议，节点轮流占用信道进行数据传输。轮流协议也有许多种，简单介绍其中的两种：轮询协议和令牌传递协议。轮询协议中，有一个主节点，主节点每次告知每个节点最多能传输的帧，然后让节点轮流进行传输。令牌传递协议中，没有主节点，有一个称为令牌的特殊帧在节点之间以固定次序交换，只有持有令牌且有数据需要传输的节点才可以传输数据。如果节点没有数据要传输，就将令牌传递。以上两种协议都有缺点，最主要的是如果主节点有故障，或者令牌崩溃或停留在一个节点，整个信道的传输就会有问题。</p>
 
     </div>
 
@@ -359,7 +437,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第五章 链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E5%92%8C%E7%BA%A0%E6%AD%A3%E6%8A%80%E6%9C%AF"><span class="nav-text">2.差错检测和纠正技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.1 奇偶校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="nav-text">2.2 检验和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.3 循环冗余校验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E9%93%BE%E8%B7%AF%E5%92%8C%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.多路访问链路和协议</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第五章 链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E5%92%8C%E7%BA%A0%E6%AD%A3%E6%8A%80%E6%9C%AF"><span class="nav-text">2.差错检测和纠正技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.1 奇偶校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="nav-text">2.2 检验和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.3 循环冗余校验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E9%93%BE%E8%B7%AF%E5%92%8C%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.多路访问链路和协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BF%A1%E9%81%93%E5%88%92%E5%88%86%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.1 信道划分协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%9A%8F%E5%8D%B3%E6%8E%A5%E5%85%A5%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.2 随即接入协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%BD%AE%E8%AF%A2%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.3 轮询协议</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -429,12 +507,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">130k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:56</span>
+    <span title="站点阅读时长">1:58</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
