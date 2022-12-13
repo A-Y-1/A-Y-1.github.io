@@ -30,8 +30,10 @@
 <meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221201231249088.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221204165049326.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221204170057042.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221213211801595.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221213213746275.png">
 <meta property="article:published_time" content="2022-12-01T14:07:22.000Z">
-<meta property="article:modified_time" content="2022-12-04T09:55:19.573Z">
+<meta property="article:modified_time" content="2022-12-13T14:32:08.663Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -201,7 +203,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-04 17:55:19" itemprop="dateModified" datetime="2022-12-04T17:55:19+08:00">2022-12-04</time>
+                <time title="修改时间：2022-12-13 22:32:08" itemprop="dateModified" datetime="2022-12-13T22:32:08+08:00">2022-12-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,14 +228,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.2k</span>
+              <span>7.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -261,7 +263,7 @@
 <span id="more"></span>
 <h2 id="2-差错检测和纠正技术"><a href="#2-差错检测和纠正技术" class="headerlink" title="2.差错检测和纠正技术"></a>2.差错检测和纠正技术</h2><p style="text-indent:2em">链路层提供了比特级的差错检测和纠正，对于节点之间传输可能发生的错误进行检测与纠正。为了检错与纠正，要在数据的尾部添加一些比特。差错检测和纠正只能尽可能的检测错误并纠正，并不能处理所有的错误。接下来主要介绍三种差错检测技术：奇偶校验(检错与纠错的基本思想)，检验和(主要用于运输层)，循环冗余检测(通常应用在链路层)。</p>
 
-<h3 id="2-1-奇偶校验"><a href="#2-1-奇偶校验" class="headerlink" title="2.1 奇偶校验"></a>2.1 奇偶校验</h3><p style="text-indent:2em">奇偶校验是最为简单的差错检测和纠正技术。给数据添加一个附加的bit，使数据以及这一位的值中有偶数个1，这就是偶校验，奇校验同理。显然，奇偶校验码只有发生了奇数个错误的时候才可以检出，偶数个错误无法检出。而且这样也无法进行差错纠正。如果需要进行差错纠正，需要使用二维的奇偶校验码，及把数据表示为行和列，对每行和每列都添加一个奇偶校验码，就可以定位到错误的位置，纠正错误。</p>
+<h3 id="2-1-奇偶校验"><a href="#2-1-奇偶校验" class="headerlink" title="2.1 奇偶校验"></a>2.1 奇偶校验</h3><p style="text-indent:2em">奇偶校验是最为简单的差错检测和纠正技术。给数据添加一个附加的bit，使数据以及这一位的值中有偶数个1，这就是偶校验，奇校验同理。显然，奇偶校验码只有发生了奇数个错误的时候才可以检出，偶数个错误无法检出。而且这样也无法进行差错纠正。如果需要进行差错纠正，需要使用二维的奇偶校验码，把数据表示为行和列，对每行和每列都添加一个奇偶校验码，就可以定位到错误的位置，纠正错误。</p>
 
 <h3 id="2-2-检验和"><a href="#2-2-检验和" class="headerlink" title="2.2 检验和"></a>2.2 检验和</h3><p style="text-indent:2em">检验和方法就是将所有数据的bit加起来，用得到的和作为检错码。在运输层的TCP和UDP就是使用检验和进行差错检测，将所有数据的bit求和，然后取反作为检验和，接收方将数据和检验和求和，得到的是全1则说明没有产生差错。</p>
 
@@ -272,7 +274,7 @@
 <p style="text-indent:2em">CRC编码中，发送方与接收方首先约定一个<b>生成多项式</b>，一个多项式对应了一个01串。例如多项式:</p>
 
 <script type="math/tex; mode=display">
-1*X^4+1*X^3+0*X^2+1*X^1+1</script><p style="text-indent:2em">对应的01串是11011。假设数据为D，CRC冗余位为R，则DR应该可以整除该多项式对应的01串。由此，可以先假设R=0000，位数是多项式的最高次项(即多项式01串有5位，余数最多只有4位)，然后用DR除多项式对应的01串，得到的余数就是CRC冗余位。在书中有这种计算方法的详细证明。</p>
+1*X^4+1*X^3+0*X^2+1*X^1+1</script><p style="text-indent:2em">对应的01串是11011。假设数据为D，CRC冗余位为R，则DR应该可以整除该多项式对应的01串。由此，可以先假设R=0000，位数是多项式的最高次项(即多项式01串有5位，余数最多只有4位)，然后用DR除多项式对应的01串，得到的余数就是CRC冗余位。在书中有这种计算方法的详细证明。需要注意，每一步算余数进行的是<font color="red">异或运算</font>，例如下图中第一位结果取1，1010与1101异或得到111，再继续运算。</p>
 
 <p><img src="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221201231249088.png" alt="image-20221201231249088" style="zoom:80%;"></p>
 <p style="text-indent:2em">每个CRC都可以检测小于r+1位的突发差错。在国际标准中，已经定义了各个位数的生成多项式。</p>
@@ -319,7 +321,7 @@
 <p style="text-indent:2em">现在考虑时隙ALOHA的传输效率。假设有N个节点，对于一个节点，成功发送数据的概率为p(1-p)^(N-1)，因为有N个节点，任一节点成功传输的概率为Np(1-p)^(N-1)。求其极限，可以得到最大效率为0.37(0.364)。因此当有大量节点要传输数据时，有效传输速率最多仅有0.37R bps。</p>
 
 <p><strong>ALOHA</strong></p>
-<p style="text-indent:2em">上述的ALOHA起始已经是改进的版本了。最早的纯ALOHA更加简单，不限制节点发送数据的时间，即不进行同步。在这种情况下，假设时间单位为时隙，一个节点要在t0 ~ t0+1发送一个帧，那么t0-1 ~ t0不可以有帧发送，t0 ~ t0+1也不可以有其他帧发送，否则都会产生碰撞，因此一个节点发送的时间落在两个时隙时间，两个时隙都不能有其他节点发送，这个概率为p(1-p)^(2(N-1))，求极限后，最大效率为0.184，刚好是时隙ALOHA的一半。</p>
+<p style="text-indent:2em">上述的ALOHA已经是改进的版本了。最早的纯ALOHA更加简单，不限制节点发送数据的时间，即不进行同步。在这种情况下，假设时间单位为时隙，一个节点要在t0 ~ t0+1发送一个帧，那么t0-1 ~ t0不可以有帧发送，t0 ~ t0+1也不可以有其他帧发送，否则都会产生碰撞，因此一个节点发送的时间落在两个时隙时间，两个时隙都不能有其他节点发送，这个概率为p(1-p)^(2(N-1))，求极限后，最大效率为0.184，刚好是时隙ALOHA的一半。</p>
 
 <p><img src="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221204170057042.png" alt="image-20221204170057042" style="zoom:67%;"></p>
 <p><strong>载波侦听多路访问CSMA</strong></p>
@@ -350,13 +352,125 @@
 </ul>
 <p style="text-indent:2em">概括而言，<b>信号从起始节点到下一个节点的往返时间，必须小于传输最小帧的时间。</b>这样碰撞才能在该帧发送完之前才能检测到。</p>
 
-<p style="text-indent:2em">当发生碰撞时，重发的间隔时间称为随机退避时间，CSMA/CD协议使用的截断二进制指数退避算法如下：</p>
+<p style="text-indent:2em">当发生碰撞时，重发的间隔时间称为随机退避时间，<font color="red">以太网</font>的CSMA/CD协议使用的截断二进制指数退避算法如下：</p>
 
 <ul>
 <li>随机退避时间 = 争用期2t * 随机数r，r从离散整数集合{0,1…,(2^k-1)}中随机取一个，k = Min[重传次数，10]</li>
-<li>重传16次仍不成功时，表示同时又太多主机打算发送数据，此时丢弃该帧并向高层报告</li>
+<li>重传16次仍不成功时，表示同时有太多主机打算发送数据，此时丢弃该帧并向高层报告</li>
 </ul>
 <h3 id="3-3-轮询协议"><a href="#3-3-轮询协议" class="headerlink" title="3.3 轮询协议"></a>3.3 轮询协议</h3><p style="text-indent:2em">最后一类协议是轮流协议，节点轮流占用信道进行数据传输。轮流协议也有许多种，简单介绍其中的两种：轮询协议和令牌传递协议。轮询协议中，有一个主节点，主节点每次告知每个节点最多能传输的帧，然后让节点轮流进行传输。令牌传递协议中，没有主节点，有一个称为令牌的特殊帧在节点之间以固定次序交换，只有持有令牌且有数据需要传输的节点才可以传输数据。如果节点没有数据要传输，就将令牌传递。以上两种协议都有缺点，最主要的是如果主节点有故障，或者令牌崩溃或停留在一个节点，整个信道的传输就会有问题。</p>
+
+<h2 id="4-交换局域网"><a href="#4-交换局域网" class="headerlink" title="4.交换局域网"></a>4.交换局域网</h2><p style="text-indent:2em">互联网是由一个个小的网络连接而成，在网络层中，已经学习了这些网络是通过路由器连接起来，并通过RIP或OSPF这样的路由选择算法确定路径。接下来介绍交换局域网，即最小的网络，介绍在这样的网络中，数据是怎样传输的。在交换局域网中，网络层的数据报通过交换机在链路上转发，数据报被封装为链路层帧，使用链路层地址来转发。</p>
+
+<h3 id="4-1-链路层寻址与ARP"><a href="#4-1-链路层寻址与ARP" class="headerlink" title="4.1 链路层寻址与ARP"></a>4.1 链路层寻址与ARP</h3><p><strong>MAC地址</strong></p>
+<p style="text-indent:2em">每一个主机或路由器的适配器(网络接口)都有一个链路层地址，被称为MAC地址。每个MAC地址都是独一无二的，由厂商生产时指定，通常情况下，适配器的MAC地址是固定的，无论在哪里使用，都不会变化。MAC地址有6个字节，48位，用十六进制表示为XX-XX-XX-XX-XX-XX。当适配器要向目的适配器发送一个帧时，要在帧首部加入目的适配器的MAC地址。适配器接收到帧，检查帧中的目的MAC地址是否与自己的MAC地址匹配，如果匹配，则接收该帧。有时适配器需要广播帧，只需要将目的MAC地址设置为FF-FF-FF-FF-FF-FF，就可以让所有适配器接收该帧。</p>
+
+<p style="text-indent:2em">在主机和路由器接口有网络层地址，也有MAC地址，主要的原因有以下几个：</p>
+
+<ul>
+<li>局域网是为任意网络层协议设计的，不止用于IP和因特网，因此需要一个链路层地址。</li>
+<li>如果适配器使用网络地址，网络地址必须存储在适配器的RAM中，并且每次适配器移动都要重新配置。</li>
+<li>如果适配器不使用任何地址，把数据报上交到网络层，让网络层核对IP地址是否匹配，会导致主机被局域网上发送的每个帧中断。</li>
+</ul>
+<p style="text-indent:2em">由于以上几点和一些其他的原因，链路层需要有自己的寻址方案，因此使用MAC地址。</p>
+
+<p><strong>地址解析协议</strong></p>
+<p style="text-indent:2em">因为存在IP地址和MAC地址，所以需要在这两个地址间进行转换。这个转换由<b>地址解析协议(ARP)</b>来完成。</p>
+
+<p style="text-indent:2em">链路层帧是网络层数据报的封装，需要根据IP地址确认目的MAC地址。ARP协议就是根据IP地址，确认目的MAC地址的协议。每台主机或路由器都在内存中有一个ARP表，记录了IP地址和MAC地址的映射关系。当主机需要知道一个IP地址对应的MAC地址时，构造一个ARP分组，包含源IP与MAC地址，目的IP地址，广播该ARP分组，网络中的每个适配器都收到该帧，并将其交付给网络层，网络层会检查ARP请求的目的IP地址是否与自己的IP地址匹配，如果匹配，就构造一个包含自己MAC地址的ARP响应帧，发给发出ARP请求的主机。源主机收到后，将映射存入ARP表，并相应的有一个TTL值，在TTL时间内保存该映射。需要注意的是，<b>ARP只为在同一个子网的主机和路由器接口解析IP地址</b>，路由器不会转发ARP请求到其他网络。</p>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">IP地址</th>
+<th style="text-align:center">MAC地址</th>
+<th style="text-align:center">TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">222.222.222.221</td>
+<td style="text-align:center">88-B2-2F-54-1A-0F</td>
+<td style="text-align:center">13:45:00</td>
+</tr>
+<tr>
+<td style="text-align:center">222.222.222.223</td>
+<td style="text-align:center">5C-66-AB-90-75-B1</td>
+<td style="text-align:center">13:52:00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>发送数据到子网外</strong></p>
+<p style="text-indent:2em">考虑主机向子网外的目的主机发送数据，通过IP地址，可以得知目的主机与源主机不在同一子网，那么就不能使用ARP找到目的IP的MAC地址，必须先通过路由器将帧转发到目的IP所在的子网中，因此主机应该先发送ARP请求，ARP请求的目的IP为第一跳路由器地址，获得MAC地址后，将该地址封装进帧，发送给路由器，然后由路由器进行处理。注意主机发送出去的帧，封装的IP数据报的目的IP为目的主机的IP，而目的MAC地址则是该报文下一站的MAC地址，目的MAC地址是由所经过的路由器，在路由表确认下一站的IP地址经ARP请求解析得到的。</p>
+
+<p><img src="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221213211801595.png" alt="image-20221213211801595" style="zoom:67%;"></p>
+<p style="text-indent:2em">上图中的帧首部是简化了的，只是为了说明发送数据到子网外时，帧的形成情况。下面介绍以太网时，会看到帧首部的完整内容。</p>
+
+<h3 id="4-2-以太网"><a href="#4-2-以太网" class="headerlink" title="4.2 以太网"></a>4.2 以太网</h3><p style="text-indent:2em">以太网是有线局域网技术的一种，但经历了与ATM，令牌环等技术的竞争后，现在已经占领了几乎现在所有的优先局域网市场。这是由于以太网部署的较早，且速率总是能够比其他技术更快，并且硬件也随着其大规模应用价格极低。起初的以太网是用集线器将主机连接起来的，集线器是物理层设备，作用于比特，只把输入的比特重新生成，以更大的能量强度向其他所有接口传输出去，因此最早的采用集线器的星型拓扑的局域网其实是一个广播局域网。21世纪初，交换机替换了集线器，稍后会介绍交换机的工作内容和流程。接下来先介绍一下以太网帧和以太网技术。</p>
+
+<p><strong>以太网帧</strong></p>
+<p style="text-indent:2em">以太网帧的格式如下：</p>
+
+<p><img src="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221213213746275.png" alt="image-20221213213746275" style="zoom:67%;"></p>
+<ul>
+<li>前同步码：以太网帧以8字节的前同步码开始，前7字节值为10101010，最后一个字节是10101011。前7个字节用于唤醒适配器，同步时钟，最后一个字节的最后两个1告诉适配器重要的数据就要到来。</li>
+<li>数据字段：46-1500字节。以太网的最大传输单元(MTU)是1500字节，超过1500字节，主机必须将数据报分片。</li>
+</ul>
+<p style="text-indent:2em">以太网提供的是无连接的不可靠服务，因此首部非常简单，而其尾部的CRC也只用于检验，无论帧是否通过CRC检验，适配器都不发出确认或否定确认，只在不通过检验时丢弃帧。如果上层运输层协议使用了TCP，那么会通过TCP实现可靠传输，丢失的报文会重传，但在链路层这个层次，以太网并不知道传输的数据时新的还是重传的。</p>
+
+<p><strong>以太网技术</strong></p>
+<p style="text-indent:2em">以太网在多年的发展过程中，已经经历了一系列的演化，也有许多不同标准，从速率上看，已经经历了10Mbps，100Mbps，40Gbps的发展，但是以太网帧和MAC协议一直都没有改变。不过对于今天的以太网，连接链路的交换机已经是全双工的了，一台交换机和一个节点可以同时向对方发送帧而互不干扰，因此MAC协议已经是没有必要使用的了。</p>
+
+<h3 id="4-3-链路层交换机"><a href="#4-3-链路层交换机" class="headerlink" title="4.3 链路层交换机"></a>4.3 链路层交换机</h3><p style="text-indent:2em">目前为止，已经介绍了以太网相关的内容和链路层寻址等问题，还没有仔细介绍过在局域网中，把一段一段链路连接起来的交换机，接下来就介绍交换机的工作内容和工作方式。</p>
+
+<p style="text-indent:2em">交换机的任务是接收入链路层帧并将他们转发到出链路，对于主机和路由器来说，交换机是透明的，就向链路的一部分一样，并不知道交换机会接收并转发帧。交换机的转发是通过交换机表(CAM:ContextAddress Memory)完成的。以下是一个交换机表，其中的时间是接收到帧的时间。</p>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">地址</th>
+<th style="text-align:center">接口</th>
+<th style="text-align:center">时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">62-DE-F7-11-89-A3</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">9:36</td>
+</tr>
+<tr>
+<td style="text-align:center">7C-BA-B2-B4-91-10</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">9:32</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="text-indent:2em">交换机收到帧后，对帧的处理有三种：</p>
+
+<ul>
+<li>如果能在CAM表中查询到目的主机所在端口，且该端口不是接收帧的源端口，交换机把帧从这一端口转发出去。</li>
+<li>如果目的主机端口和接收帧的源端口是同一端口，过滤掉该帧。</li>
+<li>如果交换机不能查询到目的主机的端口，就将该帧从源端口以外的其他所有端口洪泛发送出去，如果该帧是广播帧，也进行洪泛发送。</li>
+</ul>
+<p style="text-indent:2em">交换机是<b>自学习的</b>，不需要对交换机表配置。交换机表初始为空，每接收到一个帧，就将其源MAC地址，到达接口，到达时间添加到交换机表中，在一段时间后如果没有收到该地址的帧，就删除表项。交换机的自学习也意味着他是一个即插即用设备，不需要进行任何配置，只需要连接接口。</p>
+
+<p style="text-indent:2em">交换机有一些特性或可称为优点，不同于基于集线器或总线的广播链路：</p>
+
+<ul>
+<li>消除碰撞：交换机缓存帧并只在网段上同一时间传输不超过一个帧，没有因碰撞浪费的带宽。</li>
+<li>异质链路：交换机将链路隔离，不同链路可以以不同的速率在不同的媒体上运行。</li>
+<li>管理：交换机易于进行网络管理。例如，如果一个适配器工作异常并持续发送以太网帧，交换机能够检测到该问题，并在内部断开异常适配器。</li>
+</ul>
+<h3 id="4-4-交换机与路由器的比较"><a href="#4-4-交换机与路由器的比较" class="headerlink" title="4.4 交换机与路由器的比较"></a>4.4 交换机与路由器的比较</h3><p style="text-indent:2em">路由器和交换机都是存储转发分组交换机，但一个工作在网络层，一个工作在链路层，从根本上是不同的，但是安装互联设备时，也常常需要在这两个设备之间作出选择。下面分别讨论交换机和路由器的优点和缺点。</p>
+
+<p style="text-indent:2em">交换机的优点是即插即用，并且具有较高的分组过滤和转发速率，因为只需要处理链路层的帧。缺点是为了防止广播帧的循环，必须限制网络拓扑结构为生成树；且交换机不对广播风暴有任何保护措施，如果主机故障不停广播，交换机将转发所有广播帧；此外，如果内部都使用交换机，使网络整体很大，主机和路由器中就必须有大的ARP表，这产生了可观的ARP流量和处理量。</p>
+
+<p style="text-indent:2em">路由器的优点是网络寻址是分层次的，分组不会通过路由器循环，IP首部也有字段避免循环，因此网络拓扑不受限制；另一个优点是对广播风暴提供了防火墙保护。路由器的缺点在于不是即插即用的，需要人为配置IP地址；而且路由器处理分组时间较长，需要处理到网络层的字段。</p>
 
     </div>
 
@@ -437,7 +551,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第五章 链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E5%92%8C%E7%BA%A0%E6%AD%A3%E6%8A%80%E6%9C%AF"><span class="nav-text">2.差错检测和纠正技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.1 奇偶校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="nav-text">2.2 检验和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.3 循环冗余校验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E9%93%BE%E8%B7%AF%E5%92%8C%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.多路访问链路和协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BF%A1%E9%81%93%E5%88%92%E5%88%86%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.1 信道划分协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%9A%8F%E5%8D%B3%E6%8E%A5%E5%85%A5%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.2 随即接入协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%BD%AE%E8%AF%A2%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.3 轮询协议</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第五章 链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E5%92%8C%E7%BA%A0%E6%AD%A3%E6%8A%80%E6%9C%AF"><span class="nav-text">2.差错检测和纠正技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.1 奇偶校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="nav-text">2.2 检验和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.3 循环冗余校验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E9%93%BE%E8%B7%AF%E5%92%8C%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.多路访问链路和协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BF%A1%E9%81%93%E5%88%92%E5%88%86%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.1 信道划分协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%9A%8F%E5%8D%B3%E6%8E%A5%E5%85%A5%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.2 随即接入协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%BD%AE%E8%AF%A2%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.3 轮询协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BA%A4%E6%8D%A2%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-text">4.交换局域网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E9%93%BE%E8%B7%AF%E5%B1%82%E5%AF%BB%E5%9D%80%E4%B8%8EARP"><span class="nav-text">4.1 链路层寻址与ARP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E4%BB%A5%E5%A4%AA%E7%BD%91"><span class="nav-text">4.2 以太网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-text">4.3 链路层交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E4%B8%8E%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-text">4.4 交换机与路由器的比较</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -507,12 +621,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">131k</span>
+    <span title="站点总字数">138k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:59</span>
+    <span title="站点阅读时长">2:05</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
