@@ -64,8 +64,13 @@
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221207223634425.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221207223723027.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221207223815656.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214152905641.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214153727676.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214154125726.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214160553489.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214161041523.png">
 <meta property="article:published_time" content="2022-09-07T13:20:29.000Z">
-<meta property="article:modified_time" content="2022-12-07T14:45:16.888Z">
+<meta property="article:modified_time" content="2022-12-14T08:10:56.092Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
@@ -235,7 +240,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-07 22:45:16" itemprop="dateModified" datetime="2022-12-07T22:45:16+08:00">2022-12-07</time>
+                <time title="修改时间：2022-12-14 16:10:56" itemprop="dateModified" datetime="2022-12-14T16:10:56+08:00">2022-12-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -260,14 +265,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>21k</span>
+              <span>22k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>19 分钟</span>
+              <span>20 分钟</span>
             </span>
 
         </div>
@@ -819,7 +824,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="1-前期优化"><a href="#1-前期优化" class="headerlink" title="1.前期优化"></a>1.前期优化</h2><p style="text-indent:2em">前期优化包括<b>常量折叠，代数优化，不可达代码删除</b>。</p>
+<h2 id="1-前期优化"><a href="#1-前期优化" class="headerlink" title="1.前期优化"></a>1.前期优化</h2><p style="text-indent:2em">前期优化包括<b>常量折叠，代数优化，不可达代码删除</b>。在<b>抽象语法树</b>上进行。</p>
 
 <p style="text-indent:2em">常量折叠是对程序中表达式的常量计算进行优化。因为一些表达式的值在编译过程中就可以得到，例如a=3+5，可以直接优化为a=8。在语法树或者中间表示上，这种优化是容易实现的，且通常实现为公共子函数，可以被其他优化调用。但在优化过程中必须遵守语言的语义，例如<b>考虑异常或溢出</b>，例如x=4294967294+1，如果x为unsigned int，则值正常+1，如果x是int，结果为-1。</p>
 
@@ -827,7 +832,7 @@
 
 <p style="text-indent:2em">不可达代码删除的基本思想是删除程序中不会执行的代码。这种优化也可以中期在控制流图上完成。</p>
 
-<h2 id="2-中期优化"><a href="#2-中期优化" class="headerlink" title="2.中期优化"></a>2.中期优化</h2><p style="text-indent:2em">前期优化可简化中后端处理，但是优化能力有限，进行如不可达代码删除这样的优化很不方便。在中间表示位置可以进行进一步的优化。优化的方式则依赖于具体所使用的中间表示。本部分介绍基于控制流图的中期优化。</p>
+<h2 id="2-中期优化"><a href="#2-中期优化" class="headerlink" title="2.中期优化"></a>2.中期优化</h2><p style="text-indent:2em">前期优化可简化中后端处理，但是优化能力有限，进行如不可达代码删除这样的优化很不方便。在<b>中间表示</b>位置可以进行进一步的优化。优化的方式则依赖于具体所使用的中间表示。本部分介绍基于控制流图的中期优化。</p>
 
 <p style="text-indent:2em">中期优化一般分为两步。第一步是<b>程序分析</b>，通过控制流分析，数据流分析，依赖分析等得到被优化程序的静态保守信息(对动态运行行为的保守估计)。第二步是<b>程序重写</b>，基于程序分析的信息对程序进行重写。</p>
 
@@ -886,7 +891,7 @@
 <p style="text-indent:2em">以下是一个控制流图的活性分析示例，由于out集取决于从当前语句离开所到达语句的in集，而对应语句的out集可能还没有计算结束，因此要反复计算in和out集，直到集合不发生改变。由于要反复进行计算，尽管应该按照从后往前的顺序计算，但实际上从前往后或从后往前都可以，因为整个集合不改变时才停止计算，不会遗漏。</p>
 
 <p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221207215323478.png" alt="image-20221207215323478" style="zoom: 67%;"></p>
-<p style="text-indent:2em">以上已经给出了求in和out集的方法，求in和out集的目的是求变量的活跃区间。因此此时再来分析以下这两个集合，in表示到该语句仍然活跃的活跃变量，out表示在该语句之后的还保持活跃的活跃变量，所以一个变量只要在该语句的in集或out集当中，这个变量在该语句就是活跃的，据此就可以划分出变量的活跃区间了。</p>
+<p style="text-indent:2em">以上已经给出了求in和out集的方法，求in和out集的目的是求变量的活跃区间。因此此时再来分析以下这两个集合，in表示到该语句仍然活跃的活跃变量，out表示在该语句之后的还保持活跃的活跃变量，所以只要根据变量是否在该语句的in集或out集当中，就可以划分出变量的活跃区间了。</p>
 
 <h3 id="2-3-优化方法"><a href="#2-3-优化方法" class="headerlink" title="2.3 优化方法"></a>2.3 优化方法</h3><p style="text-indent:2em">中期优化一般分为两步。第一步是<b>程序分析</b>，通过控制流分析，主要的两种方法就是到达定义分析和活性分析。第二步是<b>程序重写</b>，基于程序分析的信息对程序进行重写。接下来就用例子展现程序重写的方法：常量传播，拷贝传播，死代码删除。</p>
 
@@ -897,6 +902,64 @@
 <p>死代码删除</p>
 <p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221207223815656.png" alt="image-20221207223815656" style="zoom:50%;"></p>
 <p style="text-indent:2em">其中的死代码删除和前期优化提到过的不可达代码删除是有区别的。不可达代码不会被执行，而死代码是可以执行，但没有意义的代码。</p>
+
+<h2 id="3-后期优化"><a href="#3-后期优化" class="headerlink" title="3.后期优化"></a>3.后期优化</h2><p style="text-indent:2em">后期优化在生成代码后，在汇编代码级进行优化。后期优化与目标机器相关，和寄存器数量，指令集等都有关系。后期优化的方法有寄存器分配，指令调度，窥孔优化等。这里重点介绍寄存器分配。</p>
+
+<p style="text-indent:2em">在代码生成时，为了简化代码生成的过程，假设寄存器有无限个，真实的目标机器的寄存器数量是有限的，不同机器的寄存器数量也不一样，例如RISC机器通常有32个寄存器。因此在生成代码后，要进行寄存器分配，重写代码，将使用的多个变量分配到少数物理寄存器中，保证使用的寄存器数量不超过机器的真实寄存器数量。以下是一个寄存器分配的例子：</p>
+
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214152905641.png" alt="image-20221214152905641" style="zoom:50%;"></p>
+<p style="text-indent:2em">寄存器分配的主要思路就是让不同时活跃的变量共用一个寄存器，从而减少寄存器数量。一种简单的寄存器分配算法是遇到一个变量就使用一个当前不活跃变量所使用的寄存器，如果分配失败，就把某个变量放回内存，重用他的寄存器。这种方式分配效率很低，程序性能可能很差。在1980年，IBM研究员尝试了使用<b>图着色算法</b>进行寄存器分配，这种方法分配更简单，效果也更好。</p>
+
+<p style="text-indent:2em">图着色算法分配寄存器的步骤如下：</p>
+
+<ul>
+<li>计算活性分析</li>
+<li>画出寄存器冲突图(RIG)</li>
+<li>对RIG着色分配寄存器</li>
+<li>将无法分配寄存器的变量溢出到内存</li>
+</ul>
+<p style="text-indent:2em">下面以一个完整的例子说明图着色算法分配寄存器的过程。</p>
+
+<p><strong>活性分析</strong></p>
+<p style="text-indent:2em">对以下控制流图所示的程序进行活性分析，结果标在图中。</p>
+
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214153727676.png" alt="image-20221214153727676" style="zoom:50%;"></p>
+<p><strong>画出寄存器冲突图</strong></p>
+<p style="text-indent:2em">寄存器冲突图是一个无向图，每个节点是一个变量，如果两个变量有同时活跃的情况，添加一条边连接两个变量对应的节点。如果两个变量没有边连接，说明他们可以使用同一个寄存器。</p>
+
+<p style="text-indent:2em">以上程序的寄存器冲突图如下：</p>
+
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214154125726.png" alt="image-20221214154125726" style="zoom: 50%;"></p>
+<p><strong>对RIG进行图着色分配寄存器</strong></p>
+<p style="text-indent:2em">给每个节点着色，相当于为每个变量分配寄存器。如果一个图可以被k种颜色着色，两个连接的节点颜色不相同，该图为k可着色图。k可着色图的特点是，从图中删除一个边小于k的点，如果删除后的图是k可着色的，那么原图也一定是k可着色的，因为这个删除的点连接的边数小于k，总能找到一种不一样的颜色。根据这个特点，可以使用启发式算法对RIG进行图着色，将着色算法分为两部分：</p>
+
+<ul>
+<li>删除点<ul>
+<li>选择一个邻居数量小于k个的节点t(暂时假设总能找到)，从RIG中删除t和它所有的边</li>
+<li>把t放在栈顶</li>
+<li>重复上述步骤直到RIG中没有节点</li>
+</ul>
+</li>
+<li>着色<ul>
+<li>从栈顶弹出1个节点</li>
+<li>给该节点选择1种与其邻居都不同的颜色</li>
+<li>重复上述步骤直到栈为空</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214160553489.png" alt="image-20221214160553489" style="zoom:50%;"></p>
+<p><img src="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221214161041523.png" alt="image-20221214161041523" style="zoom:50%;"></p>
+<p><strong>将无法分配寄存器的变量溢出</strong></p>
+<p style="text-indent:2em">如果使用以上的着色算法无法找到邻居数量小于k个的节点，就需要溢出变量，将其存放在内存里。方式是选择一个邻居大于等于k的节点f照常入栈，然后进行着色，直到出栈节点为溢出的节点f，先尝试对其进行着色，如果无法着色，就在每次使用节点前插入load指令，在每次定义节点后插入store指令，然后重新计算活性分析，再重新画出RIG图，进行寄存器分配。
+</p>
+
+<p style="text-indent:2em">找到可行的图着色方案，可能需要多次溢出，溢出哪个变量很关键，也很难确定，可能的启发式算法有：</p>
+
+<ul>
+<li>选择与其他变量冲突最多的变量</li>
+<li>选择使用较少的变量</li>
+<li>避免溢出循环内部的变量</li>
+</ul>
 </名词></形容词></名词></名词短语></名词短语></形容词></名词短语></动词短语></名词短语></句子></p>
     </div>
 
@@ -980,7 +1043,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%AE%BA"><span class="nav-text">第一章 引论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-text">1.语言处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">2.编译器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">3.程序设计语言的发展历程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%A7%91%E5%AD%A6"><span class="nav-text">4.编译器相关科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E5%BA%94%E7%94%A8"><span class="nav-text">5.编译技术应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">6.程序设计语言基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第二章 词法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%8D%E6%B3%95-amp-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.词法&amp;语法分析基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-text">2.词法分析和词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E7%BC%93%E5%86%B2"><span class="nav-text">3.输入缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">*4.正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE"><span class="nav-text">5.状态转换图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Lex"><span class="nav-text">6.词法分析工具Lex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*7.有穷自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-NFA"><span class="nav-text">7.1 不确定的有穷自动机(NFA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-DFA"><span class="nav-text">7.2 确定的有穷自动机(DFA)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*8.正则表达式到自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0NFA"><span class="nav-text">8.1 正则表达式到NFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-NFA%E5%88%B0DFA"><span class="nav-text">8.2 NFA到DFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-DFA%E6%9C%80%E5%B0%8F%E5%8C%96"><span class="nav-text">8.3 DFA最小化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-DFA%E5%88%B0%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E4%BB%A3%E7%A0%81"><span class="nav-text">9.DFA到词法分析器代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第三章 语法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0"><span class="nav-text">1.自顶向下分析概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90"><span class="nav-text">2.自顶向下分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E9%9C%80%E8%A6%81%E5%9B%9E%E6%9C%94%E7%9A%84%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E7%AE%97%E6%B3%95"><span class="nav-text">2.1 需要回朔的自顶向下算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90-%E9%A2%84%E6%B5%8B%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">2.2 递归下降分析(预测分析算法)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-LL-1-%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">2.3 LL(1)分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E5%88%86%E6%9E%90"><span class="nav-text">3.自底向上分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-LR-0"><span class="nav-text">3.1 LR(0)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-SLR%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">3.2 SLR分析算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-LR-1-%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">3.3 LR(1)分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%BF%BB%E8%AF%91"><span class="nav-text">4.语法制导翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%A6%82%E8%BF%B0"><span class="nav-text">4.1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91"><span class="nav-text">4.2 抽象语法树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%BF%BB%E8%AF%91%E7%90%86%E8%AE%BA"><span class="nav-text">4.3 语法制导翻译理论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90"><span class="nav-text">第四章 语义分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90"><span class="nav-text">第五章 代码生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A0%88%E5%BC%8F%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF"><span class="nav-text">1.栈式计算机的代码生成技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF"><span class="nav-text">2.寄存器计算机的代码生成技术</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E4%B8%AD%E9%97%B4%E8%A1%A8%E7%A4%BA"><span class="nav-text">第六章 中间表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9C%89%E5%90%91%E6%97%A0%E7%8E%AF%E5%9B%BEDAG"><span class="nav-text">1.有向无环图DAG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%B8%89%E5%9C%B0%E5%9D%80%E4%BB%A3%E7%A0%81"><span class="nav-text">2.三地址代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%8E%A7%E5%88%B6%E6%B5%81%E5%9B%BECFG"><span class="nav-text">3.控制流图CFG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%9D%99%E6%80%81%E5%8D%95%E8%B5%8B%E5%80%BC%E5%BD%A2%E5%BC%8FSSA"><span class="nav-text">4.静态单赋值形式SSA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="nav-text">第七章 代码优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%89%8D%E6%9C%9F%E4%BC%98%E5%8C%96"><span class="nav-text">1.前期优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%B8%AD%E6%9C%9F%E4%BC%98%E5%8C%96"><span class="nav-text">2.中期优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%88%B0%E8%BE%BE%E5%AE%9A%E4%B9%89%E5%88%86%E6%9E%90"><span class="nav-text">2.1 到达定义分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%B4%BB%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-text">2.2 活性分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-text">2.3 优化方法</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%AE%BA"><span class="nav-text">第一章 引论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-text">1.语言处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">2.编译器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">3.程序设计语言的发展历程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91%E5%99%A8%E7%9B%B8%E5%85%B3%E7%A7%91%E5%AD%A6"><span class="nav-text">4.编译器相关科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E5%BA%94%E7%94%A8"><span class="nav-text">5.编译技术应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">6.程序设计语言基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第二章 词法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%8D%E6%B3%95-amp-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.词法&amp;语法分析基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-text">2.词法分析和词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E7%BC%93%E5%86%B2"><span class="nav-text">3.输入缓冲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">*4.正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE"><span class="nav-text">5.状态转换图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Lex"><span class="nav-text">6.词法分析工具Lex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*7.有穷自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-NFA"><span class="nav-text">7.1 不确定的有穷自动机(NFA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA-DFA"><span class="nav-text">7.2 确定的有穷自动机(DFA)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">*8.正则表达式到自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0NFA"><span class="nav-text">8.1 正则表达式到NFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-NFA%E5%88%B0DFA"><span class="nav-text">8.2 NFA到DFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-DFA%E6%9C%80%E5%B0%8F%E5%8C%96"><span class="nav-text">8.3 DFA最小化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-DFA%E5%88%B0%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E4%BB%A3%E7%A0%81"><span class="nav-text">9.DFA到词法分析器代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">第三章 语法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0"><span class="nav-text">1.自顶向下分析概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90"><span class="nav-text">2.自顶向下分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E9%9C%80%E8%A6%81%E5%9B%9E%E6%9C%94%E7%9A%84%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E7%AE%97%E6%B3%95"><span class="nav-text">2.1 需要回朔的自顶向下算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90-%E9%A2%84%E6%B5%8B%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">2.2 递归下降分析(预测分析算法)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-LL-1-%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">2.3 LL(1)分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E5%88%86%E6%9E%90"><span class="nav-text">3.自底向上分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-LR-0"><span class="nav-text">3.1 LR(0)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-SLR%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">3.2 SLR分析算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-LR-1-%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-text">3.3 LR(1)分析算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%BF%BB%E8%AF%91"><span class="nav-text">4.语法制导翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%A6%82%E8%BF%B0"><span class="nav-text">4.1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91"><span class="nav-text">4.2 抽象语法树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%BF%BB%E8%AF%91%E7%90%86%E8%AE%BA"><span class="nav-text">4.3 语法制导翻译理论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90"><span class="nav-text">第四章 语义分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90"><span class="nav-text">第五章 代码生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A0%88%E5%BC%8F%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF"><span class="nav-text">1.栈式计算机的代码生成技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF"><span class="nav-text">2.寄存器计算机的代码生成技术</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E4%B8%AD%E9%97%B4%E8%A1%A8%E7%A4%BA"><span class="nav-text">第六章 中间表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9C%89%E5%90%91%E6%97%A0%E7%8E%AF%E5%9B%BEDAG"><span class="nav-text">1.有向无环图DAG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%B8%89%E5%9C%B0%E5%9D%80%E4%BB%A3%E7%A0%81"><span class="nav-text">2.三地址代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%8E%A7%E5%88%B6%E6%B5%81%E5%9B%BECFG"><span class="nav-text">3.控制流图CFG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%9D%99%E6%80%81%E5%8D%95%E8%B5%8B%E5%80%BC%E5%BD%A2%E5%BC%8FSSA"><span class="nav-text">4.静态单赋值形式SSA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="nav-text">第七章 代码优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%89%8D%E6%9C%9F%E4%BC%98%E5%8C%96"><span class="nav-text">1.前期优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%B8%AD%E6%9C%9F%E4%BC%98%E5%8C%96"><span class="nav-text">2.中期优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%88%B0%E8%BE%BE%E5%AE%9A%E4%B9%89%E5%88%86%E6%9E%90"><span class="nav-text">2.1 到达定义分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%B4%BB%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-text">2.2 活性分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-text">2.3 优化方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%90%8E%E6%9C%9F%E4%BC%98%E5%8C%96"><span class="nav-text">3.后期优化</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -996,7 +1059,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1050,12 +1113,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">138k</span>
+    <span title="站点总字数">173k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:37</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

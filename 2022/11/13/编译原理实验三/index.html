@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="问题1: cpp与.ll的对应请描述你的cpp代码片段和.ll的每个BasicBlock的对应关系。描述中请附上两者代码。 assign对应的.ll代码如下：  1234567891011define i32 @main() #0 &amp;#123;    %1 &#x3D; alloca [10 x i32]    ;int a[10]    %2 &#x3D; getelementptr inbounds [10 x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理实验三">
+<meta property="og:url" content="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="问题1: cpp与.ll的对应请描述你的cpp代码片段和.ll的每个BasicBlock的对应关系。描述中请附上两者代码。 assign对应的.ll代码如下：  1234567891011define i32 @main() #0 &amp;#123;    %1 &#x3D; alloca [10 x i32]    ;int a[10]    %2 &#x3D; getelementptr inbounds [10 x">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121113522342.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121161232658.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121171447083.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121175730205.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121194007554.png">
+<meta property="article:published_time" content="2022-11-13T02:35:29.000Z">
+<meta property="article:modified_time" content="2022-12-15T01:12:37.566Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="编译原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121113522342.png">
+
+<link rel="canonical" href="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>编译原理实验三 | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编译原理实验三
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-13 10:35:29" itemprop="dateCreated datePublished" datetime="2022-11-13T10:35:29+08:00">2022-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-15 09:12:37" itemprop="dateModified" datetime="2022-12-15T09:12:37+08:00">2022-12-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="问题1-cpp与-ll的对应"><a href="#问题1-cpp与-ll的对应" class="headerlink" title="问题1: cpp与.ll的对应"></a>问题1: cpp与.ll的对应</h2><p>请描述你的cpp代码片段和.ll的每个BasicBlock的对应关系。描述中请附上两者代码。</p>
+<h3 id="assign"><a href="#assign" class="headerlink" title="assign"></a>assign</h3><p style="text-indent:2em">对应的.ll代码如下：</p>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">define i32 @main() #0 &#123;</span><br><span class="line">    %1 = alloca [10 x i32]    ;int a[10]</span><br><span class="line">    %2 = getelementptr inbounds [10 x i32], [10 x i32]* %1, i32 0, i32 0        ;a[0] addr    </span><br><span class="line">    %3 = getelementptr inbounds [10 x i32], [10 x i32]* %1, i32 0, i32 1        ;a[1] addr</span><br><span class="line">    store i32 10, i32* %2     ;a[0] = 10</span><br><span class="line">    %4 = load i32, i32* %2    ;%4 = a[0]</span><br><span class="line">    %5 = mul i32 %4,2         ;%5 = a[0]*2</span><br><span class="line">    store i32 %5, i32* %3     ;a[1] = %5 = a[0]*2</span><br><span class="line">    %6 = load i32, i32* %3    ;%6 = a[1]</span><br><span class="line">    ret i32 %6                ;return a[1]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">这一段程序仅有一个函数，一个BasicBlock。仿照gcd_array.cpp的写法，创建Module和BasicBlock，将.ll中的指令使用IRBuilder插入到BasicBlock的指令链表当中。与.ll中指令的对应关系在以下的cpp代码片段的注释中说明。cpp
+代码片段如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;BasicBlock.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Constant.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Function.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;IRBuilder.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Module.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Type.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG  <span class="comment">// 用于调试信息,大家可以在编译过程中通过&quot; -DDEBUG&quot;来开启这一选项</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEBUG_OUTPUT std::cout &lt;&lt; __LINE__ &lt;&lt; std::endl;  <span class="comment">// 输出行号的简单示例</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEBUG_OUTPUT</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CONST_INT(num) \</span></span><br><span class="line"><span class="meta">    ConstantInt::get(num, module)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CONST_FP(num) \</span></span><br><span class="line"><span class="meta">    ConstantFP::get(num, module) <span class="comment">// 得到常数值的表示,方便后面多次用到</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> <span class="keyword">module</span> = <span class="keyword">new</span> <span class="built_in">Module</span>(<span class="string">&quot;Assign&quot;</span>);                 </span><br><span class="line">    <span class="keyword">auto</span> builder = <span class="keyword">new</span> <span class="built_in">IRBuilder</span>(<span class="literal">nullptr</span>, <span class="keyword">module</span>);                      <span class="comment">//使用IRBuilder创建指令</span></span><br><span class="line">    <span class="comment">//创建函数与BasicBlock</span></span><br><span class="line">    Type *Int32Type = Type::<span class="built_in">get_int32_type</span>(<span class="keyword">module</span>);</span><br><span class="line">    <span class="keyword">auto</span> mainTy = FunctionType::<span class="built_in">get</span>(Int32Type, &#123;&#125;);                     <span class="comment">//返回值为i32，参数为空</span></span><br><span class="line">    <span class="keyword">auto</span> main = Function::<span class="built_in">create</span>(mainTy, <span class="string">&quot;main&quot;</span>, <span class="keyword">module</span>);            </span><br><span class="line">    <span class="keyword">auto</span> BB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;BasicBlock1&quot;</span> , main);</span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BB);                                      <span class="comment">//设置插入指令的BasicBlock</span></span><br><span class="line">    <span class="comment">//插入.ll中对应的指令</span></span><br><span class="line">    <span class="keyword">auto</span> *arrayType = ArrayType::<span class="built_in">get</span>(Int32Type, <span class="number">10</span>);                    <span class="comment">//数组的类型为[10 x i32]</span></span><br><span class="line">    <span class="keyword">auto</span> a = builder-&gt;<span class="built_in">create_alloca</span>(arrayType);                         <span class="comment">//分配数组</span></span><br><span class="line">    <span class="keyword">auto</span> a0P = builder-&gt;<span class="built_in">create_gep</span>(a, &#123;<span class="built_in">CONST_INT</span>(<span class="number">0</span>), <span class="built_in">CONST_INT</span>(<span class="number">0</span>)&#125;);    <span class="comment">//计算a[0]地址</span></span><br><span class="line">    <span class="keyword">auto</span> a1P = builder-&gt;<span class="built_in">create_gep</span>(a, &#123;<span class="built_in">CONST_INT</span>(<span class="number">0</span>), <span class="built_in">CONST_INT</span>(<span class="number">0</span>)&#125;);    <span class="comment">//计算a[1]地址</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(&#123;<span class="built_in">CONST_INT</span>(<span class="number">10</span>)&#125;, a0P);                        <span class="comment">//a[0] = 10</span></span><br><span class="line">    <span class="keyword">auto</span> a0 = builder-&gt;<span class="built_in">create_load</span>(a0P);                                <span class="comment">//取出a[0]</span></span><br><span class="line">    <span class="keyword">auto</span> temp = builder-&gt;<span class="built_in">create_imul</span>(a0, &#123;<span class="built_in">CONST_INT</span>(<span class="number">2</span>)&#125;);               <span class="comment">//a[0]*2</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(temp, a1P);                                   <span class="comment">//a1 = a[0]*2</span></span><br><span class="line">    <span class="keyword">auto</span> a1 = builder-&gt;<span class="built_in">create_load</span>(a1P);       </span><br><span class="line">    builder-&gt;<span class="built_in">create_ret</span>(a1);                                            <span class="comment">//return a1 = a[0]*2</span></span><br><span class="line">    <span class="comment">//指令创建结束</span></span><br><span class="line">    std::cout &lt;&lt; <span class="keyword">module</span>-&gt;<span class="built_in">print</span>();</span><br><span class="line">    <span class="keyword">delete</span> <span class="keyword">module</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">make之后运行程序进行验证，生成的指令和.ll中的指令相同。</p>
+
+<p><img src="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121113522342.png" alt="image-20221121113522342" style="zoom: 67%;"></p>
+<h3 id="fun"><a href="#fun" class="headerlink" title="fun"></a>fun</h3><p style="text-indent:2em">对应的.ll代码如下：</p>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">define i32 @callee(i32 %0) #0 &#123;</span><br><span class="line">    %2 = mul i32 %0, 2               ;%2 = a*2</span><br><span class="line">    ret i32 %2</span><br><span class="line">&#125;</span><br><span class="line">define i32 @main() #0 &#123;</span><br><span class="line">    %1 = call i32 @callee(i32 110)   ;%1 = callee(110)</span><br><span class="line">    ret i32 %1                       ;return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">共有两个函数，相应有两个BasicBlock，分别插入指令。与.ll中指令的对应关系在注释中说明，相应的cpp代码如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//头文件和宏定义省略</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> <span class="keyword">module</span> = <span class="keyword">new</span> <span class="built_in">Module</span>(<span class="string">&quot;fun&quot;</span>);</span><br><span class="line">    <span class="keyword">auto</span> builder = <span class="keyword">new</span> <span class="built_in">IRBuilder</span>(<span class="literal">nullptr</span>, <span class="keyword">module</span>);</span><br><span class="line">    <span class="comment">//创建callee函数</span></span><br><span class="line">    Type *Int32Type = Type::<span class="built_in">get_int32_type</span>(<span class="keyword">module</span>);</span><br><span class="line">    <span class="keyword">auto</span> calleeTy = FunctionType::<span class="built_in">get</span>(Int32Type, &#123;Int32Type&#125;);            <span class="comment">//返回值为i32，一个i32类型的参数</span></span><br><span class="line">    <span class="keyword">auto</span> callee = Function::<span class="built_in">create</span>(calleeTy, <span class="string">&quot;callee&quot;</span>, <span class="keyword">module</span>); </span><br><span class="line">    <span class="keyword">auto</span> BB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;callee_BasicBlock&quot;</span> , callee);</span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BB);</span><br><span class="line">    <span class="comment">//插入callee的BasicBlock中的指令</span></span><br><span class="line">    std::vector&lt;Value *&gt; args;                                            <span class="comment">//获取函数的形参,通过Function中的iterator</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> arg = callee-&gt;<span class="built_in">arg_begin</span>(); arg != callee-&gt;<span class="built_in">arg_end</span>(); arg++) &#123;</span><br><span class="line">        args.<span class="built_in">push_back</span>(*arg);                                             <span class="comment">//* 号运算符是从迭代器中取出迭代器当前指向的元素</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span> mul = builder-&gt;<span class="built_in">create_imul</span>(args[<span class="number">0</span>], <span class="built_in">CONST_INT</span>(<span class="number">2</span>));             <span class="comment">//mul = a*2</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_ret</span>(mul);</span><br><span class="line">    <span class="comment">//创建main函数</span></span><br><span class="line">    <span class="keyword">auto</span> mainTy = FunctionType::<span class="built_in">get</span>(Int32Type, &#123;&#125;);</span><br><span class="line">    <span class="keyword">auto</span> main = Function::<span class="built_in">create</span>(mainTy, <span class="string">&quot;main&quot;</span>, <span class="keyword">module</span>); </span><br><span class="line">    <span class="keyword">auto</span> BB1 = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;main_BasicBlock&quot;</span> , main);</span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BB1);</span><br><span class="line">    <span class="comment">//插入main的BasicBlock中的指令</span></span><br><span class="line">    <span class="keyword">auto</span> callret = builder-&gt;<span class="built_in">create_call</span>(callee, &#123;<span class="built_in">CONST_INT</span>(<span class="number">110</span>)&#125;);       <span class="comment">//callret = callee(110)</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_ret</span>(callret);                                        <span class="comment">//return callret</span></span><br><span class="line">    <span class="comment">//指令创建结束</span></span><br><span class="line">    std::cout &lt;&lt; <span class="keyword">module</span>-&gt;<span class="built_in">print</span>();</span><br><span class="line">    <span class="keyword">delete</span> <span class="keyword">module</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">运行程序，生成的指令和.ll中的指令相同。</p>
+
+<p><img src="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121161232658.png" alt="image-20221121161232658" style="zoom: 67%;"></p>
+<h3 id="if"><a href="#if" class="headerlink" title="if"></a>if</h3><p style="text-indent:2em">对应的.ll代码如下：</p>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">define i32 @main() #0 &#123;</span><br><span class="line">    %1 = alloca float                    ;%1 = float a addr</span><br><span class="line">    store float 0x40163851E0000000, float* %1</span><br><span class="line">    %2 = load float, float* %1           ;%2 = a</span><br><span class="line">    %3 = fcmp ugt float %2, 1.0          ;a&gt;1   </span><br><span class="line">    br i1 %3, label %4, label %5         ;if(a&gt;1) goto 4 else goto 5</span><br><span class="line">4:</span><br><span class="line">    ret i32 233</span><br><span class="line">5:</span><br><span class="line">    ret i32 0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">本段指令有3个BasicBlock，相比与前两个多了fcmp和br跳转指令。相应的.cpp文件如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//头文件和宏定义省略</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> <span class="keyword">module</span> = <span class="keyword">new</span> <span class="built_in">Module</span>(<span class="string">&quot;if&quot;</span>);                 </span><br><span class="line">    <span class="keyword">auto</span> builder = <span class="keyword">new</span> <span class="built_in">IRBuilder</span>(<span class="literal">nullptr</span>, <span class="keyword">module</span>);                      <span class="comment">//使用IRBuilder创建指令</span></span><br><span class="line">    <span class="comment">//创建main函数</span></span><br><span class="line">    Type *Int32Type = Type::<span class="built_in">get_int32_type</span>(<span class="keyword">module</span>);</span><br><span class="line">    <span class="keyword">auto</span> mainTy = FunctionType::<span class="built_in">get</span>(Int32Type, &#123;&#125;);                     <span class="comment">//返回值为i32，参数为空</span></span><br><span class="line">    <span class="keyword">auto</span> main = Function::<span class="built_in">create</span>(mainTy, <span class="string">&quot;main&quot;</span>, <span class="keyword">module</span>);</span><br><span class="line">    <span class="keyword">auto</span> BBEntry = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;entry&quot;</span> , main);</span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BBEntry); </span><br><span class="line">    <span class="comment">//entryBasicBlock插入指令，对应.ll的BasicBlock0</span></span><br><span class="line">    Type *FloatType = Type::<span class="built_in">get_float_type</span>(<span class="keyword">module</span>);                     <span class="comment">//浮点类型</span></span><br><span class="line">    <span class="keyword">auto</span> aP = builder-&gt;<span class="built_in">create_alloca</span>(FloatType);                        <span class="comment">//为float a分配空间并返回指针</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(<span class="built_in">CONST_FP</span>(<span class="number">5.555</span>),aP);                          <span class="comment">//a = 5.555</span></span><br><span class="line">    <span class="keyword">auto</span> a = builder-&gt;<span class="built_in">create_load</span>(aP);                                  <span class="comment">//取出a</span></span><br><span class="line">    <span class="keyword">auto</span> fcmp = builder-&gt;<span class="built_in">create_fcmp_gt</span>(a, <span class="built_in">CONST_FP</span>(<span class="number">1.0</span>));              <span class="comment">//fcmp = if a&gt;1</span></span><br><span class="line">    <span class="comment">//创建true, false对应的BasicBlock</span></span><br><span class="line">    <span class="keyword">auto</span> BBTrue = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;true&quot;</span> , main);</span><br><span class="line">    <span class="keyword">auto</span> BBFalse = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;false&quot;</span>, main);</span><br><span class="line">    builder-&gt;<span class="built_in">create_cond_br</span>(fcmp, BBTrue, BBFalse);                     <span class="comment">//br跳转指令</span></span><br><span class="line">    <span class="comment">//true和false对应的BasicBlock插入指令，对应.ll的BasicBlock4,5</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BBTrue);</span><br><span class="line">    builder-&gt;<span class="built_in">create_ret</span>(<span class="built_in">CONST_INT</span>(<span class="number">233</span>));</span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BBFalse);</span><br><span class="line">    builder-&gt;<span class="built_in">create_ret</span>(<span class="built_in">CONST_INT</span>(<span class="number">0</span>));</span><br><span class="line">    <span class="comment">//指令创建结束</span></span><br><span class="line">    std::cout &lt;&lt; <span class="keyword">module</span>-&gt;<span class="built_in">print</span>();</span><br><span class="line">    <span class="keyword">delete</span> <span class="keyword">module</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">运行程序验证：</p>
+
+<p><img src="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121171447083.png" alt="image-20221121171447083" style="zoom: 67%;"></p>
+<h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><p style="text-indent:2em">对应的.ll代码如下：</p>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">define i32 @main() #0 &#123;</span><br><span class="line">    %1 = alloca i32        ;%1 = a addr</span><br><span class="line">    %2 = alloca i32        ;%2 = i addr</span><br><span class="line">    store i32 0, i32* %2   ;i = 0</span><br><span class="line">    store i32 10, i32* %1  ;a = 10</span><br><span class="line">    br label %3             </span><br><span class="line"></span><br><span class="line">;if i&lt;10</span><br><span class="line">3:</span><br><span class="line">    %4 = load i32, i32* %2        ;%4 = i</span><br><span class="line">    %5 = icmp slt i32 %4, 10      ;i &lt; 10?</span><br><span class="line">    br i1 %5, label %6, label %10</span><br><span class="line">    </span><br><span class="line">6:</span><br><span class="line">    %7 = add nsw i32 %4, 1        ;i + 1</span><br><span class="line">    store i32 %7, i32* %2         ;i = i + 1</span><br><span class="line">    %8 = load i32, i32* %1        ;%8 = a</span><br><span class="line">    %9 = add nsw i32 %7, %8       ;%9 = a + i</span><br><span class="line">    store i32 %9, i32* %1         ;a = a + i</span><br><span class="line">    br label %3</span><br><span class="line">    </span><br><span class="line">10:</span><br><span class="line">    ret i32 %9                    ;return a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">以上的.ll程序共有四个BasicBlock，逐个添加指令即可。.cpp中的BasicBlock与.ll的对应在注释中说明。.cpp的代码如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> <span class="keyword">module</span> = <span class="keyword">new</span> <span class="built_in">Module</span>(<span class="string">&quot;while&quot;</span>);                 </span><br><span class="line">    <span class="keyword">auto</span> builder = <span class="keyword">new</span> <span class="built_in">IRBuilder</span>(<span class="literal">nullptr</span>, <span class="keyword">module</span>);                      <span class="comment">//使用IRBuilder创建指令</span></span><br><span class="line">    <span class="comment">//创建main函数和4个BasicBlock</span></span><br><span class="line">    Type *Int32Type = Type::<span class="built_in">get_int32_type</span>(<span class="keyword">module</span>);</span><br><span class="line">    <span class="keyword">auto</span> mainTy = FunctionType::<span class="built_in">get</span>(Int32Type, &#123;&#125;);                     <span class="comment">//返回值为i32，参数为空</span></span><br><span class="line">    <span class="keyword">auto</span> main = Function::<span class="built_in">create</span>(mainTy, <span class="string">&quot;main&quot;</span>, <span class="keyword">module</span>);</span><br><span class="line">    <span class="keyword">auto</span> BBEntry = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;entry&quot;</span> , main);</span><br><span class="line">    <span class="keyword">auto</span> BBWhile = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;while&quot;</span> , main);</span><br><span class="line">    <span class="keyword">auto</span> BBTrue = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;true&quot;</span> , main);</span><br><span class="line">    <span class="keyword">auto</span> BBFalse = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;false&quot;</span> , main);</span><br><span class="line">    <span class="comment">//entryBasicBlock插入指令，即.ll的BasicBlock0</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BBEntry);</span><br><span class="line">    <span class="keyword">auto</span> aP = builder-&gt;<span class="built_in">create_alloca</span>(Int32Type);                        <span class="comment">//分配a的空间，返回指针aP</span></span><br><span class="line">    <span class="keyword">auto</span> iP = builder-&gt;<span class="built_in">create_alloca</span>(Int32Type);                        <span class="comment">//分配i的空间，返回指针iP</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(<span class="built_in">CONST_INT</span>(<span class="number">0</span>), iP);                            <span class="comment">//i = 0</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(<span class="built_in">CONST_INT</span>(<span class="number">10</span>), aP);                           <span class="comment">//a = 10</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_br</span>(BBWhile);                                        <span class="comment">//br跳转到while循环的判断BasicBlock</span></span><br><span class="line">    <span class="comment">//whileBasicBlock插入指令，即.ll的BasicBlock3</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BBWhile);</span><br><span class="line">    <span class="keyword">auto</span> temp = builder-&gt;<span class="built_in">create_load</span>(iP);</span><br><span class="line">    <span class="keyword">auto</span> icmp = builder-&gt;<span class="built_in">create_icmp_lt</span>(temp, <span class="built_in">CONST_INT</span>(<span class="number">10</span>));</span><br><span class="line">    builder-&gt;<span class="built_in">create_cond_br</span>(icmp, BBTrue, BBFalse);                     <span class="comment">//br跳转到True或False的BasicBlock</span></span><br><span class="line">    <span class="comment">//TrueBasicBlock插入指令，即.ll的BasicBlock6</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BBTrue);</span><br><span class="line">    <span class="keyword">auto</span> newi = builder-&gt;<span class="built_in">create_iadd</span>(temp, <span class="built_in">CONST_INT</span>(<span class="number">1</span>));               <span class="comment">//i + 1</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(newi, iP);                                    <span class="comment">//i = i + 1</span></span><br><span class="line">    <span class="keyword">auto</span> a = builder-&gt;<span class="built_in">create_load</span>(aP);</span><br><span class="line">    <span class="keyword">auto</span> newa = builder-&gt;<span class="built_in">create_iadd</span>(newi, a);                          <span class="comment">//a + i</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(newa, aP);                                    <span class="comment">//a = a + i</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_br</span>(BBWhile);                                        <span class="comment">//br跳转到while循环的判断BasicBlock</span></span><br><span class="line">    <span class="comment">//FalseBasicBlock插入指令，即.ll的BasicBlock10</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BBFalse);</span><br><span class="line">    builder-&gt;<span class="built_in">create_ret</span>(newa);                                          <span class="comment">//return a</span></span><br><span class="line">    <span class="comment">//指令创建结束</span></span><br><span class="line">    std::cout &lt;&lt; <span class="keyword">module</span>-&gt;<span class="built_in">print</span>();</span><br><span class="line">    <span class="keyword">delete</span> <span class="keyword">module</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">运行程序验证：</p>
+
+<p><img src="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121175730205.png" alt="image-20221121175730205" style="zoom:67%;"></p>
+<p style="text-indent:2em">以上的.ll代码和.cpp编译运行后的.ll代码运行后均能产生正确的结果，与原.c程序的逻辑相同.</p>
+
+<h2 id="问题2-Visitor-Pattern"><a href="#问题2-Visitor-Pattern" class="headerlink" title="问题2: Visitor Pattern"></a>问题2: Visitor Pattern</h2><p>请指出visitor.cpp中，<code>treeVisitor.visit(exprRoot)</code>执行时，以下几个Node的遍历序列:numberA、numberB、exprC、exprD、exprE、numberF、exprRoot。<br>序列请按如下格式指明：<br>exprRoot-&gt;numberF-&gt;exprE-&gt;numberA-&gt;exprD</p>
+<p style="text-indent:2em">根据visitor.cpp中的内容，每个节点会返回自身的引用，visitor会进行访问该节点，计算该节点的值，计算的方式是访问其左右节点并获取值，然后根据节点的操作类型完成值的计算，然后返回。子节点的值的获取也是相同的，直到访问到数值节点，就直接返回相应的数值。可以看出访问的过程是自顶向下递归访问的过程。main函数中创建的计算树如下：</p>
+
+<p><img src="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121194007554.png" alt="image-20221121194007554" style="zoom: 50%;"></p>
+<p style="text-indent:2em">根据visit()函数中的实现，对于AddSubNode的访问，是先访问右子节点，然后访问左子节点，对于MulDivNode的访问，先访问左子节点，后访问右子节点。因此可以得出visitor.cpp中访问该树的序列为：</p>
+
+<p style="text-indent:2em">exprRoot->numberF->exprE->exprD->numberB->numberA->exprC->numberA->numberB</p>
+
+<h2 id="问题3-getelementptr"><a href="#问题3-getelementptr" class="headerlink" title="问题3: getelementptr"></a>问题3: getelementptr</h2><p>请给出<code>IR.md</code>中提到的两种getelementptr用法的区别,并稍加解释:</p>
+<ul>
+<li><code>%2 = getelementptr [10 x i32], [10 x i32]* %1, i32 0, i32 %0</code> </li>
+<li><code>%2 = getelementptr i32, i32* %1 i32 %0</code> </li>
+</ul>
+<p>第一种用法：</p>
+<p style="text-indent:2em">指针类型为[10 x i32]*，指向的数据类型为[10 x i32]，因此首先用i32 0表示偏移为0，这表示直接取第一个[10 x i32]数组，然后的i32 %0表示在第一个[10 x i32]数组内，偏移%0的元素地址。</p>
+
+<p>第二种用法：</p>
+<p style="text-indent:2em">指针类型为i32*，%1表示的是数组的起始地址，偏移量为%0，直接取出了数组偏移%0位置的元素地址。</p>
+
+<p>区别：</p>
+<p style="text-indent:2em">在第一种用法中，指针类似于指针数组，首先确定在这个指针数组上的偏移，才能得到一个数组的指针，然后通过偏移找到元素的地址。而在第二种用法中，直接对数组的指针进行偏移，找到元素的地址。</p>
+
+<p style="text-indent:2em">当定义全局数组或结构体时，定义的是指针，例如在给出的gcd_array.c中声明的全局数组x，y，就是[1 x i32]*类型，因此取出元素时使用的是第一种用法。</p>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//全局数组x[1]</span></span><br><span class="line">@x = common dso_local global [<span class="number">1</span> x i32] zeroinitializer, align <span class="number">4</span></span><br><span class="line"><span class="comment">//取出元素地址</span></span><br><span class="line">getelementptr inbounds ([<span class="number">1</span> x i32], [<span class="number">1</span> x i32]* @x, i64 <span class="number">0</span>, i64 <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="实验难点"><a href="#实验难点" class="headerlink" title="实验难点"></a>实验难点</h2><h3 id="1-编写-ll"><a href="#1-编写-ll" class="headerlink" title="1.编写.ll"></a>1.编写.ll</h3><p style="text-indent:2em">在编写if.c对应的.ll时，提示error: floating point constant invalid for type，不能用浮点常量给浮点数赋值。经查询，这是因为浮点数5.55不能用浮点数精确表示，因此不能直接给浮点数赋值。如果是4.0等可以精确表示的数，就可以直接赋值。此处只能使用十六进制的浮点数机器表示进行赋值，为0x40163851E0000000。</p>
+
+<p style="text-indent:2em">编写while.c对应的.ll时注意到，编号顺序必须是连续的，除了if对应的块跳转语句可以出现不连续的编号，其他编号都必须是连续的。因此br语句中的跳转编号应该最后填写。</p>
+
+<p style="text-indent:2em">编写.ll后，与.c源文件产生的.ll文件进行了比较，clang产生的.ll文件中的指令更多，对于值进行了更多的存储和取出的操作，但是逻辑上是和自行编写的.ll指令是相同的。自行编写时，临时变量直接使用寄存器存储，还有一些寄存器值也重复使用，相当于对直接产生的.ll指令优化后的结果。</p>
+
+<h3 id="2-编写cpp"><a href="#2-编写cpp" class="headerlink" title="2.编写cpp"></a>2.编写cpp</h3><p style="text-indent:2em">编写cpp时，由于对接口不熟悉，创建对应的指令有些困难，在经过阅读gcd_array.cpp中创建指令的部分和整体结构，仿照并逐个指令完成assign.cpp后，后三个cpp代码的编写才比较顺利。</p>
+
+<p style="text-indent:2em">创建比较指令时，指令名使用了lightIR中的ugt来表示小于，编译时提示不存在这条指令，从lightIR.h中找到，比较的指令使用的是下面的表示：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">CmpOp</span></span><br><span class="line">    &#123;</span><br><span class="line">        EQ, <span class="comment">// ==</span></span><br><span class="line">        NE, <span class="comment">// !=</span></span><br><span class="line">        GT, <span class="comment">// &gt;</span></span><br><span class="line">        GE, <span class="comment">// &gt;=</span></span><br><span class="line">        LT, <span class="comment">// &lt;</span></span><br><span class="line">        LE  <span class="comment">// &lt;=</span></span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">因此修改相应的比较指令为以下形式：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> fcmp = builder-&gt;<span class="built_in">create_fcmp_gt</span>(a, <span class="built_in">CONST_FP</span>(<span class="number">1.0</span>)); </span><br><span class="line"><span class="keyword">auto</span> icmp = builder-&gt;<span class="built_in">create_icmp_lt</span>(temp, <span class="built_in">CONST_INT</span>(<span class="number">10</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="实验反馈"><a href="#实验反馈" class="headerlink" title="实验反馈"></a>实验反馈</h2><p style="text-indent:2em">通过本次实验学习了llvm，LightIR相关知识。对于LightIR的接口，文档内容没有特别清晰，通过结合实例和.h文件中的内容才逐渐熟悉。编写.ll文件时，注意到了与clang编译代码的不同，自行编写可以在许多位置直接进行优化，而编译器可能第一步只能生成未优化的代码。对于自行编写的.ll指令，使用C++生成的过程也相对较为简洁。最后通过visitor.cpp了解了访问者模式，对于这种模式比较陌生，但是通过实例理解了其工作原理和访问过程。</p>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag"># 编译原理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/" rel="prev" title="编译原理实验二：Bison">
+      <i class="fa fa-chevron-left"></i> 编译原理实验二：Bison
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/" rel="next" title="编译原理实验四">
+      编译原理实验四 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%981-cpp%E4%B8%8E-ll%E7%9A%84%E5%AF%B9%E5%BA%94"><span class="nav-text">问题1: cpp与.ll的对应</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#assign"><span class="nav-text">assign</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fun"><span class="nav-text">fun</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if"><span class="nav-text">if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-text">while</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%982-Visitor-Pattern"><span class="nav-text">问题2: Visitor Pattern</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%983-getelementptr"><span class="nav-text">问题3: getelementptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E9%9A%BE%E7%82%B9"><span class="nav-text">实验难点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BC%96%E5%86%99-ll"><span class="nav-text">1.编写.ll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BC%96%E5%86%99cpp"><span class="nav-text">2.编写cpp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%8F%8D%E9%A6%88"><span class="nav-text">实验反馈</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">173k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:37</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

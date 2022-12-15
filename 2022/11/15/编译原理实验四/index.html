@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="实验要求cminus-f的词法分析和语法分析部分已经完成，最终得到的是语法分析树。而为了产生目标代码，还需要将语法分析树转为抽象语法树，通过抽象语法分析树生成中间代码(即IR)，最后使用中间代码来进行优化并生成目标代码。在本实验中，只要完成中间表示IR的生成，语法分析树到抽象语法树的转换已经在框架中提供了，而IR代码到目标代码的生成由clang来完成。  生成IR指令的过程为在访问者模式下访问抽象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理实验四">
+<meta property="og:url" content="https://a-y-1.github.io/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="实验要求cminus-f的词法分析和语法分析部分已经完成，最终得到的是语法分析树。而为了产生目标代码，还需要将语法分析树转为抽象语法树，通过抽象语法分析树生成中间代码(即IR)，最后使用中间代码来进行优化并生成目标代码。在本实验中，只要完成中间表示IR的生成，语法分析树到抽象语法树的转换已经在框架中提供了，而IR代码到目标代码的生成由clang来完成。  生成IR指令的过程为在访问者模式下访问抽象">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/image-20221123173758944.png">
+<meta property="article:published_time" content="2022-11-15T04:30:29.000Z">
+<meta property="article:modified_time" content="2022-12-15T01:16:44.082Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="编译原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/image-20221123173758944.png">
+
+<link rel="canonical" href="https://a-y-1.github.io/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>编译原理实验四 | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编译原理实验四
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-15 12:30:29" itemprop="dateCreated datePublished" datetime="2022-11-15T12:30:29+08:00">2022-11-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-15 09:16:44" itemprop="dateModified" datetime="2022-12-15T09:16:44+08:00">2022-12-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>22k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>20 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h2><p style="text-indent:2em">cminus-f的词法分析和语法分析部分已经完成，最终得到的是语法分析树。而为了产生目标代码，还需要将语法分析树转为抽象语法树，通过抽象语法分析树生成中间代码(即IR)，最后使用中间代码来进行优化并生成目标代码。在本实验中，只要完成中间表示IR的生成，语法分析树到抽象语法树的转换已经在框架中提供了，而IR代码到目标代码的生成由clang来完成。</p>
+
+<p style="text-indent:2em">生成IR指令的过程为在访问者模式下访问抽象语法树。本次实验要完成的就是访问抽象语法树的相关visit函数，在这些visit函数中要完成IR指令的生成。</p>
+
+<h2 id="实验难点"><a href="#实验难点" class="headerlink" title="实验难点"></a>实验难点</h2><h3 id="1-使用AST和visit函数生成IR指令"><a href="#1-使用AST和visit函数生成IR指令" class="headerlink" title="1.使用AST和visit函数生成IR指令"></a>1.使用AST和visit函数生成IR指令</h3><p style="text-indent:2em">由于cminus-f的语法还是比lab3中计算器要复杂的多，供参考的抽象语法树的打印代码也还是和生成IR指令由很大差别，在开始编写时存在困难。通过阅读AST的头文件和lab3的visitor.cpp，首先确定了visit函数生成IR指令的过程：</p>
+
+<ul>
+<li>visit函数调用当前节点的子节点accept函数，即调用子节点的visit函数</li>
+<li>处理当前节点，生成指令</li>
+</ul>
+<p style="text-indent:2em">若子节点需要向父节点传值，则通过全局变量来实现。在visit节点时还要加入语义分析的部分，判断语义是否正确。</p>
+
+<p style="text-indent:2em">为了进一步弄清楚遍历AST生成IR的过程，在各个visit函数中加入logging信息，也为后续排查错误做好准备。然后首先完成较为简单的表达式处理等部分，通过这个过程逐渐熟悉IR转换和层次关系以及传值的过程，最后完成困难的visit函数。并在实现过程中逐步用简单的cminus程序测试，用logging找到出错的位置，完成逐个函数的设计。</p>
+
+<p style="text-indent:2em">以第一个产生式program->declaration-list为例，首先找到节点的定义，program节点包含一个保存了declaration的vector，因此在visit中要逐个调用这些declaration节点的accept函数。Program只需要产生声明，不需要产生IR，只需要进行语义分析，在语义说明中给出了以下规则：</p>
+
+<ul>
+<li>一个程序由一系列声明组成，声明包括了函数声明与变量声明，它们可以以任意顺序排列。</li>
+<li>一个程序中至少要有一个声明且最后一个声明必须是 void main(void)形式的函数声明。</li>
+</ul>
+<p style="text-indent:2em">只需要对第二条进行检查，判断至少有一个声明，且最后一个声明是否是void main(void)形式的函数声明。在Declaration类型的节点中有id和type，进行检查即可，其中type是CminusType类型，在hpp开头枚举。因此Program节点的visit函数如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTProgram &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Program\n&quot;</span>;</span><br><span class="line">    <span class="comment">//语义检查</span></span><br><span class="line">    <span class="keyword">if</span>(node.declarations.<span class="built_in">size</span>()==<span class="number">0</span>)&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: 该程序中没有声明。\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!(node.declarations.<span class="built_in">back</span>()-&gt;id==<span class="string">&quot;main&quot;</span>&amp;&amp; node.declarations.<span class="built_in">back</span>()-&gt;type==TYPE_VOID))&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: 最后一个声明不是void main(void)&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问declarations子节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> dec: node.declarations)</span><br><span class="line">        dec-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-函数参数的处理"><a href="#2-函数参数的处理" class="headerlink" title="2.函数参数的处理"></a>2.函数参数的处理</h3><p style="text-indent:2em">在编写FunDeclaration和Param的visit函数时，不明确参数具体的处理方法。找到lab3中由clang生成的.ll，对于参数的处理都是先分配空间，然后使用store指令将参数值存入分配好的空间。例如以下程序：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">define i32 @<span class="built_in">callee</span>(i32 %<span class="number">0</span>) #<span class="number">0</span> &#123;</span><br><span class="line">    %<span class="number">2</span> = alloca i32</span><br><span class="line">    store i32 %<span class="number">0</span>, i32* %<span class="number">2</span></span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">但是Param的参数只有id，表示的是源程序中的参数名，对于如何找到这个参数产生了疑惑。重新找到lab3中编写的cpp传参的部分，传参是在函数创建以后，通过Function中的iterator获取得到的。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插入callee的BasicBlock中的指令</span></span><br><span class="line">std::vector&lt;Value *&gt; args;                      <span class="comment">//获取函数的形参,通过Function中的iterator</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> arg = callee-&gt;<span class="built_in">arg_begin</span>(); arg != callee-&gt;<span class="built_in">arg_end</span>(); arg++) &#123;</span><br><span class="line">    args.<span class="built_in">push_back</span>(*arg);                       <span class="comment">//* 号运算符是从迭代器中取出迭代器当前指向的元素</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">auto</span> mul = builder-&gt;<span class="built_in">create_imul</span>(args[<span class="number">0</span>], <span class="built_in">CONST_INT</span>(<span class="number">110</span>));             <span class="comment">//mul = a*2</span></span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">此处获取参数的部分，是直接按lab3提供的gcd_array.cpp仿照编写的，因为理解不够深入，所以在本实验处理参数时又产生了疑惑。回顾lab3此部分代码后，FunDeclaration中的参数存储的部分就没有问题了。与lab3不同的是，FunDeclaration是逐个调用Param的accept函数，完成存储空间分配的，所以需要一个全局变量在FunDeclaration和Param的visit函数之间传递arg。</p>
+
+<h3 id="3-ASTVar的处理"><a href="#3-ASTVar的处理" class="headerlink" title="3.ASTVar的处理"></a>3.ASTVar的处理</h3><p style="text-indent:2em">根据cminus的语义说明，Var可以是整型变量，浮点变量或数组变量。如果是数组变量，需要判断下标是否为负，如果为负则添加neg_idx_except指令退出程序，否则计算对应元素的地址(gep指令)。如果是数组，则下标可能是个表达式，需要确保表达式的返回结果为整型，然后才能进行取元素的操作。</p>
+
+<p style="text-indent:2em">从上面的语义说明可以理解Var是一种变量。但是下面的赋值语义说明：先找到var代表的变量地址（如果是数组，需要先对下标表达式求值），然后对右侧的表达式进行求值，求值结果将在转换成变量类型后存储在先前找到的地址中。同时，存储在var中的值将作为赋值表达式的求值结果。一开始结合Var节点中含有一个表达式，把这句话错误的理解为了在Var的visit函数内要完成找到地址，求表达式的值并赋值的指令。后来为了进一步理解Var变量的visit函数内要产生什么指令，继续阅读了剩下的产生式，最终找到Var出现的两种情况：</p>
+
+<ul>
+<li>expression→var = expression | simple-expression</li>
+<li>factor→(expression) | var | call | integer | float</li>
+</ul>
+<p style="text-indent:2em">这两种情况下对于var的处理是不同的。对于第一种情况，var是赋值表达式的一个组成部分，在访问赋值表达式时，应该访问Var，在全局变量ret中保存Var的地址，然后进行赋值，产生store指令；而第二种情况，应该将Var的值取出保存到ret中，作为因子参与计算表达式的计算。因此访问Var节点时，需要知道是从哪种情况访问的，为此添加一个全局变量ifAssign，如果访问赋值语句，就将该变量置为true，访问Var时返回地址。</p>
+
+<p style="text-indent:2em">解决了以上问题后，就可以根据是否有指向expression的指针判断是否为数组，然后取出相应的值或者地址了。如果是数组，还要对下标进行处理。如果下标为负则终止程序，这可以通过跳转到一个仅含终止指令的exitBasicBlock实现。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> ifNegative = builder-&gt;<span class="built_in">create_icmp_lt</span>(idx, <span class="built_in">CONST_INT</span>(<span class="number">0</span>));</span><br><span class="line"><span class="comment">//创建exitBasicBlock和正常继续的BasicBlock</span></span><br><span class="line"><span class="keyword">auto</span> exitBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), node.id + <span class="string">&quot;exit&quot;</span>, func);</span><br><span class="line"><span class="keyword">auto</span> nextBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), node.id + <span class="string">&quot;next&quot;</span>, func);</span><br><span class="line"><span class="comment">//条件跳转指令</span></span><br><span class="line">builder-&gt;<span class="built_in">create_cond_br</span>(ifNegative, exitBB, nextBB);</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">处理非数组变量比较简单，处理数组变量时又产生了问题，因为数组获取元素地址有两种方式，即lab3中的两种getelementptr，分别需要两个偏移和一个偏移。为了明确如何处理数组，得到数组元素的指针，重新比较两种数组的分配的IR形式：</p>
+
+<ul>
+<li>%1  = alloca [10 x i32]</li>
+<li>%1 = alloca i32*</li>
+</ul>
+<p style="text-indent:2em">可以看出，第一种分配的是数组，得到的是指向数组的指针。第二种分配的是指针，这个指针是数组的首地址，返回的值是一个指向指针的指针。因此取元素地址时，使用第一种分配方式，直接对%1使用两个偏移的getelementptr，就得到了元素的地址；使用第二种分配方式，需要先使用load取出指针(数组首地址)，然后使用一个偏移获取元素地址。因此在Var的visit函数中，处理如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> var = scope.<span class="built_in">find</span>(node.id);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	处理非数组，数组下标，检查下标不为负....</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//如果var的值是指向数组的指针，需要两个偏移取地址</span></span><br><span class="line"><span class="keyword">if</span>(var-&gt;<span class="built_in">get_type</span>()-&gt;<span class="built_in">get_pointer_element_type</span>()-&gt;<span class="built_in">is_array_type</span>())</span><br><span class="line">    builder-&gt;<span class="built_in">create_gep</span>(var, &#123; <span class="built_in">CONST_INT</span>(<span class="number">0</span>), idx &#125;);</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(var-&gt;<span class="built_in">get_type</span>()-&gt;<span class="built_in">get_pointer_element_type</span>()-&gt;<span class="built_in">is_pointer_type</span>())&#123;</span><br><span class="line">    <span class="comment">//从var中取出数组的起始地址</span></span><br><span class="line">    var = builder-&gt;<span class="built_in">create_load</span>(var);          <span class="comment">//a[]的地址</span></span><br><span class="line">    var = builder-&gt;<span class="built_in">create_gep</span>(var, &#123; idx &#125;);  <span class="comment">//a[idx]的地址</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ERROR: 变量&quot;</span> &lt;&lt; node.id &lt;&lt; <span class="string">&quot;不是一个数组\n&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">处理好以上两个问题后，剩下的部分就比较简单了。最终完整的Var的visit函数如下：</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTVar &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Var\n&quot;</span>;</span><br><span class="line">    <span class="comment">//先在作用域找到变量</span></span><br><span class="line">    <span class="keyword">auto</span> var = scope.<span class="built_in">find</span>(node.id);</span><br><span class="line">    <span class="keyword">if</span>(var==<span class="literal">nullptr</span>)</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;ERROR: 未声明的变量&quot;</span> &lt;&lt; node.id &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    <span class="comment">//处理不是数组的情况</span></span><br><span class="line">    <span class="keyword">if</span>(node.expression==<span class="literal">nullptr</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(ifAssign)&#123;                             <span class="comment">//直接返回地址</span></span><br><span class="line">            ret = var;</span><br><span class="line">            ifAssign = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">//数组的指针即a[]类型就返回数组的起始地址，否则load取值</span></span><br><span class="line">            <span class="keyword">if</span>(var-&gt;<span class="built_in">get_type</span>()-&gt;<span class="built_in">get_pointer_element_type</span>()-&gt;<span class="built_in">is_array_type</span>())</span><br><span class="line">                ret = builder-&gt;<span class="built_in">create_gep</span>(var, &#123;<span class="built_in">CONST_INT</span>(<span class="number">0</span>), <span class="built_in">CONST_INT</span>(<span class="number">0</span>)&#125;);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                ret = builder-&gt;<span class="built_in">create_load</span>(var);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//处理数组的情况</span></span><br><span class="line">    node.expression-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    Value *idx = ret;                             <span class="comment">//下标</span></span><br><span class="line">    <span class="keyword">if</span>(idx-&gt;<span class="built_in">get_type</span>()-&gt;<span class="built_in">is_float_type</span>())          <span class="comment">//如果为浮点类型，转换为整型</span></span><br><span class="line">        idx = builder-&gt;<span class="built_in">create_fptosi</span>(idx, INT32_Type);</span><br><span class="line">    <span class="keyword">auto</span> func = builder-&gt;<span class="built_in">get_insert_block</span>()-&gt;<span class="built_in">get_parent</span>();</span><br><span class="line">    <span class="keyword">auto</span> ifNegative = builder-&gt;<span class="built_in">create_icmp_lt</span>(idx, <span class="built_in">CONST_INT</span>(<span class="number">0</span>));</span><br><span class="line">    <span class="comment">//创建exitBasicBlock和正常继续的BasicBlock</span></span><br><span class="line">    <span class="keyword">auto</span> exitBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), node.id + <span class="string">&quot; exit&quot;</span>, func);</span><br><span class="line">    <span class="keyword">auto</span> nextBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), node.id + <span class="string">&quot; next&quot;</span>, func);</span><br><span class="line">    <span class="comment">//条件跳转指令</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_cond_br</span>(ifNegative, exitBB, nextBB);</span><br><span class="line">    <span class="comment">//向exitBB插入退出程序的指令</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(exitBB);</span><br><span class="line">    <span class="keyword">auto</span> fail = scope.<span class="built_in">find</span>(<span class="string">&quot;neg_idx_except&quot;</span>);               </span><br><span class="line">    builder-&gt;<span class="built_in">create_call</span>(<span class="built_in">static_cast</span>&lt;Function*&gt;(fail), &#123;&#125;); </span><br><span class="line">    builder-&gt;<span class="built_in">create_br</span>(nextBB);</span><br><span class="line">    <span class="comment">//向nextBB插入正常执行的指令</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(nextBB);</span><br><span class="line">    <span class="comment">//如果var的值是指向数组的指针，需要两个偏移取地址</span></span><br><span class="line">    <span class="keyword">if</span>(var-&gt;<span class="built_in">get_type</span>()-&gt;<span class="built_in">get_pointer_element_type</span>()-&gt;<span class="built_in">is_array_type</span>())</span><br><span class="line">        builder-&gt;<span class="built_in">create_gep</span>(var, &#123; <span class="built_in">CONST_INT</span>(<span class="number">0</span>), idx &#125;);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(var-&gt;<span class="built_in">get_type</span>()-&gt;<span class="built_in">get_pointer_element_type</span>()-&gt;<span class="built_in">is_pointer_type</span>())&#123;</span><br><span class="line">        <span class="comment">//从var中取出数组的起始地址</span></span><br><span class="line">        var = builder-&gt;<span class="built_in">create_load</span>(var);          <span class="comment">//a[]的地址</span></span><br><span class="line">        var = builder-&gt;<span class="built_in">create_gep</span>(var, &#123; idx &#125;);  <span class="comment">//a[idx]的地址</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;ERROR: 变量&quot;</span> &lt;&lt; node.id &lt;&lt; <span class="string">&quot;不是一个数组\n&quot;</span>;</span><br><span class="line">    <span class="comment">//判断是赋值还是变量引用</span></span><br><span class="line">    <span class="keyword">if</span>(ifAssign)&#123;                             <span class="comment">//直接返回地址</span></span><br><span class="line">        ret = var;</span><br><span class="line">        ifAssign = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        ret = builder-&gt;<span class="built_in">create_load</span>(var);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-表达式顺序错误"><a href="#4-表达式顺序错误" class="headerlink" title="4.表达式顺序错误"></a>4.表达式顺序错误</h3><p style="text-indent:2em">在完成了整个实验后，进行测试，发现无法通过最后一个testcase。打开12.minus查看代码，其中有函数调用和一些基本运算，一开始不确定错误在什么位置，因为此时编译已经没有问题了，只可能是语义处理的问题。经过一些尝试后，改写了lab4_test.py，将运行的结果与正确的结果输出，分别为-39和39，通过这个结果将错误定位到函数调用，然后检查生成的.ll代码，发现函数gcd中有一个减法，操作数的顺序错误。因此找到了加法表达式中创建指令时，传值传反了的错误。additive-expression的产生式为：additive-expression -→ additive-expression addop term | term。生成运算指令时，加法表达式的结果应该在左边，编写时没有注意到这个问题，所以导致了结果的错误。修改后，testcases全部通过。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">......</span><br><span class="line"><span class="keyword">if</span>(node.op==OP_PLUS)&#123;</span><br><span class="line">        <span class="keyword">if</span>(ifInt)</span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_iadd</span>(addRes, mulRes);     <span class="comment">//addRes在左!</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_fadd</span>(addRes, mulRes);  </span><br><span class="line">    &#125;</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<h2 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h2><h3 id="1-全局变量与宏定义"><a href="#1-全局变量与宏定义" class="headerlink" title="1.全局变量与宏定义"></a>1.全局变量与宏定义</h3><p style="text-indent:2em">补充了一个CONST_INT()宏定义获取常量值。INT32_Type和FLOAT_TYPE获取int32和float类型。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> CONST_INT(num) \</span></span><br><span class="line"><span class="meta">    ConstantInt::get((int)num, module.get())</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INT32_Type \</span></span><br><span class="line"><span class="meta"> Type::get_int32_type(module.get())      </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FLOAT_Type \</span></span><br><span class="line"><span class="meta"> Type::get_float_type(module.get())</span></span><br></pre></td></tr></table></figure>
+<p style="text-indent:2em">全局变量ret用于节点返回值。arg用于传递参数。ifAssign表示访问Var节点时，应该返回值还是变量地址。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Value* ret;</span><br><span class="line">Value* arg;</span><br><span class="line"><span class="type">bool</span> ifAssign = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="2-visit函数"><a href="#2-visit函数" class="headerlink" title="2.visit函数"></a>2.visit函数</h3><h4 id="Program"><a href="#Program" class="headerlink" title="Program"></a><strong>Program</strong></h4><p style="text-indent:2em">检查语义后，逐个访问declarations。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTProgram &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Program\n&quot;</span>;</span><br><span class="line">    <span class="comment">//语义检查</span></span><br><span class="line">    <span class="keyword">if</span>(node.declarations.<span class="built_in">size</span>()==<span class="number">0</span>)&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: 该程序中没有声明。\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!(node.declarations.<span class="built_in">back</span>()-&gt;id==<span class="string">&quot;main&quot;</span>&amp;&amp; node.declarations.<span class="built_in">back</span>()-&gt;type==TYPE_VOID))&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: 最后一个声明不是void main(void)&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问declarations子节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> dec: node.declarations)</span><br><span class="line">        dec-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Num"><a href="#Num" class="headerlink" title="Num"></a>Num</h4><p style="text-indent:2em">数值节点没有子节点，直接进行处理，根据type确认数值类型，然后将值保存到全局变量value中。根据语义规则，只能有整型和浮点数两个类型。但此处的检查是没有必要的，因为其他数据类型会在词法分析时被识别为标识符，在语法分析时就会产生错误。而VOID类型在变量声明时进行检查，保证变量声明只有整型和浮点型。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTNum &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Num\n&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span>(node.type == TYPE_INT)</span><br><span class="line">        ret = <span class="built_in">CONST_INT</span>(node.i_val);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(node.type == TYPE_FLOAT)</span><br><span class="line">        ret = <span class="built_in">CONST_FP</span>(node.f_val);</span><br><span class="line">    <span class="keyword">return</span>;  <span class="comment">//没有子节点，直接返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="VarDeclaration"><a href="#VarDeclaration" class="headerlink" title="VarDeclaration"></a><strong>VarDeclaration</strong></h4><p style="text-indent:2em">根据节点的定义，节点中包含一个类型和一个指针，还有继承自ASTDeclaration的id。对于变量声明节点的处理，需要产生分配空间的IR，在处理时还要区分数组与一般变量(根据节点的指针是否为空区分)，局部变量与全局变量。并且要把声明的变量放入当前作用域中，保证后续使用可以找到。根据语义规则，全局变量需要初始化为0，数组变量声明时，大小应该大于0。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTVarDeclaration &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;VarDeclaration\n&quot;</span>;</span><br><span class="line">    Type *varType;</span><br><span class="line">    <span class="keyword">if</span>(node.type==TYPE_INT)</span><br><span class="line">        varType = INT32_Type;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(node.type==TYPE_FLOAT)</span><br><span class="line">        varType = FLOAT_Type;</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        std::cout &lt;&lt;<span class="string">&quot;ERROR: 在变量声明中，只有整型和浮点型可以使用\n&quot;</span>;</span><br><span class="line">    <span class="comment">//对变量进行空间分配</span></span><br><span class="line">    <span class="keyword">if</span>(scope.<span class="built_in">in_global</span>())&#123;           <span class="comment">//全局变量</span></span><br><span class="line">        <span class="keyword">if</span>(node.num==<span class="literal">nullptr</span>)&#123;    <span class="comment">//非数组</span></span><br><span class="line">            <span class="keyword">auto</span> initializer = <span class="built_in">CONST_ZERO</span>(varType);</span><br><span class="line">            <span class="keyword">auto</span> globalVar = GlobalVariable::<span class="built_in">create</span>(node.id, <span class="keyword">module</span>.<span class="built_in">get</span>(), varType, <span class="literal">false</span>, initializer);</span><br><span class="line">            scope.<span class="built_in">push</span>(node.id, globalVar);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(node.num-&gt;i_val&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">auto</span> *array = ArrayType::<span class="built_in">get</span>(varType, node.num-&gt;i_val);</span><br><span class="line">                <span class="keyword">auto</span> initializer = <span class="built_in">CONST_ZERO</span>(array);</span><br><span class="line">                <span class="keyword">auto</span> globalVar = GlobalVariable::<span class="built_in">create</span>(node.id, <span class="keyword">module</span>.<span class="built_in">get</span>(), array, <span class="literal">false</span>, initializer);</span><br><span class="line">                scope.<span class="built_in">push</span>(node.id, globalVar);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                std::cout &lt;&lt; <span class="string">&quot;ERROR: 数组长度必须大于0\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;                          <span class="comment">//局部变量</span></span><br><span class="line">        <span class="keyword">if</span>(node.num==<span class="literal">nullptr</span>)&#123;     <span class="comment">//非数组</span></span><br><span class="line">             <span class="keyword">auto</span> localVar = builder-&gt;<span class="built_in">create_alloca</span>(varType);</span><br><span class="line">             scope.<span class="built_in">push</span>(node.id, localVar);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(node.num-&gt;i_val&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">auto</span> *array = ArrayType::<span class="built_in">get</span>(varType, node.num-&gt;i_val);</span><br><span class="line">                <span class="keyword">auto</span> localVar = builder-&gt;<span class="built_in">create_alloca</span>(array);</span><br><span class="line">                scope.<span class="built_in">push</span>(node.id, localVar);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                std::cout &lt;&lt; <span class="string">&quot;ERROR: 数组长度必须大于0\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="FunDeclaration"><a href="#FunDeclaration" class="headerlink" title="FunDeclaration"></a><strong>FunDeclaration</strong></h4><p style="text-indent:2em">FunDeclaration节点包含一个形参列表param和复合语句compound-stmt。需要创建的IR是创建函数和创建函数的第一个BasicBlock的指令，然后处理复合语句。在进入函数时要进入函数作用域，创建函数时要处理参数与返回值。对于每个参数，用全局变量取出实参，调用accept函数进行处理，在Param的visit函数中完成存储空间的分配，并加入到函数作用域当中。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTFunDeclaration &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;FunDeclaration\n&quot;</span>;</span><br><span class="line">    Type *retType;                 <span class="comment">//函数返回类型</span></span><br><span class="line">    std::vector&lt;Type *&gt; paramType; <span class="comment">//参数类型</span></span><br><span class="line">    FunctionType *funType;         <span class="comment">//函数类型</span></span><br><span class="line">    <span class="comment">//语义检查</span></span><br><span class="line">    <span class="keyword">if</span>(node.id==<span class="string">&quot;main&quot;</span> &amp;&amp; node.params.<span class="built_in">size</span>()&gt;<span class="number">0</span>)</span><br><span class="line">      cout &lt;&lt; <span class="string">&quot;ERROR: main函数必须为void main(void)形式\n&quot;</span>;</span><br><span class="line">    <span class="comment">//确定函数的返回类型</span></span><br><span class="line">    <span class="keyword">if</span>(node.type==TYPE_INT)</span><br><span class="line">        retType = INT32_Type;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(node.type==TYPE_FLOAT)</span><br><span class="line">        retType = FLOAT_Type;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(node.type==TYPE_VOID)</span><br><span class="line">        retType = Type::<span class="built_in">get_void_type</span>(<span class="keyword">module</span>.<span class="built_in">get</span>());</span><br><span class="line">    <span class="comment">//确定函数的参数类型</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> param : node.params)&#123;</span><br><span class="line">        <span class="keyword">if</span>(param-&gt;isarray)&#123;       <span class="comment">//参数为数组，则参数为数组的首地址指针</span></span><br><span class="line">            <span class="keyword">if</span>(param-&gt;type==TYPE_INT)</span><br><span class="line">                paramType.<span class="built_in">push_back</span>(Type::<span class="built_in">get_int32_ptr_type</span>(<span class="keyword">module</span>.<span class="built_in">get</span>()));</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(param-&gt;type==TYPE_FLOAT)</span><br><span class="line">                paramType.<span class="built_in">push_back</span>(Type::<span class="built_in">get_int32_ptr_type</span>(<span class="keyword">module</span>.<span class="built_in">get</span>()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;                    <span class="comment">//参数为整型或浮点型</span></span><br><span class="line">            <span class="keyword">if</span> (param-&gt;type==TYPE_INT)       </span><br><span class="line">                paramType.<span class="built_in">push_back</span>(INT32_Type);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(param-&gt;type==TYPE_FLOAT)</span><br><span class="line">                paramType.<span class="built_in">push_back</span>(FLOAT_Type);     </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建函数</span></span><br><span class="line">    funType = FunctionType::<span class="built_in">get</span>(retType, paramType);</span><br><span class="line">    <span class="keyword">auto</span> func = Function::<span class="built_in">create</span>(funType, node.id, <span class="keyword">module</span>.<span class="built_in">get</span>());</span><br><span class="line">    scope.<span class="built_in">push</span>(node.id, func);   <span class="comment">//将函数加入全局作用域</span></span><br><span class="line">    scope.<span class="built_in">enter</span>();               <span class="comment">//进入函数作用域</span></span><br><span class="line">    <span class="keyword">auto</span> entryBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), node.id + <span class="string">&quot;entry&quot;</span>, func);</span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(entryBB);     <span class="comment">//插入指令</span></span><br><span class="line">    <span class="comment">//visit参数节点</span></span><br><span class="line">    std::vector&lt;Value*&gt; args;    <span class="comment">//存储参数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> arg = func-&gt;<span class="built_in">arg_begin</span>();arg != func-&gt;<span class="built_in">arg_end</span>();arg++) &#123;</span><br><span class="line">        args.<span class="built_in">push_back</span>(*arg);    </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>;i &lt; node.params.<span class="built_in">size</span>();i++) &#123;</span><br><span class="line">        <span class="keyword">auto</span> param = node.params[i];</span><br><span class="line">        arg = args[i];           </span><br><span class="line">        param-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);           </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//处理函数体内的语句</span></span><br><span class="line">    node.compound_stmt-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">//如果BasicBlock最后没有终止指令，创建返回指令</span></span><br><span class="line">    <span class="keyword">if</span> (builder-&gt;<span class="built_in">get_insert_block</span>()-&gt;<span class="built_in">get_terminator</span>() == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (func-&gt;<span class="built_in">get_return_type</span>()-&gt;<span class="built_in">is_void_type</span>())</span><br><span class="line">            builder-&gt;<span class="built_in">create_void_ret</span>();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (func-&gt;<span class="built_in">get_return_type</span>()-&gt;<span class="built_in">is_float_type</span>())</span><br><span class="line">            builder-&gt;<span class="built_in">create_ret</span>(<span class="built_in">CONST_FP</span>(<span class="number">0.0</span>));</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            builder-&gt;<span class="built_in">create_ret</span>(<span class="built_in">CONST_INT</span>(<span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    scope.<span class="built_in">exit</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Param"><a href="#Param" class="headerlink" title="Param"></a><strong>Param</strong></h4><p style="text-indent:2em">在处理参数时，要为参数分配空间，使参数能够保留在函数的作用域内。在lab3中自行编写.ll文件时直接使用参数，不进行存储，直接使用就可以实现相同的逻辑。但在将cminus转换为IR时，cminus的语义规定了每次函数调用都会产生一组独立内存的参数，因此为参数分配空间，并存入作用域。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTParam &amp;node)</span> </span>&#123;     </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Param\n&quot;</span>; </span><br><span class="line">    Value* paramP; </span><br><span class="line">    <span class="keyword">if</span> (node.isarray) &#123;          <span class="comment">//数组</span></span><br><span class="line">        <span class="keyword">if</span> (node.type==TYPE_INT)        </span><br><span class="line">            paramP = builder-&gt;<span class="built_in">create_alloca</span>(Type::<span class="built_in">get_int32_ptr_type</span>(<span class="keyword">module</span>.<span class="built_in">get</span>()));</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (node.type==TYPE_FLOAT) </span><br><span class="line">            paramP = builder-&gt;<span class="built_in">create_alloca</span>(Type::<span class="built_in">get_float_ptr_type</span>(<span class="keyword">module</span>.<span class="built_in">get</span>()));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;                       <span class="comment">//非数组</span></span><br><span class="line">        <span class="keyword">if</span> (node.type==TYPE_INT)       </span><br><span class="line">            paramP = builder-&gt;<span class="built_in">create_alloca</span>(INT32_Type);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (node.type==TYPE_FLOAT)</span><br><span class="line">            paramP = builder-&gt;<span class="built_in">create_alloca</span>(FLOAT_Type);</span><br><span class="line">    &#125;</span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(arg, paramP);         <span class="comment">//存储参数</span></span><br><span class="line">    scope.<span class="built_in">push</span>(node.id, paramP);                <span class="comment">//加入作用域</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="CompoundStmt"><a href="#CompoundStmt" class="headerlink" title="CompoundStmt"></a><strong>CompoundStmt</strong></h4><p style="text-indent:2em">每个函数内部都有一个复合语句，根据ASTCompoundStmt的定义，复合语句由局部声明和一系列语句构成。只需要逐个调用相应的accept函数，不需要产生IR。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTCompoundStmt &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;CompoundStmt\n&quot;</span>;</span><br><span class="line">    <span class="comment">//访问局部声明的节点和语句节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> local_declaration: node.local_declarations)</span><br><span class="line">        local_declaration-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> statement: node.statement_list)</span><br><span class="line">        statement-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="ExpressionStmt"><a href="#ExpressionStmt" class="headerlink" title="ExpressionStmt"></a><strong>ExpressionStmt</strong></h4><p style="text-indent:2em">ExpressionStmt对应一条表达式或空，只要表达式存在，就处理该表达式。</p>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">CminusfBuilder::visit</span><span class="params">(ASTExpressionStmt &amp;node)</span> &#123; </span><br><span class="line">    LOG(DEBUG) &lt;&lt; <span class="string">&quot;ExpressionStmt\n&quot;</span>;</span><br><span class="line">	<span class="keyword">if</span> (node.expression != nullptr)</span><br><span class="line">		node.expression-&gt;accept(*this);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="SelectionStmt"><a href="#SelectionStmt" class="headerlink" title="SelectionStmt"></a><strong>SelectionStmt</strong></h4><p style="text-indent:2em">SelectionStmt包含一个条件表达式，一个if语句块，还有可能存在的else语句块。先处理表达式，产生条件跳转语句。如果指向else语句块的指针为空，就说明只有if语句。考虑只有if的情况，在执行到if时，应该通过br指令条件跳转到if语句块或if后的部分。如果还有else语句，则通过br指令条件跳转到if语句块或else语句块，然后从这两个语句块的结尾返回或者跳转到ifelse语句之后的部分。因此在SelectionStmt的visit函数中应该至少生成三个BasicBlock，并生成br指令。根据else指针是否为空判断是否需要生成条件判断为false的BasicBlock。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTSelectionStmt &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;SelectionStmt\n&quot;</span>;</span><br><span class="line">    <span class="comment">//处理条件表达式</span></span><br><span class="line">    <span class="keyword">auto</span> func = builder-&gt;<span class="built_in">get_insert_block</span>()-&gt;<span class="built_in">get_parent</span>();</span><br><span class="line">    node.expression-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">auto</span> retType = ret-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    Value* ifExpression;                         <span class="comment">//条件表达式的结果             </span></span><br><span class="line">    <span class="comment">//根据返回类型处理, 生成比较语句</span></span><br><span class="line">    <span class="keyword">if</span>(retType-&gt;<span class="built_in">is_integer_type</span>())</span><br><span class="line">        ifExpression = builder-&gt;<span class="built_in">create_icmp_gt</span>(ret, <span class="built_in">CONST_ZERO</span>(INT32_Type));</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        ifExpression = builder-&gt;<span class="built_in">create_fcmp_gt</span>(ret, <span class="built_in">CONST_ZERO</span>(FLOAT_Type));</span><br><span class="line">    <span class="comment">//生成BasicBlock</span></span><br><span class="line">    <span class="keyword">auto</span> ifBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), <span class="string">&quot;ifBasicBlock&quot;</span>, func);</span><br><span class="line">    <span class="keyword">auto</span> elseBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), <span class="string">&quot;elseBasicBlock&quot;</span>, func);</span><br><span class="line">    <span class="keyword">auto</span> afterIfBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), <span class="string">&quot;afterIfBasicBlock&quot;</span>, func);</span><br><span class="line">    <span class="comment">//创建br指令</span></span><br><span class="line">    <span class="keyword">if</span>(node.else_statement==<span class="literal">nullptr</span>)             <span class="comment">//没有else</span></span><br><span class="line">        builder-&gt;<span class="built_in">create_cond_br</span>(ifExpression, ifBB, afterIfBB);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        builder-&gt;<span class="built_in">create_cond_br</span>(ifExpression, ifBB, elseBB);</span><br><span class="line">    <span class="comment">//为ifBB添加IR</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(ifBB);</span><br><span class="line">    node.if_statement-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">	<span class="keyword">if</span> (builder-&gt;<span class="built_in">get_insert_block</span>()-&gt;<span class="built_in">get_terminator</span>() == <span class="literal">nullptr</span>)</span><br><span class="line">		builder-&gt;<span class="built_in">create_br</span>(afterIfBB);</span><br><span class="line">    <span class="comment">//为elseBB添加IR</span></span><br><span class="line">    <span class="keyword">if</span>(node.else_statement!=<span class="literal">nullptr</span>)&#123;</span><br><span class="line">        builder-&gt;<span class="built_in">set_insert_point</span>(elseBB);</span><br><span class="line">        node.else_statement-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">	    <span class="keyword">if</span> (builder-&gt;<span class="built_in">get_insert_block</span>()-&gt;<span class="built_in">get_terminator</span>() == <span class="literal">nullptr</span>)</span><br><span class="line">		builder-&gt;<span class="built_in">create_br</span>(afterIfBB);        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        elseBB-&gt;<span class="built_in">erase_from_parent</span>();</span><br><span class="line">    <span class="comment">//后面的语句块的IR在新的BasicBlock中</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(afterIfBB);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="IterationStmt"><a href="#IterationStmt" class="headerlink" title="IterationStmt"></a><strong>IterationStmt</strong></h4><p style="text-indent:2em">与if语句类似，while迭代语句也有一个条件表达式，进行条件跳转。可以创建一个用于判断的ifBasicBlock，一个循环的loopBasicBlock，一个while语句后的afterWhileBasicBlock，添加相应的指令。当条件表达式为True时，进行ifBB->loopBB->ifBB的循环跳转。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTIterationStmt &amp;node)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;IterationStmt\n&quot;</span>;</span><br><span class="line">    <span class="comment">//创建BasicBlock</span></span><br><span class="line">    <span class="keyword">auto</span> func = builder-&gt;<span class="built_in">get_insert_block</span>()-&gt;<span class="built_in">get_parent</span>();</span><br><span class="line">    <span class="keyword">auto</span> ifBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), <span class="string">&quot;ifBasicBlock&quot;</span>, func);</span><br><span class="line">    <span class="keyword">auto</span> loopBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), <span class="string">&quot;loopBasicBlock&quot;</span>, func);</span><br><span class="line">    <span class="keyword">auto</span> afterWhileBB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>.<span class="built_in">get</span>(), <span class="string">&quot;afterWhileBasicBlock&quot;</span>, func);</span><br><span class="line">    <span class="comment">//跳转到条件表达式判断的BasicBlock</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_br</span>(ifBB);</span><br><span class="line">    <span class="comment">//为ifBB添加IR, 判断条件表达式的结果</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(ifBB);</span><br><span class="line">    node.expression-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">auto</span> retType = ret-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    Value* ifExpression;                         <span class="comment">//条件表达式的结果             </span></span><br><span class="line">    <span class="comment">//根据返回类型处理, 生成比较语句</span></span><br><span class="line">    <span class="keyword">if</span>(retType-&gt;<span class="built_in">is_integer_type</span>())</span><br><span class="line">        ifExpression = builder-&gt;<span class="built_in">create_icmp_gt</span>(ret, <span class="built_in">CONST_ZERO</span>(INT32_Type));</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        ifExpression = builder-&gt;<span class="built_in">create_fcmp_gt</span>(ret, <span class="built_in">CONST_ZERO</span>(FLOAT_Type));</span><br><span class="line">    <span class="comment">//条件跳转</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_cond_br</span>(ifExpression, loopBB, afterWhileBB);</span><br><span class="line">    <span class="comment">//为loopBB添加IR</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(loopBB);</span><br><span class="line">    node.statement-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">if</span> (builder-&gt;<span class="built_in">get_insert_block</span>()-&gt;<span class="built_in">get_terminator</span>() == <span class="literal">nullptr</span>)</span><br><span class="line">        builder-&gt;<span class="built_in">create_br</span>(ifBB);</span><br><span class="line">    <span class="comment">//后面的语句块的IR在新的BasicBlock中</span></span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(afterWhileBB);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="ReturnStmt"><a href="#ReturnStmt" class="headerlink" title="ReturnStmt"></a><strong>ReturnStmt</strong></h4><p style="text-indent:2em">返回语句中有一个表达式计算返回值，如果指向该返回语句的指针为空，说明没有返回值，创建一个void返回IR，否则需要调用该表达式的accept函数，并检查返回类型是否和函数的返回类型相同。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTReturnStmt &amp;node)</span> </span>&#123; </span><br><span class="line">	<span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;ReturnStmt\n&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span>(node.expression==<span class="literal">nullptr</span>)&#123;</span><br><span class="line">        builder-&gt;<span class="built_in">create_void_ret</span>();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    node.expression-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">//处理返回值，产生返回的IR</span></span><br><span class="line">    <span class="keyword">auto</span> func = builder-&gt;<span class="built_in">get_insert_block</span>()-&gt;<span class="built_in">get_parent</span>();</span><br><span class="line">    <span class="keyword">auto</span> retType = func-&gt;<span class="built_in">get_return_type</span>();</span><br><span class="line">    <span class="keyword">auto</span> resType = ret-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    <span class="keyword">if</span> (retType-&gt;<span class="built_in">is_integer_type</span>() &amp;&amp; resType-&gt;<span class="built_in">is_float_type</span>())</span><br><span class="line">        ret = builder-&gt;<span class="built_in">create_fptosi</span>(ret, INT32_Type);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(retType-&gt;<span class="built_in">is_float_type</span>() &amp;&amp; resType-&gt;<span class="built_in">is_integer_type</span>())</span><br><span class="line">        ret = builder-&gt;<span class="built_in">create_sitofp</span>(ret, FLOAT_Type);</span><br><span class="line">    builder-&gt;<span class="built_in">create_ret</span>(ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Var"><a href="#Var" class="headerlink" title="Var"></a><strong>Var</strong></h4><p style="text-indent:2em">在实验难点中已说明。</p>
+
+<h4 id="AssignExpression"><a href="#AssignExpression" class="headerlink" title="AssignExpression"></a>AssignExpression</h4><p style="text-indent:2em">对于Assign语句，将全局变量ifAssign置为true，调用子节点var的accept函数得到变量的地址，然后计算表达式的值，创建store指令将值存入地址。需要确认表达式结果是否与变量类型相同，如果不同需要将表达式结果转换为和变量相同的类型。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTAssignExpression &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;AssignExpression\n&quot;</span>;</span><br><span class="line">    ifAssign = <span class="literal">true</span>;</span><br><span class="line">    node.var-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">auto</span> varAdd = ret;</span><br><span class="line">    node.expression-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">//确认表达式结果类型与变量类型相同，不同则进行转换</span></span><br><span class="line">    <span class="keyword">auto</span> varType = varAdd-&gt;<span class="built_in">get_type</span>()-&gt;<span class="built_in">get_pointer_element_type</span>();</span><br><span class="line">    <span class="keyword">auto</span> valueType = ret-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    Value* value = ret;</span><br><span class="line">    <span class="keyword">if</span>(varType!=valueType)&#123;</span><br><span class="line">        <span class="keyword">if</span>(varType==INT32_Type)</span><br><span class="line">            value = builder-&gt;<span class="built_in">create_fptosi</span>(ret, INT32_Type);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            value = builder-&gt;<span class="built_in">create_sitofp</span>(ret, FLOAT_Type);</span><br><span class="line">    &#125;</span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(value, varAdd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="SimpleExpression"><a href="#SimpleExpression" class="headerlink" title="SimpleExpression"></a>SimpleExpression</h4><p style="text-indent:2em">简单表达式SimpleExpression是一个加法表达式或两个加法表达式的关系运算。在节点中有两个加法表达式的指针和一个运算符类型为RelOp的运算符op，RelOp是一个枚举类型，包含了所有比较运算符。根据语义，对于该节点的处理，应该先处理加法表达式，将表达式的值保存下来，如果两个表达式指针都不为空，说明为关系运算，再比较两个运算结果，根据结果将表达式的值赋为0或1。进行比较时需要注意两个值的类型，整型和浮点型比较时要将整型转换为浮点型。</p>
+
+<p style="text-indent:2em">具体实现中，应该调用加法表达式的accept函数(如果指针不为空)，暂存结果，对于比较运算，根据op生成icmp或fcmp的指令，最后返回的值就是指令结果。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTSimpleExpression &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;SimpleExpression\n&quot;</span>;</span><br><span class="line">    <span class="type">bool</span> ifInt = <span class="literal">true</span>;                      <span class="comment">//表达式结果类型</span></span><br><span class="line">    Value *resL, *resR;</span><br><span class="line">    Type *resLType, *resRType;</span><br><span class="line">    <span class="comment">//计算两个加法表达式</span></span><br><span class="line">    <span class="keyword">if</span>(node.additive_expression_l!=<span class="literal">nullptr</span>)&#123;</span><br><span class="line">        node.additive_expression_l-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">        resL = ret;</span><br><span class="line">        resLType = ret-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(node.additive_expression_r!=<span class="literal">nullptr</span>)&#123;</span><br><span class="line">        node.additive_expression_r-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">        resR = ret;</span><br><span class="line">        resRType = ret-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果只有一个加法表达式, 直接返回表达式的值</span></span><br><span class="line">    <span class="keyword">if</span>(!(node.additive_expression_l!=<span class="literal">nullptr</span> &amp;&amp; node.additive_expression_r!=<span class="literal">nullptr</span>))&#123;</span><br><span class="line">        ret = (node.additive_expression_l!=<span class="literal">nullptr</span>) ? resL : resR;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果有两个加法表达式, 为关系运算</span></span><br><span class="line">    <span class="comment">//先统一类型</span></span><br><span class="line">    <span class="keyword">if</span>(resLType!=resRType)&#123;</span><br><span class="line">        ifInt = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(resLType-&gt;<span class="built_in">is_float_type</span>())        <span class="comment">//左表达式为浮点型，则右表达式从整型转换为浮点型</span></span><br><span class="line">            resL = builder-&gt;<span class="built_in">create_sitofp</span>(resL, FLOAT_Type);</span><br><span class="line">        <span class="keyword">else</span>								 <span class="comment">//左表达式为整型，转换为浮点型</span></span><br><span class="line">            resR = builder-&gt;<span class="built_in">create_sitofp</span>(resR, FLOAT_Type);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//根据关系运算类型，创建指令</span></span><br><span class="line">    <span class="keyword">switch</span> (node.op)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> OP_LE:</span><br><span class="line">        <span class="keyword">if</span>(ifInt)</span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_icmp_le</span>(resL, resR);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_fcmp_le</span>(resL, resR);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">	<span class="comment">/*其他运算符......*/</span></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//结果为整型</span></span><br><span class="line">    ret = builder-&gt;<span class="built_in">create_zext</span>(ret, INT32_Type);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AdditiveExpression"><a href="#AdditiveExpression" class="headerlink" title="AdditiveExpression"></a>AdditiveExpression</h4><p style="text-indent:2em">加法表达式中包含了一个乘法表达式，一个加法表达式和一个运算符。如果加法表达式指针为空，则表达式的值就是乘法表达式的值，否则分别计算两个表达式，调用相应的accept函数，然后进行根据运算符生成加或减指令。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTAdditiveExpression &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;AdditiveExpression\n&quot;</span>;</span><br><span class="line">    <span class="type">bool</span> ifInt = <span class="literal">true</span>;                        <span class="comment">//两个表达式类型</span></span><br><span class="line">    <span class="comment">//如果只有乘法表达式</span></span><br><span class="line">    <span class="keyword">if</span>(node.additive_expression==<span class="literal">nullptr</span>)&#123;</span><br><span class="line">        node.term-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//有乘法表达式和加法表达式，创建加法或减法指令</span></span><br><span class="line">    node.additive_expression-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);  <span class="comment">//处理加法表达式</span></span><br><span class="line">    <span class="keyword">auto</span> addRes = ret;</span><br><span class="line">    <span class="keyword">auto</span> addType = addRes-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    node.term-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);                 <span class="comment">//处理乘法表达式</span></span><br><span class="line">    <span class="keyword">auto</span> mulRes = ret;</span><br><span class="line">    <span class="keyword">auto</span> mulType = mulRes-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    <span class="comment">//确认类型相同</span></span><br><span class="line">    <span class="keyword">if</span>(addType!=mulType)&#123;</span><br><span class="line">        ifInt = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(addType-&gt;<span class="built_in">is_float_type</span>())</span><br><span class="line">            mulRes = builder-&gt;<span class="built_in">create_sitofp</span>(mulRes, FLOAT_Type);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            addRes = builder-&gt;<span class="built_in">create_sitofp</span>(addRes, INT32_Type);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//指令</span></span><br><span class="line">    <span class="keyword">if</span>(node.op==OP_PLUS)&#123;</span><br><span class="line">        <span class="keyword">if</span>(ifInt)</span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_iadd</span>(addRes, mulRes);     <span class="comment">//addRes在左!</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_fadd</span>(addRes, mulRes);  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ifInt)</span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_isub</span>(addRes, mulRes);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_fsub</span>(addRes, mulRes);        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Term"><a href="#Term" class="headerlink" title="Term"></a>Term</h4><p style="text-indent:2em">乘法表达式由乘法表达式和因子或单独一个因子构成。与加法表达式的处理相同。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTTerm &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Term\n&quot;</span>;</span><br><span class="line">    <span class="type">bool</span> ifInt = <span class="literal">true</span>;                        <span class="comment">//因子和乘法表达式结果类型</span></span><br><span class="line">    <span class="comment">//如果只有因子</span></span><br><span class="line">    <span class="keyword">if</span>(node.term==<span class="literal">nullptr</span>)&#123;</span><br><span class="line">        node.factor-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//有乘法表达式和因子，创建乘法或除法指令</span></span><br><span class="line">    node.term-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);                 <span class="comment">//处理乘法表达式</span></span><br><span class="line">    <span class="keyword">auto</span> mulRes = ret;</span><br><span class="line">    <span class="keyword">auto</span> mulType = mulRes-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    node.factor-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);               <span class="comment">//处理因子</span></span><br><span class="line">    <span class="keyword">auto</span> factorRes = ret;</span><br><span class="line">    <span class="keyword">auto</span> factorType = factorRes-&gt;<span class="built_in">get_type</span>();</span><br><span class="line">    <span class="comment">//确认类型相同</span></span><br><span class="line">    <span class="keyword">if</span>(factorType!=mulType)&#123;</span><br><span class="line">        ifInt = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(factorType-&gt;<span class="built_in">is_float_type</span>())</span><br><span class="line">            mulRes = builder-&gt;<span class="built_in">create_sitofp</span>(mulRes, FLOAT_Type);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            factorRes = builder-&gt;<span class="built_in">create_sitofp</span>(factorRes, INT32_Type);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//指令</span></span><br><span class="line">    <span class="keyword">if</span>(node.op==OP_MUL)&#123;</span><br><span class="line">        <span class="keyword">if</span>(ifInt)</span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_imul</span>(mulRes, factorRes);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_fmul</span>(mulRes, factorRes);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ifInt)</span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_isdiv</span>(mulRes, factorRes);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            ret = builder-&gt;<span class="built_in">create_fdiv</span>(mulRes, factorRes);        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Call"><a href="#Call" class="headerlink" title="Call"></a>Call</h4><p style="text-indent:2em">call节点需要创建一条函数调用call指令，从作用域中取出函数，然后根据函数的参数将节点的实参传入，并检查类型是否与函数参数的类型一致，不一致则需要转换为函数的形参类型。创建一个参数列表，将转换好的参数存入列表来调用函数。</p>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTCall &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Call\n&quot;</span>;</span><br><span class="line">    <span class="keyword">auto</span> func = <span class="built_in">static_cast</span>&lt;Function*&gt;(scope.<span class="built_in">find</span>(node.id));</span><br><span class="line">    <span class="keyword">auto</span> paramType = func-&gt;<span class="built_in">get_function_type</span>()-&gt;<span class="built_in">param_begin</span>();</span><br><span class="line">    <span class="keyword">if</span>(func==<span class="literal">nullptr</span>)</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;ERROR: 函数&quot;</span> &lt;&lt; node.id &lt;&lt; <span class="string">&quot;未定义\n&quot;</span>;</span><br><span class="line">    <span class="comment">//处理参数</span></span><br><span class="line">    Value *temp;</span><br><span class="line">    std::vector&lt;Value*&gt; args;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> arg: node.args)&#123;</span><br><span class="line">        arg-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);                   <span class="comment">//获取参数值</span></span><br><span class="line">        temp = ret;</span><br><span class="line">        <span class="keyword">auto</span> argType = ret-&gt;<span class="built_in">get_type</span>();       <span class="comment">//处理类型</span></span><br><span class="line">        <span class="keyword">if</span>(argType!=*paramType)</span><br><span class="line">            <span class="keyword">if</span>((*paramType)-&gt;<span class="built_in">is_integer_type</span>())</span><br><span class="line">                temp = builder-&gt;<span class="built_in">create_fptosi</span>(ret, INT32_Type);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                temp = builder-&gt;<span class="built_in">create_sitofp</span>(ret, FLOAT_Type);</span><br><span class="line">        args.<span class="built_in">push_back</span>(temp);</span><br><span class="line">        paramType++;</span><br><span class="line">    &#125;</span><br><span class="line">    builder-&gt;<span class="built_in">create_call</span>(func, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h2><h3 id="1-结果验证"><a href="#1-结果验证" class="headerlink" title="1.结果验证"></a>1.结果验证</h3><p style="text-indent:2em">在进行测试，改正编写过程中的一些错误后，编译后运行测试程序，所有测试样例都通过。</p>
+
+<p><img src="/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/image-20221123173758944.png" alt="image-20221123173758944" style="zoom:50%;"></p>
+<h3 id="2-总结"><a href="#2-总结" class="headerlink" title="2.总结"></a>2.总结</h3><p style="text-indent:2em">通过本次实验，理解了从抽象语法树产生中间IR的方法，并进行了实现。在实现过程中，对于IR的指令有了进一步的熟悉与理解，掌握了使用C++接口创建不同IR指令的方法，以及在访问者模式下遍历抽象语法树，完成IR生成的过程。在完成实现时阅读了相关的头文件，语义规则，通过整个实验的框架复习了C++中一些概念和方法。经过四次实验，结合课程所学的原理，理解了编译器的词法分析，语法分析，中间代码生成的过程，也学习了相关工具的使用并进行了实践，清楚了编译器工作的每一个部分的原理和相互之间的配合。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag"># 编译原理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/" rel="prev" title="编译原理实验三">
+      <i class="fa fa-chevron-left"></i> 编译原理实验三
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/" rel="next" title="计算机网络自顶向下方法笔记04">
+      计算机网络自顶向下方法笔记04 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%A6%81%E6%B1%82"><span class="nav-text">实验要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E9%9A%BE%E7%82%B9"><span class="nav-text">实验难点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BD%BF%E7%94%A8AST%E5%92%8Cvisit%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90IR%E6%8C%87%E4%BB%A4"><span class="nav-text">1.使用AST和visit函数生成IR指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">2.函数参数的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ASTVar%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">3.ASTVar的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%A1%BA%E5%BA%8F%E9%94%99%E8%AF%AF"><span class="nav-text">4.表达式顺序错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1"><span class="nav-text">实验设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E4%B8%8E%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="nav-text">1.全局变量与宏定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-visit%E5%87%BD%E6%95%B0"><span class="nav-text">2.visit函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Program"><span class="nav-text">Program</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Num"><span class="nav-text">Num</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VarDeclaration"><span class="nav-text">VarDeclaration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FunDeclaration"><span class="nav-text">FunDeclaration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Param"><span class="nav-text">Param</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CompoundStmt"><span class="nav-text">CompoundStmt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ExpressionStmt"><span class="nav-text">ExpressionStmt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SelectionStmt"><span class="nav-text">SelectionStmt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IterationStmt"><span class="nav-text">IterationStmt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReturnStmt"><span class="nav-text">ReturnStmt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Var"><span class="nav-text">Var</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AssignExpression"><span class="nav-text">AssignExpression</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SimpleExpression"><span class="nav-text">SimpleExpression</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdditiveExpression"><span class="nav-text">AdditiveExpression</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Term"><span class="nav-text">Term</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Call"><span class="nav-text">Call</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%80%BB%E7%BB%93"><span class="nav-text">实验总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BB%93%E6%9E%9C%E9%AA%8C%E8%AF%81"><span class="nav-text">1.结果验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%80%BB%E7%BB%93"><span class="nav-text">2.总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">173k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:37</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
