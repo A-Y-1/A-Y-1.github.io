@@ -161,6 +161,123 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">编译原理笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-07 21:20:29" itemprop="dateCreated datePublished" datetime="2022-09-07T21:20:29+08:00">2022-09-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-24 17:42:47" itemprop="dateModified" datetime="2022-12-24T17:42:47+08:00">2022-12-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>23k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>21 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p style="text-indent:2em">编译原理学习笔记。参考：</p>
+
+<p>​        编译原理(中科大)：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16h411X7JY?p=1">https://www.bilibili.com/video/BV16h411X7JY?p=1</a></p>
+<p>​        编译原理(哈工大)：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zW411t7YE?p=1">https://www.bilibili.com/video/BV1zW411t7YE?p=1</a></p>
+<p style="text-indent:2em">笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。主要的算法都是来自《现代编译原理：c语言描述》(虎书)，因为与一般学习编译原理用的龙书有差异，将需要注意的情况在下面列出，这些不同主要在语法分析部分，不影响语法分析的算法思想和过程，列出来仅是为了避免在学习过程中产生困惑。</p>
+
+<ul>
+<li>自顶向下的语法分析计算了NULLABLE集，FIRST集，FOLLOW集，FIRST_S集，其中的FIRST_S集更常见的说法是SELECT集。</li>
+<li>使用算法计算FIRST(N)集时，没有将空串加入FIRST集，这是因为已经计算了NULLABLE集，不需要把空串包含到FIRST集当中了。</li>
+<li>在使用虎书的方法计算FIRST集，FOLLOW集中，不包含#符号和$符号，实际这两个符号也只是标记结束，不影响语法分析过程。</li>
+</ul>
+<h1 id="第一章-引论"><a href="#第一章-引论" class="headerlink" title="第一章 引论"></a>第一章 引论</h1><h2 id="1-语言处理器"><a href="#1-语言处理器" class="headerlink" title="1.语言处理器"></a>1.语言处理器</h2><ul>
+<li>编译器</li>
+<li>解释器</li>
+</ul>
+<h2 id="2-编译器的结构"><a href="#2-编译器的结构" class="headerlink" title="2.编译器的结构"></a>2.编译器的结构</h2><ul>
+<li>词法分析：将语素转换为词法单元</li>
+<li>语法分析：使用词法单元创建树形的中间表示，常用语法树。</li>
+<li>语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。</li>
+<li>中间代码生成</li>
+<li>代码优化</li>
+<li>代码生成：以源程序的中间表示形式作为输入，映射到目标语言。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95V1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1006,7 +1123,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1060,12 +1177,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">178k</span>
+    <span title="站点总字数">192k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:42</span>
+    <span title="站点阅读时长">2:55</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

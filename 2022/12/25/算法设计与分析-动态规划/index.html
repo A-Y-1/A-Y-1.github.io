@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="算法设计与分析-动态规划题目记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法设计与分析-动态规划">
+<meta property="og:url" content="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="算法设计与分析-动态规划题目记录。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230154220865.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230155335222.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230155632387.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230160308764.png">
+<meta property="article:published_time" content="2022-12-25T08:38:29.000Z">
+<meta property="article:modified_time" content="2022-12-31T07:12:02.529Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230154220865.png">
+
+<link rel="canonical" href="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>算法设计与分析-动态规划 | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法设计与分析-动态规划
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-25 16:38:29" itemprop="dateCreated datePublished" datetime="2022-12-25T16:38:29+08:00">2022-12-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-31 15:12:02" itemprop="dateModified" datetime="2022-12-31T15:12:02+08:00">2022-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p style="text-indent:2em">算法设计与分析-动态规划题目记录。</p>
+
+<span id="more"></span>
+<h3 id="301-独立任务最优调度问题"><a href="#301-独立任务最优调度问题" class="headerlink" title="301 独立任务最优调度问题"></a>301 独立任务最优调度问题</h3><h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>用两台处理机A和B处理n个作业，每个机器处理第i个作业所需的时间分别为<script type="math/tex">a_i</script>和<script type="math/tex">b_i</script>，某些作业在机器A上作业更快，有些作业在机器B上工作更快，每台机器都不能同时处理两个作业。对于给定的2台处理机A和B处理n个作业，找出一个最优调度方案，使两台机器处理完n个作业的时间最短。</p>
+<h4 id="算法设计"><a href="#算法设计" class="headerlink" title="算法设计"></a>算法设计</h4><p>子问题分解：定义t[i][j]为：表示完成i个作业且机器A花费j时间的情况下，机器B所花费时间的最小值。第i件作业如果由机器A处理，则t[i][j]  =  t[i - 1][j - a[i]]，如果由机器B处理，则t[i][j] = t[i - 1][j] + b[i]，因此t[i][j] = min{t[i - 1][j] + b[i], t[i - 1][j - a[i]]}。</p>
+<p>递推方程：</p>
+<script type="math/tex; mode=display">
+t[i][j] = \begin{cases}
+0 & i=0 \\
+t[i-1][j]+b[i] & j<a[i],i>0 \\
+min\{t[i - 1][j] + b[i], t[i - 1][j - a[i]]\} & j>=a[i],i>0
+\end{cases}</script><h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>C++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> *a, <span class="type">int</span> *b)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> t[n+<span class="number">1</span>][MAXT], <span class="type">max_t</span>, <span class="type">min_t</span>;</span><br><span class="line">    <span class="built_in">memset</span>(t, <span class="number">0</span>, <span class="built_in">sizeof</span>(t));</span><br><span class="line">    <span class="type">max_t</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//a的最大工作时长</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="type">max_t</span> += a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//自底向上求解</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=<span class="type">max_t</span>;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j&lt;a[i])&#123;</span><br><span class="line">                t[i][j] = t[i<span class="number">-1</span>][j] + b[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                t[i][j] = <span class="built_in">min</span>(t[i<span class="number">-1</span>][j-a[i]], t[i<span class="number">-1</span>][j] + b[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//求最优解</span></span><br><span class="line">    <span class="type">min_t</span> = INT_MAX;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=<span class="type">max_t</span>;i++)&#123;</span><br><span class="line">        <span class="type">min_t</span> = <span class="built_in">min</span>(<span class="built_in">max</span>(t[n][i], i), <span class="type">min_t</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">min_t</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span>[] a, <span class="type">int</span>[] b)</span>&#123;</span><br><span class="line">       <span class="type">int</span>[][] t = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][<span class="number">10000</span>];</span><br><span class="line">       <span class="type">int</span> max_t, min_t;</span><br><span class="line">       max_t = <span class="number">0</span>;</span><br><span class="line">       <span class="comment">//a的最大工作时长</span></span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">           max_t += a[i];</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//自底向上求解</span></span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=max_t;j++)&#123;</span><br><span class="line">               <span class="keyword">if</span>(j&lt;a[i])&#123;</span><br><span class="line">                   t[i][j] = t[i-<span class="number">1</span>][j] + b[i];</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span>&#123;</span><br><span class="line">                   t[i][j] = Math.min(t[i-<span class="number">1</span>][j-a[i]], t[i-<span class="number">1</span>][j] + b[i]);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//求最优解</span></span><br><span class="line">       min_t = Integer.MAX_VALUE;</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=max_t;i++)&#123;</span><br><span class="line">           min_t = Math.min(Math.max(t[n][i], i), min_t);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> min_t;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出"><a href="#测试输入与输出" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>6</p>
+<p>2 5 7 10 5 2</p>
+<p>3 8 4 11 3 4</p>
+<p>输出：</p>
+<p>15</p>
+<h3 id="303-石子合并问题"><a href="#303-石子合并问题" class="headerlink" title="303 石子合并问题"></a>303 石子合并问题</h3><h4 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h4><p>在一个圆形操场的四周摆放着n堆石子。现要将石子有次序的合并成一堆。规定每次只能选相邻的石子合并成一堆，并将新的一堆石子数即为该次合并的得分。试设计一个算法，计算出将n堆石子合并成一堆的最小得分和最大得分。输入为n和每堆石子的数量。</p>
+<h4 id="算法设计-1"><a href="#算法设计-1" class="headerlink" title="算法设计"></a>算法设计</h4><p>先考虑石子直线摆放的情况。假设将石子合并<script type="math/tex">S_iS_{i+1}...S_{j}</script>记为S[i:j]。考虑计算S[1:n]的合并方法，假设S[1:n]的最优合并方法在k堆石子处断开，则合并方式为<script type="math/tex">(S_1...S_k)(S_{k+1}...S_n)</script>，合并得分为S[1:k]的得分加上S[k+1:n]的合并得分，再加上这两堆石子的得分。这个问题的最优子结构在于，如果S[1:n]合并方法是最优的，那么S[1:k]和S[k+1:n]的合并也是最优的。</p>
+<p>用a[i]表示前i堆石子的数量，m[i][j]表示合并第i到j堆的最小合并得分。递推方程可写为：</p>
+<script type="math/tex; mode=display">
+m[i][j] = \begin{cases}
+0 & i=j \\
+min_{i\le k<j}\{m[i][k]+m[k+1][j]+a[j]-a[i-1]\} & i\neq j
+\end{cases}</script><p>对于环形摆放，只要将石子按顺序放到原来石子堆顺序的尾部就可以实现首尾相连了，例如石子堆4 4 5 9，扩展为石子堆4 4 5 9 4 4 5 9，就能将首尾相连的环形情况包括进去，最后的结果是m[1][4]，m[2][5]，m[3][6]，m[4][7]中的最值。</p>
+<h4 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> *stones)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> a[<span class="number">2</span>*n+<span class="number">1</span>], stones_line[<span class="number">2</span>*n+<span class="number">1</span>], m_min[<span class="number">2</span>*n+<span class="number">1</span>][<span class="number">2</span>*n+<span class="number">1</span>], m_max[<span class="number">2</span>*n+<span class="number">1</span>][<span class="number">2</span>*n+<span class="number">1</span>];</span><br><span class="line">    <span class="built_in">memset</span>(a, <span class="number">0</span>, <span class="built_in">sizeof</span>(a));</span><br><span class="line">    <span class="built_in">memset</span>(m_min, <span class="number">0</span>, <span class="built_in">sizeof</span>(m_min));</span><br><span class="line">    <span class="built_in">memset</span>(m_max, <span class="number">0</span>, <span class="built_in">sizeof</span>(m_max));</span><br><span class="line">    <span class="comment">//展开成直线型</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=n+<span class="number">1</span>;i&lt;=<span class="number">2</span>*n;i++)&#123;</span><br><span class="line">        stones_line[i-n] = stones_line[i] = stones[i-n];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//前缀和</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2</span>*n;i++)&#123;</span><br><span class="line">        a[i] = a[i<span class="number">-1</span>] + stones_line[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//计算最小和最大合并</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> r=<span class="number">2</span>;r&lt;=n;r++)&#123;            <span class="comment">//从两堆石子的合并开始计算</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2</span>*n-r+<span class="number">1</span>;i++)&#123;  <span class="comment">//起始位置</span></span><br><span class="line">            <span class="type">int</span> j = i + r - <span class="number">1</span>;</span><br><span class="line">            m_min[i][j] = INT_MAX;</span><br><span class="line">            m_max[i][j] = INT_MIN;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;j;k++)&#123;</span><br><span class="line">                m_min[i][j] = <span class="built_in">min</span>(m_min[i][j], m_min[i][k]+m_min[k+<span class="number">1</span>][j]+a[j]-a[i<span class="number">-1</span>]);</span><br><span class="line">                m_max[i][j] = <span class="built_in">max</span>(m_max[i][j], m_max[i][k]+m_max[k+<span class="number">1</span>][j]+a[j]-a[i<span class="number">-1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//找到最值</span></span><br><span class="line">    <span class="type">int</span> min_score, max_score;</span><br><span class="line">    min_score = INT_MAX;</span><br><span class="line">    max_score = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        min_score = <span class="built_in">min</span>(min_score, m_min[i][i+n<span class="number">-1</span>]);</span><br><span class="line">        max_score = <span class="built_in">max</span>(max_score, m_max[i][i+n<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;min_score = &quot;</span> &lt;&lt; min_score &lt;&lt; endl &lt;&lt; <span class="string">&quot;max_score = &quot;</span> &lt;&lt; max_score &lt;&lt; endl ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span>[] stones)</span>&#123;</span><br><span class="line">       <span class="type">int</span>[] a, stones_line;</span><br><span class="line">       <span class="type">int</span>[][] m_min, m_max;</span><br><span class="line">       a = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>*n+<span class="number">1</span>];</span><br><span class="line">       stones_line = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>*n+<span class="number">1</span>];</span><br><span class="line">       m_min = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>*n+<span class="number">1</span>][<span class="number">2</span>*n+<span class="number">1</span>];</span><br><span class="line">       m_max = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>*n+<span class="number">1</span>][<span class="number">2</span>*n+<span class="number">1</span>];</span><br><span class="line">       <span class="comment">//展开为线性</span></span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=n+<span class="number">1</span>;i&lt;=<span class="number">2</span>*n;i++)&#123;</span><br><span class="line">           stones_line[i] = stones_line[i-n] = stones[i-n]; </span><br><span class="line">       &#125; </span><br><span class="line">       <span class="comment">//前缀和</span></span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2</span>*n;i++)&#123;</span><br><span class="line">           a[i] = a[i-<span class="number">1</span>] + stones_line[i];</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//计算最小和最大合并</span></span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> r=<span class="number">2</span>;r&lt;=n;r++)&#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2</span>*n-r+<span class="number">1</span>;i++)&#123;</span><br><span class="line">               <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + r - <span class="number">1</span>;</span><br><span class="line">               m_min[i][j] =  Integer.MAX_VALUE;</span><br><span class="line">               m_max[i][j] = Integer.MIN_VALUE;</span><br><span class="line">               <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;j;k++)&#123;</span><br><span class="line">                   m_min[i][j] = Math.min(m_min[i][j], m_min[i][k]+m_min[k+<span class="number">1</span>][j]+a[j]-a[i-<span class="number">1</span>]);</span><br><span class="line">                   m_max[i][j] = Math.max(m_max[i][j], m_max[i][k]+m_max[k+<span class="number">1</span>][j]+a[j]-a[i-<span class="number">1</span>]);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//求最大值和最小值</span></span><br><span class="line">       <span class="type">int</span> min_score, max_score;</span><br><span class="line">       min_score = Integer.MAX_VALUE;</span><br><span class="line">       max_score = Integer.MIN_VALUE;</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">           min_score = Math.min(min_score, m_min[i][i+n-<span class="number">1</span>]);</span><br><span class="line">           max_score = Math.max(max_score, m_max[i][i+n-<span class="number">1</span>]);</span><br><span class="line">       &#125;</span><br><span class="line">       System.out.printf(<span class="string">&quot;min_score = %d\n&quot;</span>, min_score);</span><br><span class="line">       System.out.printf(<span class="string">&quot;max_score = %d&quot;</span>, max_score);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-1"><a href="#测试输入与输出-1" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>4</p>
+<p>4 4 5 9</p>
+<p>输出：</p>
+<p>43</p>
+<p>54</p>
+<h3 id="304-数字三角形问题"><a href="#304-数字三角形问题" class="headerlink" title="304 数字三角形问题"></a>304 数字三角形问题</h3><h4 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h4><p>给定一个由n行数字组成的数字三角形，试设计一个算法，计算出从三角形的顶至底的一条路径，使该路径经过的数字总和最大。</p>
+<h4 id="算法设计-2"><a href="#算法设计-2" class="headerlink" title="算法设计"></a>算法设计</h4><p>设dp[i][j]表示从顶层开始第i层的第j个元素为最后一个元素的路径的数字和最大值，t[i][j]表示第i层i个数字，可得递推方程如下：</p>
+<script type="math/tex; mode=display">
+dp[i][j] = \begin{cases}
+t[1][1] & i=1     \\
+t[1][1]+t[i][j] & i=2 \\
+dp[i-1][j]+t[i][j] & i>2,j=1 \\
+max(dp[i-1][j-1],\ dp[i-1][j])+t[i][j] & i>2,i>j>1 \\
+dp[i-1][j-1]+t[i][j] &i>2,j=i
+\end{cases}</script><p>最大的路径上数字和为<script type="math/tex">max_{1 \leq j \leq n }(dp[n][j])</script></p>
+<h4 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> **t)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> dp[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">    dp[<span class="number">2</span>][<span class="number">1</span>] = t[<span class="number">1</span>][<span class="number">1</span>] + t[<span class="number">2</span>][<span class="number">1</span>];</span><br><span class="line">    dp[<span class="number">2</span>][<span class="number">2</span>] = t[<span class="number">1</span>][<span class="number">1</span>] + t[<span class="number">2</span>][<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">3</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        dp[i][<span class="number">1</span>] = dp[i<span class="number">-1</span>][<span class="number">1</span>] + t[i][<span class="number">1</span>];</span><br><span class="line">        dp[i][i] = dp[i<span class="number">-1</span>][i<span class="number">-1</span>] + t[i][i];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">2</span>;j&lt;i;j++)&#123;</span><br><span class="line">            dp[i][j] = <span class="built_in">max</span>(dp[i<span class="number">-1</span>][j<span class="number">-1</span>], dp[i<span class="number">-1</span>][j]) + t[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> res = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        res = <span class="built_in">max</span>(dp[n][i], res);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res &lt;&lt; endl; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span>[][] t)</span>&#123;</span><br><span class="line">    <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">    dp[<span class="number">2</span>][<span class="number">1</span>] = t[<span class="number">1</span>][<span class="number">1</span>] + t[<span class="number">2</span>][<span class="number">1</span>];</span><br><span class="line">    dp[<span class="number">2</span>][<span class="number">2</span>] = t[<span class="number">1</span>][<span class="number">1</span>] + t[<span class="number">2</span>][<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">3</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        dp[i][<span class="number">1</span>] = dp[i-<span class="number">1</span>][<span class="number">1</span>] + t[i][<span class="number">1</span>];</span><br><span class="line">        dp[i][i] = dp[i-<span class="number">1</span>][i-<span class="number">1</span>] + t[i][i];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">2</span>;j&lt;i;j++)&#123;</span><br><span class="line">            dp[i][j] = Math.max(dp[i-<span class="number">1</span>][j-<span class="number">1</span>], dp[i-<span class="number">1</span>][j]) + t[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        res = Math.max(dp[n][i], res);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-2"><a href="#测试输入与输出-2" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>5</p>
+<p>7</p>
+<p>3 8</p>
+<p>8 1 0</p>
+<p>2 7 4 4</p>
+<p>4 5 2 6 5</p>
+<p>输出：</p>
+<p>30</p>
+<h3 id="305乘法表问题"><a href="#305乘法表问题" class="headerlink" title="305乘法表问题"></a>305乘法表问题</h3><h4 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h4><p>定义字母表{a，b，c}上的乘法表如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>a</th>
+<th>b</th>
+<th>c</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>b</td>
+<td>b</td>
+<td>a</td>
+</tr>
+<tr>
+<td>b</td>
+<td>c</td>
+<td>b</td>
+<td>a</td>
+</tr>
+<tr>
+<td>c</td>
+<td>a</td>
+<td>c</td>
+<td>c</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>依次乘法表，对于任一定义于该字母表上的字符串，适当加括号后，得到一个表达式。例如x=bbbba。一个加括号方式为(b(bb))(ba)，结果为a。设计一个动态规划算法，计算有多少种不同的方式，使由字符串x导出的加括号表达式结果为a。</p>
+<h4 id="算法设计-3"><a href="#算法设计-3" class="headerlink" title="算法设计"></a>算法设计</h4><p>可以将每种加括号方式下得到一个字符的方式都记录下来，最后计算出结果为a的方式。假设用dp[i][j][c]表示从i乘到j，得到字符c的方法数，计算dp[i][j][c]时，需要考虑每一种断开，假设从k处断开，则方法数为∑ dp[i][k][c1]*dp[k+1][j][c2]，c1*c2 = c。最终得到dp[1][n][a]即为所求结果。</p>
+<p>递推方程如下：</p>
+<script type="math/tex; mode=display">
+dp[i][j][c] = \begin{cases}
+1 & i=j,c=str[i-1] \\
+\sum_{k=i}^{j} dp[i][k][c1]*dp[k+1][j][c2] & j>i,c1*c2=c
+\end{cases}</script><h4 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution</span><span class="params">(<span class="type">char</span> c[])</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n = <span class="built_in">strlen</span>(c);</span><br><span class="line">    <span class="type">int</span> dp[n+<span class="number">1</span>][n+<span class="number">1</span>][<span class="number">3</span>];</span><br><span class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="built_in">sizeof</span>(dp));</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(c[i<span class="number">-1</span>]==<span class="string">&#x27;a&#x27;</span>) dp[i][i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(c[i<span class="number">-1</span>]==<span class="string">&#x27;b&#x27;</span>) dp[i][i][<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(c[i<span class="number">-1</span>]==<span class="string">&#x27;c&#x27;</span>) dp[i][i][<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> r=<span class="number">2</span>;r&lt;=n;r++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n-r+<span class="number">1</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> j = i + r - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;j;k++)&#123;</span><br><span class="line">                dp[i][j][<span class="number">0</span>] += dp[i][k][<span class="number">0</span>]*dp[k+<span class="number">1</span>][j][<span class="number">2</span>] + dp[i][k][<span class="number">1</span>]*dp[k+<span class="number">1</span>][j][<span class="number">2</span>] + dp[i][k][<span class="number">2</span>]*dp[k+<span class="number">1</span>][j][<span class="number">0</span>];</span><br><span class="line">                dp[i][j][<span class="number">1</span>] += dp[i][k][<span class="number">0</span>]*dp[k+<span class="number">1</span>][j][<span class="number">0</span>] + dp[i][k][<span class="number">0</span>]*dp[k+<span class="number">1</span>][j][<span class="number">1</span>] + dp[i][k][<span class="number">1</span>]*dp[k+<span class="number">1</span>][j][<span class="number">1</span>];</span><br><span class="line">                dp[i][j][<span class="number">2</span>] += dp[i][k][<span class="number">1</span>]*dp[k+<span class="number">1</span>][j][<span class="number">0</span>] + dp[i][k][<span class="number">2</span>]*dp[k+<span class="number">1</span>][j][<span class="number">1</span>] + dp[i][k][<span class="number">2</span>]*dp[k+<span class="number">1</span>][j][<span class="number">2</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; dp[<span class="number">1</span>][n][<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solution</span><span class="params">(String c)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> c.length();</span><br><span class="line">    <span class="type">int</span>[][][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][n+<span class="number">1</span>][<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(c.charAt(i-<span class="number">1</span>)==<span class="string">&#x27;a&#x27;</span>) dp[i][i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(c.charAt(i-<span class="number">1</span>)==<span class="string">&#x27;b&#x27;</span>) dp[i][i][<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(c.charAt(i-<span class="number">1</span>)==<span class="string">&#x27;c&#x27;</span>) dp[i][i][<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> r=<span class="number">2</span>;r&lt;=n;r++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n-r+<span class="number">1</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + r - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;j;k++)&#123;</span><br><span class="line">                dp[i][j][<span class="number">0</span>] += dp[i][k][<span class="number">0</span>]*dp[k+<span class="number">1</span>][j][<span class="number">2</span>] + dp[i][k][<span class="number">1</span>]*dp[k+<span class="number">1</span>][j][<span class="number">2</span>] + dp[i][k][<span class="number">2</span>]*dp[k+<span class="number">1</span>][j][<span class="number">0</span>];</span><br><span class="line">                dp[i][j][<span class="number">1</span>] += dp[i][k][<span class="number">0</span>]*dp[k+<span class="number">1</span>][j][<span class="number">0</span>] + dp[i][k][<span class="number">0</span>]*dp[k+<span class="number">1</span>][j][<span class="number">1</span>] + dp[i][k][<span class="number">1</span>]*dp[k+<span class="number">1</span>][j][<span class="number">1</span>];</span><br><span class="line">                dp[i][j][<span class="number">2</span>] += dp[i][k][<span class="number">1</span>]*dp[k+<span class="number">1</span>][j][<span class="number">0</span>] + dp[i][k][<span class="number">2</span>]*dp[k+<span class="number">1</span>][j][<span class="number">1</span>] + dp[i][k][<span class="number">2</span>]*dp[k+<span class="number">1</span>][j][<span class="number">2</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[<span class="number">1</span>][n][<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-3"><a href="#测试输入与输出-3" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>bbbba</p>
+<p>输出：</p>
+<p>6</p>
+<h3 id="306-租用游艇问题"><a href="#306-租用游艇问题" class="headerlink" title="306 租用游艇问题"></a>306 租用游艇问题</h3><h4 id="问题描述-4"><a href="#问题描述-4" class="headerlink" title="问题描述"></a>问题描述</h4><p>在长江上有n个游艇出租站1，2，…，n。游客可在任何出租站租用游艇，并在下游的任何一个出租站归还游艇。出租站i到出租站j之间的租金为r(i，j)。使设计一个算法，计算从出租站1到出租站n所需的最少租金。</p>
+<h4 id="算法设计-4"><a href="#算法设计-4" class="headerlink" title="算法设计"></a>算法设计</h4><p>假设dp[i][j]表示从出租站i到出租站j的租金，从i到j可以在中间的第k个站归还并重新租借游艇，则dp[i][j]= dp[i][k]+dp[k][j]，递推方程为：</p>
+<script type="math/tex; mode=display">
+dp[i][j] = \begin{cases}
+0 & i=j \\
+min\{min_{i \leq k <j}\{dp[i][k]+dp[k][j]\},r[i][j]\} &  i \neq j
+\end{cases}</script><h4 id="代码实现-3"><a href="#代码实现-3" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> **r)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> dp[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="built_in">sizeof</span>(dp));</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> rr=<span class="number">2</span>;rr&lt;=n;rr++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n-rr+<span class="number">1</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> j = i + rr - <span class="number">1</span>;</span><br><span class="line">            dp[i][j] = r[i][j];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;j;k++)&#123;</span><br><span class="line">                dp[i][j] = <span class="built_in">min</span>(dp[i][j], dp[i][k]+dp[k][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; dp[<span class="number">1</span>][n] &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span>[][] r)</span>&#123;</span><br><span class="line">    <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> rr=<span class="number">2</span>;rr&lt;=n;rr++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n-rr+<span class="number">1</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + rr - <span class="number">1</span>;</span><br><span class="line">            dp[i][j] = r[i][j];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;j;k++)&#123;</span><br><span class="line">                dp[i][j] = Math.min(dp[i][j], dp[i][k]+dp[k][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[<span class="number">1</span>][n]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-4"><a href="#测试输入与输出-4" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>3</p>
+<p>5 15</p>
+<p>7</p>
+<p>输出：</p>
+<p>12</p>
+<h3 id="308-最小m段和"><a href="#308-最小m段和" class="headerlink" title="308 最小m段和"></a>308 最小m段和</h3><p>有一个n个数形成的整数序列，将该序列划分为m段，每段求和，求子段和的最大值。设计一个动态规划算法，找出使子段和的最大值的最小值。</p>
+<h4 id="算法设计-5"><a href="#算法设计-5" class="headerlink" title="算法设计"></a>算法设计</h4><p>设dp[i][j]表示将前i项划分为j个子段后，子段和的最大值的最小值，所求最优值为dp[n][m]。考虑不同的划分方法，当j=1时，<script type="math/tex">dp[i][j]=\sum_{k=1}^{i}a[k]</script>，当j&gt;1时，假设在前k项中有j-1个子段，后i-k+1项为1个子段，则这种划分方式下的最大子段和为<script type="math/tex">max\{dp[k][j-1], \ dp[i,1]-dp[k][1]\}</script>，或者在前j-1段，或者在最后一段。要找到一个k，使这个最大值最小，因此递推方程如下：</p>
+<script type="math/tex; mode=display">
+dp[i][j] = \begin{cases}
+\sum_{k=1}^{i}a[k] & j = 1 \\
+min_{j-1 \leq k \leq i}\{max\{dp[k][j-1], \ dp[i][1]-dp[k][1]\}\} & j>1
+\end{cases}</script><h4 id="代码实现-4"><a href="#代码实现-4" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> m, <span class="type">int</span> a[])</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> dp[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="built_in">sizeof</span>(dp));</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        dp[i][<span class="number">1</span>] = dp[i<span class="number">-1</span>][<span class="number">1</span>] + a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">2</span>;j&lt;=<span class="number">3</span>;j++)&#123;</span><br><span class="line">            dp[i][j] = INT_MAX;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=j<span class="number">-1</span>;k&lt;=i;k++)&#123;</span><br><span class="line">                <span class="type">int</span> t = <span class="built_in">max</span>(dp[k][j<span class="number">-1</span>], dp[i][<span class="number">1</span>] - dp[k][<span class="number">1</span>]);</span><br><span class="line">                dp[i][j] = <span class="built_in">min</span>(t, dp[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; dp[n][m] &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> m, <span class="type">int</span>[] a)</span>&#123;</span><br><span class="line">    <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        dp[i][<span class="number">1</span>] = dp[i-<span class="number">1</span>][<span class="number">1</span>] + a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">2</span>;j&lt;=<span class="number">3</span>;j++)&#123;</span><br><span class="line">            dp[i][j] = Integer.MAX_VALUE;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=j-<span class="number">1</span>;k&lt;=i;k++)&#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">t</span> <span class="operator">=</span> Math.max(dp[k][j-<span class="number">1</span>], dp[i][<span class="number">1</span>] - dp[k][<span class="number">1</span>]);</span><br><span class="line">                dp[i][j] = Math.min(t, dp[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[n][m]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-5"><a href="#测试输入与输出-5" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>5 3 </p>
+<p>5 4 3 2 1</p>
+<p>输出：</p>
+<p>6</p>
+<h3 id="310-最大长方体问题"><a href="#310-最大长方体问题" class="headerlink" title="310 最大长方体问题"></a>310 最大长方体问题</h3><h4 id="问题描述-5"><a href="#问题描述-5" class="headerlink" title="问题描述"></a>问题描述</h4><p>一个长，宽，高分别为m，n，p的长方体被分隔为mxnxp个小立方体，每个小立方体内有一个整数，设计一个算法，计算所给长方体的最大子长方体，子长方体的大小定义为所含整数之和。</p>
+<h4 id="算法设计-6"><a href="#算法设计-6" class="headerlink" title="算法设计"></a>算法设计</h4><p>假设原问题为对一个条形长方体进行切割，则该问题为一个最大子段和问题。假设原问题对一个高度为一的长方体切割，该问题就是最大子段和的二维形式，即最大子矩阵和问题。将原问题的三维形式降维为二维形式，就可以作为最大子矩阵和问题处理，将每个方块的数字保存在dp3[i][j][k]中，i表示长，j表示宽，k表示高，将其降维到二维，再二维降维到一维解决。</p>
+<h4 id="代码实现-5"><a href="#代码实现-5" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxSum1</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> *a)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> maxSum = <span class="number">0</span>, sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(sum&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            sum += a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            sum = a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        maxSum = <span class="built_in">max</span>(maxSum, sum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maxSum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxSum2</span><span class="params">(<span class="type">int</span> m, <span class="type">int</span> n, <span class="type">int</span> **a)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> maxSum = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> *sum = <span class="keyword">new</span> <span class="type">int</span>[n+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;                  <span class="comment">//从i行开始</span></span><br><span class="line">        <span class="built_in">memset</span>(sum, <span class="number">0</span>, <span class="built_in">sizeof</span>(<span class="type">int</span>)*(n+<span class="number">1</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=i;j&lt;=m;j++)&#123;              <span class="comment">//逐行加上，求一维的最大子段和</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=n;k++)&#123;</span><br><span class="line">                sum[k] += a[j][k];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> max1 = <span class="built_in">maxSum1</span>(n, sum);</span><br><span class="line">            maxSum = <span class="built_in">max</span>(max1, maxSum);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span>[] sum;</span><br><span class="line">    <span class="keyword">return</span> maxSum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxSum3</span><span class="params">(<span class="type">int</span> m, <span class="type">int</span> n, <span class="type">int</span> p, <span class="type">int</span> ***a)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> maxSum = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> **sum = <span class="keyword">new</span> <span class="type">int</span>*[n+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        sum[i] = <span class="keyword">new</span> <span class="type">int</span>[p+<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;                  <span class="comment">//从i行开始</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=p;k++)&#123;</span><br><span class="line">                sum[j][k] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=i;j&lt;=m;j++)&#123;             </span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=n;k++)&#123;          <span class="comment">//降维到n*p</span></span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> h=<span class="number">1</span>;h&lt;=p;h++)&#123;</span><br><span class="line">                    sum[k][h] += a[j][k][h];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> max2 = <span class="built_in">maxSum2</span>(n, p, sum);</span><br><span class="line">            maxSum = <span class="built_in">max</span>(max2, maxSum);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">delete</span>[] sum[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span>[] sum;</span><br><span class="line">    <span class="keyword">return</span> maxSum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">maxSum1</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span>[] a)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">maxSum</span> <span class="operator">=</span> <span class="number">0</span>, sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(sum&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            sum += a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            sum = a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        maxSum = Math.max(maxSum, sum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maxSum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">maxSum2</span><span class="params">(<span class="type">int</span> m, <span class="type">int</span> n, <span class="type">int</span>[][] a)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">maxSum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span>[] sum = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">        Arrays.fill(sum, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=i;j&lt;=m;j++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=n;k++)&#123;</span><br><span class="line">                sum[k] += a[j][k];</span><br><span class="line">            &#125;</span><br><span class="line">            maxSum = Math.max(maxSum, maxSum1(n, sum));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maxSum;</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">maxSum3</span><span class="params">(<span class="type">int</span> m, <span class="type">int</span> n, <span class="type">int</span> p, <span class="type">int</span>[][][] a)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">maxSum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span>[][] sum = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][p+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            Arrays.fill(sum[j], <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=i;j&lt;=m;j++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=n;k++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> h=<span class="number">1</span>;h&lt;=p;h++)&#123;</span><br><span class="line">                    sum[k][h] += a[j][k][h];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            maxSum = Math.max(maxSum, maxSum2(n, p, sum));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maxSum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-6"><a href="#测试输入与输出-6" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>3 3 3</p>
+<p>0 -1 2</p>
+<p>1 2 2</p>
+<p>1 1 -2</p>
+<p>-2 -1 -1</p>
+<p>-3 3 -2</p>
+<p>-2 -3 1</p>
+<p>-2 3 3</p>
+<p>0 1 3</p>
+<p>2 1 -3</p>
+<p>输出：</p>
+<p>14</p>
+<h3 id="312-双调旅行售货员问题"><a href="#312-双调旅行售货员问题" class="headerlink" title="312 双调旅行售货员问题"></a>312 双调旅行售货员问题</h3><h4 id="问题描述-6"><a href="#问题描述-6" class="headerlink" title="问题描述"></a>问题描述</h4><p>最短双调TSP回路问题是欧式旅行售货员问题的特殊情况。平面上n个点的双调TSP回路是从最左点开始，严格地从左向右直到最右点，然后严格由右至左直到最左点，且连接每个点恰好一次的闭合回路。给定平面上n个点，计算这n个点的最短双调TSP回路。</p>
+<h4 id="算法设计-7"><a href="#算法设计-7" class="headerlink" title="算法设计"></a>算法设计</h4><p>下图是同一个图中，两条不同的双调TSP路径：</p>
+<p><img src="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230154220865.png" alt="image-20221230154220865" style="zoom:50%;"></p>
+<p>由于每个点都要经过一遍，实际上每个点不是在从左到右的路径上，就是在从右到左的路径上，而且如果将所有点按照横坐标进行排序，每次从一个点出发选择下一个点时，从左向右只能选择右侧的点，从右向左只能选择左侧的点。</p>
+<p>用d(i,j)表示i点到j点的直线距离，定义dp[i][j]表示从i连接到最左边的点1，点1再连接到最右边的点j的最短距离，dp[i][j]就是原问题的子问题，通过逐步将点加入路径中，最终得到的就是双调TSP回路。</p>
+<p>点i在i→1的路径中，点j在1→j的路径中，考虑j左侧的点j-1在哪条路径上：</p>
+<ul>
+<li>i&lt;j-1，则点j-1一定在1→j的路径上</li>
+</ul>
+<p><img src="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230155335222.png" alt="image-20221230155335222" style="zoom:50%;"></p>
+<ul>
+<li>i=j-1，则此时j左侧的第一个点是i，与j相连的路径1→j的点是1 - j-2中的一点k</li>
+</ul>
+<p><img src="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230155632387.png" alt="image-20221230155632387" style="zoom:50%;"></p>
+<ul>
+<li>i=j，形成一条回路，此时i=j=n，左侧的点可能是1→n上的，也可能是1←n上的</li>
+</ul>
+<p><img src="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/image-20221230160308764.png" alt="image-20221230160308764" style="zoom:50%;"></p>
+<p>根据以上三种情况，给出递推方程：</p>
+<script type="math/tex; mode=display">
+b[i][j]=\begin{cases}
+b[i][j-1]+d(j-1,j) & i<j-1 \\
+min_{1\leq k \leq j-2}\{b[k][j-1]+d(k,j)\} & i=j-1 \\
+b[n-1][n]+d(n-1,n) & i=j=n
+
+\end{cases}</script><p>其中，第二种情况是b[k][j-1]而不是b[j-1][k]是因为k&lt;j-1，子问题都是i&lt;j的，因此是b[k][j-1]，从k→1→j-1和j-1→1→k的最短路径是一样的。这里用b[k][j-1]表示j-1→1→k的最短距离。</p>
+<h4 id="代码实现-6"><a href="#代码实现-6" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">point</span>&#123;</span><br><span class="line">    <span class="type">double</span> x,y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">d</span><span class="params">(point p1, point p2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sqrt</span>( <span class="built_in">pow</span>((p1.x-p2.x),<span class="number">2</span>) + <span class="built_in">pow</span>((p1.y-p2.y),<span class="number">2</span>) );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution</span><span class="params">(point p[], <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="type">double</span> dp[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">    dp[<span class="number">1</span>][<span class="number">2</span>] = <span class="built_in">d</span>(p[<span class="number">1</span>], p[<span class="number">2</span>]);   <span class="comment">//点1和2一定相连，无论2在哪条路径上</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">3</span>;j&lt;=n;j++)&#123;</span><br><span class="line">        <span class="comment">// i &lt; j-1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=j<span class="number">-2</span>;i++)&#123;</span><br><span class="line">            dp[i][j] = dp[i][j<span class="number">-1</span>] + <span class="built_in">d</span>(p[j<span class="number">-1</span>], p[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// i = j-1</span></span><br><span class="line">        dp[j<span class="number">-1</span>][j] = INT_MAX;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=j<span class="number">-2</span>;k++)&#123;</span><br><span class="line">            dp[j<span class="number">-1</span>][j] = <span class="built_in">min</span>(dp[j<span class="number">-1</span>][j], dp[k][j<span class="number">-1</span>]+<span class="built_in">d</span>(p[k],p[j]));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// i = j = n</span></span><br><span class="line">        dp[n][n] = dp[n<span class="number">-1</span>][n] + <span class="built_in">d</span>(p[n<span class="number">-1</span>], p[n]); </span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; fixed &lt;&lt; <span class="built_in">setprecision</span>(<span class="number">2</span>) &lt;&lt; dp[n][n] &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">point</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> x,y;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">point</span><span class="params">()</span>&#123;&#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">point</span><span class="params">(<span class="type">double</span> x, <span class="type">double</span> y)</span>&#123; <span class="built_in">this</span>.x = x; <span class="built_in">this</span>.y = y;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DP312</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span>&#123;</span><br><span class="line">        <span class="type">int</span> n;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        n = sc.nextInt();</span><br><span class="line">        point[] p = <span class="keyword">new</span> <span class="title class_">point</span>[n+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            p[i] = <span class="keyword">new</span> <span class="title class_">point</span>(sc.nextDouble(), sc.nextDouble());</span><br><span class="line">        &#125;</span><br><span class="line">        solution(p, n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">double</span> <span class="title function_">d</span><span class="params">(point p1, point p2)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Math.sqrt(Math.pow((p1.x-p2.x),<span class="number">2</span>) + Math.pow((p1.y-p2.y),<span class="number">2</span>) );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solution</span><span class="params">(point[] p, <span class="type">int</span> n)</span>&#123;</span><br><span class="line">        <span class="type">double</span>[][] dp = <span class="keyword">new</span> <span class="title class_">double</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">1</span>][<span class="number">2</span>] = d(p[<span class="number">1</span>], p[<span class="number">2</span>]);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">3</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="comment">// i &lt; j-1</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=j-<span class="number">2</span>;i++)&#123;</span><br><span class="line">                dp[i][j] = dp[i][j-<span class="number">1</span>] + d(p[j-<span class="number">1</span>], p[j]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// i = j-1</span></span><br><span class="line">            dp[j-<span class="number">1</span>][j] = Integer.MAX_VALUE;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=j-<span class="number">2</span>;k++)&#123;</span><br><span class="line">                dp[j-<span class="number">1</span>][j] = Math.min(dp[j-<span class="number">1</span>][j], dp[k][j-<span class="number">1</span>]+d(p[k],p[j]));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// i = j = n</span></span><br><span class="line">            dp[n][n] = dp[n-<span class="number">1</span>][n] + d(p[n-<span class="number">1</span>], p[n]); </span><br><span class="line">        &#125;</span><br><span class="line">        System.out.printf(<span class="string">&quot;%.2f&quot;</span>, dp[n][n]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-7"><a href="#测试输入与输出-7" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>7<br>0 6<br>1 0<br>2 3<br>5 4<br>6 1<br>7 5<br>8 2</p>
+<p>输出：</p>
+<p>25.58</p>
+<h3 id="313-最大k乘积问题"><a href="#313-最大k乘积问题" class="headerlink" title="313 最大k乘积问题"></a>313 最大k乘积问题</h3><h4 id="问题描述-7"><a href="#问题描述-7" class="headerlink" title="问题描述"></a>问题描述</h4><p>设I是一个n位十进制整数。如果将I划分为k段，则可得到k个整数。这k个整数的乘积称为I的一个k乘积。设计一个算法，对于给定的I和k，求出I的最大k乘积。</p>
+<h4 id="算法设计-8"><a href="#算法设计-8" class="headerlink" title="算法设计"></a>算法设计</h4><p>设dp[i][j]表示将前i位划分为j段的最大k乘积，需要找到一个位置m，前m位中有j-1段，此后的位为1段。设a[i][j]表示第i到j位，则<script type="math/tex">dp[i][j] = max_{j-1 \leq m < i}\{dp[m][j-1]\times a[m+1][i]\}</script></p>
+<p>递推方程为：</p>
+<script type="math/tex; mode=display">
+dp[i][j] = \begin{cases}
+a[1][i] & j = 1,i>j \\
+max_{j-1 \leq m <i}\{dp[m][j-1]\times a[m+1][i] \} & j>1,i>j
+\end{cases}</script><h4 id="代码实现-7"><a href="#代码实现-7" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> k, <span class="type">int</span> num)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> a[n+<span class="number">1</span>][n+<span class="number">1</span>], dp[n+<span class="number">1</span>][k+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=i;j&lt;=n;j++)&#123;</span><br><span class="line">            a[i][j] = <span class="built_in">stoi</span>(<span class="built_in">to_string</span>(num).<span class="built_in">substr</span>(i<span class="number">-1</span>,j-i+<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        dp[i][<span class="number">1</span>] = a[<span class="number">1</span>][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">2</span>;j&lt;=k;j++)&#123;</span><br><span class="line">            dp[i][j] = INT_MIN;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> m=j<span class="number">-1</span>;m&lt;i;m++)&#123;</span><br><span class="line">                dp[i][j] = <span class="built_in">max</span>(dp[i][j], dp[m][j<span class="number">-1</span>]*a[m+<span class="number">1</span>][i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; dp[n][k] &lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> k, <span class="type">int</span> num)</span>&#123;</span><br><span class="line">    <span class="type">int</span>[][] a = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][n+<span class="number">1</span>], dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][k+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=i;j&lt;=n;j++)&#123;</span><br><span class="line">            a[i][j] = Integer.parseInt(Integer.toString(num).substring(i-<span class="number">1</span>, j));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        dp[i][<span class="number">1</span>] = a[<span class="number">1</span>][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">2</span>;j&lt;=k;j++)&#123;</span><br><span class="line">            dp[i][j] = Integer.MIN_VALUE;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> m=j-<span class="number">1</span>;m&lt;i;m++)&#123;</span><br><span class="line">                dp[i][j] = Math.max(dp[i][j], dp[m][j-<span class="number">1</span>]*a[m+<span class="number">1</span>][i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[n][k]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-8"><a href="#测试输入与输出-8" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>3 2</p>
+<p>312</p>
+<p>输出：</p>
+<p>62</p>
+<h3 id="314-最少费用购物问题"><a href="#314-最少费用购物问题" class="headerlink" title="314 最少费用购物问题"></a>314 最少费用购物问题</h3><h4 id="问题描述-8"><a href="#问题描述-8" class="headerlink" title="问题描述"></a>问题描述</h4><p>商店中每种物品都有标价。例如，一朵花的价格是2元，一个花瓶的价格是5元，为了吸引顾客，商店提供了一组优惠商品价，优惠商品是把一种或多种商品分成一组，并降价销售，例如，3朵花的价格是5元，2个花瓶+1朵花的价格是10元，设计一个算法，计算出某顾客购买商品应付的最少费用。</p>
+<p>input.txt提供欲购物信息，第一行输入为B(0-5)，此后的B行每行有三个数C K P，分别表示商品编号(1-999)，购买总数(1-5)，商品单价，一次最多购买5*5件商品。</p>
+<p>offer.txt提供优惠商品价数据，文件中的第一行有一个整数S，表示有S种优惠组合，接下来的S行，每行的第一个数表示组合中的商品种类j，接下来是j个数字对(C K)，C为商品编号，K为在优惠组合中的数量，最后一个数字P表示该组合的优惠价。输出最少费用。</p>
+<h4 id="算法设计-9"><a href="#算法设计-9" class="headerlink" title="算法设计"></a>算法设计</h4><p>由于每次购买的商品最多五种，可以使用一个五维数组保存购买情况，用dp[i][j][k][l][p]表示购买的五种商品有i，j，k，l，p个时的最少费用。求最少费用时，遍历每种优惠组合，更新dp数组，设offer[m][c]表示第m个优惠组合中，商品c的数量，c取1-5，在读入时就只读入欲购买的商品。以下是考虑优惠组合时的递推方程，每种情况应该先初始化为用单价购买的价格，然后遍历组合找到最小值。</p>
+<script type="math/tex; mode=display">
+dp[i][j][k][l][p]=min_{1\leq m \leq S}\{dp[i-offer[m][1]][j-offer[m][2]][k-offer[m][3]][l-offer[m][4][p-offer[m][5]]+offer[m][0]\}</script><p>其中offer[m][0]表示优惠组合m的价格。</p>
+<p>如果i-offer[m][i]&lt;0，应该取0，这样就包含了凑单的情况。</p>
+<h4 id="代码实现-8"><a href="#代码实现-8" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">good</span>&#123;</span><br><span class="line">    <span class="type">int</span> id = <span class="number">-1</span>, n = <span class="number">0</span>, p = <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">solution</span>&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> B, C, K, S;</span><br><span class="line">    <span class="type">int</span> offer[<span class="number">101</span>][<span class="number">6</span>];</span><br><span class="line">    <span class="type">int</span> dp[<span class="number">6</span>][<span class="number">6</span>][<span class="number">6</span>][<span class="number">6</span>][<span class="number">6</span>];</span><br><span class="line">    good goods[<span class="number">6</span>];</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">input</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution::input</span><span class="params">()</span></span>&#123;</span><br><span class="line">    fstream in;</span><br><span class="line">    in.<span class="built_in">open</span>(<span class="string">&quot;input314.txt&quot;</span>, ios::in);</span><br><span class="line">    in &gt;&gt; B;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=B;i++)&#123;</span><br><span class="line">        in &gt;&gt; goods[i].id &gt;&gt; goods[i].n &gt;&gt; goods[i].p;</span><br><span class="line">    &#125;</span><br><span class="line">    in.<span class="built_in">close</span>();</span><br><span class="line">    <span class="comment">//读入组合</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=<span class="number">101</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=<span class="number">6</span>;j++) offer[i][j] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    in.<span class="built_in">open</span>(<span class="string">&quot;offer.txt&quot;</span>, ios::in);</span><br><span class="line">    in &gt;&gt; S;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=S;i++)&#123;</span><br><span class="line">        <span class="type">int</span> t;</span><br><span class="line">        in &gt;&gt; t;</span><br><span class="line">        <span class="comment">//t种商品</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;t;j++)&#123;</span><br><span class="line">            in &gt;&gt; C &gt;&gt; K;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=B;k++)&#123;      <span class="comment">//找到优惠组合中欲购买的商品</span></span><br><span class="line">                <span class="keyword">if</span>(goods[k].id==C)&#123;</span><br><span class="line">                    offer[i][k] = K;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;    </span><br><span class="line">        in &gt;&gt; offer[i][<span class="number">0</span>];              <span class="comment">//总价    </span></span><br><span class="line">    &#125;</span><br><span class="line">    in.<span class="built_in">close</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solution::solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    dp[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=goods[<span class="number">1</span>].n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=goods[<span class="number">2</span>].n;j++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;=goods[<span class="number">3</span>].n;k++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">0</span>;l&lt;=goods[<span class="number">4</span>].n;l++)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> p=<span class="number">0</span>;p&lt;=goods[<span class="number">5</span>].n;p++)&#123;</span><br><span class="line">                        <span class="type">int</span> minPrice = i*goods[<span class="number">1</span>].p + j*goods[<span class="number">2</span>].p + k*goods[<span class="number">3</span>].p + l*goods[<span class="number">4</span>].p + p*goods[<span class="number">5</span>].p;</span><br><span class="line">                        dp[i][j][k][l][p] = minPrice;</span><br><span class="line">                        <span class="keyword">for</span>(<span class="type">int</span> m=<span class="number">1</span>;m&lt;=S;m++)&#123;</span><br><span class="line">                            minPrice = <span class="built_in">min</span>(minPrice, dp[<span class="built_in">max</span>(<span class="number">0</span>, i-offer[m][<span class="number">1</span>])][<span class="built_in">max</span>(<span class="number">0</span>, j-offer[m][<span class="number">2</span>])][<span class="built_in">max</span>(<span class="number">0</span>, k-offer[m][<span class="number">3</span>])][<span class="built_in">max</span>(<span class="number">0</span>, l-offer[m][<span class="number">4</span>])][<span class="built_in">max</span>(<span class="number">0</span>, p-offer[m][<span class="number">5</span>])]+offer[m][<span class="number">0</span>]);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">//cout &lt;&lt; i &lt;&lt; &quot; &quot; &lt;&lt; j &lt;&lt; &quot; &quot; &lt;&lt; k &lt;&lt; &quot; &quot; &lt;&lt; l &lt;&lt; &quot; &quot; &lt;&lt; p &lt;&lt; &quot;的最小费用为&quot; &lt;&lt; minPrice &lt;&lt; endl;</span></span><br><span class="line">                        dp[i][j][k][l][p] = minPrice;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; dp[goods[<span class="number">1</span>].n][goods[<span class="number">2</span>].n][goods[<span class="number">3</span>].n][goods[<span class="number">4</span>].n][goods[<span class="number">5</span>].n] &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">good</span>&#123;</span><br><span class="line">    <span class="type">int</span> id, n, p;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">good</span><span class="params">()</span>&#123;id=-<span class="number">1</span>;n=<span class="number">0</span>;p=<span class="number">0</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">solution</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> B, C, K, S;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[][] offer;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[][][][][] dp;</span><br><span class="line">    <span class="keyword">private</span> good[] goods;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">initialize</span><span class="params">()</span>&#123;</span><br><span class="line">        offer = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">101</span>][<span class="number">6</span>];</span><br><span class="line">        dp = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">6</span>][<span class="number">6</span>][<span class="number">6</span>][<span class="number">6</span>][<span class="number">6</span>];</span><br><span class="line">        goods = <span class="keyword">new</span> <span class="title class_">good</span>[<span class="number">6</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">5</span>;i++) goods[i] = <span class="keyword">new</span> <span class="title class_">good</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">input</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//读入欲购买的商品</span></span><br><span class="line">        <span class="keyword">try</span>(<span class="type">Scanner</span> <span class="variable">sc1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;input314.txt&quot;</span>)))&#123;</span><br><span class="line">            B = sc1.nextInt();</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=B;i++)&#123;</span><br><span class="line">                goods[i].id = sc1.nextInt();</span><br><span class="line">                goods[i].n = sc1.nextInt();</span><br><span class="line">                goods[i].p = sc1.nextInt();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(e.getClass());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//读入组合</span></span><br><span class="line">        <span class="keyword">try</span>(<span class="type">Scanner</span> <span class="variable">sc2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;offer.txt&quot;</span>)))&#123;</span><br><span class="line">            S = sc2.nextInt();</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=S;i++)&#123;</span><br><span class="line">                <span class="type">int</span> t;</span><br><span class="line">                t = sc2.nextInt();</span><br><span class="line">                <span class="comment">//t种商品</span></span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;t;j++)&#123;</span><br><span class="line">                    C = sc2.nextInt();</span><br><span class="line">                    K = sc2.nextInt();</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=B;k++)&#123;      <span class="comment">//找到优惠组合中欲购买的商品</span></span><br><span class="line">                        <span class="keyword">if</span>(goods[k].id==C)&#123;</span><br><span class="line">                            offer[i][k] = K;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;    </span><br><span class="line">                offer[i][<span class="number">0</span>] = sc2.nextInt();    <span class="comment">//总价    </span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(e.getClass());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">solve</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=goods[<span class="number">1</span>].n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=goods[<span class="number">2</span>].n;j++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;=goods[<span class="number">3</span>].n;k++)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">0</span>;l&lt;=goods[<span class="number">4</span>].n;l++)&#123;</span><br><span class="line">                        <span class="keyword">for</span>(<span class="type">int</span> p=<span class="number">0</span>;p&lt;=goods[<span class="number">5</span>].n;p++)&#123;</span><br><span class="line">                            <span class="type">int</span> <span class="variable">minPrice</span> <span class="operator">=</span> i*goods[<span class="number">1</span>].p + j*goods[<span class="number">2</span>].p + k*goods[<span class="number">3</span>].p + l*goods[<span class="number">4</span>].p + p*goods[<span class="number">5</span>].p;</span><br><span class="line">                            dp[i][j][k][l][p] = minPrice;</span><br><span class="line">                            <span class="keyword">for</span>(<span class="type">int</span> m=<span class="number">1</span>;m&lt;=S;m++)&#123;</span><br><span class="line">                                minPrice = Math.min(minPrice, dp[Math.max(<span class="number">0</span>, i-offer[m][<span class="number">1</span>])][Math.max(<span class="number">0</span>, j-offer[m][<span class="number">2</span>])][Math.max(<span class="number">0</span>, k-offer[m][<span class="number">3</span>])][Math.max(<span class="number">0</span>, l-offer[m][<span class="number">4</span>])][Math.max(<span class="number">0</span>, p-offer[m][<span class="number">5</span>])]+offer[m][<span class="number">0</span>]);</span><br><span class="line">                            &#125;</span><br><span class="line">                            dp[i][j][k][l][p] = minPrice;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(dp[goods[<span class="number">1</span>].n][goods[<span class="number">2</span>].n][goods[<span class="number">3</span>].n][goods[<span class="number">4</span>].n][goods[<span class="number">5</span>].n]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出-9"><a href="#测试输入与输出-9" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>测试1</p>
+<p>输入：</p>
+<p>input.txt</p>
+<p>2 </p>
+<p>7 3 2</p>
+<p>8 2 5</p>
+<p>offer.txt</p>
+<p>2</p>
+<p>1 7 3 5</p>
+<p>2 7 1 8 2 10</p>
+<p>输出：</p>
+<p>14</p>
+<p>测试2</p>
+<p>输入：</p>
+<p>input.txt</p>
+<p>5<br> 1 1 2<br> 2 1 3<br> 3 1 4<br> 4 1 5<br> 5 1 6</p>
+<p>offer.txt</p>
+<p> 6<br> 1 2 1 3<br> 2 1 1 2 1 5<br> 5 1 1 2 1 3 1 4 1 5 1 3<br> 3 1 1 3 1 4 1 1<br> 2 2 1 5 1 1<br> 1 1 1 3</p>
+<p>输出：</p>
+<p>2</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/" rel="prev" title="计算机网络自顶向下方法笔记04">
+      <i class="fa fa-chevron-left"></i> 计算机网络自顶向下方法笔记04
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#301-%E7%8B%AC%E7%AB%8B%E4%BB%BB%E5%8A%A1%E6%9C%80%E4%BC%98%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="nav-text">301 独立任务最优调度问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#303-%E7%9F%B3%E5%AD%90%E5%90%88%E5%B9%B6%E9%97%AE%E9%A2%98"><span class="nav-text">303 石子合并问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-1"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-1"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-1"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#304-%E6%95%B0%E5%AD%97%E4%B8%89%E8%A7%92%E5%BD%A2%E9%97%AE%E9%A2%98"><span class="nav-text">304 数字三角形问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-2"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-2"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-2"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#305%E4%B9%98%E6%B3%95%E8%A1%A8%E9%97%AE%E9%A2%98"><span class="nav-text">305乘法表问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-3"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-3"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-3"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#306-%E7%A7%9F%E7%94%A8%E6%B8%B8%E8%89%87%E9%97%AE%E9%A2%98"><span class="nav-text">306 租用游艇问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-4"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-4"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-3"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-4"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#308-%E6%9C%80%E5%B0%8Fm%E6%AE%B5%E5%92%8C"><span class="nav-text">308 最小m段和</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-5"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-4"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-5"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#310-%E6%9C%80%E5%A4%A7%E9%95%BF%E6%96%B9%E4%BD%93%E9%97%AE%E9%A2%98"><span class="nav-text">310 最大长方体问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-5"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-6"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-5"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-6"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#312-%E5%8F%8C%E8%B0%83%E6%97%85%E8%A1%8C%E5%94%AE%E8%B4%A7%E5%91%98%E9%97%AE%E9%A2%98"><span class="nav-text">312 双调旅行售货员问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-6"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-7"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-6"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-7"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#313-%E6%9C%80%E5%A4%A7k%E4%B9%98%E7%A7%AF%E9%97%AE%E9%A2%98"><span class="nav-text">313 最大k乘积问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-7"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-8"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-7"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-8"><span class="nav-text">测试输入与输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#314-%E6%9C%80%E5%B0%91%E8%B4%B9%E7%94%A8%E8%B4%AD%E7%89%A9%E9%97%AE%E9%A2%98"><span class="nav-text">314 最少费用购物问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-8"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-9"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-8"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-9"><span class="nav-text">测试输入与输出</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
