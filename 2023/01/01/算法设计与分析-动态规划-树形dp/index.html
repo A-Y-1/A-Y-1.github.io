@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="算法设计与分析-动态规划树形DP题目记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法设计与分析-动态规划-树形dp">
+<meta property="og:url" content="https://a-y-1.github.io/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%A0%91%E5%BD%A2dp/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="算法设计与分析-动态规划树形DP题目记录。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-01T03:21:29.000Z">
+<meta property="article:modified_time" content="2023-01-01T03:21:31.596Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://a-y-1.github.io/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%A0%91%E5%BD%A2dp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>算法设计与分析-动态规划-树形dp | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%A0%91%E5%BD%A2dp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法设计与分析-动态规划-树形dp
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-01-01 11:21:29 / 修改时间：11:21:31" itemprop="dateCreated datePublished" datetime="2023-01-01T11:21:29+08:00">2023-01-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p style="text-indent:2em">算法设计与分析-动态规划树形DP题目记录。</p>
+
+<span id="more"></span>
+<h2 id="树形DP"><a href="#树形DP" class="headerlink" title="树形DP"></a>树形DP</h2><p>树形DP的思路是用树形结构存储数据，使用DFS更新状态数组。</p>
+<p>树形DP一般自底向上，按子树从小到大求解，将将节点编号作为状态的第一维，表示以该节点为根的子树的解。</p>
+<p>树形DP一般采用深度优先遍历，先求解叶子节点，向上进行状态转移，求解完当前节点的所有子树，才求解当前节点。</p>
+<h3 id="P1352-没有上司的舞会"><a href="#P1352-没有上司的舞会" class="headerlink" title="P1352 没有上司的舞会"></a>P1352 没有上司的舞会</h3><p>传送门：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1352">https://www.luogu.com.cn/problem/P1352</a></p>
+<h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>某大学有 nn个职员，编号为 1…n1…n。</p>
+<p>他们之间有从属关系，也就是说他们的关系就像一棵以校长为根的树，父结点就是子结点的直接上司。</p>
+<p>现在有个周年庆宴会，宴会每邀请来一个职员都会增加一定的快乐指数 r，但是如果某个职员的直接上司来参加舞会了，那么这个职员就无论如何也不肯来参加舞会了。</p>
+<p>请你编程计算，邀请哪些职员可以使快乐指数最大，求最大的快乐指数。</p>
+<h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入的第一行是一个整数 n。</p>
+<p>第 22 到第 (n+1) 行，每行一个整数，第 (i+1) 行的整数表示 i 号职员的快乐指数 r。</p>
+<p>第 (n+2) 到第 2n 行，每行输入一对整数 l,k，代表 k 是 l 的直接上司。</p>
+<h4 id="算法设计"><a href="#算法设计" class="headerlink" title="算法设计"></a>算法设计</h4><p>用树形结构表示所有职员，节点为每个职员，直接相连的父节点为直接上司。</p>
+<p>用dp[i][0/1]表示以节点i为根节点的子树的最优解，第二维的0/1表示当前节点的职员是否参加舞会。考虑当前节点是否选择参加：</p>
+<ul>
+<li>不选择当前节点u，则u的所有子节点可选可不选，因此<script type="math/tex">dp[u][0] +=max\{dp[v][0]，dp[v][1]\}</script>，v为u的子节点。</li>
+<li>选择当前节点，则u的所有子节点都不可选择参加，<script type="math/tex">dp[u][1]+=dp[v][0]</script>。</li>
+</ul>
+<p>对于节点u，可以初始化其子树解的下界：<script type="math/tex">dp[u][0]=0,\ dp[u][1]=val[u]</script>。</p>
+<p>最终的结果为<script type="math/tex">max\{dp[root][0],dp[root][1]\}</script></p>
+<p>使用链式前向星图(静态邻接表)存储树。</p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>c++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> maxn = <span class="number">6e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">edge</span>&#123;</span><br><span class="line">    <span class="type">int</span> to;</span><br><span class="line">    <span class="type">int</span> last;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">int</span> n, cnt = <span class="number">0</span>;         <span class="comment">//节点数与边数</span></span><br><span class="line"><span class="type">int</span> head[maxn];         <span class="comment">//从i出发的最后一条边</span></span><br><span class="line"><span class="type">int</span> dp[maxn][<span class="number">2</span>];        <span class="comment">//状态数组</span></span><br><span class="line"><span class="type">int</span> r[maxn];            <span class="comment">//快乐指数</span></span><br><span class="line">edge edges[maxn];</span><br><span class="line"><span class="type">bool</span> vis[maxn];         <span class="comment">//记录是否有向上层的边, 用于找根节点</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span>&#123;</span><br><span class="line">    edges[cnt].to = y;          <span class="comment">//连接的点</span></span><br><span class="line">    edges[cnt].last = head[x];  <span class="comment">//上一条边</span></span><br><span class="line">    head[x] = cnt++;            <span class="comment">//当前边为从x出发的最后一条边</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> cur)</span></span>&#123;</span><br><span class="line">    dp[cur][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    dp[cur][<span class="number">1</span>] = r[cur];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=head[cur];~i;i=edges[i].last)&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(edges[i].to);</span><br><span class="line">        dp[cur][<span class="number">1</span>] += dp[edges[i].to][<span class="number">0</span>];</span><br><span class="line">        dp[cur][<span class="number">0</span>] += <span class="built_in">max</span>(dp[edges[i].to][<span class="number">0</span>], dp[edges[i].to][<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> x, y, root;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        cin &gt;&gt; r[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//输入边</span></span><br><span class="line">    <span class="built_in">memset</span>(head, <span class="number">-1</span>, <span class="built_in">sizeof</span>(head));</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">        cin &gt;&gt; x &gt;&gt; y;</span><br><span class="line">        <span class="built_in">add</span>(y, x);</span><br><span class="line">        vis[x] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//找到根节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!vis[i])&#123;</span><br><span class="line">            root = i;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dfs</span>(root);</span><br><span class="line">    cout &lt;&lt; <span class="built_in">max</span>(dp[root][<span class="number">0</span>], dp[root][<span class="number">1</span>]) &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">edge</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> to, last;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">graph</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">maxn</span> <span class="operator">=</span> (<span class="type">int</span>)<span class="number">6e3</span>+<span class="number">5</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> root;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> cnt;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[] head;</span><br><span class="line">    <span class="keyword">private</span> edge[] edges;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[][] dp;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[] r;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">graph</span><span class="params">(<span class="type">int</span> n)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.n = n;</span><br><span class="line">        head = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">        edges = <span class="keyword">new</span> <span class="title class_">edge</span>[maxn];</span><br><span class="line">        dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][<span class="number">2</span>];</span><br><span class="line">        r = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">        Arrays.fill(head, -<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;maxn;i++) edges[i] = <span class="keyword">new</span> <span class="title class_">edge</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setRoot</span><span class="params">(<span class="type">int</span> r)</span> &#123; root = r;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setR</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> r)</span> &#123;<span class="built_in">this</span>.r[i] = r;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line">        edges[cnt].to = y;</span><br><span class="line">        edges[cnt].last = head[x];</span><br><span class="line">        head[x] = cnt++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> cur)</span>&#123;</span><br><span class="line">        dp[cur][<span class="number">1</span>] = r[cur];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=head[cur];i!=-<span class="number">1</span>;i=edges[i].last)&#123;</span><br><span class="line">            dfs(edges[i].to);</span><br><span class="line">            dp[cur][<span class="number">0</span>] += Math.max(dp[edges[i].to][<span class="number">0</span>], dp[edges[i].to][<span class="number">1</span>]);</span><br><span class="line">            dp[cur][<span class="number">1</span>] += dp[edges[i].to][<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">solution</span><span class="params">()</span>&#123;</span><br><span class="line">        dfs(root);</span><br><span class="line">        System.out.println(Math.max(dp[root][<span class="number">0</span>], dp[root][<span class="number">1</span>]));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试输入与输出"><a href="#测试输入与输出" class="headerlink" title="测试输入与输出"></a>测试输入与输出</h4><p>输入：</p>
+<p>7<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1 3<br>2 3<br>6 4<br>7 4<br>4 5<br>3 5</p>
+<p>输出：</p>
+<p>5</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="prev" title="算法设计与分析-动态规划-区间DP&其他">
+      <i class="fa fa-chevron-left"></i> 算法设计与分析-动态规划-区间DP&其他
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E5%BD%A2DP"><span class="nav-text">树形DP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#P1352-%E6%B2%A1%E6%9C%89%E4%B8%8A%E5%8F%B8%E7%9A%84%E8%88%9E%E4%BC%9A"><span class="nav-text">P1352 没有上司的舞会</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="nav-text">输入格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA"><span class="nav-text">测试输入与输出</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">198k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:01</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
