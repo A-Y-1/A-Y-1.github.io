@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a-y-1.github.io/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/image-20221123173758944.png">
 <meta property="article:published_time" content="2022-11-15T04:30:29.000Z">
-<meta property="article:modified_time" content="2022-12-15T01:16:44.082Z">
+<meta property="article:modified_time" content="2023-01-02T03:32:24.683Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
@@ -199,7 +199,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-15 09:16:44" itemprop="dateModified" datetime="2022-12-15T09:16:44+08:00">2022-12-15</time>
+                <time title="修改时间：2023-01-02 11:32:24" itemprop="dateModified" datetime="2023-01-02T11:32:24+08:00">2023-01-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -266,6 +266,7 @@
 <p style="text-indent:2em">只需要对第二条进行检查，判断至少有一个声明，且最后一个声明是否是void main(void)形式的函数声明。在Declaration类型的节点中有id和type，进行检查即可，其中type是CminusType类型，在hpp开头枚举。因此Program节点的visit函数如下：</p>
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTProgram &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Program\n&quot;</span>;</span><br><span class="line">    <span class="comment">//语义检查</span></span><br><span class="line">    <span class="keyword">if</span>(node.declarations.<span class="built_in">size</span>()==<span class="number">0</span>)&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: 该程序中没有声明。\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!(node.declarations.<span class="built_in">back</span>()-&gt;id==<span class="string">&quot;main&quot;</span>&amp;&amp; node.declarations.<span class="built_in">back</span>()-&gt;type==TYPE_VOID))&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: 最后一个声明不是void main(void)&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问declarations子节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> dec: node.declarations)</span><br><span class="line">        dec-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 <h3 id="2-函数参数的处理"><a href="#2-函数参数的处理" class="headerlink" title="2.函数参数的处理"></a>2.函数参数的处理</h3><p style="text-indent:2em">在编写FunDeclaration和Param的visit函数时，不明确参数具体的处理方法。找到lab3中由clang生成的.ll，对于参数的处理都是先分配空间，然后使用store指令将参数值存入分配好的空间。例如以下程序：</p>
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">define i32 @<span class="built_in">callee</span>(i32 %<span class="number">0</span>) #<span class="number">0</span> &#123;</span><br><span class="line">    %<span class="number">2</span> = alloca i32</span><br><span class="line">    store i32 %<span class="number">0</span>, i32* %<span class="number">2</span></span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -514,12 +515,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">198k</span>
+    <span title="站点总字数">209k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:01</span>
+    <span title="站点阅读时长">3:10</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
