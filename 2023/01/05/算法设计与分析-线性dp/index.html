@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="算法设计与分析-线性dp题目记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法设计与分析-线性dp">
+<meta property="og:url" content="https://a-y-1.github.io/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="算法设计与分析-线性dp题目记录。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-05T09:52:29.000Z">
+<meta property="article:modified_time" content="2023-01-06T11:27:20.745Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://a-y-1.github.io/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>算法设计与分析-线性dp | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法设计与分析-线性dp
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-01-05 17:52:29" itemprop="dateCreated datePublished" datetime="2023-01-05T17:52:29+08:00">2023-01-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-01-06 19:27:20" itemprop="dateModified" datetime="2023-01-06T19:27:20+08:00">2023-01-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p style="text-indent:2em">算法设计与分析-线性dp题目记录。</p>
+
+<span id="more"></span>
+<h3 id="P1020-导弹拦截"><a href="#P1020-导弹拦截" class="headerlink" title="P1020 导弹拦截"></a>P1020 导弹拦截</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>某国为了防御敌国的导弹袭击，发展出一种导弹拦截系统。但是这种导弹拦截系统有一个缺陷：虽然它的第一发炮弹能够到达任意的高度，但是以后每一发炮弹都不能高于前一发的高度。某天，雷达捕捉到敌国的导弹来袭。由于该系统还在试用阶段，所以只有一套系统，因此有可能不能拦截所有的导弹。</p>
+<p>输入导弹依次飞来的高度，计算这套系统最多能拦截多少导弹，如果要拦截所有导弹最少要配备多少套这种导弹拦截系统。</p>
+<h4 id="输入格式与输出格式"><a href="#输入格式与输出格式" class="headerlink" title="输入格式与输出格式"></a>输入格式与输出格式</h4><p>输入：</p>
+<p>一行，若干个整数，中间由空格隔开。</p>
+<p>输出：</p>
+<p>两行，每行一个整数，第一个数字表示这套系统最多能拦截多少导弹，第二个数字表示如果要拦截所有导弹最少要配备多少套这种导弹拦截系统。</p>
+<h4 id="样例输入与输出"><a href="#样例输入与输出" class="headerlink" title="样例输入与输出"></a>样例输入与输出</h4><p>输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">389 207 155 300 299 170 158 65</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">6</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<h4 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h4><p>对于前 $50\%$ 数据（NOIP 原题数据），满足导弹的个数不超过 $10^4$ 个。该部分数据总分共 $100$ 分。可使用$\mathcal O(n^2)$ 做法通过。<br>对于后 $50\%$ 的数据，满足导弹的个数不超过 $10^5$ 个。该部分数据总分也为 $100$ 分。请使用 $\mathcal O(n\log n)$ 做法通过。</p>
+<p>对于全部数据，满足导弹的高度为正整数，且不超过 $5\times 10^4$。</p>
+<p>此外本题开启 spj，每点两问，按问给分。</p>
+<h4 id="算法设计"><a href="#算法设计" class="headerlink" title="算法设计"></a>算法设计</h4><p>问题的本质是求最长不上升子序列的长度。</p>
+<p>可以使用tail[i]表示长度为i的不上升子序列的尾元素，要求最长的不上升子序列，应该让尾元素尽量更大，子序列才可能更长。如果遇到一个大于最大长度的尾元素的元素，就用这个元素更新某个特定长度i的尾元素，这样长度i的单调递减序列就可能添加新的元素。如果遇到一个小于等于最大长度的尾元素的元素，那么可以将最大长度+1，将这个元素作为尾元素。</p>
+<p>对于特定长度i的序列的尾元素的更新，可以使用二分搜索的方法，因为tail数组一定是一个递减的数组。</p>
+<p>第二问使用贪心算法，使用已有系统中最后一枚导弹最低的系统进行拦截，如果不存在，使用一个新的系统。</p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">		<span class="type">BufferedReader</span> <span class="variable">bf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in));</span><br><span class="line">		<span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> bf.readLine();</span><br><span class="line">		String[] temp = line.split(<span class="string">&quot; &quot;</span>);</span><br><span class="line">		<span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> temp.length;</span><br><span class="line">		<span class="type">int</span>[] h = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) &#123;</span><br><span class="line">			h[i] = Integer.parseInt(temp[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		System.gc();</span><br><span class="line">		</span><br><span class="line">		<span class="type">int</span>[] tail = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="type">int</span> <span class="variable">maxLen</span> <span class="operator">=</span> <span class="number">0</span>;		<span class="comment">//从0开始，最后的结果是MaxLen+1</span></span><br><span class="line">		<span class="type">int</span>[] sys = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="type">int</span> <span class="variable">used</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) &#123;</span><br><span class="line">			<span class="comment">//求最长不上升子序列的长度</span></span><br><span class="line">			<span class="keyword">if</span>(h[i] &gt; tail[maxLen]) &#123;</span><br><span class="line">				tail[binarySearch(tail, <span class="number">0</span>, maxLen, h[i])] = h[i];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				tail[++maxLen] = h[i];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//求拦截需要的系统数</span></span><br><span class="line">			<span class="type">int</span> <span class="variable">sys_used</span> <span class="operator">=</span> -<span class="number">1</span>, sys_h = Integer.MAX_VALUE;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;used;j++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(sys[j]&gt;=h[i]) &#123;		<span class="comment">//可以使用该系统</span></span><br><span class="line">					<span class="keyword">if</span>(sys[j]&lt;sys_h) &#123;  <span class="comment">//选可以使用的系统中最后一枚导弹高度最低的用</span></span><br><span class="line">						sys_used = j;</span><br><span class="line">						sys_h = sys[j];</span><br><span class="line">					&#125;</span><br><span class="line">				&#125; </span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(sys_used==-<span class="number">1</span>) sys[used++] = h[i];</span><br><span class="line">			<span class="keyword">else</span> sys[sys_used] = h[i];</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(maxLen+<span class="number">1</span>);</span><br><span class="line">		System.out.println(used);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//二分搜索</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] a ,<span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span> e)</span> &#123;</span><br><span class="line">		<span class="keyword">while</span>(left &lt; right) &#123;</span><br><span class="line">			<span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right-left)/<span class="number">2</span>;</span><br><span class="line">			<span class="keyword">if</span>(a[mid]&lt;e) &#123;</span><br><span class="line">				right = mid;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				left = mid+<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> left;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上的结果只能200分，增加的sub-task数据TLE。对于第二问，根据Dilworth定理，需要的系统数是最长上升子序列的长度，修改为求最长上升子序列，就能优化通过最后的sub-task。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">		<span class="type">BufferedReader</span> <span class="variable">bf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in));</span><br><span class="line">		<span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> bf.readLine();</span><br><span class="line">		String[] temp = line.split(<span class="string">&quot; &quot;</span>);</span><br><span class="line">		<span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> temp.length;</span><br><span class="line">		<span class="type">int</span>[] h = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) &#123;</span><br><span class="line">			h[i] = Integer.parseInt(temp[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		System.gc();</span><br><span class="line">		</span><br><span class="line">		<span class="type">int</span>[] tail = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="type">int</span>[] tail2 = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="type">int</span> maxLen2, maxLen;</span><br><span class="line">		maxLen = maxLen2 =  <span class="number">1</span>;</span><br><span class="line">		tail2[<span class="number">1</span>] = tail[<span class="number">1</span>] = h[<span class="number">0</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++) &#123;</span><br><span class="line">			<span class="comment">//求最长不上升子序列的长度</span></span><br><span class="line">			<span class="keyword">if</span>(h[i] &gt; tail[maxLen]) &#123;</span><br><span class="line">				tail[binarySearch(tail, <span class="number">1</span>, maxLen, h[i])] = h[i];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				tail[++maxLen] = h[i];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//求最长上升子序列</span></span><br><span class="line">			<span class="keyword">if</span>(h[i] &lt;= tail2[maxLen2]) &#123;</span><br><span class="line">				<span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> binarySearch2(tail2, <span class="number">1</span>, maxLen2, h[i]);</span><br><span class="line">                <span class="comment">//如果tail[]里已经有了元素h[i]，不可以用h[i]更新数组，因为对于上升序列，不可以有相等的元素，例如tail：1 2 3 5 8 9， 如果又有个长度为8的元素，是不可以更新9的，因为他不能加到以8结尾的序列的后面</span></span><br><span class="line">				<span class="keyword">if</span>(x!=-<span class="number">1</span>)	</span><br><span class="line">					tail2[x] = h[i];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				tail2[++maxLen2] = h[i];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(maxLen);</span><br><span class="line">		System.out.println(maxLen2);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//二分搜索-递减</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] a ,<span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span> e)</span> &#123;</span><br><span class="line">		<span class="keyword">while</span>(left &lt; right) &#123;</span><br><span class="line">			<span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right-left)/<span class="number">2</span>;</span><br><span class="line">			<span class="keyword">if</span>(a[mid]&lt;e) &#123;</span><br><span class="line">				right = mid;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				left = mid+<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> left;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//二分搜索-递增</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">binarySearch2</span><span class="params">(<span class="type">int</span>[] a ,<span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span> e)</span> &#123;</span><br><span class="line">		<span class="keyword">while</span>(left &lt; right) &#123;</span><br><span class="line">			<span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right-left)/<span class="number">2</span>;</span><br><span class="line">			<span class="keyword">if</span>(a[mid]&gt;e) &#123;</span><br><span class="line">				right = mid;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(a[mid]==e) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				left = mid+<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> left;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="P1439-最长公共子序列"><a href="#P1439-最长公共子序列" class="headerlink" title="P1439 最长公共子序列"></a>P1439 最长公共子序列</h3><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>给出 $1,2,\ldots,n$ 的两个排列 $P_1$ 和 $P_2$ ，求它们的最长公共子序列。</p>
+<h4 id="输入与输出格式"><a href="#输入与输出格式" class="headerlink" title="输入与输出格式"></a>输入与输出格式</h4><p>输入：</p>
+<p>第一行是一个数 $n$。</p>
+<p>接下来两行，每行为 $n$ 个数，为自然数 $1,2,\ldots,n$ 的一个排列。</p>
+<p>输出：</p>
+<p>一个数，即最长公共子序列的长度。</p>
+<h4 id="样例输入与输出-1"><a href="#样例输入与输出-1" class="headerlink" title="样例输入与输出"></a>样例输入与输出</h4><p>输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">5 </span><br><span class="line">3 2 1 4 5</span><br><span class="line">1 2 3 4 5</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure>
+<h4 id="提示-1"><a href="#提示-1" class="headerlink" title="提示"></a>提示</h4><ul>
+<li>对于 $50\%$ 的数据， $n \le 10^3$；</li>
+<li>对于 $100\%$ 的数据， $n \le 10^5$。</li>
+</ul>
+<h4 id="算法设计-1"><a href="#算法设计-1" class="headerlink" title="算法设计"></a>算法设计</h4><p><strong>直接dp</strong></p>
+<p>用一般的动态规划方法，如果A[i]和B[I]相同，A和B的前i个元素的最长公共子序列长度为A和B前i-1元素的最长公共子序列的长度+1，如果不同，有两种可能：</p>
+<ul>
+<li>长度为A前i-1元素和B的前i元素的最长公共子序列长度</li>
+<li>长度为B前i-1元素和A的前i元素的最长公共子序列长度</li>
+</ul>
+<p>最长子序列长度为这两种可能中的最大值。</p>
+<p>用dp[i][j]表示A的前i项和B的前j项的最长公共子序列长度，按照以上的最优子结构填表就可以得到答案，但是时间复杂度是n^2，无法通过全部测试。</p>
+<p><strong>转化为最长上升子序列</strong></p>
+<p>该问题可以转化为一个最长上升子序列问题。可以将B中元素在A中的位置找出来，由于A和B都是1-n的一种排列，所以B中元素一定有在A中对应的位置，所有的位置形成一个新的序列，如果新序列存在子序列是上升的，则表示在B中子序列对应下标的元素在A中也是按顺序出现的，是公共子序列。这样最长公共子序列问题就转化为了最长上升子序列问题。</p>
+<h4 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.StreamTokenizer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">		<span class="type">Reader</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Reader</span>();</span><br><span class="line">		<span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> r.nextInt();</span><br><span class="line">		<span class="type">int</span>[] a = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="type">int</span>[] b = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) a[i] = r.nextInt();</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) b[i] = r.nextInt();</span><br><span class="line">		<span class="type">int</span>[] map = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">			map[a[i]] = i; </span><br><span class="line">		&#125;</span><br><span class="line">		<span class="type">int</span>[] tail = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="type">int</span> <span class="variable">maxLen</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">		tail[<span class="number">1</span>] = map[b[<span class="number">1</span>]]; </span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">			<span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> map[b[i]];</span><br><span class="line">			<span class="keyword">if</span>(temp&gt;tail[maxLen]) &#123;</span><br><span class="line">				tail[++maxLen] = temp;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="type">int</span> <span class="variable">pos</span> <span class="operator">=</span> binarySearch(tail, <span class="number">1</span>, maxLen, temp);</span><br><span class="line">				<span class="keyword">if</span>(pos!=-<span class="number">1</span>) tail[pos] = temp;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(maxLen);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span> e)</span> &#123;</span><br><span class="line">		<span class="keyword">while</span>(left&lt;right) &#123;</span><br><span class="line">			<span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right-left)/<span class="number">2</span>;</span><br><span class="line">			<span class="keyword">if</span>(arr[mid]==e) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(arr[mid]&gt;e) &#123;</span><br><span class="line">				right = mid;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> left = mid+<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> left;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Reader</span>&#123;</span><br><span class="line">	<span class="type">StreamTokenizer</span> <span class="variable">st</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StreamTokenizer</span>(<span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in)));</span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">nextInt</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">		st.nextToken();</span><br><span class="line">		<span class="keyword">return</span> (<span class="type">int</span>)st.nval;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="P2758-编辑距离"><a href="#P2758-编辑距离" class="headerlink" title="P2758 编辑距离"></a>P2758 编辑距离</h3><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p>设 $A$ 和 $B$ 是两个字符串。我们要用最少的字符操作次数，将字符串 $A$ 转换为字符串 $B$。这里所说的字符操作共有三种：</p>
+<ol>
+<li>删除一个字符；</li>
+<li>插入一个字符；</li>
+<li>将一个字符改为另一个字符。</li>
+</ol>
+<p>$A, B$ 均只包含小写字母。</p>
+<h4 id="输入与输出格式-1"><a href="#输入与输出格式-1" class="headerlink" title="输入与输出格式"></a>输入与输出格式</h4><p>输入：</p>
+<p>第一行为字符串 $A$；第二行为字符串 $B$；字符串 $A, B$ 的长度均小于 $2000$。</p>
+<p>输出：</p>
+<p>只有一个正整数，为最少字符操作次数。</p>
+<h4 id="样例输入与输出-2"><a href="#样例输入与输出-2" class="headerlink" title="样例输入与输出"></a>样例输入与输出</h4><p>输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sfdqxbw</span><br><span class="line">gfdgw</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4</span><br></pre></td></tr></table></figure>
+<h4 id="提示-2"><a href="#提示-2" class="headerlink" title="提示"></a>提示</h4><p>对于 $100 \%$ 的数据，$1 \le |A|, |B| \le 2000$。</p>
+<h4 id="算法设计-2"><a href="#算法设计-2" class="headerlink" title="算法设计"></a>算法设计</h4><p>用dp[i][j]表示A的前i项和B的前j项的匹配情况如果A[i-1]==B[i-1]，则dp[i][j]=dp[i-1][j-1]，不需要修改，如果A[i-1]!=B[j-1]，则有三种修改方式，对应的修改次数为：</p>
+<ul>
+<li>删除A[i]：dp[i-1][j]+1</li>
+<li>向A中插入B[j]：dp[i][j-1]+1</li>
+<li>将A[i]修改为B[j]：dp[i-1][j-1]+1</li>
+</ul>
+<p>取以上三种的最小值。</p>
+<h4 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.StreamTokenizer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">		<span class="type">BufferedReader</span> <span class="variable">bf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in));</span><br><span class="line">		<span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> bf.readLine();</span><br><span class="line">		<span class="type">String</span> <span class="variable">b</span> <span class="operator">=</span> bf.readLine();</span><br><span class="line">		<span class="type">int</span> <span class="variable">lenA</span> <span class="operator">=</span> a.length(), lenB = b.length();</span><br><span class="line">		<span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[lenA+<span class="number">1</span>][lenB+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=lenA;i++) dp[i][<span class="number">0</span>] = i;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=lenB;j++) dp[<span class="number">0</span>][j] = j;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=lenA;i++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=lenB;j++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(a.charAt(i-<span class="number">1</span>)==(b.charAt(j-<span class="number">1</span>))) dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>];</span><br><span class="line">				<span class="keyword">else</span> dp[i][j] = Math.min(dp[i-<span class="number">1</span>][j], Math.min(dp[i][j-<span class="number">1</span>], dp[i-<span class="number">1</span>][j-<span class="number">1</span>]))+<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(dp[lenA][lenB]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="P1040-加分二叉树"><a href="#P1040-加分二叉树" class="headerlink" title="P1040 加分二叉树"></a>P1040 加分二叉树</h3><h4 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h4><p>设一个 $n$ 个节点的二叉树 $\text{tree}$ 的中序遍历为$(1,2,3,\ldots,n)$，其中数字 $1,2,3,\ldots,n$ 为节点编号。每个节点都有一个分数（均为正整数），记第 $i$ 个节点的分数为 $d_i$，$\text{tree}$ 及它的每个子树都有一个加分，任一棵子树 $\text{subtree}$（也包含 $\text{tree}$ 本身）的加分计算方法如下：</p>
+<p>$\text{subtree}$ 的左子树的加分 $\times$ $\text{subtree}$ 的右子树的加分 $+$ $\text{subtree}$ 的根的分数。</p>
+<p>若某个子树为空，规定其加分为 $1$，叶子的加分就是叶节点本身的分数。不考虑它的空子树。</p>
+<p>试求一棵符合中序遍历为 $(1,2,3,\ldots,n)$ 且加分最高的二叉树 $\text{tree}$。要求输出</p>
+<ol>
+<li><p>$\text{tree}$ 的最高加分。</p>
+</li>
+<li><p>$\text{tree}$ 的前序遍历。</p>
+</li>
+</ol>
+<h4 id="输入与输出格式-2"><a href="#输入与输出格式-2" class="headerlink" title="输入与输出格式"></a>输入与输出格式</h4><p>输入：</p>
+<p>第 $1$ 行 $1$ 个整数 $n$，为节点个数。</p>
+<p>第 $2$ 行 $n$ 个用空格隔开的整数，为每个节点的分数</p>
+<p>输出：</p>
+<p>第 $1$ 行 $1$ 个整数，为最高加分（$ Ans \le 4,000,000,000$）。</p>
+<p>第 $2$ 行 $n$ 个用空格隔开的整数，为该树的前序遍历。</p>
+<h4 id="样例输入与输出-3"><a href="#样例输入与输出-3" class="headerlink" title="样例输入与输出"></a>样例输入与输出</h4><p>输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5</span><br><span class="line">5 7 1 2 10</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">145</span><br><span class="line">3 1 2 4 5</span><br></pre></td></tr></table></figure>
+<h4 id="提示-3"><a href="#提示-3" class="headerlink" title="提示"></a>提示</h4><p>对于全部的测试点，保证 $1 \leq n&lt; 30$，节点的分数是小于 $100$ 的正整数，答案不超过 $4 \times 10^9$。</p>
+<h4 id="算法设计-3"><a href="#算法设计-3" class="headerlink" title="算法设计"></a>算法设计</h4><p>想不到加分是和区间子树取根决定，直接看题解了。</p>
+<p><a target="_blank" rel="noopener" href="https://bubbleioa.blog.luogu.org/solution-p1040">https://bubbleioa.blog.luogu.org/solution-p1040</a></p>
+<h4 id="代码实现-3"><a href="#代码实现-3" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.StreamTokenizer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[][] root;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="type">long</span>[][] dp;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] score;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">		<span class="type">Reader</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Reader</span>();</span><br><span class="line">		<span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> r.nextInt();</span><br><span class="line">		<span class="comment">//读入分数</span></span><br><span class="line">		score = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) score[i] = r.nextInt(); </span><br><span class="line">		dp = <span class="keyword">new</span> <span class="title class_">long</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">		root = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">		<span class="comment">//记忆化搜索</span></span><br><span class="line">		<span class="type">long</span> <span class="variable">result</span> <span class="operator">=</span> _dp(<span class="number">1</span>, n);</span><br><span class="line">		System.out.println(result);</span><br><span class="line">		pre_traverse(<span class="number">1</span>, n);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">_dp</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> j)</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>(dp[i][j]!=<span class="number">0</span>) <span class="keyword">return</span> dp[i][j];</span><br><span class="line">		<span class="keyword">if</span>(i==j) &#123;</span><br><span class="line">			dp[i][i] = score[i];</span><br><span class="line">			root[i][i] = i;</span><br><span class="line">			<span class="keyword">return</span> score[i];</span><br><span class="line">		&#125;</span><br><span class="line">		dp[i][j] = _dp(i+<span class="number">1</span>,j) + score[i];</span><br><span class="line">		root[i][j] = i;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> k=i+<span class="number">1</span>;k&lt;j;k++) &#123;</span><br><span class="line">			<span class="type">long</span> <span class="variable">temp</span> <span class="operator">=</span> _dp(i,k-<span class="number">1</span>)*_dp(k+<span class="number">1</span>,j)+score[k];</span><br><span class="line">			<span class="keyword">if</span>(temp&gt;dp[i][j]) &#123;</span><br><span class="line">				dp[i][j] = temp;</span><br><span class="line">				root[i][j] = k;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> dp[i][j];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">pre_traverse</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> j)</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>(i&gt;j) <span class="keyword">return</span>;</span><br><span class="line">		System.out.print(root[i][j]+<span class="string">&quot; &quot;</span>);</span><br><span class="line">		<span class="keyword">if</span>(i&lt;j) &#123;</span><br><span class="line">			pre_traverse(i, root[i][j]-<span class="number">1</span>);</span><br><span class="line">			pre_traverse(root[i][j]+<span class="number">1</span>, j);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Reader</span>&#123;</span><br><span class="line">	<span class="type">StreamTokenizer</span> <span class="variable">st</span> <span class="operator">=</span>  <span class="keyword">new</span> <span class="title class_">StreamTokenizer</span>(<span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in)));</span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">nextInt</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">		st.nextToken();</span><br><span class="line">		<span class="keyword">return</span> (<span class="type">int</span>)st.nval;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E6%A0%91%E5%BD%A2dp/" rel="prev" title="算法设计与分析-树形dp">
+      <i class="fa fa-chevron-left"></i> 算法设计与分析-树形dp
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#P1020-%E5%AF%BC%E5%BC%B9%E6%8B%A6%E6%88%AA"><span class="nav-text">P1020 导弹拦截</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F%E4%B8%8E%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-text">输入格式与输出格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA"><span class="nav-text">样例输入与输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA"><span class="nav-text">提示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#P1439-%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97"><span class="nav-text">P1439 最长公共子序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-text">输入与输出格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-1"><span class="nav-text">样例输入与输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA-1"><span class="nav-text">提示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-1"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#P2758-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB"><span class="nav-text">P2758 编辑距离</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F-1"><span class="nav-text">输入与输出格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-2"><span class="nav-text">样例输入与输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA-2"><span class="nav-text">提示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-2"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#P1040-%E5%8A%A0%E5%88%86%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-text">P1040 加分二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-3"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F-2"><span class="nav-text">输入与输出格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA-3"><span class="nav-text">样例输入与输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA-3"><span class="nav-text">提示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-3"><span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-3"><span class="nav-text">代码实现</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">229k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
