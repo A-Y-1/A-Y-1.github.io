@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="《计算机网络自顶向下方法》学习笔记04:链路层。 网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。  第五章 链路层1.概述在网络中，每一个设备都可以称作是一个节点，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为链路(link)。为了将数据报传输到目的主机，数据包必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上">
+  <meta name="description" content="《计算机网络自顶向下方法》学习笔记04:链路层。 网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。  第五章 链路层1.概述在网络中，每一个设备都可以称作是一个节点，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为链路(link)。为了将数据报传输到目的主机，数据报必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机网络自顶向下方法笔记04">
 <meta property="og:url" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/index.html">
 <meta property="og:site_name" content="橙的博客">
-<meta property="og:description" content="《计算机网络自顶向下方法》学习笔记04:链路层。 网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。  第五章 链路层1.概述在网络中，每一个设备都可以称作是一个节点，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为链路(link)。为了将数据报传输到目的主机，数据包必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上">
+<meta property="og:description" content="《计算机网络自顶向下方法》学习笔记04:链路层。 网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。  第五章 链路层1.概述在网络中，每一个设备都可以称作是一个节点，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为链路(link)。为了将数据报传输到目的主机，数据报必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221201231249088.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221204165049326.png">
@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221213211801595.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/image-20221213213746275.png">
 <meta property="article:published_time" content="2022-12-01T14:07:22.000Z">
-<meta property="article:modified_time" content="2022-12-13T14:35:46.770Z">
+<meta property="article:modified_time" content="2023-02-08T09:55:53.320Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -203,7 +203,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-13 22:35:46" itemprop="dateModified" datetime="2022-12-13T22:35:46+08:00">2022-12-13</time>
+                <time title="修改时间：2023-02-08 17:55:53" itemprop="dateModified" datetime="2023-02-08T17:55:53+08:00">2023-02-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,7 +228,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.7k</span>
+              <span>8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -250,7 +250,7 @@
         <p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记04:链路层。</p>
 <p style="text-indent:2em">网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。</p>
 
-<h1 id="第五章-链路层"><a href="#第五章-链路层" class="headerlink" title="第五章 链路层"></a>第五章 链路层</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p style="text-indent:2em">在网络中，每一个设备都可以称作是一个<b>节点</b>，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为<b>链路(link)</b>。为了将数据报传输到目的主机，数据包必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上首部和尾部(校验位)，被称为<b>帧</b>。链路层主要提供以下的服务，本章也主要介绍以下内容的相关问题：</p>
+<h1 id="第五章-链路层"><a href="#第五章-链路层" class="headerlink" title="第五章 链路层"></a>第五章 链路层</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p style="text-indent:2em">在网络中，每一个设备都可以称作是一个<b>节点</b>，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为<b>链路(link)</b>。为了将数据报传输到目的主机，数据报必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上首部和尾部(校验位)，被称为<b>帧</b>。链路层主要提供以下的服务，本章也主要介绍以下内容的相关问题：</p>
 
 <ul>
 <li>封装成帧：网络层数据报经链路传输之前，需要封装成帧。</li>
@@ -288,6 +288,14 @@
 <li>随机接入协议：传输节点总是以信道全部速率进行发送，如果发生了碰撞，就反复重发该帧，直到成功发送。每次重发之前要等待一个随机的时延，每个节点的时延都是独立的，因此节点可能交错发送数据，这样就可以在共享信道上完成数据传输。</li>
 <li>轮流协议：节点轮流发送。</li>
 </ul>
+<p style="text-indent:2em">在理想情况下，总是希望多路访问协议具有以下特性：</p>
+
+<ul>
+<li>仅有一个节点时，节点具有信道最大速率R bps的吞吐量。</li>
+<li>有M个节点时，每个节点有R/M bps的吞吐量。</li>
+<li>协议是分散的，不会因某个主节点的故障而使整个系统崩溃。</li>
+<li>协议是简单的。</li>
+</ul>
 <p style="text-indent:2em">下面分别介绍这三类协议：</p>
 
 <h3 id="3-1-信道划分协议"><a href="#3-1-信道划分协议" class="headerlink" title="3.1 信道划分协议"></a>3.1 信道划分协议</h3><p style="text-indent:2em">信道划分协议是在共享信道节点之间划分广播信道带宽的协议。按照划分的方法，主要分为三种：<b>时分多路复用TDM、频分多路复用FDM、码分多址CDMA</b>。</p><p style="text-indent:2em">时分多路复用TDM是将时间划分为时间帧，再将时间帧划分为时隙。每个节点在循环的时间帧中都占有一个时隙，在这个时隙内发送数据。时隙的长度保证至少能传输一个数据分组。TDM的缺点在于，无论一个节点是否需要发送数据，他都拥有一个时隙，当其不发送数据时，这个时隙就被浪费掉了。</p>
@@ -296,10 +304,10 @@
 
 <p style="text-indent:2em">码分多址CDMA不对信道进行划分，而是为每个节点分配一个不同的编码，在信道中，节点使用唯一的编码来传递数据，这使得不同的节点可以同时传输，而数据接收方只要知道编码就可以正确接收，不在乎其他节点的干扰。CDMA与无线信道紧密相关，在无线网络章节中有重点讨论。</p>
 
-<h3 id="3-2-随即接入协议"><a href="#3-2-随即接入协议" class="headerlink" title="3.2 随即接入协议"></a>3.2 随即接入协议</h3><p style="text-indent:2em">随机接入协议中，节点总是以全部速率发送数据，当有碰撞时，就重发发生碰撞的帧，直到该帧成功发送。但是重发不是在碰撞后立刻进行的，而是等待一个随机时延，而不同节点独立选择随机时延，因此碰撞发生后，可能交错发送数据，从而正确完成传输。随机接入协议有许多种，接下来重点介绍其中的三种。</p>
+<h3 id="3-2-随机接入协议"><a href="#3-2-随机接入协议" class="headerlink" title="3.2 随机接入协议"></a>3.2 随机接入协议</h3><p style="text-indent:2em">随机接入协议中，节点总是以全部速率发送数据，当有碰撞时，就重发发生碰撞的帧，直到该帧成功发送。但是重发不是在碰撞后立刻进行的，而是等待一个随机时延，而不同节点独立选择随机时延，因此碰撞发生后，可能交错发送数据，从而正确完成传输。随机接入协议有许多种，接下来重点介绍其中的三种。</p>
 
 <p><strong>时隙ALOHA</strong></p>
-<p style="text-indent:2em">时隙ALOHA协议时最简单的随即接入协议之一。在该协议中，有如下假设：</p>
+<p style="text-indent:2em">时隙ALOHA协议时最简单的随机接入协议之一。在该协议中，有如下假设：</p>
 
 <ul>
 <li>所有帧由L比特组成</li>
@@ -330,6 +338,13 @@
 <ul>
 <li>载波侦听(CS)：一个节点在传输前先听信道，等待到信道上有一小段时间都没有数据传输，就开始传输。</li>
 <li>多路访问(MA)：多个节点共享信道。</li>
+</ul>
+<p style="text-indent:2em">根据监听方式和监听到信道忙后的处理方式不同，CSMA协议可以分为三种：</p>
+
+<ul>
+<li>1-坚持CSMA：监听到信道忙后，继续坚持监听信道；监听到信道空闲，立即发送数据(即发送概率为1)。</li>
+<li>非坚持CSMA：监听到信道忙后，放弃监听，等待一个随机时间后再进行监听。</li>
+<li>p-坚持CSMA：p-坚持CSMA用于时分信道，基本思想是，监听信道直到信道空闲，如果空闲，以概率p发送数据，以概率1-p推迟到下一个时隙再发送，如果下一个时隙还是空闲，继续以概率p发送数据，以1-p推迟到再下一个时隙发送数据，重复这个过程至发送成功或监听到信道忙。</li>
 </ul>
 <p style="text-indent:2em">一般提到CSMA，都是指CSMA/CD或CSMA/CA，即具有碰撞检测(CD)的载波侦听多路访问和碰撞避免(CA)的载波侦听多路访问。下面先介绍CSMA/CD，这个协议其实在现在的网络中已经没有必要使用了，因为以太网交换机一般是全双工的，一条线路发数据，一条线路接收数据，不会产生冲突。CSMA/CA一般用于无线网络，因为无线网络中碰撞检测困难，在无线网络章节中介绍。</p>
 
@@ -554,7 +569,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第五章 链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E5%92%8C%E7%BA%A0%E6%AD%A3%E6%8A%80%E6%9C%AF"><span class="nav-text">2.差错检测和纠正技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.1 奇偶校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="nav-text">2.2 检验和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.3 循环冗余校验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E9%93%BE%E8%B7%AF%E5%92%8C%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.多路访问链路和协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BF%A1%E9%81%93%E5%88%92%E5%88%86%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.1 信道划分协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%9A%8F%E5%8D%B3%E6%8E%A5%E5%85%A5%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.2 随即接入协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%BD%AE%E8%AF%A2%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.3 轮询协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BA%A4%E6%8D%A2%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-text">4.交换局域网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E9%93%BE%E8%B7%AF%E5%B1%82%E5%AF%BB%E5%9D%80%E4%B8%8EARP"><span class="nav-text">4.1 链路层寻址与ARP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E4%BB%A5%E5%A4%AA%E7%BD%91"><span class="nav-text">4.2 以太网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-text">4.3 链路层交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E4%B8%8E%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-text">4.4 交换机与路由器的比较</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-text">第五章 链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%E5%92%8C%E7%BA%A0%E6%AD%A3%E6%8A%80%E6%9C%AF"><span class="nav-text">2.差错检测和纠正技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.1 奇偶校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="nav-text">2.2 检验和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C"><span class="nav-text">2.3 循环冗余校验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E9%93%BE%E8%B7%AF%E5%92%8C%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.多路访问链路和协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BF%A1%E9%81%93%E5%88%92%E5%88%86%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.1 信道划分协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%9A%8F%E6%9C%BA%E6%8E%A5%E5%85%A5%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.2 随机接入协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%BD%AE%E8%AF%A2%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.3 轮询协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BA%A4%E6%8D%A2%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-text">4.交换局域网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E9%93%BE%E8%B7%AF%E5%B1%82%E5%AF%BB%E5%9D%80%E4%B8%8EARP"><span class="nav-text">4.1 链路层寻址与ARP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E4%BB%A5%E5%A4%AA%E7%BD%91"><span class="nav-text">4.2 以太网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E9%93%BE%E8%B7%AF%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-text">4.3 链路层交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E4%B8%8E%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-text">4.4 交换机与路由器的比较</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -570,20 +585,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -624,12 +639,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">253k</span>
+    <span title="站点总字数">265k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:50</span>
+    <span title="站点阅读时长">4:01</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

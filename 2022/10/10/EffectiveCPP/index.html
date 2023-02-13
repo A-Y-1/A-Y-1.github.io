@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Effective C++ 笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EffectiveCPP笔记">
+<meta property="og:url" content="https://a-y-1.github.io/2022/10/10/EffectiveCPP/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="Effective C++ 笔记。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-10T06:48:29.000Z">
+<meta property="article:modified_time" content="2023-02-13T14:59:14.439Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://a-y-1.github.io/2022/10/10/EffectiveCPP/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>EffectiveCPP笔记 | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/10/10/EffectiveCPP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          EffectiveCPP笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-10 14:48:29" itemprop="dateCreated datePublished" datetime="2022-10-10T14:48:29+08:00">2022-10-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-13 22:59:14" itemprop="dateModified" datetime="2023-02-13T22:59:14+08:00">2023-02-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Effective C++ 笔记。</p>
+<span id="more"></span>
+<h2 id="一-习惯使用C"><a href="#一-习惯使用C" class="headerlink" title="一.习惯使用C++"></a>一.习惯使用C++</h2><h3 id="1-C-有不同的特性"><a href="#1-C-有不同的特性" class="headerlink" title="1.C++有不同的特性"></a>1.C++有不同的特性</h3><p>C++是个多重泛型语言，支持面向过程，面向对象，函数，泛型，元编程的语言。理解C++最简单的方法是将其视为多个次语言构成的集合。在使用C++时，可能需要从一个次语言迁移到另一个次语言，在这个过程中，守则可能改变。主要的次语言只有四个：</p>
+<ul>
+<li>C</li>
+<li>Object-Oriented C++</li>
+<li>Template C++</li>
+<li>STL</li>
+</ul>
+<p>从这四个次语言相互切换时，切换守则来进行高效编程是必要的。</p>
+<h3 id="2-使用enum，const，inline替换-define"><a href="#2-使用enum，const，inline替换-define" class="headerlink" title="2.使用enum，const，inline替换#define"></a>2.使用enum，const，inline替换#define</h3><h1 id="define的部分可能不被视为语言的一部分，名称可能被预处理器处理，而编译时没有出现，没有进入符号表，这会导致当该宏定义的量发生错误时，编译错误信息可能提到的不是宏定义的名称，而是名称对应的值。如果宏定义在一个非自己所写的头文件中，遇到这种错误就很难定位到错误的位置。因此，最好用常量来替换宏定义。"><a href="#define的部分可能不被视为语言的一部分，名称可能被预处理器处理，而编译时没有出现，没有进入符号表，这会导致当该宏定义的量发生错误时，编译错误信息可能提到的不是宏定义的名称，而是名称对应的值。如果宏定义在一个非自己所写的头文件中，遇到这种错误就很难定位到错误的位置。因此，最好用常量来替换宏定义。" class="headerlink" title="define的部分可能不被视为语言的一部分，名称可能被预处理器处理，而编译时没有出现，没有进入符号表，这会导致当该宏定义的量发生错误时，编译错误信息可能提到的不是宏定义的名称，而是名称对应的值。如果宏定义在一个非自己所写的头文件中，遇到这种错误就很难定位到错误的位置。因此，最好用常量来替换宏定义。"></a>define的部分可能不被视为语言的一部分，名称可能被预处理器处理，而编译时没有出现，没有进入符号表，这会导致当该宏定义的量发生错误时，编译错误信息可能提到的不是宏定义的名称，而是名称对应的值。如果宏定义在一个非自己所写的头文件中，遇到这种错误就很难定位到错误的位置。因此，最好用常量来替换宏定义。</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> maxN = <span class="number">1e6</span>+<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>以常量替换宏定义，有两种特殊情况：</p>
+<ul>
+<li>定义常量指针，有必要将指针声明为const，例如一个常量的char*-based字符串需要定义为const char* const name = “Y”。</li>
+<li>类中的专属常量，为了保证所有对象只有一份该常量，需要声明为static成员。</li>
+</ul>
+<p>static const成员可以在类声明中直接给出值并使用，也可以在类的实现文件中单独给出其定义。如果是static成员而不是常量，则需要在实现文件中给出定义。</p>
+<blockquote id="fn_声明时初始化">
+<sup>声明时初始化</sup>. 对于静态成员不能在类声明初始化的注解：非常量的静态成员是强符号，如果在类中设定初值，每个对象都包含该成员，多文件可能就会出现强符号重复定义；如果定义为常量，则为弱符号，如果不取地址，可能不会分配空间，直接在汇编指令中使用立即数代替，如果取地址，就又会变成强符号，多文件可能产生重复定义的错误。<a href="#reffn_声明时初始化" title="Jump back to footnote [声明时初始化] in the text."> &#8617;</a>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*非常量静态成员定义与声明分开*/</span></span><br><span class="line"><span class="comment">//student.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">student</span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> num;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//student.cpp</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> student::num = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>对于一些编译器，可能不支持static const成员在类声明中设定初值，可以使用enum代替，enum不可以获取地址，许多代码都使用enum作为类的常量：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">student</span>&#123;</span><br><span class="line">    <span class="keyword">enum</span> &#123;num = <span class="number">5</span>&#125;;	<span class="comment">//令num成为5的一个记号名称</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>宏定义的另一个问题是宏定义函数，由于宏定义只是简单的替换，错误传入参数可能带来的结果完全不同，因此最好使用inline内联函数替换函数形式的宏定义。</p>
+<p><strong>总结：</strong></p>
+<ul>
+<li>使用单纯常量，最好使用const或enums，而不是#defines</li>
+<li>形式函数的宏，最好使用inline函数替换</li>
+</ul>
+<h3 id="3-尽可能使用const"><a href="#3-尽可能使用const" class="headerlink" title="3.尽可能使用const"></a>3.尽可能使用const</h3><p>如果关键字const出现在<em>左侧，表示被指物是常量，如果在\</em>右侧，则指针是常量。</p>
+<ul>
+<li>将某些东西声明为const可帮助编译器侦测出错误用法。const可被施加于任何对象，函数参数，函数返回类型，函数本题。</li>
+<li>编译器强制实施bitwise constness(通过赋值语句判断是否为const函数)，但编写程序应该使用概念性的常量性(例如如果成员有指针，那么指针指向的内容也不被修改，才是具有常量性)。</li>
+<li>当const和non-const成员函数有着实质等价的实现时，令non-const调用const版本可避免代码重复。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">line</span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>&amp; <span class="keyword">operator</span>[](std::<span class="type">size_t</span> pos) <span class="type">const</span>&#123;</span><br><span class="line">        ...;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">char</span> &amp; <span class="keyword">operator</span>[](std::<span class="type">size_t</span> pos)&#123;</span><br><span class="line">    	<span class="keyword">return</span> <span class="built_in">const_cast</span>&lt;<span class="type">char</span>&amp;&gt;(</span><br><span class="line">        	<span class="built_in">static_cast</span>&lt;<span class="type">const</span> line&amp;&gt; (*<span class="keyword">this</span>)[pos]</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="4-确定对象被使用前已被初始化"><a href="#4-确定对象被使用前已被初始化" class="headerlink" title="4.确定对象被使用前已被初始化"></a>4.确定对象被使用前已被初始化</h3><ul>
+<li>为内置型对象进行手工初始化。</li>
+<li>构造函数最好使用成员初值列，而不要在构造函数本体内使用赋值操作，且排列顺序应该和声明顺序相同。</li>
+<li>使用local static对象替换non-local static对象。</li>
+</ul>
+<h2 id="二-构造-析构-赋值"><a href="#二-构造-析构-赋值" class="headerlink" title="二.构造/析构/赋值"></a>二.构造/析构/赋值</h2><h3 id="1-了解C-提供了哪些函数"><a href="#1-了解C-提供了哪些函数" class="headerlink" title="1.了解C++提供了哪些函数"></a>1.了解C++提供了哪些函数</h3><ul>
+<li>C++默认为类提供无参构造函数，拷贝构造函数，赋值运算符，析构函数。</li>
+</ul>
+<h3 id="2-如果不想使用编译器自动生成的函数，应明确拒绝"><a href="#2-如果不想使用编译器自动生成的函数，应明确拒绝" class="headerlink" title="2.如果不想使用编译器自动生成的函数，应明确拒绝"></a>2.如果不想使用编译器自动生成的函数，应明确拒绝<a id="mark1"></a></h3><ul>
+<li>为驳回编译器自动生成函数，可以将相应的成员函数声明为private并不予实现。或者使用一个uncopyable基类，在这个基类将一些成员函数声明为private并不予以实现，然后继承这个类。</li>
+</ul>
+<h3 id="3-为多态基类声明virtual虚构函数"><a href="#3-为多态基类声明virtual虚构函数" class="headerlink" title="3.为多态基类声明virtual虚构函数"></a>3.为多态基类声明virtual虚构函数</h3><p>一般情况下使用多态，总是会使用基类的指针指向一个派生类，然而如果使用基类指针释放空间，可能会导致派生类的成员的空间没有释放，因为派生类的析构函数没有被调用。正确的做法是：</p>
+<ul>
+<li>带有多态性质的基类应该声明一个virtual析构函数，如果类有任何virtual函数，就应该有一个virtual析构函数，并且应该提供实现。</li>
+<li>类的设计目的如果不是作为基类或不是为了实现多态，就不该声明virtual析构函数。</li>
+</ul>
+<h3 id="4-别让异常逃离析构函数"><a href="#4-别让异常逃离析构函数" class="headerlink" title="4.别让异常逃离析构函数"></a>4.别让异常逃离析构函数</h3><ul>
+<li>析构函数不应该产生异常。如果一个被析构函数调用的函数可能抛出异常，析构函数应该能捕捉任何异常，然后不传播异常或结束程序。</li>
+<li>如果客户需要对某个操作函数抛出的异常作出反应，那么类应该提供一个普通函数而不是在析构函数中进行操作。</li>
+</ul>
+<h3 id="5-不在构造函数和析构函数中调用virtual函数"><a href="#5-不在构造函数和析构函数中调用virtual函数" class="headerlink" title="5.不在构造函数和析构函数中调用virtual函数"></a>5.不在构造函数和析构函数中调用virtual函数</h3><ul>
+<li>在构造含析构器件不要调用virtual函数，因为这类调用不下降到derived class。</li>
+</ul>
+<h3 id="6-令operator-返回一个reference-to-this"><a href="#6-令operator-返回一个reference-to-this" class="headerlink" title="6.令operator=返回一个reference to *this"></a>6.令operator=返回一个reference to *this</h3><h3 id="7-在operator-中处理自我赋值"><a href="#7-在operator-中处理自我赋值" class="headerlink" title="7.在operator=中处理自我赋值"></a>7.在operator=中处理自我赋值</h3><p>别名（使用指针，数组下标）可能会导致潜在的自我赋值，必须避免这种情况的发生。</p>
+<ul>
+<li>确保当对象自我赋值时有正确的行为，其中的技术包括比较来源对象和目标对象的地址，调整语句顺序(最后删除原对象的内容)，copy-and-swap。</li>
+<li>确定任何函数操作一个及以上的对象，其中多个对象是同一个对象时，行为正确。</li>
+</ul>
+<h3 id="8-复制对象时别忘记任何一个成分"><a href="#8-复制对象时别忘记任何一个成分" class="headerlink" title="8.复制对象时别忘记任何一个成分"></a>8.复制对象时别忘记任何一个成分</h3><ul>
+<li>拷贝函数应该确保复制对象内的所有成员变量及所有base class成分。</li>
+<li>不要尝试以某个拷贝函数实现另一个拷贝函数。应该将共同的部分放进第三个函数中，共同调用。</li>
+</ul>
+<h2 id="三-资源管理"><a href="#三-资源管理" class="headerlink" title="三.资源管理"></a>三.资源管理</h2><h3 id="1-以对象管理资源"><a href="#1-以对象管理资源" class="headerlink" title="1.以对象管理资源"></a>1.以对象管理资源</h3><ul>
+<li>为防止资源泄露，应该使用资源管理类，他们在构造函数中获得资源并在析构函数中释放资源。</li>
+<li>两个常被使用的对象是智能指针shared_ptr和auto_ptr。auto_ptr指向资源的所有权只能有一个指针持有，如果进行赋值，原指针会被设为null，而shared_ptr会进行计数，可以多个指针指向一个资源，最后释放。</li>
+</ul>
+<h3 id="2-资源管理类的复制行为"><a href="#2-资源管理类的复制行为" class="headerlink" title="2.资源管理类的复制行为"></a>2.资源管理类的复制行为</h3><ul>
+<li><p>复制资源管理类对象必须一并复制所管理的资源，资源的复制行为决定资源管理类对象的复制行为。</p>
+</li>
+<li><p>通常对于资源管理类的复制行为是：</p>
+<ul>
+<li><a href="#mark1">禁止复制</a></li>
+<li>使用引用计数法：内含一个shared_ptr指针，并以期望的资源释放函数作为删除器</li>
+<li>复制底部资源</li>
+<li>转移底部资源的所有权</li>
+</ul>
+<p>引用计数的实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Lock</span><span class="params">(Mutex* pm)</span>: mutexPtr(pm, unlock)&#123;</span></span><br><span class="line">        <span class="built_in">lock</span>(mutexPtr.<span class="built_in">get</span>());</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::shared_ptr&lt;Mutex&gt; mutexPtr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-在资源管理类提供对原始资源的访问"><a href="#3-在资源管理类提供对原始资源的访问" class="headerlink" title="3.在资源管理类提供对原始资源的访问"></a>3.在资源管理类提供对原始资源的访问</h3><ul>
+<li>APIs往往要求访问原始资源，所以每个资源管理类应该提供一个get方法。</li>
+<li>对原始资源的访问可能经显式转换或隐式转换。一般而言显式转换比较安全，但隐式转换对客户比较方便。</li>
+</ul>
+<h3 id="4-成对使用new和delete时要采取相同形式"><a href="#4-成对使用new和delete时要采取相同形式" class="headerlink" title="4.成对使用new和delete时要采取相同形式"></a>4.成对使用new和delete时要采取相同形式</h3><h3 id="5-以独立语句将new对象存储于智能指针内"><a href="#5-以独立语句将new对象存储于智能指针内" class="headerlink" title="5.以独立语句将new对象存储于智能指针内"></a>5.以独立语句将new对象存储于智能指针内</h3><ul>
+<li>以独立语句将new对象存储于智能指针内。如果不这样做，一旦异常被抛出，有可能导致难以察觉的内存泄露。</li>
+</ul>
+<p>例如，以下的函数调用，可能先执行new产生对象，然后执行priority()发生异常终止程序，导致资源泄露。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//会产生异常的做法</span></span><br><span class="line"><span class="built_in">processWidget</span>(std::<span class="built_in">shared_ptr</span>&lt;Widgt&gt;(<span class="keyword">new</span> Widget), <span class="built_in">priority</span>());	<span class="comment">//参数操作执行顺序不确定</span></span><br><span class="line"><span class="comment">//独立语句存储对象指针</span></span><br><span class="line"><span class="function">std::shared_ptr&lt;Widgt&gt; <span class="title">pw</span><span class="params">(<span class="keyword">new</span> Widget)</span></span>;</span><br><span class="line"><span class="built_in">processWidget</span>(pw, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
+<h2 id="四-设计与声明"><a href="#四-设计与声明" class="headerlink" title="四.设计与声明"></a>四.设计与声明</h2><h3 id="1-让接口容易被正确使用，不易被误用"><a href="#1-让接口容易被正确使用，不易被误用" class="headerlink" title="1.让接口容易被正确使用，不易被误用"></a>1.让接口容易被正确使用，不易被误用</h3><ul>
+<li>好的接口应该容易使用，不易被误用</li>
+<li>促进正确使用的方法包括接口的一致性，以及与内置类型的行为兼容</li>
+<li>阻止误用的办法包括建立新类型、限制类型上的操作，束缚对象值，以及消除客户的资源管理责任</li>
+<li>shared_ptr支持定制删除器。可以防范DLL问题，可被用来自动解除互斥锁等</li>
+</ul>
+<h3 id="2-设计class犹如设计type"><a href="#2-设计class犹如设计type" class="headerlink" title="2.设计class犹如设计type"></a>2.设计class犹如设计type</h3><h3 id="3-使用常引用传参"><a href="#3-使用常引用传参" class="headerlink" title="3.使用常引用传参"></a>3.使用常引用传参</h3><ul>
+<li>尽量以引用传参替换值传递。引用传参更高效，并可避免切割问题</li>
+<li>对于内置类型，STL的迭代器和函数对象，使用值传递更合适</li>
+</ul>
+<h3 id="4-必须返回对象时，不要想返回引用"><a href="#4-必须返回对象时，不要想返回引用" class="headerlink" title="4.必须返回对象时，不要想返回引用"></a>4.必须返回对象时，不要想返回引用</h3><h3 id="5-将成员变量声明为private"><a href="#5-将成员变量声明为private" class="headerlink" title="5.将成员变量声明为private"></a>5.将成员变量声明为private</h3><h3 id="6-以non-member、non-friend替换member函数"><a href="#6-以non-member、non-friend替换member函数" class="headerlink" title="6.以non-member、non-friend替换member函数"></a>6.以non-member、non-friend替换member函数</h3><h3 id="7-如果所有参数都需要类型转换，使用non-member函数"><a href="#7-如果所有参数都需要类型转换，使用non-member函数" class="headerlink" title="7.如果所有参数都需要类型转换，使用non-member函数"></a>7.如果所有参数都需要类型转换，使用non-member函数</h3><h3 id="8-不抛出异常的swap函数"><a href="#8-不抛出异常的swap函数" class="headerlink" title="8.不抛出异常的swap函数"></a>8.不抛出异常的swap函数</h3><ul>
+<li>当std::swap函数对类型效率不高时，提供一个不抛出异常的成员swap函数</li>
+<li>提供一个成员swap函数，应该相应的提供一个非成员swap函数调用前者，对于class，特化std:;swap</li>
+<li>调用swap应对std::swap使用using声明式</li>
+<li>为用户定义类型进行std templates全特化是好的，但不要在std中加入全新的东西</li>
+</ul>
+<h2 id="五-实现"><a href="#五-实现" class="headerlink" title="五.实现"></a>五.实现</h2><h3 id="1-尽可能延后变量定义式的出现时间"><a href="#1-尽可能延后变量定义式的出现时间" class="headerlink" title="1.尽可能延后变量定义式的出现时间"></a>1.尽可能延后变量定义式的出现时间</h3><ul>
+<li>尽可能延后变量定义式的出现，这样做可增加程序的清晰度并改善程序效率</li>
+<li>对于循环中使用的变量，如果赋值成本比构造+析构低，或者正在处理代码中效率高度敏感的部分，可以在循环外定义变量，否则在循环内直接构造变量</li>
+</ul>
+<h3 id="2-尽量少做转型动作"><a href="#2-尽量少做转型动作" class="headerlink" title="2.尽量少做转型动作"></a>2.尽量少做转型动作</h3><ul>
+<li>如果可以，尽量避免转型，特别是在注重效率的代码中避免dynamic_casts</li>
+<li>如果转型是必要的，尽量隐藏在函数后，使客户不需要将转型放入代码中</li>
+<li>尽可能使用新式转型</li>
+</ul>
+<h3 id="3-避免返回引用，指针，迭代器"><a href="#3-避免返回引用，指针，迭代器" class="headerlink" title="3.避免返回引用，指针，迭代器"></a>3.避免返回引用，指针，迭代器</h3><h3 id="4-异常安全性"><a href="#4-异常安全性" class="headerlink" title="4.异常安全性"></a>4.异常安全性</h3><ul>
+<li>异常安全函数即时发生一场也不会泄露资源或允许任何数据结构败坏，这样的函数分为三类：基本型，强烈型，不抛异常型</li>
+<li>强烈保证往往能够以copy-and-swap实现，但不是所有函数都可实现强烈保证</li>
+<li>函数提供的异常安全保证最高只等于所有调用函数的异常安全保证中的最低级</li>
+</ul>
+<h3 id="5-理解inline"><a href="#5-理解inline" class="headerlink" title="5.理解inline"></a>5.理解inline</h3><ul>
+<li>将大多数inline限制在小型被频繁调研的函数身上，使潜在的代码膨胀问题最小化</li>
+<li>不要只因为function templates出现在头文件，就将其声明为inline</li>
+</ul>
+<h3 id="6-将文件间的编译依存关系降低"><a href="#6-将文件间的编译依存关系降低" class="headerlink" title="6.将文件间的编译依存关系降低"></a>6.将文件间的编译依存关系降低</h3><ul>
+<li><p>如果使用对象引用或指针可以完成任务，就不要使用对象本身</p>
+</li>
+<li><p>支持编译依存最小化的一般构想是：依赖声明式，不要依赖定义式，基于此构想的两个手段是Handle-class和Interface-class(提供一个factory函数，返回指向该类的一个新对象的指针)</p>
+</li>
+<li>头文件应该完全且仅有声明式</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Flex/" rel="prev" title="编译原理实验一：词法分析工具Flex">
+      <i class="fa fa-chevron-left"></i> 编译原理实验一：词法分析工具Flex
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95V2/" rel="next" title="刷题记录V2">
+      刷题记录V2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E4%B9%A0%E6%83%AF%E4%BD%BF%E7%94%A8C"><span class="nav-text">一.习惯使用C++</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-C-%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-text">1.C++有不同的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BD%BF%E7%94%A8enum%EF%BC%8Cconst%EF%BC%8Cinline%E6%9B%BF%E6%8D%A2-define"><span class="nav-text">2.使用enum，const，inline替换#define</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define%E7%9A%84%E9%83%A8%E5%88%86%E5%8F%AF%E8%83%BD%E4%B8%8D%E8%A2%AB%E8%A7%86%E4%B8%BA%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%8C%E5%90%8D%E7%A7%B0%E5%8F%AF%E8%83%BD%E8%A2%AB%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E5%A4%84%E7%90%86%EF%BC%8C%E8%80%8C%E7%BC%96%E8%AF%91%E6%97%B6%E6%B2%A1%E6%9C%89%E5%87%BA%E7%8E%B0%EF%BC%8C%E6%B2%A1%E6%9C%89%E8%BF%9B%E5%85%A5%E7%AC%A6%E5%8F%B7%E8%A1%A8%EF%BC%8C%E8%BF%99%E4%BC%9A%E5%AF%BC%E8%87%B4%E5%BD%93%E8%AF%A5%E5%AE%8F%E5%AE%9A%E4%B9%89%E7%9A%84%E9%87%8F%E5%8F%91%E7%94%9F%E9%94%99%E8%AF%AF%E6%97%B6%EF%BC%8C%E7%BC%96%E8%AF%91%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF%E5%8F%AF%E8%83%BD%E6%8F%90%E5%88%B0%E7%9A%84%E4%B8%8D%E6%98%AF%E5%AE%8F%E5%AE%9A%E4%B9%89%E7%9A%84%E5%90%8D%E7%A7%B0%EF%BC%8C%E8%80%8C%E6%98%AF%E5%90%8D%E7%A7%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E5%80%BC%E3%80%82%E5%A6%82%E6%9E%9C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%9C%A8%E4%B8%80%E4%B8%AA%E9%9D%9E%E8%87%AA%E5%B7%B1%E6%89%80%E5%86%99%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E9%81%87%E5%88%B0%E8%BF%99%E7%A7%8D%E9%94%99%E8%AF%AF%E5%B0%B1%E5%BE%88%E9%9A%BE%E5%AE%9A%E4%BD%8D%E5%88%B0%E9%94%99%E8%AF%AF%E7%9A%84%E4%BD%8D%E7%BD%AE%E3%80%82%E5%9B%A0%E6%AD%A4%EF%BC%8C%E6%9C%80%E5%A5%BD%E7%94%A8%E5%B8%B8%E9%87%8F%E6%9D%A5%E6%9B%BF%E6%8D%A2%E5%AE%8F%E5%AE%9A%E4%B9%89%E3%80%82"><span class="nav-text">define的部分可能不被视为语言的一部分，名称可能被预处理器处理，而编译时没有出现，没有进入符号表，这会导致当该宏定义的量发生错误时，编译错误信息可能提到的不是宏定义的名称，而是名称对应的值。如果宏定义在一个非自己所写的头文件中，遇到这种错误就很难定位到错误的位置。因此，最好用常量来替换宏定义。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B0%BD%E5%8F%AF%E8%83%BD%E4%BD%BF%E7%94%A8const"><span class="nav-text">3.尽可能使用const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%A1%AE%E5%AE%9A%E5%AF%B9%E8%B1%A1%E8%A2%AB%E4%BD%BF%E7%94%A8%E5%89%8D%E5%B7%B2%E8%A2%AB%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">4.确定对象被使用前已被初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E6%9E%84%E9%80%A0-%E6%9E%90%E6%9E%84-%E8%B5%8B%E5%80%BC"><span class="nav-text">二.构造&#x2F;析构&#x2F;赋值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BA%86%E8%A7%A3C-%E6%8F%90%E4%BE%9B%E4%BA%86%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0"><span class="nav-text">1.了解C++提供了哪些函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%83%B3%E4%BD%BF%E7%94%A8%E7%BC%96%E8%AF%91%E5%99%A8%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E7%9A%84%E5%87%BD%E6%95%B0%EF%BC%8C%E5%BA%94%E6%98%8E%E7%A1%AE%E6%8B%92%E7%BB%9D"><span class="nav-text">2.如果不想使用编译器自动生成的函数，应明确拒绝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%BA%E5%A4%9A%E6%80%81%E5%9F%BA%E7%B1%BB%E5%A3%B0%E6%98%8Evirtual%E8%99%9A%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-text">3.为多态基类声明virtual虚构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%88%AB%E8%AE%A9%E5%BC%82%E5%B8%B8%E9%80%83%E7%A6%BB%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-text">4.别让异常逃离析构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%B8%8D%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8virtual%E5%87%BD%E6%95%B0"><span class="nav-text">5.不在构造函数和析构函数中调用virtual函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E4%BB%A4operator-%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AAreference-to-this"><span class="nav-text">6.令operator&#x3D;返回一个reference to *this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%9C%A8operator-%E4%B8%AD%E5%A4%84%E7%90%86%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BC"><span class="nav-text">7.在operator&#x3D;中处理自我赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%A4%8D%E5%88%B6%E5%AF%B9%E8%B1%A1%E6%97%B6%E5%88%AB%E5%BF%98%E8%AE%B0%E4%BB%BB%E4%BD%95%E4%B8%80%E4%B8%AA%E6%88%90%E5%88%86"><span class="nav-text">8.复制对象时别忘记任何一个成分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="nav-text">三.资源管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%A5%E5%AF%B9%E8%B1%A1%E7%AE%A1%E7%90%86%E8%B5%84%E6%BA%90"><span class="nav-text">1.以对象管理资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B1%BB%E7%9A%84%E5%A4%8D%E5%88%B6%E8%A1%8C%E4%B8%BA"><span class="nav-text">2.资源管理类的复制行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%9C%A8%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B1%BB%E6%8F%90%E4%BE%9B%E5%AF%B9%E5%8E%9F%E5%A7%8B%E8%B5%84%E6%BA%90%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-text">3.在资源管理类提供对原始资源的访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%88%90%E5%AF%B9%E4%BD%BF%E7%94%A8new%E5%92%8Cdelete%E6%97%B6%E8%A6%81%E9%87%87%E5%8F%96%E7%9B%B8%E5%90%8C%E5%BD%A2%E5%BC%8F"><span class="nav-text">4.成对使用new和delete时要采取相同形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%B0%86new%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%BA%8E%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%86%85"><span class="nav-text">5.以独立语句将new对象存储于智能指针内</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%A3%B0%E6%98%8E"><span class="nav-text">四.设计与声明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AE%A9%E6%8E%A5%E5%8F%A3%E5%AE%B9%E6%98%93%E8%A2%AB%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8%EF%BC%8C%E4%B8%8D%E6%98%93%E8%A2%AB%E8%AF%AF%E7%94%A8"><span class="nav-text">1.让接口容易被正确使用，不易被误用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%AE%BE%E8%AE%A1class%E7%8A%B9%E5%A6%82%E8%AE%BE%E8%AE%A1type"><span class="nav-text">2.设计class犹如设计type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8%E5%B8%B8%E5%BC%95%E7%94%A8%E4%BC%A0%E5%8F%82"><span class="nav-text">3.使用常引用传参</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%BF%85%E9%A1%BB%E8%BF%94%E5%9B%9E%E5%AF%B9%E8%B1%A1%E6%97%B6%EF%BC%8C%E4%B8%8D%E8%A6%81%E6%83%B3%E8%BF%94%E5%9B%9E%E5%BC%95%E7%94%A8"><span class="nav-text">4.必须返回对象时，不要想返回引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%B0%86%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E4%B8%BAprivate"><span class="nav-text">5.将成员变量声明为private</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E4%BB%A5non-member%E3%80%81non-friend%E6%9B%BF%E6%8D%A2member%E5%87%BD%E6%95%B0"><span class="nav-text">6.以non-member、non-friend替换member函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%A6%82%E6%9E%9C%E6%89%80%E6%9C%89%E5%8F%82%E6%95%B0%E9%83%BD%E9%9C%80%E8%A6%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%EF%BC%8C%E4%BD%BF%E7%94%A8non-member%E5%87%BD%E6%95%B0"><span class="nav-text">7.如果所有参数都需要类型转换，使用non-member函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E4%B8%8D%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%E7%9A%84swap%E5%87%BD%E6%95%B0"><span class="nav-text">8.不抛出异常的swap函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94-%E5%AE%9E%E7%8E%B0"><span class="nav-text">五.实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B0%BD%E5%8F%AF%E8%83%BD%E5%BB%B6%E5%90%8E%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89%E5%BC%8F%E7%9A%84%E5%87%BA%E7%8E%B0%E6%97%B6%E9%97%B4"><span class="nav-text">1.尽可能延后变量定义式的出现时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B0%BD%E9%87%8F%E5%B0%91%E5%81%9A%E8%BD%AC%E5%9E%8B%E5%8A%A8%E4%BD%9C"><span class="nav-text">2.尽量少做转型动作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%81%BF%E5%85%8D%E8%BF%94%E5%9B%9E%E5%BC%95%E7%94%A8%EF%BC%8C%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-text">3.避免返回引用，指针，迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%BC%82%E5%B8%B8%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">4.异常安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%90%86%E8%A7%A3inline"><span class="nav-text">5.理解inline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%B0%86%E6%96%87%E4%BB%B6%E9%97%B4%E7%9A%84%E7%BC%96%E8%AF%91%E4%BE%9D%E5%AD%98%E5%85%B3%E7%B3%BB%E9%99%8D%E4%BD%8E"><span class="nav-text">6.将文件间的编译依存关系降低</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">265k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:01</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
