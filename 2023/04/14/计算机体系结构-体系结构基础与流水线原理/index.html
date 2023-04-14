@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="计算机体系结构：体系结构基础与流水线原理​        计算机体系结构：量化设计与分析一书以RISC-V为例介绍计算机体系结构。本文为第一部分，介绍体系结构的基本知识和流水线原理。笔记内容为原书的第一章，附录A、B、C。 第一章 量化设计与分析基础​        第一章主要介绍关于体系结构的基础知识，最为重要的是关于体系结构的相关定义(指令集体系结构)的内容(1.3节)，主要位于附录A；其他内">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机体系结构：体系结构基础与流水线原理">
+<meta property="og:url" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="橙的博客">
+<meta property="og:description" content="计算机体系结构：体系结构基础与流水线原理​        计算机体系结构：量化设计与分析一书以RISC-V为例介绍计算机体系结构。本文为第一部分，介绍体系结构的基本知识和流水线原理。笔记内容为原书的第一章，附录A、B、C。 第一章 量化设计与分析基础​        第一章主要介绍关于体系结构的基础知识，最为重要的是关于体系结构的相关定义(指令集体系结构)的内容(1.3节)，主要位于附录A；其他内">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230411212047842.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230307211206107.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230401195836002.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230308085437140.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230308110725591.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230310111513499.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230310112014116.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230314111902967.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230314113104025.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230318094610807.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230318095933490.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230318102521622.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230316093834443.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230314095500546.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230327130454001.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230327145826318.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230327150050792.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230327152656624.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230411210343207.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230412103338598.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230412104822402.png">
+<meta property="og:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230412110207710.png">
+<meta property="article:published_time" content="2023-04-14T10:27:29.000Z">
+<meta property="article:modified_time" content="2023-04-14T15:10:10.358Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="计算机体系结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230411212047842.png">
+
+<link rel="canonical" href="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计算机体系结构：体系结构基础与流水线原理 | 橙的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">橙的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/a0.jpg">
+      <meta itemprop="name" content="橙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="橙的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机体系结构：体系结构基础与流水线原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-14 18:27:29 / 修改时间：23:10:10" itemprop="dateCreated datePublished" datetime="2023-04-14T18:27:29+08:00">2023-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">计算机体系结构</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="计算机体系结构：体系结构基础与流水线原理"><a href="#计算机体系结构：体系结构基础与流水线原理" class="headerlink" title="计算机体系结构：体系结构基础与流水线原理"></a>计算机体系结构：体系结构基础与流水线原理</h1><p>​        计算机体系结构：量化设计与分析一书以RISC-V为例介绍计算机体系结构。本文为第一部分，介绍体系结构的基本知识和流水线原理。笔记内容为原书的第一章，附录A、B、C。</p>
+<h2 id="第一章-量化设计与分析基础"><a href="#第一章-量化设计与分析基础" class="headerlink" title="第一章 量化设计与分析基础"></a>第一章 量化设计与分析基础</h2><p>​        第一章主要介绍关于体系结构的基础知识，最为重要的是关于体系结构的相关定义(指令集体系结构)的内容(1.3节)，主要位于附录A；其他内容(1.1-1.2&amp;1..4-1.8节)包括计算机的分类，技术趋势，成本趋势，功耗等，只需要有大概的认知和了解；最后的1.9节介绍了计算机设计的量化原理，给出了三个设计计算机时的指导原则。其中相对不重要的部分省略了。</p>
+<span id="more"></span>
+<h3 id="1-3-体系结构的定义"><a href="#1-3-体系结构的定义" class="headerlink" title="1.3 体系结构的定义"></a>1.3 体系结构的定义</h3><p>​        狭义的计算机体系结构仅包括指令集设计，但体系结构要解决的问题已经远超出指令集设计的范围了，因此，本书介绍的体系结构包括：<strong>指令集体系结构，微体系结构(存储器，内部处理器等组成)，硬件实现</strong>。</p>
+<p>​        其中的指令集体系结构，在附录A中详细介绍。</p>
+<h3 id="1-4技术趋势"><a href="#1-4技术趋势" class="headerlink" title="1.4技术趋势"></a>1.4技术趋势</h3><p>​        过去的计算机设计技术随着集成电路逻辑技术，半导体技术，磁盘技术等的快速发展而迅猛提高。然而现在随着摩尔定律的失效技术，提升的速度已经放缓了。仅关注性能方面的趋势，最大的特点是：<strong>带宽的改进远大于延迟的改进</strong>，经验表明带宽的增长速度至少是延迟改进速度的平方。</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230411212047842.png" alt="image-20230411212047842" style="zoom:50%;"></p>
+<h3 id="1-9计算机设计的量化原理"><a href="#1-9计算机设计的量化原理" class="headerlink" title="1.9计算机设计的量化原理"></a>1.9计算机设计的量化原理</h3><ul>
+<li>充分利用并行：指令并行，线程并行，数据并行，电路并行，任务并行等。</li>
+<li>局部性原理：时间局部性/空间局部性原理</li>
+<li>重点关注常见情形：从常见情形提高计算机的工作效率</li>
+</ul>
+<p>​        1.9还介绍了一个重要的定律，用于计算改进计算机的一部分而获得的性能增益，即Amdahl定律。Amdahl定义了加速比：</p>
+<script type="math/tex; mode=display">
+加速比 = \frac{原执行时间}{采用改进后的执行时间}</script><p>​        假设改进的比例称为升级比例，改进的部分的升级加速比已知，则整体的执行时间为：</p>
+<script type="math/tex; mode=display">
+新执行时间 = 原执行时间 \times [(1-升级比例)+\frac{升级比例}{升级加速比}]</script><p>​        从而可计算总加速比为：</p>
+<script type="math/tex; mode=display">
+总加速比 = \frac{原执行时间}{新执行时间}=\frac{1}{(1-升级比例)+\frac{升级比例}{升级加速比}}</script><p>​        除此外还介绍了一些衡量性能的指标，例如CPI(每条指令时钟周期数)，时钟频率，响应时间，带宽/延迟等：</p>
+<ul>
+<li>响应时间 = 任务开始到任务完成的时间 = CPU TIME + WAITING TIME，用CPU性能衡量CPU执行时间</li>
+<li>CPU时间  = 程序的CPU时钟周期数<script type="math/tex">\times</script>时钟周期时间 = CPI<script type="math/tex">\times</script>指令数<script type="math/tex">\times</script>时钟周期时间</li>
+</ul>
+<h2 id="附录A-指令集基本原理"><a href="#附录A-指令集基本原理" class="headerlink" title="附录A 指令集基本原理"></a>附录A 指令集基本原理</h2><h3 id="1-指令集体系结构的分类"><a href="#1-指令集体系结构的分类" class="headerlink" title="1.指令集体系结构的分类"></a>1.指令集体系结构的分类</h3><p>​        <strong>指令集体系结构的区别在于处理器中内部存储类型的不同</strong>。共有三种体系结构：<strong>栈体系结构，累加器体系结构，通用寄存器体系结构</strong>。其中，栈和累加器式的体系结构都使用隐式的操作数，而通用寄存器使用显式的操作数，或者为寄存器，或者为存储器位置。</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230307211206107.png" alt="image-20230307211206107" style="zoom: 67%;"></p>
+<p>​        通用寄存器体系结构又可以分为两类，一类可使用任意指令来访问存储器，称为<strong>寄存器-存储器体系结构</strong>，另一类只能用载入和存储指令来访问存储器，称为<strong>载入-存储体系结构</strong>。第三类将所有操作数保存在存储器中，还没有出现在今天的计算机中，称为存储器-存储器体系结构。寄存器-存储器体系结构可以使用较少的指令，但指令的实现较为复杂；而载入-存储体系结构需要使用更多的指令，实现较为简单。</p>
+<p>​        现有的计算机都使用通用寄存器体系结构，因为寄存器比存储器更快，且对于编译器来说，使用寄存器效率更高，这是因为寄存器可用于保存变量，可以降低存储器通信流量，加快程序速度。</p>
+<h3 id="2-存储器寻址"><a href="#2-存储器寻址" class="headerlink" title="*2.存储器寻址"></a>*2.存储器寻址</h3><p><strong>解释存储器地址</strong></p>
+<p>​        通常在指令集中都是字节寻址的，存储器地址访问到的是一个字节，指令集提供对字节，半字，和字的访问方式，大多数计算机还提供对双字的访问。</p>
+<p>​        一个大于一个字节的数据在存储器中的存放方式有两种，分别为：</p>
+<ul>
+<li>小端法：低位在低地址</li>
+<li>大端法：高位在低地址</li>
+</ul>
+<p>​        现代计算机通常支持双端，可以配置为任意一种顺序。</p>
+<p>​        在许多计算机中，对于大于一个字节的存储器寻址都必须是对齐的。因为存储器通常与一个字或双字的倍数对齐，读写更快，如果使用非对齐寻址则会增加硬件的复杂性，并且非对齐寻址可能需要多个对齐的存储器引用。</p>
+<p><strong>寻址方式</strong></p>
+<p>​        常用的寻址方式包括寄存器间接寻址，立即数寻址，偏移量寻址等。</p>
+<p>​        一种体系结构至少支持以上提到的三种寻址方式，并且根据统计数据，偏移量寻址方式中的地址大小至少为12-16位，立即数寻址中立即数字段的大小至少为8-16位，就能满足大多数情况下的使用需求。</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230401195836002.png" alt="image-20230401195836002" style="zoom: 50%;"></p>
+<h3 id="3-操作数的类型与大小"><a href="#3-操作数的类型与大小" class="headerlink" title="*3.操作数的类型与大小"></a>*3.操作数的类型与大小</h3><p>​        操作数的常见类型包括字符，半字，字，单精度浮点和双精度浮点。整数通常用二进制补码表示，字符通常使用ASCII码表示，浮点数都采用IEEE标准。</p>
+<h3 id="4-指令集操作"><a href="#4-指令集操作" class="headerlink" title="*4.指令集操作"></a>*4.指令集操作</h3><p>​        基本所有的指令集体系结构都至少支持以下几种操作：</p>
+<ul>
+<li>算数与逻辑：数的运算与逻辑运算</li>
+<li>数据传送：载入-存储(move指令)</li>
+<li>控制：分支，跳转，过程调用与返回，陷阱</li>
+<li>系统：操作系统调用</li>
+</ul>
+<h3 id="5-控制流指令"><a href="#5-控制流指令" class="headerlink" title="5.控制流指令"></a>5.控制流指令</h3><p>​        关于改变控制流的指令，可以分为四类：</p>
+<ul>
+<li>条件分支(有条件的跳转)</li>
+<li>跳转</li>
+<li>过程调用</li>
+<li>过程返回</li>
+</ul>
+<p>​        根据统计，在计算机中条件分支出现的频率是最高的。</p>
+<p><strong>控制流寻址</strong></p>
+<p>​        控制流寻址常见的一种方式是采用PC相对寻址，还有寄存器间接跳转动态寻址。分支常用PC相对寻址来指定目标，从下图可以看出，分支位移量至少为8位就可以满足大多数情况。</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230308085437140.png" alt="image-20230308085437140" style="zoom:50%;"></p>
+<p>​        寄存器间接跳转寻址通常出现于以下四种情况：</p>
+<ul>
+<li>case/switch</li>
+<li>虚拟函数或虚拟方法</li>
+<li>高级函数或函数指针</li>
+<li>动态共享库</li>
+</ul>
+<p><strong>条件分支选项</strong></p>
+<p>​        条件分支的实现计数主要有以下三种：</p>
+<ul>
+<li>条件代码(80x86)：测试ALU运算设定的特殊位</li>
+<li>条件寄存器(MIPS)：使用寄存器保存比较结果，实现简单</li>
+<li>比较与分支</li>
+</ul>
+<p><strong>过程调用选项</strong></p>
+<p>​        在过程调用和返回时，需要进行一些状态保存，至少包括返回地址和ebp，esp等指针的保存，而保存寄存器则分为两种：由调用者进行保存；由被调用者保存。大多数实际系统都采用这两种机制的组合方式，根据一些确定的基本规则，将一些寄存器由调用者保存，而另一些则由被调用者保存。</p>
+<h3 id="6-指令集编码"><a href="#6-指令集编码" class="headerlink" title="6.指令集编码"></a>6.指令集编码</h3><p>​        指令的编码要说明指令的操作和操作数，此外，还必须能够得到操作数的寻址方式。<strong>对于简单的载入-存储计算机，寻址方式可以编码到操作码之中，而对于有多种寻址方式的计算机，通常为每个操作数添加一个地址标识符说明寻址方式</strong>。对指令集进行编码时，架构师必须平衡以下几个方面：</p>
+<ul>
+<li>允许尽可能多的寄存器和寻址方式</li>
+<li>寄存器字段和寻址方式字段的大小对平均指令大小存在影响</li>
+<li>编码后的指令长度应易于以流水线方式处理</li>
+</ul>
+<p>​        以下是三种常见的指令集编码方式：</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230308110725591.png" alt="image-20230308110725591" style="zoom: 67%;"></p>
+<p>​        变长编码适用于寻址方式和操作较多时，定长编码适用于寻址方式与操作数较少的情况，但牺牲了平均代码规模。两种编码方式之间的权衡是<strong>代码规模与处理器译码的难易程度(性能)</strong>。第三种选择就是提供多种指令长度，缩小代码尺寸，这对于嵌入式应用程序来说很重要。一些RISC指令集版本同时提供16位和32位的指令，从而压缩代码规模。</p>
+<h3 id="7-编译器"><a href="#7-编译器" class="headerlink" title="7.编译器(-)"></a>7.编译器(-)</h3><p>​        机器执行的指令都是由编译器生成的，因此在设计和实现指令集时，需要考虑编译器技术，尽可能降低编译器生成良好代码的难度。目前编译器的结构大致如下：</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230310111513499.png" alt="image-20230310111513499" style="zoom: 67%;"></p>
+<p>​        编译器的首要目标是正确性，其次是编译后的代码速度，这取决于对代码的优化程度。现代编译器的优化可以分类为：</p>
+<ul>
+<li>高级优化：直接对源代码进行</li>
+<li>本地优化：对基本块内的代码进行优化</li>
+<li>全局优化：将本地优化扩展到分支范围之外，并引入对循环的优化</li>
+<li>寄存器分配：图着色算法</li>
+<li>处理器相关的优化</li>
+</ul>
+<p>​        不同优化的相对使用频率：</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230310112014116.png" alt="image-20230310112014116" style="zoom:50%;"></p>
+<p>​        在设计指令集架构时，通过以下特性为编译器编写人员提供帮助：</p>
+<ul>
+<li>提供正交性：操作，数据类型和寻址方式应当是正交的。(两个方面应该互不影响)</li>
+<li>提供原型而非解决方案</li>
+<li>简化候选项之间的平衡</li>
+<li>提供一些指令，将编译时的已知量绑定为常量</li>
+</ul>
+<p>​        综上，设计一个新的指令集体系结构总是希望满足以下三点：</p>
+<ul>
+<li>至少有16个通用寄存器，以简化寄存器分配</li>
+<li>保证正交性，全部寻址方式适用于所有传送数据的指令</li>
+<li>注重简单性</li>
+</ul>
+<h3 id="8-RISC-V"><a href="#8-RISC-V" class="headerlink" title="8.RISC V"></a>8.RISC V</h3><p>​        RISC V的设计如下：</p>
+<ul>
+<li>寄存器组：32个64位通用寄存器(GPR)，一组浮点寄存器</li>
+<li>数据类型：字节，半字，字，双字</li>
+<li>寻址方式：立即数寻址，偏移寻址</li>
+<li>指令格式：32位指令，6位主操作码</li>
+<li>操作：载入与存储，ALU运算，分支与跳转，浮点数运算</li>
+<li>控制流指令：通过跳转指令和分支指令处理控制流转移，分支条件由指令指定</li>
+</ul>
+<p>​        指令格式分为以下四种：</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230314111902967.png" alt="image-20230314111902967" style="zoom:67%;"></p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230314113104025.png" alt="image-20230314113104025" style="zoom: 67%;"></p>
+<p>​        R型是寄存器-寄存器指令，主要是运算类的指令；I型是立即数指令，包括涉及立即数的运算和Load指令；S型指令通常为存储指令和分支指令，而U型指令用于实现跳转。指令中包含了源寄存器(rs)，目的寄存器(rd)，这些字段在译码和写回时使用，读取或写入指定的寄存器。</p>
+<h2 id="附录B-存储器层次结构"><a href="#附录B-存储器层次结构" class="headerlink" title="附录B 存储器层次结构"></a>附录B 存储器层次结构</h2><p>术语表：</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230318094610807.png" alt="image-20230318094610807" style="zoom:80%;"></p>
+<h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h3><p><strong>评价缓存性能</strong></p>
+<p>​        评价缓存性能的一种方法是扩展第一章给出的处理器执行公式：</p>
+<center>CPU执行时间 = (CPU时钟周期数+存储器停顿周期数) x 时钟周期时间</center>
+
+<p>​        其中CPU周期数为IC(指令数) x CPI</p>
+<p>​        存储器停顿周期取决于缺失数和每次缺失的代价：</p>
+<center>存储器停顿周期 = 缺失数 x 缺失代价 = IC(指令数) x 存储器访问 / 指令 x 缺失率 x 缺失代价</center>
+
+<p>​        其中的存储器访问/指令表示单条指令的存储器访问次数，对于操作不访问存储器的指令，只有取指令本身访问一次存储器。如果直接使用缺失数测量缺失率，通常使用每千条指令缺失数。</p>
+<p>​        缺失率与硬件速度无关，易于测量，但可能产生误导，更好的度量存储器层次结构性能的标准是<strong>存储器平均访问时间</strong>：</p>
+<center>存储器平均访问时间 = 命中时间 + 缺失率 x 缺失代价</center>
+
+<p><strong>缓存</strong></p>
+<p>​        对于存储器层次结构的第一级：缓存，考虑以下四个问题：</p>
+<ul>
+<li>缓存组织方式：共有以下三种，但其他两种也可以算作组相联<ul>
+<li>直接映射：一个块只能放在一个确定的位置(相当于m个组相联)</li>
+<li>全相联：一个块可放在缓存的任意位置(若可放m个块，相当于m路组相联)</li>
+<li>组相联：一个块可放在缓存中划分出的组里的任意位置</li>
+</ul>
+</li>
+<li>找到块中的缓存：<strong>物理地址</strong>可以划分为以下形式，标志位用于匹配判断是否为要找的块，索引字段指出了组，块偏移从块中选择数据</li>
+</ul>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230318095933490.png" alt="image-20230318095933490"></p>
+<ul>
+<li>缓存缺失读入块时的替换策略：通常有三种策略<ul>
+<li>随机</li>
+<li>LRU</li>
+<li>FIFO</li>
+</ul>
+</li>
+<li>读写策略</li>
+</ul>
+<p>​        重点考虑读写策略。所有指令访问都是读取，大多数指令不会写入数据，针对读取操作的优化是：一旦得到了块地址，就开始读取块，如果命中，就立即交给处理器，否则只需忽略读取值，按照读取缺失处理。而对于写则不能这样优化，必须核对标志位是否相同，因此写入通常比读取慢。写入的策略有两种选项：</p>
+<ul>
+<li>直写：信息被写入缓存和低一级存储器</li>
+<li>写回：信息仅被写入缓存，块被替换时才写入主存储器</li>
+</ul>
+<p>​        为了减少写回块的频率，通常采用一个脏位记录块是否被修改，如果块没有被修改，则不需要写回存储器。</p>
+<p>​        对于写入缺失，也有两种策略：</p>
+<ul>
+<li>写入分派：发生写入缺失时将块写入缓存，随后执行写入命中</li>
+<li>无写入分派：仅修改低一级存储器中的块</li>
+</ul>
+<p><strong>Opteran微处理器中数据缓存的组织方式</strong></p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230318102521622.png" alt="image-20230318102521622" style="zoom:67%;"></p>
+<p>​        Opteran采用两路组相联策略，LRU替换策略，写回策略，有一个牺牲块缓冲区，被替换且修改过的块会发送给该缓冲区，写入低一级的存储器。</p>
+<h3 id="2-6种基本的缓存优化"><a href="#2-6种基本的缓存优化" class="headerlink" title="2.6种基本的缓存优化"></a>2.6种基本的缓存优化</h3><p>​        根据存储器平均访问时间的公式，可以将缓存优化的方式分为3类：</p>
+<ul>
+<li>降低缺失率：采用较大的块，大的缓存，较高的相联度</li>
+<li>降低缺失代价：多级缓存</li>
+<li>缩短在缓存中命中的时间：索引缓存时避免地址转换</li>
+</ul>
+<p>​        所有的缺失可以分为三类：</p>
+<ul>
+<li>冷不命中：第一次访问一个块时一定是缺失的</li>
+<li>容量不命中：缓存无法容纳当前需要用到的所有块</li>
+<li>冒险不命中：如果采用组相联或直接映射，则会发生冒险缺失，冒险缺失会随相联度的增大而减小</li>
+</ul>
+<p>​        其中的冒险不命中是最容易避免的，只需要采用全相联布置，但硬件实现成本高，可能会降低处理器时间频率；针对容量不命中，可采用的方法只有增大缓存；冷不命中可以通过增大块的大小来减少，但可能增加其他的缺失。许多降低缺失率的技术也会增加命中时间或缺失代价，因此必须综合考虑提高整体系统的速度的目标，优化缓存。下面介绍6种基本的缓存优化方法。</p>
+<ul>
+<li>增大块大小以降低缺失率：较大的块会降低冷不命中，并且充分利用了空间局部性，但是太大的块会增加缺失代价，增加其他两种缺失。块大小的选择有赖于低级存储器的带宽和延迟，对于高带宽的高延迟存储器，采用大块很少增加缺失代价，鼓励采用大块，若低级处理器是低延迟低带宽的，则鼓励采用小块</li>
+<li>增大缓存以降低缺失率：可降低容量缺失，缺点是可能延长命中时间，增加成本和功耗</li>
+<li>提高相联度以降低缺失率：经验规律是采用八路组相联和全相联是一样有效的。但是提高相联度会提高缺失代价</li>
+<li>采用多级缓存降低缺失代价：使用多级缓存可以加快缓存的速度，同时扩大缓存的容量。为了有效衡量多级缓存的缺失情况，使用局部缺失率(当前缓存级别的缺失率)和全局缺失率(整体缓存的缺失率)。第一级缓存的速度影响处理器的时钟频率，第二级缓存的速度仅影响一级缓存的缺失代价。二级缓存的缺失率更高，，因此重心偏向减少缺失，采用更高相联度和更大的块</li>
+<li>读取缺失的优先级高于写入缺失：对写后读问题，如果写入尚未完成，还在写入缓冲区，可以让读取缺失先检查写入缓冲区的内容</li>
+<li>索引缓存时避免地址转换：多数系统在缓存中使用物理地址，缩短命中时间，避免使用虚拟地址时的地址保护检查和进程标识等问题</li>
+</ul>
+<h3 id="3-虚拟存储器"><a href="#3-虚拟存储器" class="headerlink" title="3.虚拟存储器"></a>3.虚拟存储器</h3><p>​        每个进程都有自己的地址空间，为了让同时运行的进程共享物理地址空间，计算机系统都采用虚拟存储器机制，让程序本身不需要考虑空间的具体分配，由操作系统及硬件负责具体空间的分配和虚拟地址到物理地址的转换。</p>
+<p>​        虚拟存储器的划分由两种机制：段机制和页机制，常见这两种方式的混合使用，或是多页面大小的分页机制的使用。</p>
+<p><strong>存储器层次结构的四个问题</strong></p>
+<ul>
+<li>块在主存的位置：由于存储器缺失会导致访问磁盘，因此需要尽可能降低缺失率，块可以放在主存中的任何位置，即组织方式为全相联</li>
+<li>找到块的位置：分页方式通过页表找到虚拟地址对应的物理地址，地址被分为页号和偏移量，从页表查找映射；分段方式类似，使用段号和偏移获得物理地址。为了加快地址转换，计算机使用一个专门的地址转换缓存(TLB)</li>
+<li>存储器缺失时替换哪个块：操作系统常采用LRU算法，替换最近最少使用的块</li>
+<li>写入策略：由于写入磁盘代价很高，因此总是采用写回策略</li>
+</ul>
+<p><strong>快速地址转换</strong></p>
+<p>​        分页表本身很大，有时候还会采用多级页表，这导致存储器访问甚至需要两次访存才能进行地址转换，因此计算机系统采用硬件缓存TLB(旁路地址转换缓冲)缓存地址转换。操作系统改变页表，必须使相应的TLB失效。</p>
+<p><strong>选择页大小</strong></p>
+<p>​        页大小是常见的体系结构参数，页表的大小和页大小成反比，增大页可以节省存储器，并且分页较大时，可以允许缓存命中较大缓存，并且大的分页还可以使TLB高效映射更多存储器。采用较小的页则可以减少空间碎片，加快进程启动时间。</p>
+<h2 id="附录C-流水线基本原理"><a href="#附录C-流水线基本原理" class="headerlink" title="附录C 流水线基本原理"></a>附录C 流水线基本原理</h2><h3 id="1-RISC-V流水线"><a href="#1-RISC-V流水线" class="headerlink" title="1.RISC V流水线"></a>1.RISC V流水线</h3><p>​        流水线是一种将多条指令重叠执行的实现技术。一条指令需要多个操作，流水线技术利用了操作之间的并行性。流水线可以缩短每条指令的执行时间，可以记作CPI的下降或时钟周期的下降。如果开始时一条指令需要多个时钟周期，则看作是CPI的下降，否则可以看作是时钟周期的下降。</p>
+<p>​        附录介绍RISC-V体系结构下的流水线实现原理。RISC体系结构已在附录A中有所介绍。</p>
+<p><strong>RISC-V指令集的简单实现</strong></p>
+<p>​        RISC指令集中的每条指令都可以在最多五个时钟周期内实现，这五个周期如下：</p>
+<ul>
+<li>取址周期IF：提取当前指令，更新程序计数器</li>
+<li>指令译码/寄存器提取周期ID：对指令进行译码，并读取指定的寄存器值，并进行相等测试，判断是否为分支</li>
+<li>执行周期EX：ALU对上一周期准备的操作数进行操作，根据指令类型执行：<ul>
+<li>存储器引用：基址寄存器+偏移量形成有效地址</li>
+<li>寄存器-寄存器ALU指令</li>
+<li>寄存器-立即数ALU指令</li>
+</ul>
+</li>
+<li>存储器访问MEM：使用上一周期计算的有效地址，载入指令则从存储器中读取数据，存储指令则向存储器写入寄存器组第二个寄存器读取的数据</li>
+<li>写回周期WB：将结果写入寄存器组</li>
+</ul>
+<p>​        下图是MIPS的CPU结构，较RISC-V简单，可对照以上五个阶段，理解数据的流动过程。</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230316093834443.png" alt="image-20230316093834443" style="zoom:50%;"></p>
+<p><strong>RISC-V的流水线</strong></p>
+<p>​        在每个时钟周期开始执行一条新的指令，就可以实现流水线化，为了保证每个周期都能正确执行，需要解决流水线化带来的一些问题。本节首先<strong>确保在一个周期，不会同时对相同数据源执行两个不同操作</strong>。</p>
+<p>​        下图是一个RISC数据路径的流水线表示：</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230314095500546.png" alt="image-20230314095500546" style="zoom:50%;"></p>
+<p>​        主要的功能单元在不同周期使用，因此不会引入太多冒险，以下三点避免了可能的冒险：</p>
+<ul>
+<li>使用<strong>分离的指令缓存和数据缓存</strong>。在取址和存储器访问之间可能发生冒险，为了消除这种冒险，采用分离的缓存；访存可能是读也可能是写，无法确定，并且访存时间较长，不能像寄存器那样按照读写在半个周期分别处理</li>
+<li>在ID和WB两个阶段都使用了寄存器组，ID是读取，WB是写入，因此每个时钟周期要完成多个读取和一次写入。为了处理这个问题，在<strong>时钟周期的前半部分写寄存器，在后半部分读寄存器</strong>（利用上升沿-下降沿将指令周期划分前后）</li>
+<li>为了确保指令在流水线中不会相互干扰，在流水级之间引入流水线寄存器。在时钟周期的末尾，将一个流水级得到的结果存储到寄存器当中，用作下一级的输入</li>
+</ul>
+<p><strong>流水化的基本性能问题</strong></p>
+<p>​        流水化提高了指令吞吐量，但不会缩短单条指令的执行时间，由于流水线控制会产生开销，通常还会稍微延长每条指令的执行时间。流水线开销包括流水线寄存器延迟(建立时间)和时钟偏差(两个寄存器之间的延迟)，时钟的速度不可能快于最慢的流水级，因此时钟周期被限定了下限。</p>
+<h3 id="2-流水线冒险"><a href="#2-流水线冒险" class="headerlink" title="2.流水线冒险"></a>2.流水线冒险</h3><p>​        冒险阻止了指令流在下一个周期的执行，共有以下三类冒险：</p>
+<ul>
+<li>结构冒险：资源冲突</li>
+<li>数据冒险：相邻指令之间存在相关性</li>
+<li>控制冒险：分支指令及其他改变程序计数器的指令实现流水化时可能导致控制冲突</li>
+</ul>
+<p>​        冒险会使流水线停顿，为了避免冒险，经常要求一些指令延迟时，其他一些指令可以继续执行。附录中讨论的流水线，一条指令被停顿后，所有之后发射的指令也被停顿。</p>
+<p><strong>结构冒险</strong></p>
+<p>​        结构冒险是由于资源冲突，不允许某些指令重叠。例如写入存储器的同时从存储器取址。当遇到这种指令序列时，流水线会使其中一个指令停顿一个周期，这个周期被称为<strong>流水线气泡</strong>。结构冒险是可以避免的，例如访存的数据冒险，可以将缓存分为独立的指令缓存和数据缓存，也可以用一组缓冲区来保存指令。是否要避免结构冒险，要考虑单元的成本，对于罕见的结构冒险，不值得花代价避免其出现。</p>
+<p><strong>数据冒险</strong></p>
+<p>​        数据冒险是由数据的读写访问顺序产生的，重叠指令的执行改变了原有的读写顺序。下图的指令就是一个数据冒险，第五个周期ADD指令才写回，但SUB指令在第三个周期就要访问寄存器了。</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230327130454001.png" alt="image-20230327130454001" style="zoom:67%;"></p>
+<p>​        or指令及之后的指令就不会导致冒险了，因为or读寄存器在第五周期的后半部分，而写入是在第五周期的前半部分。</p>
+<p>​        典型的数据冒险是由以下三种相关产生的：</p>
+<ul>
+<li>读后写WAR</li>
+<li>写后读RAW</li>
+<li>写后写WAW</li>
+</ul>
+<p>​        可以利用转发技术减少上述的数据冒险，这一技术也称为数据前推(Forwardig)。转发技术的关键是要把数据转移到需要的地方，对于上例，如果add计算后的结果转移到sub指令计算的位置，就可以避免出现停顿。工作方式如下：</p>
+<ul>
+<li>来自EX/MEM和MEM/WB的流水线寄存器的ALU结果总是被反馈给ALU的输入</li>
+<li>如果转发硬件检测到了前一个ALU操作已经对当前ALU操作的源寄存器进行了写入，则控制逻辑选择转发结果作为ALU输入，而不是从寄存器堆中读取值</li>
+</ul>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230327145826318.png" alt="image-20230327145826318" style="zoom: 50%;"></p>
+<p>​        上述方式可以减少数据冒险停顿，但有些数据冒险是无法通过转发处理的。考虑以下指令：</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230327150050792.png" alt="image-20230327150050792" style="zoom: 67%;"></p>
+<p>​        对于这段程序，ld指令第四周期才读出sub指令需要的值，而sub指令第二周期就要读取这个值了，这个冒险是无法避免的。这个时候就需要增加一种称为<strong>流水线互锁</strong>的执行方式，检测冒险，并在冒险结束之前使流水线停顿。</p>
+<p><strong>控制冒险</strong></p>
+<p>​        处理分支的最简单办法是，如果译码检测到了分支指令，就在下一个周期重新对下一条指令进行取址，这会产生一个周期的停顿。下一个周期分支指令会执行并计算分支地址，重新取指要等待一小段时间，确保分支指令执行完成。如果分支没有被选中，这一个停顿周期就是不必要的，因此，下面讨论一些应对这一问题的技术。</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230327152656624.png" alt="image-20230327152656624" style="zoom:67%;"></p>
+<p>​        降低分支代价有四种编译时机制，由软件利用硬件机制和分支特点降低分支代价。</p>
+<ul>
+<li>冻结或冲刷流水线：保留或删除分支之后的指令，直到知道分支目标，这是上表选择的方式，代价是固定的</li>
+<li>预测未选中机制：将所有分支看作未选中分支，如果分支被选中，就将提取的指令转为空操作</li>
+<li>预测选中分支：将所有分支看作选中分支，对于五级流水线来说没有好处，因为只有执行分支后才知道分支地址，但对于具有隐形设定条件代码或其他分支机制的处理器，可能是有效的</li>
+<li>延迟分支：无论分支是否被选中，都执行分支指令的下一条指令</li>
+</ul>
+<p>​        延迟分支在早期RISC中应用广泛，在分支和分支目标之间的<strong>分支延迟时隙</strong>执行一条指令，这条指令由编译器进行调度。显然如果没有冒险，把一条分支指令之前的一定会执行的指令移动到分支指令之后是最合适的，不过这可能无法实现。这个技术也被称为<strong>延迟槽</strong>。现在的RISC-V使用动态分支预测，已经不再使用延迟分支了。</p>
+<p>​        当流水线越来越深，分支的代价增加时，上述简单机制就不够了，需要更好的分支预测机制。这些机制分为两类：依赖编译时信息的静态分支预测机制，根据程序特性对分支动态预测的机制。</p>
+<ul>
+<li>静态分支预测：利用先前运行过程收集的数据，预测选中或未选中。整数程序的错误预测率较高，此类分支频率很高，是静态分支预测的主要限制</li>
+<li>动态分支预测：最简单的方式使用分支预测缓冲区，根据分支指令的低位进行索引，这个缓冲区包含一个位，表明该分支是否被选中，如果预测不正确，则将该位翻转。如果一个分支连续两次的结果不相同且与之前的分支情况不同，则两次都会预测错误，第一次因为预测位为0，第二次因为预测位为1，为了弥补这一弱点，经常使用2位预测机制，经测量，每项两位的分支预测缓冲区预测准确度超过82%，算是相当准确了。</li>
+</ul>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230411210343207.png" alt="image-20230411210343207" style="zoom: 50%;"></p>
+<center>2位的动态分支预测</center>
+
+<h3 id="3-流水化的实现"><a href="#3-流水化的实现" class="headerlink" title="3.流水化的实现"></a>3.流水化的实现</h3><h4 id="3-1-流水线的基本实现"><a href="#3-1-流水线的基本实现" class="headerlink" title="3.1 流水线的基本实现"></a>3.1 流水线的基本实现</h4><p>​        流水线化的方式已经在C.1中介绍过了。这里细致的说明每个周期指令完成的实际操作。</p>
+<p><strong>取址周期</strong></p>
+<p>​        IR &lt;- Mem[PC]</p>
+<p>​        NPC &lt;- PC+4</p>
+<p>​        其中IR存储取出的指令，NPC是下一条指令的地址。PC并不止这一种取值，还可能是分支值。</p>
+<p><strong>指令译码/寄存器提取周期</strong></p>
+<p>​        A &lt;- Regs[rt]</p>
+<p>​        B &lt;- Regs[rt]</p>
+<p>​        Imm &lt;- 扩展后的立即数</p>
+<p><strong>执行周期</strong></p>
+<p>​        这一周期有几种可能的操作：</p>
+<ul>
+<li>存储器引用：计算引用的地址值</li>
+<li>ALU运算：进行寄存器与寄存器值或立即数值的计算</li>
+<li>分支目标计算及条件判断(分支实际上不需要等到执行周期完成，后面会说明)</li>
+</ul>
+<p><strong>访存周期</strong></p>
+<p>​        这一周期完成了存储器引用：</p>
+<p>​        LMD(载入存储器数据) &lt;- MEM[ALUoutput] / MEM[ALUoutput] &lt;- B</p>
+<p>​        同时在这个周期把上个周期计算出的分支目标地址写入PC。(和上面的分支计算一样，这一操作没有必要等到这个周期)</p>
+<p><strong>写回周期</strong> </p>
+<p>​        写回周期根据指令类型，写入寄存器组：</p>
+<ul>
+<li>R型指令：Regs[rd] &lt;- ALUoutput</li>
+<li>I型运算指令：Regs[rt] &lt;- ALUoutput</li>
+<li>I型访存指令：Regs[rt] &lt;- LMD</li>
+</ul>
+<p>​        通过将执行划分为五个周期，最终的流水线如下图：</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230412103338598.png" alt="image-20230412103338598" style="zoom:67%;"></p>
+<h4 id="3-2实现流水线的控制"><a href="#3-2实现流水线的控制" class="headerlink" title="3.2实现流水线的控制"></a>3.2实现流水线的控制</h4><p>​        将一条指令从译码ID移入执行EX的过程通常为<strong>指令发射</strong>，已经执行这一步骤的指令称为已发射。对于整数的情况，所有的数据冒险都可以在ID阶段进行检查，如果存在数据冒险，就停顿当前指令。停顿的方式是IF/ID保持值而不更新，ID/EX输出空操作，这样流水线的IF和ID阶段停顿，后面的阶段继续运行，从而处理了数据冒险问题。以下是可能的数据冒险：        </p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230412104822402.png" alt="image-20230412104822402" style="zoom: 80%;"></p>
+<h4 id="3-3处理流水线分支"><a href="#3-3处理流水线分支" class="headerlink" title="3.3处理流水线分支"></a>3.3处理流水线分支</h4><p>​        对于零检测分支，分支条件判断和目标地址计算工作在译码ID阶段就可以完成了，不需要等到执行，因此可以移动到ID阶段，这样如果有分支，只浪费了分支之后IF的一条指令(这个浪费的周期为分支延迟)，这条IF的指令还可以作为延迟槽，使用指令重排序将一条无论是否跳转都要执行的指令到这里，避免浪费。对于更深的流水线设计，分支延迟可能更大。</p>
+<p>​        以上的策略可行，但是对于需要计算的分支条件，更合适的方式是将其分支条件判断放到EX阶段，在ID阶段仅完成跳转目标的计算，在EX决定是否跳转。RISC-V使用动态分支预测，不使用延迟槽，因为分支延迟并不总是可行，如果分支预测错误</p>
+<p><img src="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/image-20230412110207710.png" alt="image-20230412110207710" style="zoom:50%;"></p>
+<p>​        因此，对于RISC-V来说，假设采用<strong>动态分支预测</strong>，流水线是这样的(对于jal这样的指令，分支地址可以在ID计算)，假设总是<strong>预测正确</strong>：</p>
+<p><strong>预测选中</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CLK1</th>
+<th>CLK2</th>
+<th>CLK3</th>
+<th>CLK4</th>
+<th>CLK5</th>
+<th>CLK6</th>
+<th>CLK7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pipline i1</td>
+<td>IF(PC+4)</td>
+<td>ID(分支预测，分支地址计算)</td>
+<td>EX(计算分支条件)</td>
+<td>MEM</td>
+<td>WB</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pipline i2</td>
+<td></td>
+<td>IF(根据预测结果更新PC=PC+8/branch target)</td>
+<td>ID</td>
+<td>flush</td>
+<td>flush</td>
+<td>flush</td>
+<td></td>
+</tr>
+<tr>
+<td>pipline i3</td>
+<td></td>
+<td></td>
+<td>IF(PC=PC+4)</td>
+<td>ID(branch target)</td>
+<td>EX</td>
+<td>MEM</td>
+<td>WB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>预测不选中</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CLK1</th>
+<th>CLK2</th>
+<th>CLK3</th>
+<th>CLK4</th>
+<th>CLK5</th>
+<th>CLK6</th>
+<th>CLK7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pipline i1</td>
+<td>IF(PC+4)</td>
+<td>ID(分支预测，分支地址计算)</td>
+<td>EX(计算分支条件)</td>
+<td>MEM</td>
+<td>WB</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pipline i2</td>
+<td></td>
+<td>IF(根据预测结果更新PC=PC+8/branch target)</td>
+<td>ID</td>
+<td>EX</td>
+<td>MEM</td>
+<td>WB</td>
+<td></td>
+</tr>
+<tr>
+<td>pipline i3</td>
+<td></td>
+<td></td>
+<td>IF(PC=PC+4)</td>
+<td>ID(PC)</td>
+<td>EX</td>
+<td>MEM</td>
+<td>WB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote id="fn_注">
+<sup>注</sup>. IF阶段有一个pc_reg周期上升沿更新为pc_reg+4，同时也接入了branch target，给指令存储器的PC是这二者之一，指令存储器读出指令，读指令是组合逻辑电路，更新pc_reg和ID/EX则是时序逻辑电路，在时钟上升沿将指令交给ID/EX，ID/EX将上个周期的取指交给ID。<a href="#reffn_注" title="Jump back to footnote [注] in the text."> &#8617;</a>
+</blockquote>
+<p>​        如果没有分支预测，或者说默认未选中，那么流水线将是这样的：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CLK1</th>
+<th>CLK2</th>
+<th>CLK3</th>
+<th>CLK4</th>
+<th>CLK5</th>
+<th>CLK6</th>
+<th>CLK7</th>
+<th>CLK8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pipline i1</td>
+<td>IF(PC+4)</td>
+<td>ID(分支地址计算)</td>
+<td>EX(计算分支条件)</td>
+<td>MEM</td>
+<td>WB</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pipline i2</td>
+<td></td>
+<td>IF(PC = PC+4)</td>
+<td>ID(PC)</td>
+<td>flush</td>
+<td>flush</td>
+<td>flush</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pipline i3</td>
+<td></td>
+<td></td>
+<td>IF(根据分支条件，PC=PC+4/branch target )</td>
+<td>flush</td>
+<td>flush</td>
+<td>flush</td>
+<td>flush</td>
+<td></td>
+</tr>
+<tr>
+<td>pipline i4</td>
+<td></td>
+<td></td>
+<td></td>
+<td>IF(PC=PC+4)</td>
+<td>ID(branch target)</td>
+<td>EX</td>
+<td>MEM</td>
+<td>WB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>​        以上的策略是RISC-V的一些实现中采用的，不同的处理器实现可能策略不同，MIPS就不是按照以上方式实现的，而是采用延迟槽。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" rel="tag"># 计算机体系结构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/" rel="prev" title="操作系统导论-并发">
+      <i class="fa fa-chevron-left"></i> 操作系统导论-并发
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%EF%BC%9A%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86"><span class="nav-text">计算机体系结构：体系结构基础与流水线原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E9%87%8F%E5%8C%96%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90%E5%9F%BA%E7%A1%80"><span class="nav-text">第一章 量化设计与分析基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">1.3 体系结构的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4%E6%8A%80%E6%9C%AF%E8%B6%8B%E5%8A%BF"><span class="nav-text">1.4技术趋势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-9%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%87%8F%E5%8C%96%E5%8E%9F%E7%90%86"><span class="nav-text">1.9计算机设计的量化原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95A-%E6%8C%87%E4%BB%A4%E9%9B%86%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-text">附录A 指令集基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%8C%87%E4%BB%A4%E9%9B%86%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-text">1.指令集体系结构的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AD%98%E5%82%A8%E5%99%A8%E5%AF%BB%E5%9D%80"><span class="nav-text">*2.存储器寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%A4%A7%E5%B0%8F"><span class="nav-text">*3.操作数的类型与大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%8C%87%E4%BB%A4%E9%9B%86%E6%93%8D%E4%BD%9C"><span class="nav-text">*4.指令集操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%8E%A7%E5%88%B6%E6%B5%81%E6%8C%87%E4%BB%A4"><span class="nav-text">5.控制流指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%8C%87%E4%BB%A4%E9%9B%86%E7%BC%96%E7%A0%81"><span class="nav-text">6.指令集编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E7%BC%96%E8%AF%91%E5%99%A8"><span class="nav-text">7.编译器(-)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-RISC-V"><span class="nav-text">8.RISC V</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95B-%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="nav-text">附录B 存储器层次结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%BC%93%E5%AD%98%E4%BC%98%E5%8C%96"><span class="nav-text">2.6种基本的缓存优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8"><span class="nav-text">3.虚拟存储器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95C-%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-text">附录C 流水线基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RISC-V%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="nav-text">1.RISC V流水线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%86%92%E9%99%A9"><span class="nav-text">2.流水线冒险</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%B5%81%E6%B0%B4%E5%8C%96%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.流水化的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.1 流水线的基本实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2%E5%AE%9E%E7%8E%B0%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E6%8E%A7%E5%88%B6"><span class="nav-text">3.2实现流水线的控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3%E5%A4%84%E7%90%86%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%88%86%E6%94%AF"><span class="nav-text">3.3处理流水线分支</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="橙"
+      src="/images/a0.jpg">
+  <p class="site-author-name" itemprop="name">橙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">橙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">273k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:08</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
