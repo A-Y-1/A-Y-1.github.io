@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.1.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
@@ -27,21 +27,21 @@
 <meta property="og:site_name" content="橙的博客">
 <meta property="og:description" content="编译原理学习笔记。参考：  ​        编译原理(中科大)：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV16h411X7JY?p&#x3D;1 ​        编译原理(哈工大)：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1zW411t7YE?p&#x3D;1 笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。主要的算法都是来自《现代编译原理：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/词法单元.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/状态转换.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E8%A7%84%E7%BA%A6%E6%8E%A8%E5%AF%BC.png">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E8%AF%8D%E6%B3%95%E5%8D%95%E5%85%83.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2.jpg">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/Lex.jpg">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA例.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/转换表.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/空串NFA.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA构造.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa构造例.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa到dfa1.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/语法分析例.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/最左推导例.jpg">
-<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/递归下降分析.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA%E4%BE%8B.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E8%BD%AC%E6%8D%A2%E8%A1%A8.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E7%A9%BA%E4%B8%B2NFA.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/NFA%E6%9E%84%E9%80%A0.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa%E6%9E%84%E9%80%A0%E4%BE%8B.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa%E5%88%B0dfa.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/nfa%E5%88%B0dfa1.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BE%8B.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E6%9C%80%E5%B7%A6%E6%8E%A8%E5%AF%BC%E4%BE%8B.jpg">
+<meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90.jpg">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221101215423962.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221101215556978.png">
 <meta property="og:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20221102000502457.png">
@@ -78,7 +78,7 @@
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/规约推导.png">
+<meta name="twitter:image" content="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/%E8%A7%84%E7%BA%A6%E6%8E%A8%E5%AF%BC.png">
 
 <link rel="canonical" href="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/">
 
