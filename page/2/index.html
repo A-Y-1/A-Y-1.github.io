@@ -1,1487 +1,301 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta property="og:type" content="website">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>橙的博客 - 欢迎来到我的博客!(^▽^)</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
 <meta property="og:title" content="橙的博客">
 <meta property="og:url" content="https://a-y-1.github.io/page/2/index.html">
 <meta property="og:site_name" content="橙的博客">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/img/a0.jpg">
 <meta property="article:author" content="橙">
 <meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://a-y-1.github.io/page/2/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>橙的博客</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
+<meta name="twitter:image" content="https://a-y-1.github.io/img/a0.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/page/2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '橙的博客',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: true,
+  isToc: false,
+  postUpdate: '2023-09-02 12:07:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">橙的博客</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/10/10/EffectiveCPP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/10/EffectiveCPP/" class="post-title-link" itemprop="url">EffectiveCPP笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-10 14:48:29" itemprop="dateCreated datePublished" datetime="2022-10-10T14:48:29+08:00">2022-10-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-13 22:59:14" itemprop="dateModified" datetime="2023-02-13T22:59:14+08:00">2023-02-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>4.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Effective C++ 笔记。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/10/EffectiveCPP/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/10/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Flex/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Flex/" class="post-title-link" itemprop="url">编译原理实验一：词法分析工具Flex</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-08 14:51:29" itemprop="dateCreated datePublished" datetime="2022-10-08T14:51:29+08:00">2022-10-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-17 10:55:16" itemprop="dateModified" datetime="2022-11-17T10:55:16+08:00">2022-11-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">中科大-编译原理实验。实验指导书和文件见https://github.com/A-Y-1/HNU。</p>
-
-<h2 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h2><p style="text-indent:2em">根据cminux-f的词法补全[lexical_analyer.l](../../src/lexer/lexical_analyzer.l)文件，完成词法分析器，能够输出识别出的token，type ,line(刚出现的行数)，pos_start(该行开始位置)，pos_end(结束的位置,不包含)。如：</p>
-
-<p style="text-indent:2em">文本输入：</p>
-
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a;</span><br></pre></td></tr></table></figure>
-<p style="text-indent:2em">则识别结果应为：</p>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int     280     1       2       5</span><br><span class="line">a       285     1       6       7</span><br><span class="line">;       270     1       7       8</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Flex/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/" class="post-title-link" itemprop="url">计算机网络自顶向下方法笔记02</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-19 09:48:22" itemprop="dateCreated datePublished" datetime="2022-09-19T09:48:22+08:00">2022-09-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-15 15:13:20" itemprop="dateModified" datetime="2023-02-15T15:13:20+08:00">2023-02-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记02:运输层。</p>
-<p style="text-indent:2em">运输层介于应用层与网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。</p>
-
-<h1 id="第三章-运输层"><a href="#第三章-运输层" class="headerlink" title="第三章 运输层"></a>第三章 运输层</h1><h2 id="1-概述和运输层服务"><a href="#1-概述和运输层服务" class="headerlink" title="1.概述和运输层服务"></a>1.概述和运输层服务</h2><p style="text-indent:2em">运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为<b>报文段</b>，将报文段交给网络层，由网络层发送到目的地。</p>
-
-<p style="text-indent:2em">因特网提供了两种可用的运输层协议：UDP(用户数据报协议)，TCP(传输控制协议)。UDP提供不可靠服务，而TCP提供面向连接的可靠数据传输，还提供拥塞控制。网络层的协议即网际协议IP，提供的是不可靠服务，不确保报文段的交付和按序交付，因此本章主要讨论的一个问题是TCP如何提供<font color="red">可靠数据传输</font>，另一个主要讨论的问题是TCP如何实现<font color="red">拥塞控制</font>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/" class="post-title-link" itemprop="url">计算机网络自顶向下方法笔记01</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-11 21:17:29" itemprop="dateCreated datePublished" datetime="2022-09-11T21:17:29+08:00">2022-09-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-25 17:24:36" itemprop="dateModified" datetime="2022-09-25T17:24:36+08:00">2022-09-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记。之前学习过计算机网络微课，已经对计网中的很多概念都有了印象和一定的了解了，这时候再读自顶向下感觉比较轻松了。但是自己还是更喜欢自底向上的方式，因为自顶向下时，尽管只需要知道下层能为上层提供服务，但是对下层的大致了解没有建立，感觉并不够顺畅。这本书没有涉及太多物理层的内容，第一章为概述。从第二章应用层开始，自顶向下讲解计算机网络。以下是阅读笔记。</p>
-
-<h1 id="第二章-应用层"><a href="#第二章-应用层" class="headerlink" title="第二章 应用层"></a>第二章 应用层</h1><p style="text-indent:2em">本章的内容主要是网络应用的相关原理，网络应用的实例(Web，电子邮件，DNS，视频流)，以及简单的网络应用开发(主要学习套接字接口)。</p>
-
-<h2 id="1-应用层协议原理"><a href="#1-应用层协议原理" class="headerlink" title="1.应用层协议原理"></a>1.应用层协议原理</h2><h3 id="1-1-应用程序体系结构"><a href="#1-1-应用程序体系结构" class="headerlink" title="1.1 应用程序体系结构"></a>1.1 应用程序体系结构</h3><ul>
-<li>客户服务器体系结构</li>
-<li>对等体系结构(P2P)</li>
-</ul>
-<p style="text-indent:2em">客户-服务器体系结构中，服务器服务来自许多其他客户主机的请求、客户之间不进行通信。服务器通常有确定的地址(IP地址)，客户通过IP地址向服务器请求服务。为了能够处理请求，通常有配备大量主机的数据中心作为虚拟服务器，而不是单独的服务器主机进行服务。</p>
-
-<p style="text-indent:2em">P2P体系结构下，主机之间相互通信，他们被称为对等方。许多流量密集型应用都是P2P体系结构。P2P体系的特性是其具有自扩展性，每个对等方由于请求产生工作负载，同时也分发文件为系统增加服务能力。P2P体系结构不需要庞大的服务器基础设施和带宽，但由于高度非集中式结构，有安全性、性能、可靠性方面的挑战。</p>
-
-<h3 id="1-2-数据通信"><a href="#1-2-数据通信" class="headerlink" title="1.2 数据通信"></a>1.2 数据通信</h3><p style="text-indent:2em">两个不同端系统上的进程，通过报文来通信。网络应用程序由成对的进程组成，他们通过网络相互发送报文。两个进程常被标识为客户与服务器。<b>发起通信的进程被标识为客户，在会话开始时等待联系的进程是服务器。</b></p>
-
-<p style="text-indent:2em">进程是通过称为套接字的软件接口来发送和接收报文的。套接字是应用程序和网络之间的应用程序编程接口。对于套接字，后续有详细的讨论。</p>
-
-<p style="text-indent:2em">两进程间通信，发送分组的进程需要知道接收分组的进程地址。地址由两部分构成：主机地址；主机中接收进程的标识符。这两部分由IP地址和目的地端口号来标识。</p>
-
-<h3 id="1-3-可供应用程序使用的运输服务"><a href="#1-3-可供应用程序使用的运输服务" class="headerlink" title="1.3 可供应用程序使用的运输服务"></a>1.3 可供应用程序使用的运输服务</h3><p style="text-indent:2em">运输层为应用层提供服务，应用程序服务的要求有以下四个方面：</p>
-
-<ul>
-<li>可靠数据传输</li>
-<li>吞吐量</li>
-<li>定时</li>
-<li>安全性</li>
-</ul>
-<h3 id="1-4-因特网提供的运输服务"><a href="#1-4-因特网提供的运输服务" class="headerlink" title="1.4 因特网提供的运输服务"></a>1.4 因特网提供的运输服务</h3><ul>
-<li>TCP服务<ul>
-<li>面向连接</li>
-<li>可靠数据传输</li>
-<li>安全性：安全套接字层(SSL)加强了TCP，提供安全服务</li>
-</ul>
-</li>
-<li>UDP服务：仅提供最小服务，无连接，不保证报文到达接收进程。</li>
-</ul>
-<p style="text-indent:2em">定时和吞吐量是因特网运输协议不能保证的，但通常因特网是可以为时间敏感应用提供满意的服务的。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">编译原理笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-07 21:20:29" itemprop="dateCreated datePublished" datetime="2022-09-07T21:20:29+08:00">2022-09-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-16 22:27:38" itemprop="dateModified" datetime="2023-02-16T22:27:38+08:00">2023-02-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>24k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>22 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">编译原理学习笔记。参考：</p>
-
-<p>​        编译原理(中科大)：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16h411X7JY?p=1">https://www.bilibili.com/video/BV16h411X7JY?p=1</a></p>
-<p>​        编译原理(哈工大)：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zW411t7YE?p=1">https://www.bilibili.com/video/BV1zW411t7YE?p=1</a></p>
-<p style="text-indent:2em">笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。主要的算法都是来自《现代编译原理：c语言描述》(虎书)，因为与一般学习编译原理用的龙书有差异，将需要注意的情况在下面列出，这些不同主要在语法分析部分，不影响语法分析的算法思想和过程，列出来仅是为了避免在学习过程中产生困惑。</p>
-
-<ul>
-<li>自顶向下的语法分析计算了NULLABLE集，FIRST集，FOLLOW集，FIRST_S集，其中的FIRST_S集更常见的说法是SELECT集。</li>
-<li>使用算法计算FIRST(N)集时，没有将空串加入FIRST集，这是因为已经计算了NULLABLE集，不需要把空串包含到FIRST集当中了。</li>
-<li>在使用虎书的方法计算FIRST集，FOLLOW集中，不包含#符号和$符号，实际这两个符号也只是标记结束，不影响语法分析过程。</li>
-</ul>
-<h1 id="第一章-引论"><a href="#第一章-引论" class="headerlink" title="第一章 引论"></a>第一章 引论</h1><h2 id="1-语言处理器"><a href="#1-语言处理器" class="headerlink" title="1.语言处理器"></a>1.语言处理器</h2><ul>
-<li>编译器</li>
-<li>解释器</li>
-</ul>
-<h2 id="2-编译器的结构"><a href="#2-编译器的结构" class="headerlink" title="2.编译器的结构"></a>2.编译器的结构</h2><ul>
-<li>词法分析：将语素转换为词法单元</li>
-<li>语法分析：使用词法单元创建树形的中间表示，常用语法树。</li>
-<li>语义分析：检查源程序是否和语言定义的语义一致，并进行类型检查。</li>
-<li>中间代码生成</li>
-<li>代码优化</li>
-<li>代码生成：以源程序的中间表示形式作为输入，映射到目标语言。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95V1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95V1/" class="post-title-link" itemprop="url">刷题记录V1</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-04 19:26:01" itemprop="dateCreated datePublished" datetime="2022-09-04T19:26:01+08:00">2022-09-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-13 18:43:34" itemprop="dateModified" datetime="2022-11-13T18:43:34+08:00">2022-11-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">此前在leetcode按类别刷了一些题，不过时间久了就又忘记了，也没有稳固好自己的算法基础。恰好这学期有算法设计与分析课程，空余时间也比较多，打算好好的刷一些题并好好记录。刷题还是打算按类别刷，记录主要是备注题目情况，重点题也会记录些思路和理解。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95V1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">数据库系统概论笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-03 19:01:29" itemprop="dateCreated datePublished" datetime="2022-09-03T19:01:29+08:00">2022-09-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-14 16:00:19" itemprop="dateModified" datetime="2023-02-14T16:00:19+08:00">2023-02-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>25k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>23 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">数据库系统概论(王珊 萨师煊 编著)笔记。</p>
-
-<h1 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h1><h2 id="1-数据库系统概述"><a href="#1-数据库系统概述" class="headerlink" title="1.数据库系统概述"></a>1.数据库系统概述</h2><h3 id="1-1数据库的4个基本概念"><a href="#1-1数据库的4个基本概念" class="headerlink" title="1.1数据库的4个基本概念"></a>1.1数据库的4个基本概念</h3><ul>
-<li>数据：描述事物的符号记录称为数据。数据的含义称为数据的语义，数据与其语义是不可分的。</li>
-<li>数据库：<strong>长期存储在计算机内、有组织的、可共享的</strong>大量数据的集合。数据库中的数据按一定的数据模型组织、描述和存储，具有较小的冗余度、较高的数据独立性和易扩展性，并可为各种用户共享。</li>
-<li>数据库管理系统(DBMS)：科学组织和存储数据，高效获取和维护数据。主要有以下功能：<ul>
-<li>数据定义功能</li>
-<li>数据组织、存储和管理</li>
-<li>数据操纵功能</li>
-<li>数据库的事务管理和运行管理</li>
-<li>数据库的建立和维护功能</li>
-<li>其他功能</li>
-</ul>
-</li>
-<li>数据库系统(DBS)：由数据库、数据库管理系统、应用程序和数据库管理员组成的存储、管理、处理和维护数据的系统。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">git学习笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-30 21:07:29" itemprop="dateCreated datePublished" datetime="2022-08-30T21:07:29+08:00">2022-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-04 10:58:06" itemprop="dateModified" datetime="2022-09-04T10:58:06+08:00">2022-09-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9D%82/" itemprop="url" rel="index"><span itemprop="name">杂</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">git学习笔记。学习视频：<a herf="https://www.bilibili.com/video/BV1MU4y1Y7h5?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&vd_source=463e5b3e4b18e5453477b57388c2e427">黑马程序员git教程</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">算法笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-30 14:48:29" itemprop="dateCreated datePublished" datetime="2022-08-30T14:48:29+08:00">2022-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-15 10:36:05" itemprop="dateModified" datetime="2023-01-15T10:36:05+08:00">2023-01-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>18k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">《算法笔记》的笔记。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/08/05/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/05/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">MySQL学习笔记|MySQL基础</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-05 12:35:01" itemprop="dateCreated datePublished" datetime="2022-08-05T12:35:01+08:00">2022-08-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-06 20:01:53" itemprop="dateModified" datetime="2022-09-06T20:01:53+08:00">2022-09-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">从0开始的MySQL学习。学习课程为<a herf="https://www.bilibili.com/video/BV1UE41147KC?p=5&vd_source=463e5b3e4b18e5453477b57388c2e427">【中字】SQL进阶教程 | 史上最易懂SQL教程！10小时零基础成长SQL大师</a>。这门课相对其他B站的MySQL课程来说学时非常少，够用来快速入门学习基础。参考书是《MySQL必知必会》。网课笔记从第二章开始。</p>
-
-<h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一.概述"></a>一.概述</h1><h2 id="1-数据库-amp-SQL"><a href="#1-数据库-amp-SQL" class="headerlink" title="1.数据库&amp;SQL"></a>1.数据库&amp;SQL</h2><ul>
-<li>数据库：保存有组织的数据的容器<ul>
-<li>表：特定类型的数据的结构化清单</li>
-<li>列：列是表中的一个字段，所有表由一个或多个列组成</li>
-<li>主键：唯一标识表中特定行的一列称为主键</li>
-</ul>
-</li>
-<li>SQL：结构化查询语言，用于与数据库进行通信</li>
-</ul>
-<h2 id="2-MySQL使用"><a href="#2-MySQL使用" class="headerlink" title="2.MySQL使用"></a>2.MySQL使用</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/mysql/mysql-install.html">https://www.runoob.com/mysql/mysql-install.html</a></p>
-<p></p><p style="text-indent:2em">安装时记录好root 用户的初始默认密码。不安装在默认路径，把bin添加到环境变量中方便cmd直接使用MySQL，不用每次切路径。另外还安装了MySQL Workbench，课程也是使用的这个。</p>
-<h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p  #-P <span class="number">3306</span>(默认端口) -h localhost</span><br><span class="line">Enter Password：	 #输入密码登录</span><br><span class="line">#登录后修改下密码，下面这个语句是在我电脑上可以成功修改的</span><br><span class="line">ALTER user &#x27;root&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;<span class="number">12345678</span>&#x27;</span><br></pre></td></tr></table></figure>
-<h3 id="USE-amp-SHOW"><a href="#USE-amp-SHOW" class="headerlink" title="USE&amp;SHOW"></a>USE&amp;SHOW</h3><ul>
-<li>USE + 数据库名：选择数据库</li>
-<li>SHOW DATABASS：显示可用数据库</li>
-<li>SHOW TABLES：获取数据库表的列表</li>
-<li>SHOW COLUMNS FROM 表名：显示表列</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/05/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
       }
     }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
   
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="橙"
-      src="/images/a0.jpg">
-  <p class="site-author-name" itemprop="name">橙</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">23</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">橙</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-    <span title="站点总字数">275k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">4:10</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span class="post-meta-divider">|</span>
-    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
-    <span class="post-meta-divider">|</span>
-
-
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
         }
       }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/01524.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的博客"><span class="site-name">橙的博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">橙的博客</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/10/10/EffectiveCPP/" title="EffectiveCPP笔记">EffectiveCPP笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-10T06:48:29.000Z" title="发表于 2022-10-10 14:48:29">2022-10-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/C/">C++</a></span></div><div class="content">Effective C++ 笔记。
 
-  
+一.习惯使用C++1.C++有不同的特性C++是个多重泛型语言，支持面向过程，面向对象，函数，泛型，元编程的语言。理解C++最简单的方法是将其视为多个次语言构成的集合。在使用C++时，可能需要从一个次语言迁移到另一个次语言，在这个过程中，守则可能改变。主要的次语言只有四个：
 
-</body>
-</html>
+C
+Object-Oriented C++
+Template C++
+STL
+
+从这四个次语言相互切换时，切换守则来进行高效编程是必要的。
+2.使用enum，const，inline替换#definedefine的部分可能不被视为语言的一部分，名称可能被预处理器处理，而编译时没有出现，没有进入符号表，这会导致当该宏定义的量发生错误时，编译错误信息可能提到的不是宏定义的名称，而是名称对应的值。如果宏定义在一个非自己所写的头文件中，遇到这种错误就很难定位到错误的位置。因此，最好用常量来替换宏定义。1const int maxN = 1e6+1;
+以常量替换宏定义，有两种特殊情况：
+
+定义常量指针，有必要将指针声明为const，例如一个常量的char*-based字符串需要定义为c ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/10/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Flex/" title="编译原理实验一：词法分析工具Flex">编译原理实验一：词法分析工具Flex</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-08T06:51:29.000Z" title="发表于 2022-10-08 14:51:29">2022-10-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></span></div><div class="content">中科大-编译原理实验。实验指导书和文件见https://github.com/A-Y-1/HNU。
+
+实验要求根据cminux-f的词法补全[lexical_analyer.l](../../src/lexer/lexical_analyzer.l)文件，完成词法分析器，能够输出识别出的token，type ,line(刚出现的行数)，pos_start(该行开始位置)，pos_end(结束的位置,不包含)。如：
+
+文本输入：
+
+1int a;
+则识别结果应为：
+
+123int     280     1       2       5a       285     1       6       7;       270     1       7       8
+
+实验难点1.Flex的使用将词素转换为词法单元有两种方式：第一种是手动用代码实现(需要画状态转移图辅助)，另一种是使用词法分析器生成工具(需要使用正则表达式描述出词素的模式)。而Flex就是一个词法分析器生成工具。词法分析器工具的工作过程如下：
+
+123Lex源程序-----&gt;Lex编译器-----&gt;lex. ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/" title="计算机网络自顶向下方法笔记02">计算机网络自顶向下方法笔记02</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-19T01:48:22.000Z" title="发表于 2022-09-19 09:48:22">2022-09-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="content">《计算机网络自顶向下方法》学习笔记02:运输层。
+运输层介于应用层与网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。
+
+第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报文段，将报文段交给网络层，由网络层发送到目的地。
+
+因特网提供了两种可用的运输层协议：UDP(用户数据报协议)，TCP(传输控制协议)。UDP提供不可靠服务，而TCP提供面向连接的可靠数据传输，还提供拥塞控制。网络层的协议即网际协议IP，提供的是不可靠服务，不确保报文段的交付和按序交付，因此本章主要讨论的一个问题是TCP如何提供可靠数据传输，另一个主要讨论的问题是TCP如何实现拥塞控制。
+
+
+2.多路复用与多路分解运输层从紧邻其下的网络层接收报文段。运输层负责将报文段进程交付给主机上运行的适当进程。一个进程有一个或多个套接字，运输层实际上是将数据交给中间的套接字。接收主机可能同时有多个套接字， ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/" title="计算机网络自顶向下方法笔记01">计算机网络自顶向下方法笔记01</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-11T13:17:29.000Z" title="发表于 2022-09-11 21:17:29">2022-09-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="content">《计算机网络自顶向下方法》学习笔记。之前学习过计算机网络微课，已经对计网中的很多概念都有了印象和一定的了解了，这时候再读自顶向下感觉比较轻松了。但是自己还是更喜欢自底向上的方式，因为自顶向下时，尽管只需要知道下层能为上层提供服务，但是对下层的大致了解没有建立，感觉并不够顺畅。这本书没有涉及太多物理层的内容，第一章为概述。从第二章应用层开始，自顶向下讲解计算机网络。以下是阅读笔记。
+
+第二章 应用层本章的内容主要是网络应用的相关原理，网络应用的实例(Web，电子邮件，DNS，视频流)，以及简单的网络应用开发(主要学习套接字接口)。
+
+1.应用层协议原理1.1 应用程序体系结构
+客户服务器体系结构
+对等体系结构(P2P)
+
+客户-服务器体系结构中，服务器服务来自许多其他客户主机的请求、客户之间不进行通信。服务器通常有确定的地址(IP地址)，客户通过IP地址向服务器请求服务。为了能够处理请求，通常有配备大量主机的数据中心作为虚拟服务器，而不是单独的服务器主机进行服务。
+
+P2P体系结构下，主机之间相互通信，他们被称为对等方。许多流量密集型应用都是P2P体系结构。P2P体系的特性是其具有自扩展 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/09/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" title="编译原理笔记">编译原理笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-07T13:20:29.000Z" title="发表于 2022-09-07 21:20:29">2022-09-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></span></div><div class="content">编译原理学习笔记。参考：
+
+​        编译原理(中科大)：https://www.bilibili.com/video/BV16h411X7JY?p=1
+​        编译原理(哈工大)：https://www.bilibili.com/video/BV1zW411t7YE?p=1
+笔记是根据书+网课+本校课程按照理解过程记录，和书或网课的顺序不一致。主要的算法都是来自《现代编译原理：c语言描述》(虎书)，因为与一般学习编译原理用的龙书有差异，将需要注意的情况在下面列出，这些不同主要在语法分析部分，不影响语法分析的算法思想和过程，列出来仅是为了避免在学习过程中产生困惑。
+
+
+自顶向下的语法分析计算了NULLABLE集，FIRST集，FOLLOW集，FIRST_S集，其中的FIRST_S集更常见的说法是SELECT集。
+使用算法计算FIRST(N)集时，没有将空串加入FIRST集，这是因为已经计算了NULLABLE集，不需要把空串包含到FIRST集当中了。
+在使用虎书的方法计算FIRST集，FOLLOW集中，不包含#符号和$符号，实际这两个符号也只是标记结束，不影响语法分析过 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/09/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95V1/" title="刷题记录V1">刷题记录V1</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-04T11:26:01.000Z" title="发表于 2022-09-04 19:26:01">2022-09-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></span></div><div class="content">此前在leetcode按类别刷了一些题，不过时间久了就又忘记了，也没有稳固好自己的算法基础。恰好这学期有算法设计与分析课程，空余时间也比较多，打算好好的刷一些题并好好记录。刷题还是打算按类别刷，记录主要是备注题目情况，重点题也会记录些思路和理解。
+
+
+双指针1.盛最多水的容器想得到是双指针，最开始想不清两个指针到底怎么移动。实际上移动时是按照排除当前柱子进行的，两个柱子里面短的柱子如果不变，就不可能有更大的结果了，所以要从短的一边移动，尝试扩大容积。
+
+## 2.最接近的三数之和
+
+和三数之和是同一道题。一个数遍历，另外两个数用双指针。
+
+*3.下一个排列想不到怎样从当前排列转换到下一个排列。题解中的从后向前寻找第一个升序对是关键，找的是最后一个可以调整为更大的数字(先升序，此后均为降序)，再把这个数字换为其后大于该数中最小的，并对此后的数字重新排序，得到的就是下一个排列。
+
+123456789101112131415161718192021222324252627class Solution &#123;public:    void nextPermutation(vector&l ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/09/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E7%AC%94%E8%AE%B0/" title="数据库系统概论笔记">数据库系统概论笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-03T11:01:29.000Z" title="发表于 2022-09-03 19:01:29">2022-09-03</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span></div><div class="content">数据库系统概论(王珊 萨师煊 编著)笔记。
+
+第一章 绪论1.数据库系统概述1.1数据库的4个基本概念
+数据：描述事物的符号记录称为数据。数据的含义称为数据的语义，数据与其语义是不可分的。
+数据库：长期存储在计算机内、有组织的、可共享的大量数据的集合。数据库中的数据按一定的数据模型组织、描述和存储，具有较小的冗余度、较高的数据独立性和易扩展性，并可为各种用户共享。
+数据库管理系统(DBMS)：科学组织和存储数据，高效获取和维护数据。主要有以下功能：
+数据定义功能
+数据组织、存储和管理
+数据操纵功能
+数据库的事务管理和运行管理
+数据库的建立和维护功能
+其他功能
+
+
+数据库系统(DBS)：由数据库、数据库管理系统、应用程序和数据库管理员组成的存储、管理、处理和维护数据的系统。
+
+
+1.2数据管理技术的产生和发展
+人工管理阶段-&gt;文件系统阶段-&gt;数据库系统阶段。
+从文件系统到数据库系统标志着数据管理技术的飞跃。
+
+1.3数据库系统的特点
+数据结构化：数据库系统实现整体数据的结构化。数据库中的数据不仅针对一个应用，而是面向整个组织或企业。
+数据的共享性高，冗余性低且易扩充。
+数据独 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/08/30/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="git学习笔记">git学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-08-30T13:07:29.000Z" title="发表于 2022-08-30 21:07:29">2022-08-30</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9D%82/">杂</a></span></div><div class="content">git学习笔记。学习视频：黑马程序员git教程
+
+
+一.概述1.版本控制器的方式
+集中式版本控制工具：版本库集中存放在中央服务器，team里每个人work时从中央服务器下载代码，必须联网才能工作，局域网或互联网。个人修改后然后提交到中央版本库。（例：SVN）
+分布式版本控制工具：没有“中央服务器”，每个人的电脑上都是一个完整的版本库，工作时，不需要联网。多人协作只需要各自的修改推送给对方，就能互相看到对方的修改。（git）
+
+2.git工作流程
+
+clone（克隆）: 从远程仓库中克隆代码到本地仓库。
+checkout （检出）:从本地仓库中检出一个仓库分支然后进行修订。
+add（添加）: 在提交前先将代码提交到暂存区。
+commit（提交）: 提交到本地仓库。本地仓库中保存修改的各个历史版本。
+fetch (抓取) ： 从远程库，抓取到本地仓库，不进行任何的合并动作，一般操作比较少。
+pull (拉取) ： 从远程库拉到本地库，自动进行合并(merge)，然后放到到工作区，相当于fetch+merge。
+push（推送） : 修改完成后，需要和团队成员共享代码时，将代码推送到远程仓库 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" title="算法笔记">算法笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-08-30T06:48:29.000Z" title="发表于 2022-08-30 14:48:29">2022-08-30</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></span></div><div class="content">《算法笔记》的笔记。
+
+
+第一章 C/C++基础1.基本数据类型
+10^9以内使用int，以上则使用long long
+
+如果long long赋大于2^32-1的初值，需要在初值后面加上LL。例如：long long bignum = 123456789012345LL
+
+尽量不使用宏定义来做除了定义常量以外的事（存在陷阱）。定义常量推荐const写法。
+
+2.顺序结构
+scanf的几种格式符：%d，%lld，%f，%lf（double），%c，%s。
+printf的格式符，double、float均为%f。
+%md不足m位右对齐（空格补齐），%0md用0补齐，%mf保留m位小数输出。
+常用math函数：fabs()，floor()，ceil()，pow()，sqrt()，log()，asin()，sin()，round()。
+如果数组大小较大（大概10^6级别），则需要定义在主函数外。主函数内申请的局部变量使用系统栈，允许的空间较小，全局变量来自静态存储区，允许申请的空间较大。
+memset(数组名，值，sizeof(数组名))，按字节赋值。用来赋0,1不容易出错。如果赋其他数字， ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/08/05/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="MySQL学习笔记|MySQL基础">MySQL学习笔记|MySQL基础</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-08-05T04:35:01.000Z" title="发表于 2022-08-05 12:35:01">2022-08-05</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span></div><div class="content">从0开始的MySQL学习。学习课程为【中字】SQL进阶教程 | 史上最易懂SQL教程！10小时零基础成长SQL大师。这门课相对其他B站的MySQL课程来说学时非常少，够用来快速入门学习基础。参考书是《MySQL必知必会》。网课笔记从第二章开始。
+
+一.概述1.数据库&amp;SQL
+数据库：保存有组织的数据的容器
+表：特定类型的数据的结构化清单
+列：列是表中的一个字段，所有表由一个或多个列组成
+主键：唯一标识表中特定行的一列称为主键
+
+
+SQL：结构化查询语言，用于与数据库进行通信
+
+2.MySQL使用安装https://www.runoob.com/mysql/mysql-install.html
+安装时记录好root 用户的初始默认密码。不安装在默认路径，把bin添加到环境变量中方便cmd直接使用MySQL，不用每次切路径。另外还安装了MySQL Workbench，课程也是使用的这个。
+登录1234mysql -u root -p  #-P 3306(默认端口) -h localhostEnter Password：	 #输入密码登录#登录后修改下密码，下面这个语句是在我电脑上可 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/3/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/" title="计算机体系结构：体系结构基础与流水线原理">计算机体系结构：体系结构基础与流水线原理</a><time datetime="2023-04-14T10:27:29.000Z" title="发表于 2023-04-14 18:27:29">2023-04-14</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/" title="操作系统导论-并发">操作系统导论-并发</a><time datetime="2023-01-06T10:27:29.000Z" title="发表于 2023-01-06 18:27:29">2023-01-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/" title="算法设计与分析-线性dp">算法设计与分析-线性dp</a><time datetime="2023-01-05T09:52:29.000Z" title="发表于 2023-01-05 17:52:29">2023-01-05</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E6%A0%91%E5%BD%A2dp/" title="算法设计与分析-树形dp">算法设计与分析-树形dp</a><time datetime="2023-01-01T03:21:29.000Z" title="发表于 2023-01-01 11:21:29">2023-01-01</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="算法设计与分析-动态规划-区间DP&amp;其他">算法设计与分析-动态规划-区间DP&amp;其他</a><time datetime="2022-12-25T08:38:29.000Z" title="发表于 2022-12-25 16:38:29">2022-12-25</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/HNU%E7%94%B5%E5%AD%90%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E4%B8%8E%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">HNU电子测试平台与工具</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><span class="card-category-list-name">操作系统</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="card-category-list-name">数据库</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">数据结构与算法</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%9D%82/"><span class="card-category-list-name">杂</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"><span class="card-category-list-name">编译原理</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><span class="card-category-list-name">计算机体系结构</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.5em; color: #99a9bf">算法</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 1.1em; color: #999">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.3em; color: #99a1ac">数据库</a> <a href="/tags/HNU/" style="font-size: 1.1em; color: #999">HNU</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">计算机体系结构</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 1.5em; color: #99a9bf">编译原理</a> <a href="/tags/C/" style="font-size: 1.1em; color: #999">C++</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.5em; color: #99a9bf">计算机网络</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/04/"><span class="card-archive-list-date">四月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/12/"><span class="card-archive-list-date">十二月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/09/"><span class="card-archive-list-date">九月 2022</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">七月 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">23</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-09-02T04:07:30.701Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/01524.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,247 +1,168 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="《计算机网络自顶向下方法》学习笔记02:运输层。 运输层介于应用层与网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。  第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络自顶向下方法笔记02 | 橙的博客</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="《计算机网络自顶向下方法》学习笔记02:运输层。 运输层介于应用层与网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。  第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机网络自顶向下方法笔记02">
 <meta property="og:url" content="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/index.html">
 <meta property="og:site_name" content="橙的博客">
 <meta property="og:description" content="《计算机网络自顶向下方法》学习笔记02:运输层。 运输层介于应用层与网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。  第三章 运输层1.概述和运输层服务运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为报">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/img/a0.jpg">
 <meta property="article:published_time" content="2022-09-19T01:48:22.000Z">
 <meta property="article:modified_time" content="2023-02-15T07:13:20.257Z">
 <meta property="article:author" content="橙">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>计算机网络自顶向下方法笔记02 | 橙的博客</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
+<meta name="twitter:image" content="https://a-y-1.github.io/img/a0.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络自顶向下方法笔记02',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-02-15 15:13:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-</head>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">橙的博客</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          计算机网络自顶向下方法笔记02
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-19 09:48:22" itemprop="dateCreated datePublished" datetime="2022-09-19T09:48:22+08:00">2022-09-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-15 15:13:20" itemprop="dateModified" datetime="2023-02-15T15:13:20+08:00">2023-02-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span><br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记02:运输层。</p>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的博客"><span class="site-name">橙的博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络自顶向下方法笔记02</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-19T01:48:22.000Z" title="发表于 2022-09-19 09:48:22">2022-09-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-15T07:13:20.257Z" title="更新于 2023-02-15 15:13:20">2023-02-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络自顶向下方法笔记02"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记02:运输层。</p>
 <p style="text-indent:2em">运输层介于应用层与网络层之间，为应用层提供了直接的通信服务。在应用层时已经介绍了两种运输层协议UDP和TCP，本章主要介绍这两个协议和运输层的原理及实现。</p>
 
 <h1 id="第三章-运输层"><a href="#第三章-运输层" class="headerlink" title="第三章 运输层"></a>第三章 运输层</h1><h2 id="1-概述和运输层服务"><a href="#1-概述和运输层服务" class="headerlink" title="1.概述和运输层服务"></a>1.概述和运输层服务</h2><p style="text-indent:2em">运输层协议为运行在不同主机上的应用进程之间提供了逻辑通信功能。运输层协议是在端系统实现的，将应用程序的报文转换为较小的块，加上运输层首部生成运输层分组，称为<b>报文段</b>，将报文段交给网络层，由网络层发送到目的地。</p>
@@ -481,304 +402,4 @@ lastbytesent-lastbyteacked<=rwnd</script><p style="text-indent:2em">为了避免
 一条连接的平均吞吐量 = \frac{1.22MSS}{RTT\sqrt{L}}</script><h3 id="7-3-公平性"><a href="#7-3-公平性" class="headerlink" title="7.3 公平性"></a>7.3 公平性</h3><p style="text-indent:2em">如果有多条TCP连接，通过同一段瓶颈链路，TCP趋于给竞争的多条TCP连接提供平等的带宽共享。书上给出了理想化的证明，在连接有相同MSS和RTT的情况下，公平性是可以保证的。然而现实中这种理想情况并不存在，多媒体应用可以使用UDP连接压制TCP流量，Web浏览器常使用并行连接传输多个对象，带宽的占用并不是公平的。</p>
 
 <h3 id="7-4-明确拥塞通告"><a href="#7-4-明确拥塞通告" class="headerlink" title="7.4 明确拥塞通告"></a>7.4 明确拥塞通告</h3><p style="text-indent:2em">拥塞控制的另一类是网络明确向TCP双方发送拥塞信号，这种形式的网络辅助拥塞控制称为明确网络拥塞控制通告ECN。这种形式下，路由器使用一种ECNbit指示该路由器正在经历拥塞，并将该标记携带在IP数据报中，发送给目的主机，再由目的主机告知源主机，实现拥塞控制。</p>
-</=min{rwnd，cwnd}。由于此处仅探讨拥塞控制，先假设接收缓存无限大，这样发送速率就只与cwnd有关。通过cwnd的值，就可以调整向连接发送数据的速率了。></p></=rcvbuffer。则接收窗口为：<></p>
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/" rel="prev" title="计算机网络自顶向下方法笔记01">
-      <i class="fa fa-chevron-left"></i> 计算机网络自顶向下方法笔记01
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/10/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Flex/" rel="next" title="编译原理实验一：词法分析工具Flex">
-      编译原理实验一：词法分析工具Flex <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%BF%90%E8%BE%93%E5%B1%82"><span class="nav-text">第三章 运输层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0%E5%92%8C%E8%BF%90%E8%BE%93%E5%B1%82%E6%9C%8D%E5%8A%A1"><span class="nav-text">1.概述和运输层服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%8E%E5%A4%9A%E8%B7%AF%E5%88%86%E8%A7%A3"><span class="nav-text">2.多路复用与多路分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%97%A0%E8%BF%9E%E6%8E%A5%E8%BF%90%E8%BE%93-UDP"><span class="nav-text">3.无连接运输:UDP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86"><span class="nav-text">*4.可靠数据传输原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%9E%84%E9%80%A0%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="nav-text">4.1 构造可靠数据传输协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="nav-text">4.2 流水线可靠数据传输协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E5%9B%9E%E9%80%80N%E6%AD%A5-GBN"><span class="nav-text">4.3 回退N步(GBN)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0-SR"><span class="nav-text">4.4 选择重传(SR)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-%E4%BF%A1%E9%81%93%E5%88%A9%E7%94%A8%E7%8E%87%E8%AE%A1%E7%AE%97"><span class="nav-text">4.5 信道利用率计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%BF%90%E8%BE%93%EF%BC%9ATCP"><span class="nav-text">*5.面向连接的运输：TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-TCP%E8%BF%9E%E6%8E%A5"><span class="nav-text">5.1 TCP连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-TCP%E6%8A%A5%E6%96%87"><span class="nav-text">5.2 TCP报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E5%BE%80%E8%BF%94%E6%97%B6%E9%97%B4%E7%9A%84%E4%BC%B0%E8%AE%A1%E4%B8%8E%E8%B6%85%E6%97%B6"><span class="nav-text">5.3 往返时间的估计与超时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93"><span class="nav-text">5.4 可靠数据传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="nav-text">5.5 流量控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-TCP%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B%E5%92%8C%E6%8B%86%E9%99%A4"><span class="nav-text">5.6 TCP连接建立和拆除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86"><span class="nav-text">6.拥塞控制原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E6%8B%A5%E5%A1%9E%E5%8E%9F%E5%9B%A0%E4%B8%8E%E4%BB%A3%E4%BB%B7"><span class="nav-text">6.1 拥塞原因与代价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%96%B9%E6%B3%95"><span class="nav-text">6.2 拥塞控制方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="nav-text">*7.TCP拥塞控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="nav-text">*7.1 拥塞控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E5%AF%B9TCP%E5%90%9E%E5%90%90%E9%87%8F%E7%9A%84%E5%AE%8F%E8%A7%82%E6%8F%8F%E8%BF%B0"><span class="nav-text">7.2 对TCP吞吐量的宏观描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-%E5%85%AC%E5%B9%B3%E6%80%A7"><span class="nav-text">7.3 公平性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-%E6%98%8E%E7%A1%AE%E6%8B%A5%E5%A1%9E%E9%80%9A%E5%91%8A"><span class="nav-text">7.4 明确拥塞通告</span></a></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="橙"
-      src="/images/a0.jpg">
-  <p class="site-author-name" itemprop="name">橙</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">23</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">橙</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-    <span title="站点总字数">275k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">4:10</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span class="post-meta-divider">|</span>
-    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
-    <span class="post-meta-divider">|</span>
-
-
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
-
-  
-
-</body>
-</html>
+</=min{rwnd，cwnd}。由于此处仅探讨拥塞控制，先假设接收缓存无限大，这样发送速率就只与cwnd有关。通过cwnd的值，就可以调整向连接发送数据的速率了。></p></=rcvbuffer。则接收窗口为：<></p></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/">https://a-y-1.github.io/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="/img/a0.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/10/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7Flex/" title="编译原理实验一：词法分析工具Flex"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">编译原理实验一：词法分析工具Flex</div></div></a></div><div class="next-post pull-right"><a href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/" title="计算机网络自顶向下方法笔记01"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络自顶向下方法笔记01</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="计算机网络微课笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-22</div><div class="title">计算机网络微课笔记</div></div></a></div><div><a href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/" title="计算机网络自顶向下方法笔记01"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-11</div><div class="title">计算机网络自顶向下方法笔记01</div></div></a></div><div><a href="/2022/10/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B003/" title="计算机网络自顶向下方法笔记03"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-17</div><div class="title">计算机网络自顶向下方法笔记03</div></div></a></div><div><a href="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/" title="计算机网络自顶向下方法笔记04"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-01</div><div class="title">计算机网络自顶向下方法笔记04</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%BF%90%E8%BE%93%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">第三章 运输层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E8%BF%B0%E5%92%8C%E8%BF%90%E8%BE%93%E5%B1%82%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.</span> <span class="toc-text">1.概述和运输层服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%8E%E5%A4%9A%E8%B7%AF%E5%88%86%E8%A7%A3"><span class="toc-number">1.2.</span> <span class="toc-text">2.多路复用与多路分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%97%A0%E8%BF%9E%E6%8E%A5%E8%BF%90%E8%BE%93-UDP"><span class="toc-number">1.3.</span> <span class="toc-text">3.无连接运输:UDP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">*4.可靠数据传输原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%9E%84%E9%80%A0%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 构造可靠数据传输协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 流水线可靠数据传输协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%9B%9E%E9%80%80N%E6%AD%A5-GBN"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3 回退N步(GBN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0-SR"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.4 选择重传(SR)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E4%BF%A1%E9%81%93%E5%88%A9%E7%94%A8%E7%8E%87%E8%AE%A1%E7%AE%97"><span class="toc-number">1.4.5.</span> <span class="toc-text">4.5 信道利用率计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%BF%90%E8%BE%93%EF%BC%9ATCP"><span class="toc-number">1.5.</span> <span class="toc-text">*5.面向连接的运输：TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-TCP%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1 TCP连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-TCP%E6%8A%A5%E6%96%87"><span class="toc-number">1.5.2.</span> <span class="toc-text">5.2 TCP报文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E5%BE%80%E8%BF%94%E6%97%B6%E9%97%B4%E7%9A%84%E4%BC%B0%E8%AE%A1%E4%B8%8E%E8%B6%85%E6%97%B6"><span class="toc-number">1.5.3.</span> <span class="toc-text">5.3 往返时间的估计与超时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93"><span class="toc-number">1.5.4.</span> <span class="toc-text">5.4 可靠数据传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-number">1.5.5.</span> <span class="toc-text">5.5 流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6-TCP%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B%E5%92%8C%E6%8B%86%E9%99%A4"><span class="toc-number">1.5.6.</span> <span class="toc-text">5.6 TCP连接建立和拆除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86"><span class="toc-number">1.6.</span> <span class="toc-text">6.拥塞控制原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%8B%A5%E5%A1%9E%E5%8E%9F%E5%9B%A0%E4%B8%8E%E4%BB%A3%E4%BB%B7"><span class="toc-number">1.6.1.</span> <span class="toc-text">6.1 拥塞原因与代价</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%96%B9%E6%B3%95"><span class="toc-number">1.6.2.</span> <span class="toc-text">6.2 拥塞控制方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-number">1.7.</span> <span class="toc-text">*7.TCP拥塞控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-number">1.7.1.</span> <span class="toc-text">*7.1 拥塞控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E5%AF%B9TCP%E5%90%9E%E5%90%90%E9%87%8F%E7%9A%84%E5%AE%8F%E8%A7%82%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.7.2.</span> <span class="toc-text">7.2 对TCP吞吐量的宏观描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E5%85%AC%E5%B9%B3%E6%80%A7"><span class="toc-number">1.7.3.</span> <span class="toc-text">7.3 公平性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E6%98%8E%E7%A1%AE%E6%8B%A5%E5%A1%9E%E9%80%9A%E5%91%8A"><span class="toc-number">1.7.4.</span> <span class="toc-text">7.4 明确拥塞通告</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/" title="计算机体系结构：体系结构基础与流水线原理">计算机体系结构：体系结构基础与流水线原理</a><time datetime="2023-04-14T10:27:29.000Z" title="发表于 2023-04-14 18:27:29">2023-04-14</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/" title="操作系统导论-并发">操作系统导论-并发</a><time datetime="2023-01-06T10:27:29.000Z" title="发表于 2023-01-06 18:27:29">2023-01-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/" title="算法设计与分析-线性dp">算法设计与分析-线性dp</a><time datetime="2023-01-05T09:52:29.000Z" title="发表于 2023-01-05 17:52:29">2023-01-05</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E6%A0%91%E5%BD%A2dp/" title="算法设计与分析-树形dp">算法设计与分析-树形dp</a><time datetime="2023-01-01T03:21:29.000Z" title="发表于 2023-01-01 11:21:29">2023-01-01</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="算法设计与分析-动态规划-区间DP&amp;其他">算法设计与分析-动态规划-区间DP&amp;其他</a><time datetime="2022-12-25T08:38:29.000Z" title="发表于 2022-12-25 16:38:29">2022-12-25</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

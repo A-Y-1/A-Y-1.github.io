@@ -1,1441 +1,267 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/orange.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/orange.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/orange.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"a-y-1.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta property="og:type" content="website">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>橙的博客 - 欢迎来到我的博客!(^▽^)</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
 <meta property="og:title" content="橙的博客">
 <meta property="og:url" content="https://a-y-1.github.io/index.html">
 <meta property="og:site_name" content="橙的博客">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/img/a0.jpg">
 <meta property="article:author" content="橙">
 <meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://a-y-1.github.io/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>橙的博客</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
+<meta name="twitter:image" content="https://a-y-1.github.io/img/a0.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '橙的博客',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: true,
+  isToc: false,
+  postUpdate: '2023-09-02 12:07:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">橙的博客</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">欢迎来到我的博客!(^▽^)</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">计算机体系结构：体系结构基础与流水线原理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-14 18:27:29" itemprop="dateCreated datePublished" datetime="2023-04-14T18:27:29+08:00">2023-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-17 22:00:42" itemprop="dateModified" datetime="2023-04-17T22:00:42+08:00">2023-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">计算机体系结构</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>13k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>11 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="计算机体系结构：体系结构基础与流水线原理"><a href="#计算机体系结构：体系结构基础与流水线原理" class="headerlink" title="计算机体系结构：体系结构基础与流水线原理"></a>计算机体系结构：体系结构基础与流水线原理</h1><p>​        计算机体系结构：量化设计与分析一书以RISC-V为例介绍计算机体系结构。本文为第一部分，介绍体系结构的基本知识和流水线原理。笔记内容为原书的第一章，附录A、B、C。</p>
-<h2 id="第一章-量化设计与分析基础"><a href="#第一章-量化设计与分析基础" class="headerlink" title="第一章 量化设计与分析基础"></a>第一章 量化设计与分析基础</h2><p>​        第一章主要介绍关于体系结构的基础知识，最为重要的是关于体系结构的相关定义(指令集体系结构)的内容(1.3节)，主要位于附录A；其他内容(1.1-1.2&amp;1..4-1.8节)包括计算机的分类，技术趋势，成本趋势，功耗等，只需要有大概的认知和了解；最后的1.9节介绍了计算机设计的量化原理，给出了三个设计计算机时的指导原则。其中相对不重要的部分省略了。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/" class="post-title-link" itemprop="url">操作系统导论-并发</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-06 18:27:29" itemprop="dateCreated datePublished" datetime="2023-01-06T18:27:29+08:00">2023-01-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-14 23:12:33" itemprop="dateModified" datetime="2023-04-14T23:12:33+08:00">2023-04-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="操作系统导论-并发"><a href="#操作系统导论-并发" class="headerlink" title="操作系统导论-并发"></a>操作系统导论-并发</h1><h2 id="一-并发"><a href="#一-并发" class="headerlink" title="一.并发"></a>一.并发</h2><p>操作系统为了进程能有多个执行点，为进程提供了一种抽象：线程。线程与进程类似，一个进程中的所有线程共享地址空间，但有自己独立的栈。</p>
-<p><img src="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/image-20230106183045452.png" alt="image-20230106183045452" style="zoom:50%;"></p>
-<h3 id="1-并发问题"><a href="#1-并发问题" class="headerlink" title="1.并发问题"></a>1.并发问题</h3><p>线程的执行顺序也需要操作系统来进行调度。由于线程共享相同的地址空间，不可控的调度可能产生一些问题，这些问题就是并发问题。</p>
-<p>并发问题产生的根本原因在于，对于共享数据的操作，可能需要多条指令才能完成，在完成操作的过程中，如果发生了线程的切换，对共享数据进行修改，就会产生问题。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/" class="post-title-link" itemprop="url">算法设计与分析-线性dp</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-05 17:52:29" itemprop="dateCreated datePublished" datetime="2023-01-05T17:52:29+08:00">2023-01-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-08 11:08:42" itemprop="dateModified" datetime="2023-01-08T11:08:42+08:00">2023-01-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>20k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>18 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">算法设计与分析-线性dp题目记录。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E6%A0%91%E5%BD%A2dp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E6%A0%91%E5%BD%A2dp/" class="post-title-link" itemprop="url">算法设计与分析-树形dp</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-01 11:21:29" itemprop="dateCreated datePublished" datetime="2023-01-01T11:21:29+08:00">2023-01-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-13 16:09:32" itemprop="dateModified" datetime="2023-01-13T16:09:32+08:00">2023-01-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>23k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>21 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">算法设计与分析-动态规划树形DP题目记录。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E6%A0%91%E5%BD%A2dp/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">算法设计与分析-动态规划-区间DP&其他</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-12-25 16:38:29" itemprop="dateCreated datePublished" datetime="2022-12-25T16:38:29+08:00">2022-12-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-02 21:59:44" itemprop="dateModified" datetime="2023-01-02T21:59:44+08:00">2023-01-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>27k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>24 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">算法设计与分析-动态规划区间DP题目记录。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/" class="post-title-link" itemprop="url">计算机网络自顶向下方法笔记04</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-12-01 22:07:22" itemprop="dateCreated datePublished" datetime="2022-12-01T22:07:22+08:00">2022-12-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-08 17:55:53" itemprop="dateModified" datetime="2023-02-08T17:55:53+08:00">2023-02-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记04:链路层。</p>
-<p style="text-indent:2em">网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。</p>
-
-<h1 id="第五章-链路层"><a href="#第五章-链路层" class="headerlink" title="第五章 链路层"></a>第五章 链路层</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p style="text-indent:2em">在网络中，每一个设备都可以称作是一个<b>节点</b>，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为<b>链路(link)</b>。为了将数据报传输到目的主机，数据报必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上首部和尾部(校验位)，被称为<b>帧</b>。链路层主要提供以下的服务，本章也主要介绍以下内容的相关问题：</p>
-
-<ul>
-<li>封装成帧：网络层数据报经链路传输之前，需要封装成帧。</li>
-<li>链路接入：规定帧在链路上传输的规则(媒体访问控制协议MAC)。</li>
-<li>可靠交付：在易于产生高差错率的链路中，可能提供可靠交付服务。由于在运输层也提供了可靠交付的服务，在链路层提供该服务不是必要的，许多链路层协议不提供可靠交付服务。</li>
-<li>差错检测和纠正：检测在链路层传输过程中的差错，并可能进行纠错。</li>
-</ul>
-<p style="text-indent:2em">以上链路层的服务主要在路由器的线路卡或主机的网络适配器中实现的。原来的网络适配器通常是一张卡，可以插入PC的PCI卡槽，现在的网络适配器基本上都综合到了主机的主板。大部分链路层在硬件中实现，但还有一部分在主机CPU的软件实现，因此链路层是整个网络层次中硬件与软件交接的位置。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/" class="post-title-link" itemprop="url">编译原理实验四</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-11-15 12:30:29" itemprop="dateCreated datePublished" datetime="2022-11-15T12:30:29+08:00">2022-11-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-02 11:32:24" itemprop="dateModified" datetime="2023-01-02T11:32:24+08:00">2023-01-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>22k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>20 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h2><p style="text-indent:2em">cminus-f的词法分析和语法分析部分已经完成，最终得到的是语法分析树。而为了产生目标代码，还需要将语法分析树转为抽象语法树，通过抽象语法分析树生成中间代码(即IR)，最后使用中间代码来进行优化并生成目标代码。在本实验中，只要完成中间表示IR的生成，语法分析树到抽象语法树的转换已经在框架中提供了，而IR代码到目标代码的生成由clang来完成。</p>
-
-<p style="text-indent:2em">生成IR指令的过程为在访问者模式下访问抽象语法树。本次实验要完成的就是访问抽象语法树的相关visit函数，在这些visit函数中要完成IR指令的生成。</p>
-
-<h2 id="实验难点"><a href="#实验难点" class="headerlink" title="实验难点"></a>实验难点</h2><h3 id="1-使用AST和visit函数生成IR指令"><a href="#1-使用AST和visit函数生成IR指令" class="headerlink" title="1.使用AST和visit函数生成IR指令"></a>1.使用AST和visit函数生成IR指令</h3><p style="text-indent:2em">由于cminus-f的语法还是比lab3中计算器要复杂的多，供参考的抽象语法树的打印代码也还是和生成IR指令由很大差别，在开始编写时存在困难。通过阅读AST的头文件和lab3的visitor.cpp，首先确定了visit函数生成IR指令的过程：</p>
-
-<ul>
-<li>visit函数调用当前节点的子节点accept函数，即调用子节点的visit函数</li>
-<li>处理当前节点，生成指令</li>
-</ul>
-<p style="text-indent:2em">若子节点需要向父节点传值，则通过全局变量来实现。在visit节点时还要加入语义分析的部分，判断语义是否正确。</p>
-
-<p style="text-indent:2em">为了进一步弄清楚遍历AST生成IR的过程，在各个visit函数中加入logging信息，也为后续排查错误做好准备。然后首先完成较为简单的表达式处理等部分，通过这个过程逐渐熟悉IR转换和层次关系以及传值的过程，最后完成困难的visit函数。并在实现过程中逐步用简单的cminus程序测试，用logging找到出错的位置，完成逐个函数的设计。</p>
-
-<p style="text-indent:2em">以第一个产生式program->declaration-list为例，首先找到节点的定义，program节点包含一个保存了declaration的vector，因此在visit中要逐个调用这些declaration节点的accept函数。Program只需要产生声明，不需要产生IR，只需要进行语义分析，在语义说明中给出了以下规则：</p>
-
-<ul>
-<li>一个程序由一系列声明组成，声明包括了函数声明与变量声明，它们可以以任意顺序排列。</li>
-<li>一个程序中至少要有一个声明且最后一个声明必须是 void main(void)形式的函数声明。</li>
-</ul>
-<p style="text-indent:2em">只需要对第二条进行检查，判断至少有一个声明，且最后一个声明是否是void main(void)形式的函数声明。在Declaration类型的节点中有id和type，进行检查即可，其中type是CminusType类型，在hpp开头枚举。因此Program节点的visit函数如下：</p>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CminusfBuilder::visit</span><span class="params">(ASTProgram &amp;node)</span> </span>&#123; </span><br><span class="line">    <span class="built_in">LOG</span>(DEBUG) &lt;&lt; <span class="string">&quot;Program\n&quot;</span>;</span><br><span class="line">    <span class="comment">//语义检查</span></span><br><span class="line">    <span class="keyword">if</span>(node.declarations.<span class="built_in">size</span>()==<span class="number">0</span>)&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: 该程序中没有声明。\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!(node.declarations.<span class="built_in">back</span>()-&gt;id==<span class="string">&quot;main&quot;</span>&amp;&amp; node.declarations.<span class="built_in">back</span>()-&gt;type==TYPE_VOID))&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: 最后一个声明不是void main(void)&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问declarations子节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> dec: node.declarations)</span><br><span class="line">        dec-&gt;<span class="built_in">accept</span>(*<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/" class="post-title-link" itemprop="url">编译原理实验三</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-11-13 10:35:29" itemprop="dateCreated datePublished" datetime="2022-11-13T10:35:29+08:00">2022-11-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-02 11:32:10" itemprop="dateModified" datetime="2023-01-02T11:32:10+08:00">2023-01-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>9.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="问题1-cpp与-ll的对应"><a href="#问题1-cpp与-ll的对应" class="headerlink" title="问题1: cpp与.ll的对应"></a>问题1: cpp与.ll的对应</h2><p>请描述你的cpp代码片段和.ll的每个BasicBlock的对应关系。描述中请附上两者代码。</p>
-<h3 id="assign"><a href="#assign" class="headerlink" title="assign"></a>assign</h3><p style="text-indent:2em">对应的.ll代码如下：</p>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">define i32 @main() #0 &#123;</span><br><span class="line">    %1 = alloca [10 x i32]    ;int a[10]</span><br><span class="line">    %2 = getelementptr inbounds [10 x i32], [10 x i32]* %1, i32 0, i32 0        ;a[0] addr    </span><br><span class="line">    %3 = getelementptr inbounds [10 x i32], [10 x i32]* %1, i32 0, i32 1        ;a[1] addr</span><br><span class="line">    store i32 10, i32* %2     ;a[0] = 10</span><br><span class="line">    %4 = load i32, i32* %2    ;%4 = a[0]</span><br><span class="line">    %5 = mul i32 %4,2         ;%5 = a[0]*2</span><br><span class="line">    store i32 %5, i32* %3     ;a[1] = %5 = a[0]*2</span><br><span class="line">    %6 = load i32, i32* %3    ;%6 = a[1]</span><br><span class="line">    ret i32 %6                ;return a[1]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p style="text-indent:2em">这一段程序仅有一个函数，一个BasicBlock。仿照gcd_array.cpp的写法，创建Module和BasicBlock，将.ll中的指令使用IRBuilder插入到BasicBlock的指令链表当中。与.ll中指令的对应关系在以下的cpp代码片段的注释中说明。cpp
-代码片段如下：</p>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;BasicBlock.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Constant.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Function.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;IRBuilder.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Module.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Type.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG  <span class="comment">// 用于调试信息,大家可以在编译过程中通过&quot; -DDEBUG&quot;来开启这一选项</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEBUG_OUTPUT std::cout &lt;&lt; __LINE__ &lt;&lt; std::endl;  <span class="comment">// 输出行号的简单示例</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEBUG_OUTPUT</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CONST_INT(num) \</span></span><br><span class="line"><span class="meta">    ConstantInt::get(num, module)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CONST_FP(num) \</span></span><br><span class="line"><span class="meta">    ConstantFP::get(num, module) <span class="comment">// 得到常数值的表示,方便后面多次用到</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> <span class="keyword">module</span> = <span class="keyword">new</span> <span class="built_in">Module</span>(<span class="string">&quot;Assign&quot;</span>);                 </span><br><span class="line">    <span class="keyword">auto</span> builder = <span class="keyword">new</span> <span class="built_in">IRBuilder</span>(<span class="literal">nullptr</span>, <span class="keyword">module</span>);                      <span class="comment">//使用IRBuilder创建指令</span></span><br><span class="line">    <span class="comment">//创建函数与BasicBlock</span></span><br><span class="line">    Type *Int32Type = Type::<span class="built_in">get_int32_type</span>(<span class="keyword">module</span>);</span><br><span class="line">    <span class="keyword">auto</span> mainTy = FunctionType::<span class="built_in">get</span>(Int32Type, &#123;&#125;);                     <span class="comment">//返回值为i32，参数为空</span></span><br><span class="line">    <span class="keyword">auto</span> main = Function::<span class="built_in">create</span>(mainTy, <span class="string">&quot;main&quot;</span>, <span class="keyword">module</span>);            </span><br><span class="line">    <span class="keyword">auto</span> BB = BasicBlock::<span class="built_in">create</span>(<span class="keyword">module</span>, <span class="string">&quot;BasicBlock1&quot;</span> , main);</span><br><span class="line">    builder-&gt;<span class="built_in">set_insert_point</span>(BB);                                      <span class="comment">//设置插入指令的BasicBlock</span></span><br><span class="line">    <span class="comment">//插入.ll中对应的指令</span></span><br><span class="line">    <span class="keyword">auto</span> *arrayType = ArrayType::<span class="built_in">get</span>(Int32Type, <span class="number">10</span>);                    <span class="comment">//数组的类型为[10 x i32]</span></span><br><span class="line">    <span class="keyword">auto</span> a = builder-&gt;<span class="built_in">create_alloca</span>(arrayType);                         <span class="comment">//分配数组</span></span><br><span class="line">    <span class="keyword">auto</span> a0P = builder-&gt;<span class="built_in">create_gep</span>(a, &#123;<span class="built_in">CONST_INT</span>(<span class="number">0</span>), <span class="built_in">CONST_INT</span>(<span class="number">0</span>)&#125;);    <span class="comment">//计算a[0]地址</span></span><br><span class="line">    <span class="keyword">auto</span> a1P = builder-&gt;<span class="built_in">create_gep</span>(a, &#123;<span class="built_in">CONST_INT</span>(<span class="number">0</span>), <span class="built_in">CONST_INT</span>(<span class="number">0</span>)&#125;);    <span class="comment">//计算a[1]地址</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(&#123;<span class="built_in">CONST_INT</span>(<span class="number">10</span>)&#125;, a0P);                        <span class="comment">//a[0] = 10</span></span><br><span class="line">    <span class="keyword">auto</span> a0 = builder-&gt;<span class="built_in">create_load</span>(a0P);                                <span class="comment">//取出a[0]</span></span><br><span class="line">    <span class="keyword">auto</span> temp = builder-&gt;<span class="built_in">create_imul</span>(a0, &#123;<span class="built_in">CONST_INT</span>(<span class="number">2</span>)&#125;);               <span class="comment">//a[0]*2</span></span><br><span class="line">    builder-&gt;<span class="built_in">create_store</span>(temp, a1P);                                   <span class="comment">//a1 = a[0]*2</span></span><br><span class="line">    <span class="keyword">auto</span> a1 = builder-&gt;<span class="built_in">create_load</span>(a1P);       </span><br><span class="line">    builder-&gt;<span class="built_in">create_ret</span>(a1);                                            <span class="comment">//return a1 = a[0]*2</span></span><br><span class="line">    <span class="comment">//指令创建结束</span></span><br><span class="line">    std::cout &lt;&lt; <span class="keyword">module</span>-&gt;<span class="built_in">print</span>();</span><br><span class="line">    <span class="keyword">delete</span> <span class="keyword">module</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p style="text-indent:2em">make之后运行程序进行验证，生成的指令和.ll中的指令相同。</p>
-
-<p><img src="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/image-20221121113522342.png" alt="image-20221121113522342" style="zoom: 67%;"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/" class="post-title-link" itemprop="url">编译原理实验二：Bison</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-11-08 09:50:29" itemprop="dateCreated datePublished" datetime="2022-11-08T09:50:29+08:00">2022-11-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-20 10:53:05" itemprop="dateModified" datetime="2022-11-20T10:53:05+08:00">2022-11-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>14k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>12 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h2><p>1.了解Bision基础知识，如何将文法产生式转换为Bison语句</p>
-<p>2.阅读/src/common/SyntaxTree.c，对应头文件 /include/SyntaxTree.h，理解分析树生成的过程。</p>
-<p>3.了解Bison与Flex的协同工作过程，理解pass_node函数并改写lab1代码。了解yylval工作原理。</p>
-<p>4.补全 src/parser/syntax_analyzer.y 文件和lexical_analyzer.l文件</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://a-y-1.github.io/2022/10/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B003/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/a0.jpg">
-      <meta itemprop="name" content="橙">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="橙的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B003/" class="post-title-link" itemprop="url">计算机网络自顶向下方法笔记03</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-17 17:13:22" itemprop="dateCreated datePublished" datetime="2022-10-17T17:13:22+08:00">2022-10-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-28 15:42:38" itemprop="dateModified" datetime="2022-11-28T15:42:38+08:00">2022-11-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p style="text-indent:2em">《计算机网络自顶向下方法》学习笔记03:网络层。</p>
-<p style="text-indent:2em">网络层提供了主机到主机的通信服务。网络中的每一台主机和路由器都有网络层部分。网络层能够被分解为两部分，数据平面和控制平面。</p>
-
-<h1 id="第四章-网络层：数据平面"><a href="#第四章-网络层：数据平面" class="headerlink" title="第四章 网络层：数据平面"></a>第四章 网络层：数据平面</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p style="text-indent:2em">网络层的任务是取得源主机的报文段，将其封装为数据报，通过路由器的转发，将数据报发送到目的主机的网络层。可以说，网络层的作用就是将分组从一台主机移动到另一台主机。网络层的功能可分为两部分：</p>
-
-<ul>
-<li>转发：路由器将输入链路的分组移动到适当的输出链路的路由器本地动作。是数据平面的主要任务。</li>
-<li>路由选择：决定分组移动所采用的端到端路径。</li>
-</ul>
-<p style="text-indent:2em">本章主要讨论的是网络层的<b>转发</b>功能。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B003/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
       }
     }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
   
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="橙"
-      src="/images/a0.jpg">
-  <p class="site-author-name" itemprop="name">橙</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">23</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/A-Y-1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;A-Y-1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">橙</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-    <span title="站点总字数">275k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">4:10</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span class="post-meta-divider">|</span>
-    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
-    <span class="post-meta-divider">|</span>
-
-
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
         }
       }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/01524.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的博客"><span class="site-name">橙的博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">橙的博客</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/" title="计算机体系结构：体系结构基础与流水线原理">计算机体系结构：体系结构基础与流水线原理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-14T10:27:29.000Z" title="发表于 2023-04-14 18:27:29">2023-04-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">计算机体系结构</a></span></div><div class="content">计算机体系结构：体系结构基础与流水线原理​        计算机体系结构：量化设计与分析一书以RISC-V为例介绍计算机体系结构。本文为第一部分，介绍体系结构的基本知识和流水线原理。笔记内容为原书的第一章，附录A、B、C。
+第一章 量化设计与分析基础​        第一章主要介绍关于体系结构的基础知识，最为重要的是关于体系结构的相关定义(指令集体系结构)的内容(1.3节)，主要位于附录A；其他内容(1.1-1.2&amp;1..4-1.8节)包括计算机的分类，技术趋势，成本趋势，功耗等，只需要有大概的认知和了解；最后的1.9节介绍了计算机设计的量化原理，给出了三个设计计算机时的指导原则。其中相对不重要的部分省略了。
 
-  
+1.3 体系结构的定义​        狭义的计算机体系结构仅包括指令集设计，但体系结构要解决的问题已经远超出指令集设计的范围了，因此，本书介绍的体系结构包括：指令集体系结构，微体系结构(存储器，内部处理器等组成)，硬件实现。
+​        其中的指令集体系结构，在附录A中详细介绍。
+1.4技术趋势​        过去的计算机设计技术随着集成电路逻辑技术，半导体技 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/" title="操作系统导论-并发">操作系统导论-并发</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-06T10:27:29.000Z" title="发表于 2023-01-06 18:27:29">2023-01-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="content">操作系统导论-并发一.并发操作系统为了进程能有多个执行点，为进程提供了一种抽象：线程。线程与进程类似，一个进程中的所有线程共享地址空间，但有自己独立的栈。
 
-</body>
-</html>
+1.并发问题线程的执行顺序也需要操作系统来进行调度。由于线程共享相同的地址空间，不可控的调度可能产生一些问题，这些问题就是并发问题。
+并发问题产生的根本原因在于，对于共享数据的操作，可能需要多条指令才能完成，在完成操作的过程中，如果发生了线程的切换，对共享数据进行修改，就会产生问题。
+
+例如：
+1234567891011121314/*一个将指定位置的值+1的指令*/mov 0x8049a1c, %eax add $0x1, %eax mov %eax, 0x8049a1c/*一个可能的并发问题，两个线程都将同一变量+1*///进程A运行mov 0x8049a1c, %eax 	//A取出值，假设为0add $0x1, %eax 			//A计算得到1//进程切换到Bmov %eax, 0x8049a1c		//B取出值，还是0add $0x1, %eax mov %eax, 0x8049a1c		//B计算并将1写入内存//切换 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/" title="算法设计与分析-线性dp">算法设计与分析-线性dp</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-05T09:52:29.000Z" title="发表于 2023-01-05 17:52:29">2023-01-05</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></span></div><div class="content">算法设计与分析-线性dp题目记录。
+
+
+P1020 导弹拦截题目描述某国为了防御敌国的导弹袭击，发展出一种导弹拦截系统。但是这种导弹拦截系统有一个缺陷：虽然它的第一发炮弹能够到达任意的高度，但是以后每一发炮弹都不能高于前一发的高度。某天，雷达捕捉到敌国的导弹来袭。由于该系统还在试用阶段，所以只有一套系统，因此有可能不能拦截所有的导弹。
+输入导弹依次飞来的高度，计算这套系统最多能拦截多少导弹，如果要拦截所有导弹最少要配备多少套这种导弹拦截系统。
+输入格式与输出格式输入：
+一行，若干个整数，中间由空格隔开。
+输出：
+两行，每行一个整数，第一个数字表示这套系统最多能拦截多少导弹，第二个数字表示如果要拦截所有导弹最少要配备多少套这种导弹拦截系统。
+样例输入与输出输入：
+1389 207 155 300 299 170 158 65
+输出：
+1262
+提示对于前 $50\%$ 数据（NOIP 原题数据），满足导弹的个数不超过 $10^4$ 个。该部分数据总分共 $100$ 分。可使用$\mathcal O(n^2)$ 做法通过。对于后 $50\%$ 的数据，满足导弹的个数不超过 $10^5$ 个 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E6%A0%91%E5%BD%A2dp/" title="算法设计与分析-树形dp">算法设计与分析-树形dp</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-01T03:21:29.000Z" title="发表于 2023-01-01 11:21:29">2023-01-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></span></div><div class="content">算法设计与分析-动态规划树形DP题目记录。
+
+
+树形DP树形dp树形DP的思路是用树形结构存储数据，使用DFS更新状态数组。
+树形DP一般自底向上，按子树从小到大求解，将将节点编号作为状态的第一维，表示以该节点为根的子树的解。
+树形DP一般采用深度优先遍历，先求解叶子节点，向上进行状态转移，求解完当前节点的所有子树，才求解当前节点。
+能够使用树形DP解决的问题的特征是每个子树的问题独立。
+链式前向星图有向树上的问题可以将树作为有向图来存储，有向图常用邻接表或静态邻接表存储。静态邻接表又称为链式前向星，使用两个数组保存所有边，head[i]表示以i为起点的最后一条边，edges[]中存储了所有的边，每个边的结构体保存了一个值last(或者常写为next)，指向相同起点的另一条边。
+123456789101112131415161718192021222324struct edge&#123;    int to;    int last;    int d;		//边权&#125;;int cnt = 0;	//边数int head[maxn];edge edges[maxk];mems ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="算法设计与分析-动态规划-区间DP&amp;其他">算法设计与分析-动态规划-区间DP&amp;其他</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-12-25T08:38:29.000Z" title="发表于 2022-12-25 16:38:29">2022-12-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></span></div><div class="content">算法设计与分析-动态规划区间DP题目记录。
+
+
+区间DP&amp;其他301 独立任务最优调度问题问题描述用两台处理机A和B处理n个作业，每个机器处理第i个作业所需的时间分别为a_i和b_i，某些作业在机器A上作业更快，有些作业在机器B上工作更快，每台机器都不能同时处理两个作业。对于给定的2台处理机A和B处理n个作业，找出一个最优调度方案，使两台机器处理完n个作业的时间最短。
+输入格式：第一行是一个正整数n，表示处理n个作业。接下来的2行中，每行n个正整数，表示A和B处理第i个作业的时间。
+算法设计子问题分解：定义t[i][j]为：表示完成i个作业且机器A花费j时间的情况下，机器B所花费时间的最小值。第i件作业如果由机器A处理，则t[i][j]  =  t[i - 1][j - a[i]]，如果由机器B处理，则t[i][j] = t[i - 1][j] + b[i]，因此t[i][j] = min{t[i - 1][j] + b[i], t[i - 1][j - a[i]]}。
+递推方程：
+
+t[i][j] = \begin{cases}
+0 & i=0 \\
+t[i-1][j]+b[ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/" title="计算机网络自顶向下方法笔记04">计算机网络自顶向下方法笔记04</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-12-01T14:07:22.000Z" title="发表于 2022-12-01 22:07:22">2022-12-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="content">《计算机网络自顶向下方法》学习笔记04:链路层。
+网络层实现的是主机到主机之间的通信。链路层则是解决分组在各段链路上传输的问题。
+
+第五章 链路层1.概述在网络中，每一个设备都可以称作是一个节点，包括主机，交换机，WiFi接入点。沿着相邻节点的通信信道称为链路(link)。为了将数据报传输到目的主机，数据报必须经过各段链路传输。链路层主要讨论的就是数据报在链路上传输的问题。在链路层，数据报被添加上首部和尾部(校验位)，被称为帧。链路层主要提供以下的服务，本章也主要介绍以下内容的相关问题：
+
+
+封装成帧：网络层数据报经链路传输之前，需要封装成帧。
+链路接入：规定帧在链路上传输的规则(媒体访问控制协议MAC)。
+可靠交付：在易于产生高差错率的链路中，可能提供可靠交付服务。由于在运输层也提供了可靠交付的服务，在链路层提供该服务不是必要的，许多链路层协议不提供可靠交付服务。
+差错检测和纠正：检测在链路层传输过程中的差错，并可能进行纠错。
+
+以上链路层的服务主要在路由器的线路卡或主机的网络适配器中实现的。原来的网络适配器通常是一张卡，可以插入PC的PCI卡槽，现在的网络适配器基本上都综合到了主机 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/11/15/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E5%9B%9B/" title="编译原理实验四">编译原理实验四</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-15T04:30:29.000Z" title="发表于 2022-11-15 12:30:29">2022-11-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></span></div><div class="content">实验要求cminus-f的词法分析和语法分析部分已经完成，最终得到的是语法分析树。而为了产生目标代码，还需要将语法分析树转为抽象语法树，通过抽象语法分析树生成中间代码(即IR)，最后使用中间代码来进行优化并生成目标代码。在本实验中，只要完成中间表示IR的生成，语法分析树到抽象语法树的转换已经在框架中提供了，而IR代码到目标代码的生成由clang来完成。
+
+生成IR指令的过程为在访问者模式下访问抽象语法树。本次实验要完成的就是访问抽象语法树的相关visit函数，在这些visit函数中要完成IR指令的生成。
+
+实验难点1.使用AST和visit函数生成IR指令由于cminus-f的语法还是比lab3中计算器要复杂的多，供参考的抽象语法树的打印代码也还是和生成IR指令由很大差别，在开始编写时存在困难。通过阅读AST的头文件和lab3的visitor.cpp，首先确定了visit函数生成IR指令的过程：
+
+
+visit函数调用当前节点的子节点accept函数，即调用子节点的visit函数
+处理当前节点，生成指令
+
+若子节点需要向父节点传值，则通过全局变量来实现。在visit节点时还要加入语义分 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/11/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%B8%89/" title="编译原理实验三">编译原理实验三</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-13T02:35:29.000Z" title="发表于 2022-11-13 10:35:29">2022-11-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></span></div><div class="content">问题1: cpp与.ll的对应请描述你的cpp代码片段和.ll的每个BasicBlock的对应关系。描述中请附上两者代码。
+assign对应的.ll代码如下：
+
+1234567891011define i32 @main() #0 &#123;    %1 = alloca [10 x i32]    ;int a[10]    %2 = getelementptr inbounds [10 x i32], [10 x i32]* %1, i32 0, i32 0        ;a[0] addr        %3 = getelementptr inbounds [10 x i32], [10 x i32]* %1, i32 0, i32 1        ;a[1] addr    store i32 10, i32* %2     ;a[0] = 10    %4 = load i32, i32* %2    ;%4 = a[0]    %5 = mul i32 %4,2         ;%5 = a[0]*2    store i32 %5, i32* %3     ;a ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/11/08/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9ABison/" title="编译原理实验二：Bison">编译原理实验二：Bison</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-08T01:50:29.000Z" title="发表于 2022-11-08 09:50:29">2022-11-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></span></div><div class="content">实验要求1.了解Bision基础知识，如何将文法产生式转换为Bison语句
+2.阅读/src/common/SyntaxTree.c，对应头文件 /include/SyntaxTree.h，理解分析树生成的过程。
+3.了解Bison与Flex的协同工作过程，理解pass_node函数并改写lab1代码。了解yylval工作原理。
+4.补全 src/parser/syntax_analyzer.y 文件和lexical_analyzer.l文件
+
+实验难点1.Bison的使用Bison是一个语法分析器的生成工具，用于生成语法分析器。Bison可以将LALR文法转换可编译的c代码。Bison文件的扩展名为.y，在Bison文件中给出LALR文法以及一些分析动作，编译就可以产生一个语法分析器。
+
+Bison文件以.y结尾，与Lex文件的编写规则类似，由%%区分的三部分构成：
+
+1234567891011121314151617%&#123;/* 这部分代码会被原样拷贝到生成的 .c 文件的开头 */#include &lt;stdio.h&gt;int yylex(void);void yy ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2022/10/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B003/" title="计算机网络自顶向下方法笔记03">计算机网络自顶向下方法笔记03</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-17T09:13:22.000Z" title="发表于 2022-10-17 17:13:22">2022-10-17</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="content">《计算机网络自顶向下方法》学习笔记03:网络层。
+网络层提供了主机到主机的通信服务。网络中的每一台主机和路由器都有网络层部分。网络层能够被分解为两部分，数据平面和控制平面。
+
+第四章 网络层：数据平面1.概述网络层的任务是取得源主机的报文段，将其封装为数据报，通过路由器的转发，将数据报发送到目的主机的网络层。可以说，网络层的作用就是将分组从一台主机移动到另一台主机。网络层的功能可分为两部分：
+
+
+转发：路由器将输入链路的分组移动到适当的输出链路的路由器本地动作。是数据平面的主要任务。
+路由选择：决定分组移动所采用的端到端路径。
+
+本章主要讨论的是网络层的转发功能。
+
+
+2.路由器工作原理路由器由如下几个组件构成：
+
+
+输入端口
+交换结构
+输出端口
+路由选择处理器
+
+输入端口处理输入端口的处理：
+
+1线路端接-----&gt;数据链路处理(协议，拆封)-----&gt;查找，转发，排队-----&gt;交换结构
+在输入端口，路由器将使用转发表查找输出端口，然后将分组交给交换结构。转发表是由路由选择处理器计算和更新的。转发表可能由路由选择协议计算，也可能接收远程SDN控制器的内容，再复制到 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/" title="计算机体系结构：体系结构基础与流水线原理">计算机体系结构：体系结构基础与流水线原理</a><time datetime="2023-04-14T10:27:29.000Z" title="发表于 2023-04-14 18:27:29">2023-04-14</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/" title="操作系统导论-并发">操作系统导论-并发</a><time datetime="2023-01-06T10:27:29.000Z" title="发表于 2023-01-06 18:27:29">2023-01-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/05/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E7%BA%BF%E6%80%A7dp/" title="算法设计与分析-线性dp">算法设计与分析-线性dp</a><time datetime="2023-01-05T09:52:29.000Z" title="发表于 2023-01-05 17:52:29">2023-01-05</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/01/01/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E6%A0%91%E5%BD%A2dp/" title="算法设计与分析-树形dp">算法设计与分析-树形dp</a><time datetime="2023-01-01T03:21:29.000Z" title="发表于 2023-01-01 11:21:29">2023-01-01</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2022/12/25/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="算法设计与分析-动态规划-区间DP&amp;其他">算法设计与分析-动态规划-区间DP&amp;其他</a><time datetime="2022-12-25T08:38:29.000Z" title="发表于 2022-12-25 16:38:29">2022-12-25</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/HNU%E7%94%B5%E5%AD%90%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E4%B8%8E%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">HNU电子测试平台与工具</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><span class="card-category-list-name">操作系统</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="card-category-list-name">数据库</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">数据结构与算法</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%9D%82/"><span class="card-category-list-name">杂</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"><span class="card-category-list-name">编译原理</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><span class="card-category-list-name">计算机体系结构</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.5em; color: #99a9bf">算法</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 1.1em; color: #999">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.3em; color: #99a1ac">数据库</a> <a href="/tags/HNU/" style="font-size: 1.1em; color: #999">HNU</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">计算机体系结构</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 1.5em; color: #99a9bf">编译原理</a> <a href="/tags/C/" style="font-size: 1.1em; color: #999">C++</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.5em; color: #99a9bf">计算机网络</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/04/"><span class="card-archive-list-date">四月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/12/"><span class="card-archive-list-date">十二月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/09/"><span class="card-archive-list-date">九月 2022</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">七月 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">23</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-09-02T04:07:30.701Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/01524.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
