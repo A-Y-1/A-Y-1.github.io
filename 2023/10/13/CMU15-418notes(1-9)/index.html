@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CMU15-418notes(1-9) | 橙的Blog</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="视频：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Rh4y1F7aU&#x2F;?spm_id_from&#x3D;333.788&amp;vd_source&#x3D;463e5b3e4b18e5453477b57388c2e427 课程主页：http:&#x2F;&#x2F;15418.courses.cs.cmu.edu&#x2F;spring2016&#x2F;lectures  Lecture 1: Why Parallelism">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMU15-418notes(1-9)">
+<meta property="og:url" content="https://a-y-1.github.io/2023/10/13/CMU15-418notes(1-9)/index.html">
+<meta property="og:site_name" content="橙的Blog">
+<meta property="og:description" content="视频：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Rh4y1F7aU&#x2F;?spm_id_from&#x3D;333.788&amp;vd_source&#x3D;463e5b3e4b18e5453477b57388c2e427 课程主页：http:&#x2F;&#x2F;15418.courses.cs.cmu.edu&#x2F;spring2016&#x2F;lectures  Lecture 1: Why Parallelism">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/cover/CMU15-418.png">
+<meta property="article:published_time" content="2023-10-13T08:34:29.000Z">
+<meta property="article:modified_time" content="2023-10-17T09:14:42.428Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="高性能计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/cover/CMU15-418.png"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2023/10/13/CMU15-418notes(1-9)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CMU15-418notes(1-9)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-10-17 17:14:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的Blog"><span class="site-name">橙的Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CMU15-418notes(1-9)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-13T08:34:29.000Z" title="发表于 2023-10-13 16:34:29">2023-10-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-17T09:14:42.428Z" title="更新于 2023-10-17 17:14:42">2023-10-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CMU15-418notes(1-9)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Rh4y1F7aU/?spm_id_from=333.788&amp;vd_source=463e5b3e4b18e5453477b57388c2e427">https://www.bilibili.com/video/BV1Rh4y1F7aU/?spm_id_from=333.788&amp;vd_source=463e5b3e4b18e5453477b57388c2e427</a></p>
+<p>课程主页：<a target="_blank" rel="noopener" href="http://15418.courses.cs.cmu.edu/spring2016/lectures">http://15418.courses.cs.cmu.edu/spring2016/lectures</a></p>
+<!--more--->
+<h2 id="Lecture-1-Why-Parallelism"><a href="#Lecture-1-Why-Parallelism" class="headerlink" title="Lecture 1: Why Parallelism"></a>Lecture 1: Why Parallelism</h2><ul>
+<li>功率墙导致的摩尔定律的失效让性能的提升方向转向并行。</li>
+<li>并行计算是同时使用多种计算资源解决计算问题的过程。</li>
+<li>快不等同于高效。</li>
+<li>使用加速比衡量性能提升。</li>
+</ul>
+<h2 id="Lecture-2-A-Modern-Multi-Core-Processor"><a href="#Lecture-2-A-Modern-Multi-Core-Processor" class="headerlink" title="Lecture 2: A Modern Multi-Core Processor"></a>Lecture 2: A Modern Multi-Core Processor</h2><p>现代处理器实现并行的方式：</p>
+<ul>
+<li>多核：使用多核来实现线程并行，每个核执行不同的指令流。</li>
+<li>SIMD：在一个核的指令流中使用多个ALU。向量化可以通过编译器显式使用SIMD，也可以由硬件运行时进行。</li>
+<li>超标量：在单指令流提高指令级并行度，并行处理多条指令。</li>
+</ul>
+<p>关于访存：</p>
+<ul>
+<li>提高带宽比降低延迟简单。</li>
+<li>为了利用访存延迟的时间，可以在发生访存的Stall时切换执行另一个线程的指令(本线程的指令可能存在依赖，不能充分利用超标量下的ILP)。这需要在一个周期发射多个不同线程的指令，因此称为同时多线程，即<strong>超线程(SMT)</strong>。但是多线程会导致每个线程的存储空间减少，因此需要更高的带宽。</li>
+<li>CPU使用大缓存，较少的线程，适中的带宽，依靠缓存和预取减少访存时间。而GPU使用小的缓存，较多线程，大带宽，通过多线程提高运算效率。所以GPU有自己的存储。</li>
+</ul>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231013211703143.png" alt="image-20231013211703143" style="zoom:50%;"></p>
+<h2 id="Lecture-3-Parallel-Programming-Models"><a href="#Lecture-3-Parallel-Programming-Models" class="headerlink" title="Lecture 3: Parallel Programming Models"></a>Lecture 3: Parallel Programming Models</h2><h3 id="ISPC"><a href="#ISPC" class="headerlink" title="ISPC"></a>ISPC</h3><p>ISPC是intel开发的SPMD(single program multiple data)编译器。程序中的并行程序实例，实际上是转化为了SIMD向量指令。</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231016111743728.png" alt="image-20231016111743728" style="zoom: 80%;"></p>
+<p>ISPC程序中，数据可以选择交错分配给program instance，也可以选择按块分配，但由于ISPC实际上是使用SIMD指令，因此交错的方式更快。</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231016111859590.png" alt="image-20231016111859590" style="zoom:50%;"></p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231016111918243.png" alt="image-20231016111918243" style="zoom:50%;"></p>
+<h3 id="三种通信模型"><a href="#三种通信模型" class="headerlink" title="三种通信模型"></a>三种通信模型</h3><ul>
+<li><p>共享内存</p>
+<ul>
+<li>需要使用同步和互斥原语</li>
+<li>需要硬件支持来提高访存效率(NUMA)</li>
+</ul>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231016112314303.png" alt="image-20231016112314303" style="zoom:50%;"></p>
+</li>
+<li><p>消息传递模型：通过发送和接收消息传递数据</p>
+</li>
+<li><p>数据并行模型：有严格的要求(例如SPMD)，通常需要使用流式编程模型</p>
+<ul>
+<li>数据流是数据的集合，数据可以独立处理，没有依赖</li>
+<li>处理数据不会产生副作用</li>
+</ul>
+</li>
+</ul>
+<h2 id="Lecture-4-Parallel-Programming-Basics"><a href="#Lecture-4-Parallel-Programming-Basics" class="headerlink" title="Lecture 4: Parallel Programming Basics"></a>Lecture 4: Parallel Programming Basics</h2><p>并行程序运行的基本过程：</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231016165252335.png" alt="image-20231016165252335" style="zoom: 50%;"></p>
+<ul>
+<li>分解：是程序员的工作，将问题分解为多个任务。</li>
+<li>分配：可以由程序员静态完成(例如pthread指定线程分配任务)，也可以运行时完成(ISPC)。</li>
+<li>编排：安排同步，通信等。</li>
+<li>映射：由OS/硬件/编译器完成，将线程或程序实例安排给具体的硬件。</li>
+</ul>
+<p>Amdahl定律：</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017085601390.png" alt="image-20231017085601390" style="zoom:80%;"></p>
+<p>本节的后半段是海洋模拟程序的并行计算实例：</p>
+<p>共享内存模型，可以用多线程实现，需要锁来保护共享数据：</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017085737284.png" alt="image-20231017085737284" style="zoom: 50%;"></p>
+<p>数据并行：</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017085847901.png" alt="image-20231017085847901" style="zoom: 50%;"></p>
+<p>消息传递模型的例子在后续节中。</p>
+<h2 id="Lecture-5-Performance-Optimization-I-Work-Distribution-and-Scheduling"><a href="#Lecture-5-Performance-Optimization-I-Work-Distribution-and-Scheduling" class="headerlink" title="Lecture 5: Performance Optimization I: Work Distribution and Scheduling"></a>Lecture 5: Performance Optimization I: Work Distribution and Scheduling</h2><p><strong>性能优化-平衡负载</strong></p>
+<p>优化目标：</p>
+<ul>
+<li>平衡负载</li>
+<li>减少通信</li>
+<li>减少额外的工作</li>
+</ul>
+<p>本节主要探讨的内容是负载的平衡，从任务分配开始考虑：</p>
+<ul>
+<li>静态分配：优点是没有运行时开销</li>
+<li>动态分配：</li>
+</ul>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017093150990.png" alt="image-20231017093150990" style="zoom:50%;"></p>
+<p>如果task划分的太小，就会在切换task时浪费太多时间。而task划分的很大又会导致负载不平衡。因此task size要合理分配，并且size大的要先分配，保证其他线程都能同时工作，而不是放在最后，导致其他线程空闲。</p>
+<p>上图中只用了一个队列来分配任务，由于需要使用锁，开销可能很大，改进方法是使用多个队列，这称为分布式工作队列。当队列中的任务全部完成后，线程需要从其他队列中获取任务继续工作，直到全部任务完成。这样做的另一个好处是每个队列中的任务可以是有依赖的。</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017095138853.png" alt="image-20231017095138853" style="zoom:50%;"></p>
+<p><strong>fork-join程序的调度</strong></p>
+<p>本节的后半讨论了分治问题的并行计算。通常的并行计算是不存在数据依赖的：</p>
+<p>数据并行的方式：</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017103721407.png" alt="image-20231017103721407" style="zoom:50%;"></p>
+<p>多线程(共享内存)：</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017103754114.png" alt="image-20231017103754114" style="zoom: 60%;"></p>
+<p>但是有些问题是串行和并行交叉的，例如快排：</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017103901501.png" alt="image-20231017103901501" style="zoom:50%;"></p>
+<p>C++的扩展标准Cilk plus可以处理这样的并行，主要通过两个声明：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cilk_spawn <span class="title">foo</span><span class="params">(args)</span></span>; 	<span class="comment">//逻辑上可以并行</span></span><br><span class="line">cilk_sync;</span><br><span class="line"></span><br><span class="line"><span class="comment">//	foo()	and	bar()	may	run	in	parallel	</span></span><br><span class="line"><span class="function">cilk_spawn	<span class="title">foo</span><span class="params">()</span></span>;	</span><br><span class="line"><span class="built_in">bar</span>();	</span><br><span class="line">cilk_sync;</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017104100714.png" alt="image-20231017104100714" style="zoom:50%;"></p>
+<p>cilk_spawn并不是创建线程，而是提前创建线程，再给线程任务。</p>
+<p>假设cilk_spawn的部分称为child，接下来是cilk实现的一些底层细节。</p>
+<p>线程执行任务仍然使用work queue，以便其他线程可以去队列找到并执行可并行的待执行任务：</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017105320691.png" alt="image-20231017105320691" style="zoom:50%;"></p>
+<p>线程可以先执行child，也可以先执行后续部分，这两种是不一样的。假设有一个循环：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>	(<span class="type">int</span> i=<span class="number">0</span>; i&lt;N; i++)&#123;	</span><br><span class="line">	cilk_spawn <span class="title function_">foo</span><span class="params">(i)</span>;	</span><br><span class="line">&#125;</span><br><span class="line">cilk_sync;</span><br></pre></td></tr></table></figure>
+<p>先执行child，那么循环会搁置在队列中；先执行后续部分，那么会先进行循环，把所有foo(i)放到队列中。</p>
+<p>线程总是从获取最早入队的任务，对于分治问题，早入队的任务更大，相当于选取了树的靠近根节点的分支处理，这样就能尽量平衡负载。(对于快排，相当于先执行排序，将分治的另一半入队，并递归下去直到最小规模)。</p>
+<p><img src="/2023/10/13/CMU15-418notes(1-9)/image-20231017110858273.png" alt="image-20231017110858273" style="zoom: 67%;"></p>
+<p>对于sync，有两种策略，clik采用的是第二种策略：</p>
+<ul>
+<li>stalling：调用spawn产生分支的线程继续执行sync后面的内容，需要等待其他线程完成。</li>
+<li>greedy：最后一个完成任务的线程执行sync及之后的内容。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2023/10/13/CMU15-418notes(1-9)/">https://a-y-1.github.io/2023/10/13/CMU15-418notes(1-9)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></div><div class="post_share"><div class="social-share" data-image="/../cover/CMU15-418.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/10/13/Pthread/" title="Pthreads简记"><img class="cover" src="/../cover/pthread.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Pthreads简记</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/11/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="高性能计算学习记录"><img class="cover" src="/../cover/hpc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-11</div><div class="title">高性能计算学习记录</div></div></a></div><div><a href="/2023/10/13/Pthread/" title="Pthreads简记"><img class="cover" src="/../cover/pthread.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">Pthreads简记</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-1-Why-Parallelism"><span class="toc-number">1.</span> <span class="toc-text">Lecture 1: Why Parallelism</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-2-A-Modern-Multi-Core-Processor"><span class="toc-number">2.</span> <span class="toc-text">Lecture 2: A Modern Multi-Core Processor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-3-Parallel-Programming-Models"><span class="toc-number">3.</span> <span class="toc-text">Lecture 3: Parallel Programming Models</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ISPC"><span class="toc-number">3.1.</span> <span class="toc-text">ISPC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">三种通信模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-4-Parallel-Programming-Basics"><span class="toc-number">4.</span> <span class="toc-text">Lecture 4: Parallel Programming Basics</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-5-Performance-Optimization-I-Work-Distribution-and-Scheduling"><span class="toc-number">5.</span> <span class="toc-text">Lecture 5: Performance Optimization I: Work Distribution and Scheduling</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)">CMU15-418notes(1-9)</a><time datetime="2023-10-13T08:34:29.000Z" title="发表于 2023-10-13 16:34:29">2023-10-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/13/Pthread/" title="Pthreads简记">Pthreads简记</a><time datetime="2023-10-13T08:34:29.000Z" title="发表于 2023-10-13 16:34:29">2023-10-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/11/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="高性能计算学习记录">高性能计算学习记录</a><time datetime="2023-09-11T08:50:29.000Z" title="发表于 2023-09-11 16:50:29">2023-09-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/" title="计算机体系结构：体系结构基础与流水线原理">计算机体系结构：体系结构基础与流水线原理</a><time datetime="2023-04-14T10:27:29.000Z" title="发表于 2023-04-14 18:27:29">2023-04-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA-%E5%B9%B6%E5%8F%91/" title="操作系统导论-并发">操作系统导论-并发</a><time datetime="2023-01-06T10:27:29.000Z" title="发表于 2023-01-06 18:27:29">2023-01-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../cover/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
