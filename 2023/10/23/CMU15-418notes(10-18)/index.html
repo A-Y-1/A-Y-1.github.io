@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CMU15-418notes(10-18) | 橙的Blog</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="视频：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Rh4y1F7aU&#x2F;?spm_id_from&#x3D;333.788&amp;vd_source&#x3D;463e5b3e4b18e5453477b57388c2e427 课程主页：http:&#x2F;&#x2F;15418.courses.cs.cmu.edu&#x2F;spring2016&#x2F;lectures  Lecture 10: Snooping-Based">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMU15-418notes(10-18)">
+<meta property="og:url" content="https://a-y-1.github.io/2023/10/23/CMU15-418notes(10-18)/index.html">
+<meta property="og:site_name" content="橙的Blog">
+<meta property="og:description" content="视频：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Rh4y1F7aU&#x2F;?spm_id_from&#x3D;333.788&amp;vd_source&#x3D;463e5b3e4b18e5453477b57388c2e427 课程主页：http:&#x2F;&#x2F;15418.courses.cs.cmu.edu&#x2F;spring2016&#x2F;lectures  Lecture 10: Snooping-Based">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/cover/CMU15-418.png">
+<meta property="article:published_time" content="2023-10-23T02:59:29.000Z">
+<meta property="article:modified_time" content="2023-10-23T08:23:57.689Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="高性能计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/cover/CMU15-418.png"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2023/10/23/CMU15-418notes(10-18)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CMU15-418notes(10-18)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-10-23 16:23:57'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的Blog"><span class="site-name">橙的Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CMU15-418notes(10-18)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-23T02:59:29.000Z" title="发表于 2023-10-23 10:59:29">2023-10-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-23T08:23:57.689Z" title="更新于 2023-10-23 16:23:57">2023-10-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CMU15-418notes(10-18)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Rh4y1F7aU/?spm_id_from=333.788&amp;vd_source=463e5b3e4b18e5453477b57388c2e427">https://www.bilibili.com/video/BV1Rh4y1F7aU/?spm_id_from=333.788&amp;vd_source=463e5b3e4b18e5453477b57388c2e427</a></p>
+<p>课程主页：<a target="_blank" rel="noopener" href="http://15418.courses.cs.cmu.edu/spring2016/lectures">http://15418.courses.cs.cmu.edu/spring2016/lectures</a></p>
+<!--more--->
+<h2 id="Lecture-10-Snooping-Based-Cache-Coherence"><a href="#Lecture-10-Snooping-Based-Cache-Coherence" class="headerlink" title="Lecture 10: Snooping-Based Cache Coherence"></a>Lecture 10: Snooping-Based Cache Coherence</h2><p>本节主要介绍监听式缓存一致性协议，在量化研究方法里面已经学习过了，直接回顾当时的笔记。</p>
+<p>为多个处理器保持缓存⼀致性的协议被称为缓存⼀致性协议，协议的关键在于跟踪数据块的共享状态。缓存一致性的问题要在极短的时间解决，因此需要采取硬件方法。</p>
+<p><img src="/2023/10/23/CMU15-418notes(10-18)/image-20231023110311286.png" alt="image-20231023110311286" style="zoom:50%;"></p>
+<p>实现监听⼀致性协议有两种⽅法，⼀种是<strong>写⼊失效协议</strong>，处理器执⾏写⼊操作时使其他副本失效；另⼀种是<strong>写⼊更新协议</strong>，处理器执⾏写⼊时更新所有缓存副本，这种⽅法要占⽤相当多的带宽(写⼊操作要⼴播到共享缓存线)，因此不常⽤，多处理器都选择实现写⼊失效协议。</p>
+<p>监听⼀致性协议通常是通过有限状态控制器实施的，控制器可以改变所选缓存块的状态，并使⽤总线访问数据或使其失效。可以看作每⼀个块有⼀个关联的独⽴控制器。<br>在协议中，规定每个CPU的每个块有三种状态：</p>
+<ul>
+<li>⽆效：所有缓存中都没有此块的有效副本</li>
+<li>已修改(独占)：该块仅在该CPU缓存中有副本，并且被修改过</li>
+<li>共享：该块在⼀个或多个缓存中有副本且未修改过</li>
+</ul>
+<p>每个CPU都独⽴控制每个块的状态，通过监听总线转换块的状态，并进⾏读写操作。</p>
+<p>假设⼀个CPUA中产⽣了⼀个对⼀个缓存块的读写请求，根据读写是否命中，CPU会有不同的处理⽅式，并改变该块的状态。已修改状态直接称为独占。</p>
+<ul>
+<li>读命中：状态不需要发⽣改变。⽆效态不会产⽣读命中，⽽独占和共享态，读⾃⼰缓存中的块不会引起⼀致性的问题。</li>
+<li>读不命中：发⽣读不命中，则CPUA要从主存读取该块，但是主存中的块不⼀定是最新的，所以CPU还会向总线发送⼀个读不命中信号和当前块的地址，其他CPU的控制器监听到该信号，如果都没有这个块或者有共享态的该块，说明主存中是最新的，那么从主存中读取到该块，并将其设置为共享态；如果⼀个CPUB发现⾃⼰有独占的该块，则终⽌CPUA读取主存，因为⾃⼰的数据是最新的，CPUB将提供给A这个块，并将其写回内存，此时A和B都有块的最新版本，且主存中的也是最新版本，A和B中该块的状态设置为共享态。(注意，CPUB是独占该块的，A和B以外的CPU⼀定是没有这个块的，所以也不需要改变状态。)</li>
+<li>写命中：如果该块在CPUA上是共享态，那么要修改为独占态，且向总线发出写⼊失效信号，其他CPU中的该块都将⽆效；如果该块在CPUA是独占态，那么状态不变。</li>
+<li>写不命中：将该块设置为独占态，并向总线发出写⼊失效信号，使其他CPU的该块⽆效，如果其他CPU独占该块，则要写回内存(这保证了写⼊操作的串⾏化)。</li>
+</ul>
+<p>通过以上的分析，CPU改变⼀个块的信号的原因可能是读写事件，也可能是从总线监听到的其他CPU的读写事件。⼀个块在被写⼊后就会被修改为独占态，通过向总线发送信号使其他CPU的该块失效。在读取时，如果发⽣了不命中，则读不命中和地址被⼴播，独占块的CPU要给出该块，并将该块写回。这两个关键的⼯作保证了任何CPU总是能读取到最新的块，保证了⼀致性。</p>
+<p>最后，以上所有的操作都没有考虑缓存替换的问题，如果发⽣了缓存替换，被替换的块如果是独占态，则要写回主存，只有⾃⼰有被替换块的数据，不需要发出其他信号。</p>
+<h2 id="Lecture-11-Directory-Based-Cache-Coherence"><a href="#Lecture-11-Directory-Based-Cache-Coherence" class="headerlink" title="Lecture 11: Directory-Based Cache Coherence"></a>Lecture 11: Directory-Based Cache Coherence</h2><p>总线式系统的带宽存在限制，采⽤分布式系统可以降低对存储器的带宽要求。在分布式系统中，采⽤分布式的存储器，多个节点可以同时读取或写⼊数据，提⾼了存储器的带宽，不受单⼀存储器总线的限制。分布式系统没有总线，通过⽹络互连，为了避免监听式⼀致性协议的⼴播，分布式存储器系统采⽤⽬录式协议替代监听式⼀致性协议。</p>
+<p>⽬录式⼀致性协议中，每个处理器都有⼀个⽬录，⽬录中保存了每个可缓存块的状态，信息包括哪些缓存拥有这个块的副本，是否需要更新等等。存储器的每⼀块都在⽬录中有对应的⼀项，每个⽬录项由访问状态和位向量组成，位向量记录了各个处理器是否有这个块的副本。</p>
+<p>在⽬录式⼀致性协议中，仍然使⽤三种状态，采⽤写失效策略。状态转换也和监听式是⼀样的，只是不再通过⼴播告知其他处理器⼀个块失效，⽽是根据位向量，通知相应的CPU该块失效或完成更新该块的⼯作。并且由块所在的存储器所属的CPU作为宿主与需要沟通的处理器沟通，完成写失效通知和写回的操作。</p>
+<p><img src="/2023/10/23/CMU15-418notes(10-18)/image-20231023162232842.png" alt="image-20231023162232842" style="zoom:50%;"></p>
+<p>监听法基于总线，通过⼴播信号来实现写失效，优点是不需要额外的存储空间维护⼀致性信息，缺点是可扩展性差，处理器数量越多，总线通信的压⼒就越⼤。</p>
+<p>⽬录法采⽤集中式的⽬录维护⼀致性信息，增加了存储开销。⼀致性信息是集中式的存储在⽬录中，但⽬录结构本⾝是分布式的，因此具有可拓展性。⽬录法最⼤的优点是可以实现在分布式的系统中，不需要总线。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2023/10/23/CMU15-418notes(10-18)/">https://a-y-1.github.io/2023/10/23/CMU15-418notes(10-18)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></div><div class="post_share"><div class="social-share" data-image="/../cover/CMU15-418.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)"><img class="cover" src="/../cover/CMU15-418.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CMU15-418notes(1-9)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/11/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="高性能计算学习记录"><img class="cover" src="/../cover/hpc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-11</div><div class="title">高性能计算学习记录</div></div></a></div><div><a href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">CMU15-418notes(1-9)</div></div></a></div><div><a href="/2023/10/13/Pthread/" title="Pthreads简记"><img class="cover" src="/../cover/pthread.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">Pthreads简记</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-10-Snooping-Based-Cache-Coherence"><span class="toc-number">1.</span> <span class="toc-text">Lecture 10: Snooping-Based Cache Coherence</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-11-Directory-Based-Cache-Coherence"><span class="toc-number">2.</span> <span class="toc-text">Lecture 11: Directory-Based Cache Coherence</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/23/CMU15-418notes(10-18)/" title="CMU15-418notes(10-18)">CMU15-418notes(10-18)</a><time datetime="2023-10-23T02:59:29.000Z" title="发表于 2023-10-23 10:59:29">2023-10-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)">CMU15-418notes(1-9)</a><time datetime="2023-10-13T08:34:29.000Z" title="发表于 2023-10-13 16:34:29">2023-10-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/13/Pthread/" title="Pthreads简记">Pthreads简记</a><time datetime="2023-10-13T08:34:29.000Z" title="发表于 2023-10-13 16:34:29">2023-10-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/11/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="高性能计算学习记录">高性能计算学习记录</a><time datetime="2023-09-11T08:50:29.000Z" title="发表于 2023-09-11 16:50:29">2023-09-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8E%9F%E7%90%86/" title="计算机体系结构：体系结构基础与流水线原理">计算机体系结构：体系结构基础与流水线原理</a><time datetime="2023-04-14T10:27:29.000Z" title="发表于 2023-04-14 18:27:29">2023-04-14</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../cover/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
