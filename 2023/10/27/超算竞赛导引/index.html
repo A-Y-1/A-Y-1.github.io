@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>超算竞赛导引 | 橙的Blog</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="超算竞赛导引。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="超算竞赛导引">
+<meta property="og:url" content="https://a-y-1.github.io/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/index.html">
+<meta property="og:site_name" content="橙的Blog">
+<meta property="og:description" content="超算竞赛导引。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/cover/sc.jpg">
+<meta property="article:published_time" content="2023-10-27T09:03:29.000Z">
+<meta property="article:modified_time" content="2023-10-30T13:24:02.915Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="高性能计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/cover/sc.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '超算竞赛导引',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-10-30 21:24:02'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的Blog"><span class="site-name">橙的Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">超算竞赛导引</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-27T09:03:29.000Z" title="发表于 2023-10-27 17:03:29">2023-10-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-30T13:24:02.915Z" title="更新于 2023-10-30 21:24:02">2023-10-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="超算竞赛导引"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p> 超算竞赛导引。</p>
+<span id="more"></span>
+<h2 id="第一课-超算的发展与应用"><a href="#第一课-超算的发展与应用" class="headerlink" title="第一课 超算的发展与应用"></a>第一课 超算的发展与应用</h2><p>研究超级计算机的目的：</p>
+<ul>
+<li>促进计算机科学和技术的发展</li>
+<li>推动交叉学科发展，解决巨大挑战性问题</li>
+<li>反映经济与科技的综合实力</li>
+</ul>
+<p><strong>超算的发展</strong></p>
+<p>SIMD阵列处理机→流水结构向量机→MIMD共享主存多处理机→并行向量处理机(采用超标量)→MPP系统(高度并行，多至上万的处理机组成，可用NUMA、超节点或向量+超标量构成)→集群系统(早期同构，现在多采用异构，CPU+GPU或CPU+MIC(many integrated core))</p>
+<p>当今主流的超算是集群系统，但MPP仍占有相当的比例。目前P级(每秒10^15次计算)的计算机已经成熟，E级(10^18)的超算正在激烈竞争中研制。(该书的出版时间是2016年。E级超算已在2022年由美国推出的Frontier实现，国内的E级超算好像没有明确的消息。)</p>
+<p><strong>超算架构</strong></p>
+<p>超算的架构分类可按并行计算方式是SIMD还是MIMD，存储器是共享的还是分布的加以分类。当今的超算大多以MIMD工作，存储器共享的有MVP(多向量机)和SMP(多处理器)两种，又称为UMA系统，处理器对任何存储单元有相同的访问时间。相对的有NUMA系统，存储器是分布的，但是<strong>处理器可对远程存储器以load-store形式直接访问</strong>，根据硬件是否支持缓存一致性，还可以继续进行分类。</p>
+<p>如果并行处理器必须以消息传递方式访问远程存储器，就是NOARMA(no remote memory access)系统，这种系统中每个处理器是一个独立的计算机。MPP和集群系统都属于MOARMA系统。</p>
+<p>MPP使用大量商用处理节点，用高带宽低时延的网络连接。而集群系统的每个节点是一个完整计算机，也可以是一台SMP或PC，每个节点有OS和支持单一系统映像的中间件。</p>
+<p><strong>并行程序设计算法</strong></p>
+<p>并行算法已经发展出了一些基本范例：</p>
+<ul>
+<li>阶段并行：每个阶段有计算阶段和交互阶段构成，多个阶段完成全部任务。</li>
+<li>分治并行：将问题分解后并行计算。</li>
+<li>宏流水并行：将问题分解为若干子任务，如流水线一样分别执行子任务，数据只在相邻阶段间传送。</li>
+<li>主从并行：主进程完成基本顺序部分和协调操作，通常使用静态负载平衡方法。</li>
+<li>工作池并行算法：使用全局数据结构，空闲进程从进程池获取任务，这种算法是动态分配负载的，但实现比较困难。</li>
+</ul>
+<p>还有三种并行编程模型：</p>
+<ul>
+<li>共享变量</li>
+<li>消息传递</li>
+<li>数据并行</li>
+</ul>
+<p>一些程序设计方法，需要练习使用：</p>
+<ul>
+<li>增量式改进</li>
+<li>存储空间换取性能</li>
+<li>Cache行的垫衬消除假共享</li>
+<li>共享变量变为私有变量，设置重叠区域</li>
+<li>选择适当的数据块分配方式</li>
+</ul>
+<h2 id="第二课-超算集群系统的构建及功耗管理"><a href="#第二课-超算集群系统的构建及功耗管理" class="headerlink" title="第二课 超算集群系统的构建及功耗管理"></a>第二课 超算集群系统的构建及功耗管理</h2><h3 id="1-集群组成"><a href="#1-集群组成" class="headerlink" title="1.集群组成"></a>1.集群组成</h3><p>典型的HPC集群由五类计算设备和三类网络组成：</p>
+<ul>
+<li>登录节点：访问集群的唯一入口，为了保证用户数据安全性，至少采用RAID或双机热备份容错</li>
+<li>管理节点：监控集群中节点和网络的运行状态，集群的管理软件也运行在这个节点上</li>
+<li>计算节点：分为两种，痩节点主要用于执行并行计算，主流采用刀片服务器；胖节点用于数据划分或对内存需求大的特殊应用运算等，内存容量大，价格也比较昂贵</li>
+<li>异构节点：通常使用CPU，GPU或MIC</li>
+<li>交换设备：通常为有几百个端口的大型交换机</li>
+<li>I/O节点和存储设备：由于高性能计算需要较大存储空间及高带宽，因此存储设备一般是专业的文件存储系统</li>
+<li>管理网络：用于管理节点和节点互连</li>
+<li>计算网络：并行任务执行时的进程间通信专用网络，对网络的带宽和延迟要求都很高，因此一般选用千兆网，IB或万兆网</li>
+<li>存储网络：向HPC集群的节点提供数据访问服务</li>
+</ul>
+<h3 id="2-功耗监控与管理"><a href="#2-功耗监控与管理" class="headerlink" title="2.功耗监控与管理"></a>2.功耗监控与管理</h3><p>常见的低功耗技术分为两类：</p>
+<ul>
+<li>动态资源休眠(DRS)：休眠或关闭空闲资源，需要时再动态唤醒</li>
+<li>动态速率调节(DSS)：动态调节设备的运行速率</li>
+</ul>
+<p>目前的商用处理器都支持这两种低功耗机制。</p>
+<p>对于集群的能耗监控，第一个层次是对整集群监控，单位是每个机柜，第二个层次是以节点为单位。</p>
+<h3 id="3-构建性能均衡的超算系统"><a href="#3-构建性能均衡的超算系统" class="headerlink" title="3.构建性能均衡的超算系统"></a>3.构建性能均衡的超算系统</h3><p>这一部分介绍了考虑系统性能均衡的一些方面，以及管理系统的一些概念性内容。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/">https://a-y-1.github.io/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></div><div class="post_share"><div class="social-share" data-image="/../cover/sc.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/10/27/OpenMP/" title="OpenMP"><img class="cover" src="/../cover/openmp.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">OpenMP</div></div></a></div><div class="next-post pull-right"><a href="/2023/10/24/cpp%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B(thread)/" title="cpp并发编程(thread)"><img class="cover" src="/../cover/thread.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">cpp并发编程(thread)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/11/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="高性能计算学习记录"><img class="cover" src="/../cover/hpc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-11</div><div class="title">高性能计算学习记录</div></div></a></div><div><a href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">CMU15-418notes(1-9)</div></div></a></div><div><a href="/2023/10/13/Pthread/" title="Pthreads简记"><img class="cover" src="/../cover/pthread.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">Pthreads简记</div></div></a></div><div><a href="/2023/10/23/CMU15-418notes(10-18)/" title="CMU15-418notes(10-18)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-23</div><div class="title">CMU15-418notes(10-18)</div></div></a></div><div><a href="/2023/10/27/OpenMP/" title="OpenMP"><img class="cover" src="/../cover/openmp.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-27</div><div class="title">OpenMP</div></div></a></div><div><a href="/2023/10/24/cpp%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B(thread)/" title="cpp并发编程(thread)"><img class="cover" src="/../cover/thread.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-24</div><div class="title">cpp并发编程(thread)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E8%AF%BE-%E8%B6%85%E7%AE%97%E7%9A%84%E5%8F%91%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">第一课 超算的发展与应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E8%AF%BE-%E8%B6%85%E7%AE%97%E9%9B%86%E7%BE%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%9E%84%E5%BB%BA%E5%8F%8A%E5%8A%9F%E8%80%97%E7%AE%A1%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">第二课 超算集群系统的构建及功耗管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%9B%86%E7%BE%A4%E7%BB%84%E6%88%90"><span class="toc-number">2.1.</span> <span class="toc-text">1.集群组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8A%9F%E8%80%97%E7%9B%91%E6%8E%A7%E4%B8%8E%E7%AE%A1%E7%90%86"><span class="toc-number">2.2.</span> <span class="toc-text">2.功耗监控与管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9E%84%E5%BB%BA%E6%80%A7%E8%83%BD%E5%9D%87%E8%A1%A1%E7%9A%84%E8%B6%85%E7%AE%97%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.3.</span> <span class="toc-text">3.构建性能均衡的超算系统</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/27/OpenMP/" title="OpenMP">OpenMP</a><time datetime="2023-10-27T12:33:29.000Z" title="发表于 2023-10-27 20:33:29">2023-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/" title="超算竞赛导引">超算竞赛导引</a><time datetime="2023-10-27T09:03:29.000Z" title="发表于 2023-10-27 17:03:29">2023-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/24/cpp%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B(thread)/" title="cpp并发编程(thread)">cpp并发编程(thread)</a><time datetime="2023-10-24T07:03:29.000Z" title="发表于 2023-10-24 15:03:29">2023-10-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/23/CMU15-418notes(10-18)/" title="CMU15-418notes(10-18)">CMU15-418notes(10-18)</a><time datetime="2023-10-23T02:59:29.000Z" title="发表于 2023-10-23 10:59:29">2023-10-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)">CMU15-418notes(1-9)</a><time datetime="2023-10-13T08:34:29.000Z" title="发表于 2023-10-13 16:34:29">2023-10-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../cover/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
