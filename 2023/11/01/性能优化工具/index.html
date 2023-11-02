@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>性能优化工具 | 橙的Blog</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="关于常用的性能优化工具的一些笔记。主要内容是perf，vtune。 perf的参考文档： https:&#x2F;&#x2F;perf.wiki.kernel.org&#x2F;index.php&#x2F;Tutorial">
+<meta property="og:type" content="article">
+<meta property="og:title" content="性能优化工具">
+<meta property="og:url" content="https://a-y-1.github.io/2023/11/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="橙的Blog">
+<meta property="og:description" content="关于常用的性能优化工具的一些笔记。主要内容是perf，vtune。 perf的参考文档： https:&#x2F;&#x2F;perf.wiki.kernel.org&#x2F;index.php&#x2F;Tutorial">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/cover/opt_tools.jpg">
+<meta property="article:published_time" content="2023-11-01T08:17:29.000Z">
+<meta property="article:modified_time" content="2023-11-02T15:12:08.030Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="高性能计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/cover/opt_tools.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2023/11/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '性能优化工具',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-11-02 23:12:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的Blog"><span class="site-name">橙的Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">性能优化工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-01T08:17:29.000Z" title="发表于 2023-11-01 16:17:29">2023-11-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-02T15:12:08.030Z" title="更新于 2023-11-02 23:12:08">2023-11-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="性能优化工具"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p> 关于常用的性能优化工具的一些笔记。主要内容是perf，vtune。</p>
+<p>perf的参考文档：</p>
+<p><a target="_blank" rel="noopener" href="https://perf.wiki.kernel.org/index.php/Tutorial">https://perf.wiki.kernel.org/index.php/Tutorial</a></p>
+<span id="more"></span>
+<h2 id="一-Linux-Perf"><a href="#一-Linux-Perf" class="headerlink" title="一.Linux Perf"></a>一.Linux Perf</h2><p>Perf可以直接用以下命令安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install linux-tools-common</span><br></pre></td></tr></table></figure>
+<p>如果安装后perf —version找不到，就下载内核版本的源码(uname -r看版本)，在源码的/tools/perf下执行<code>make</code>，<code>make install</code>，执行完以后可能还是没有perf，将文件夹里面的perf移动到/bin和/home/user_name/bin里面就可以了。</p>
+<h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h3><p>Perf是Linux系统上的一个性能分析工具，是基于Linux内核的perf_events实现的。</p>
+<p><strong>命令</strong></p>
+<p>最常用的perf命令有stat，record和report，还有许多其他命令，直接运行perf就可以看到了。每个命令的具体选项通过<code>perf cmd -h</code>查看。</p>
+<p><strong>Events</strong></p>
+<p>perf支持一系列可测量的事件。测量接口来自内核，内核计数器触发的事件称为<strong>软事件</strong>，包括上下文切换等。还有硬件触发的来自Performance Monitoring Unit(PMU)的事件。这些事件是微体系结构下的，包括时钟数，缓存未命中，退役指令等。这样的事件称为<strong>PMU硬件事件</strong>。还有一些tracepoint事件是内核的ftrace实现的，只有2.6.3x以后的内核才支持。</p>
+<p>PMU硬件事件是每个CPU可能不同的，intel的PMU events table: <a target="_blank" rel="noopener" href="http://www.intel.com/Assets/PDF/manual/253669.pdf">Appendix A</a>，AMD的: <a target="_blank" rel="noopener" href="https://www.amd.com/system/files/TechDocs/31116.pdf">Section 3.14</a>。</p>
+<p>执行<code>perf list</code>可以得到支持的事件列表。</p>
+<h3 id="2-使用perf-stat"><a href="#2-使用perf-stat" class="headerlink" title="2.使用perf stat"></a>2.使用perf stat</h3><h4 id="Options-controlling-event-selection"><a href="#Options-controlling-event-selection" class="headerlink" title="Options controlling event selection"></a>Options controlling event selection</h4><p>对于支持的事件，perf可以在进程执行时进行计数，并产生分析数据。</p>
+<p>直接执行<code>perf stat program_name</code>会输出一些常见的事件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/home/y/hpc/perf# perf stat ./case0</span><br><span class="line"></span><br><span class="line"> Performance counter stats for &#x27;./case0&#x27;:</span><br><span class="line"></span><br><span class="line">             17.77 msec task-clock                #    0.968 CPUs utilized          </span><br><span class="line">                 0      context-switches          #    0.000 /sec                   </span><br><span class="line">                 0      cpu-migrations            #    0.000 /sec                   </span><br><span class="line">             2,073      page-faults               #  116.640 K/sec                  </span><br><span class="line">        52,643,081      cycles                    #    2.962 GHz                      (32.65%)</span><br><span class="line">                 0      stalled-cycles-frontend                                       (32.75%)</span><br><span class="line">                 0      stalled-cycles-backend    #    0.00% backend cycles idle      (59.92%)</span><br><span class="line">                 0      instructions              #    0.00  insn per cycle           (67.35%)</span><br><span class="line">                 0      branches                  #    0.000 /sec                     (67.25%)</span><br><span class="line">                 0      branch-misses             #    0.00% of all branches          (40.08%)</span><br><span class="line"></span><br><span class="line">       0.018352520 seconds time elapsed</span><br><span class="line"></span><br><span class="line">       0.013756000 seconds user</span><br><span class="line">       0.004585000 seconds sys</span><br></pre></td></tr></table></figure>
+<p>这里随便选了一个程序，比较简单，而且和tutorial中的比起来，该版本的perf默认没给出缓存相关的数据。</p>
+<p><code>perf stat -e events:u/k</code>可以指定事件，后面的u/k表示测量用户的部分或内核的部分，默认是这两部分都测量，或者显式events:uk指定两部分都测量。</p>
+<p>要测量多个事件，直接写在-e后面就可以了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">perf stat -e cycles,instructions,cache-misses [...]</span><br></pre></td></tr></table></figure>
+<p>这里发现虚拟机怎么测cache-misses之类的数据都是0，可能是虚拟机没有正常提供PMU接口(存疑)。</p>
+<p><strong>multiplexing and scaling events</strong></p>
+<p>如果事件比counters多，内核会使用时分复用，给每个事件监测硬件事件的机会。这个复用是只针对硬件事件的。事件的count计算的方式如下：</p>
+<p>final_count = raw_count * time_enabled/time_running</p>
+<p>每个事件只在一定的时间段被测量，所以数据并不是完全准确的，而是估计值。perf会根据事件占用counter的时间比例来对数据进行缩放，得到更接近真实值的结果。</p>
+<p>例如stat结果是：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2,809,725,593 cycles                    (scaled from 74.98%)</span><br></pre></td></tr></table></figure>
+<p>后面的缩放因子74.98%就表示该事件只被测量了74.98%的时间。</p>
+<p>时间复用会增加事件切换的开销，会影响程序的执行，要得到更准确的数据，应该尽量减少想要测量的事件数量。</p>
+<p><strong>repeated measurement</strong></p>
+<p>perf stat可以重复多次测量，只需要添加<code>-r round</code>就可以了。</p>
+<h4 id="Options-controlling-environment-selection"><a href="#Options-controlling-environment-selection" class="headerlink" title="Options controlling environment selection"></a>Options controlling environment selection</h4><p>perf可以统计事件的不同范围，比如单个线程，单个进程，单个CPU。单个线程下，只监测指定线程的执行，单个进程下只监测进程及其子进程的执行。以下选项可以控制这些模式：</p>
+<ul>
+<li>-i,—no-inherit：只统计进程本身的事件，不包括子进程</li>
+<li>-p,—pid <n\>：统计指定进程id的进程的事件</n\></li>
+<li>-t,—tid <n\>：统计指定线程的事件</n\></li>
+<li>-a,—all-cpus：统计所有CPU事件</li>
+</ul>
+<p>以下是一些示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">perf stat -e cycles -C 0 ./test		#统计在CPU0上的事件</span><br><span class="line">perf stat -e cache-misses -p 1234	#统计进程1234及子进程的事件</span><br><span class="line">perf stat -e instructions -t 5678 -C 1 -i	#统计线程5678在CPU1的事件，不包括子线程</span><br><span class="line">perf stat -a sleep 10</span><br></pre></td></tr></table></figure>
+<h4 id="Options-controlling-output"><a href="#Options-controlling-output" class="headerlink" title="Options controlling output"></a>Options controlling output</h4><p>-B可以输出US-style的数值(按千进行分位)，-x可以输出CSV格式的数据。</p>
+<h3 id="3-使用perf-record"><a href="#3-使用perf-record" class="headerlink" title="3.使用perf record"></a>3.使用perf record</h3><p>record命令可以产生一个perf.data文件，可以进一步进行分析(使用report和annotate)。</p>
+<h4 id="Event-based-sampling-overview"><a href="#Event-based-sampling-overview" class="headerlink" title="Event-based sampling overview"></a>Event-based sampling overview</h4><p>perf events是基于事件采样的，当采样计数器溢出时，就会记录一个样本。在计数器溢出时，内核记录了程序执行的信息，即一个样本。记录什么取决于测量的类型。这些都由用户和工具指定。但是所有样本中共有的关键信息是指令指针，即程序被中断时所在的位置。</p>
+<p>基于中断的采样会发生偏移，因为样本中的指针是处理PMU中断的位置，而不是计数器实际溢出时的位置，所以在指令级别分析结果是，要注意<strong>偏移</strong>。</p>
+<p>默认情况下，perf record使用cycles作为采样事件。以每个线程模式运行，会监测子线程。</p>
+<h3 id="4-使用perf-report进行分析"><a href="#4-使用perf-report进行分析" class="headerlink" title="4.使用perf report进行分析"></a>4.使用perf report进行分析</h3><p>perf report可以读入perf record的结果进行分析。默认情况下采样是按照函数排序的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">perf report</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Events: 1K cycles</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># Overhead          Command                   Shared Object  Symbol</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">........  ...............  ..............................  .....................................</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash">    28.15%      firefox-bin  libxul.so                       [.] 0xd10b45</span></span><br><span class="line">     4.45%          swapper  [kernel.kallsyms]               [k] mwait_idle_with_hints</span><br><span class="line">     4.26%          swapper  [kernel.kallsyms]               [k] read_hpet</span><br><span class="line">     2.13%      firefox-bin  firefox-bin                     [.] 0x1e3d</span><br><span class="line">     1.40%  unity-panel-ser  libglib-2.0.so.0.2800.6         [.] 0x886f1</span><br><span class="line">     [...]</span><br></pre></td></tr></table></figure>
+<p>Overhead列表示在相应函数中收集的总样本数的百分比。“Command”列报告了收集样本的进程。“Shared Object”列显示了样本来自的ELF镜像的名称。如果一个程序是动态链接的，那么这可能会显示共享库的名称。当样本来自内核时，那么使用伪ELF镜像名称[kernel.kallsyms]。“Symbol”列指示了采样时的特权级别，即程序在被中断时运行的级别：</p>
+<ul>
+<li>.：用户级</li>
+<li>k：内核级</li>
+<li>g：客户机内核级别</li>
+<li>u：客户机操作系统用户空间</li>
+<li>H：hypervisor</li>
+</ul>
+<p>Overhead可以有两个列，分别为children和self，self是函数自身的采样周期占比，而children是将所有子函数相加来计算的。添加<code>--children</code>选项就可以开启self这一列，默认的Overhead是children，即包含调用子函数的内容。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Children      Self  Symbol</span><br><span class="line">........  ........  ....................</span><br><span class="line"> 100.00%     0.00%  __libc_start_main</span><br><span class="line">          |</span><br><span class="line">          --- __libc_start_main</span><br><span class="line"></span><br><span class="line"> 100.00%     0.00%  main</span><br><span class="line">          |</span><br><span class="line">          --- main</span><br><span class="line">              __libc_start_main</span><br><span class="line"></span><br><span class="line"> 100.00%    40.00%  bar</span><br><span class="line">          |</span><br><span class="line">          --- bar</span><br><span class="line">              main</span><br><span class="line">              __libc_start_main</span><br><span class="line"></span><br><span class="line">  60.00%    60.00%  foo</span><br><span class="line">          |</span><br><span class="line">          --- foo</span><br><span class="line">              bar</span><br><span class="line">              main</span><br><span class="line">              __libc_start_main</span><br></pre></td></tr></table></figure>
+<h3 id="5-使用perf-annotate进行源码级别的分析"><a href="#5-使用perf-annotate进行源码级别的分析" class="headerlink" title="5.使用perf annotate进行源码级别的分析"></a>5.使用perf annotate进行源码级别的分析</h3><p>为了使perf找到源码和符号信息，<strong>编译时要添加-g选项。</strong></p>
+<p>perf annotate可以显示每一行代码或指令在采样事件中的占比及相关数据。</p>
+<p>使用perf annotate需要先使用perf record命令保存数据，然后就可以用perf annotate来读取perf.data文件，并显示注释后的代码，-s选项可以指定函数或符号，也可以使用默认的最热点的函数和符号。</p>
+<p>一些控制选项包括：-stdio可以输出纯文本格式，-source可以显示源码而不是汇编代码。</p>
+<h3 id="6-尝试使用perf"><a href="#6-尝试使用perf" class="headerlink" title="6.尝试使用perf"></a>6.尝试使用perf</h3><p>阅读tutorial后，最重要的还是要实际尝试一下使用perf。重点需要尝试的是report和annotate。</p>
+<p>首先进行record：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">perf record -F 999 ./a	#-F指定的是采样频率，每秒999次，不选整数是提高随机性，避免采样与周期性事件重合</span><br></pre></td></tr></table></figure>
+<p>然后report看分析结果，这里又出现了问题，report的结果没有显示函数名，而是显示地址，发现是组件没有安装完全。回到perf的源码进行make，根据提示安装组件。然后再report，这次终于正确的进入了perf。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Samples: 26  of event &#x27;cycles&#x27;, Event count (approx.): 48071029</span><br><span class="line">Overhead  Command  Shared Object      Symbol</span><br><span class="line">  41.01%  a        a                  [.] initialize</span><br><span class="line">  20.74%  a        libc-2.31.so       [.] __random</span><br><span class="line">  12.78%  a        libc-2.31.so       [.] __random_r</span><br><span class="line">  12.44%  a        a                  [.] dot_product</span><br><span class="line">   6.48%  a        [kernel.kallsyms]  [k] page_mapping</span><br><span class="line">   6.34%  a        [kernel.kallsyms]  [k] sync_regs</span><br><span class="line">   0.20%  a        [kernel.kallsyms]  [k] set_root</span><br><span class="line">   0.02%  perf-ex  [kernel.kallsyms]  [k] native_write_msr</span><br></pre></td></tr></table></figure>
+<p>光标可以移动，enter后再选择annotate就可以进入函数，看汇编级的hot code了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ea     0x0(,%rax,4),%rdx                         </span><br><span class="line">       │      mov     -0x18(%rbp),%rax                                                            </span><br><span class="line">       │      lea     (%rdx,%rax,1),%rsi</span><br><span class="line">       │      movslq  %ecx,%rax                                                                    </span><br><span class="line"> 15.71 │      imul    $0x66666667,%rax,%rax                                                        </span><br><span class="line">       │      shr     $0x20,%rax                                                                   </span><br><span class="line"> ...</span><br></pre></td></tr></table></figure>
+<p>如果想要直接找到在函数中的位置，而不是汇编级指令，单独执行命令perf annotate —stdio —symbol=函数名就可以看到函数中的hotcode数据(编译时需要添加-g)：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">      : 17   long long dot_product(int *a, int *b)&#123;</span><br><span class="line"> 0.00 :   1257:   endbr64</span><br><span class="line"> 0.00 :   125b:   push   %rbp</span><br><span class="line"> 0.00 :   125c:   mov    %rsp,%rbp</span><br><span class="line"> 0.00 :   125f:   mov    %rdi,-0x18(%rbp)</span><br><span class="line"> 0.00 :   1263:   mov    %rsi,-0x20(%rbp)</span><br><span class="line">      : 13   long long res = 0;</span><br><span class="line"> 0.00 :   1267:   movq   $0x0,-0x8(%rbp)</span><br><span class="line">      : 14   for(int i=0;i&lt;N;i++)&#123;</span><br><span class="line"> 0.00 :   126f:   movl   $0x0,-0xc(%rbp)</span><br><span class="line"> 0.00 :   1276:   cmpl   $0xf423f,-0xc(%rbp)</span><br><span class="line"> 0.00 :   127d:   jg     12ba &lt;dot_product(int*, int*)+0x63&gt;</span><br><span class="line">      : 15   res += a[i]*b[i];</span><br><span class="line"> 0.00 :   127f:   mov    -0xc(%rbp),%eax</span><br><span class="line"> 0.00 :   1282:   cltq</span><br><span class="line"> 0.00 :   1284:   lea    0x0(,%rax,4),%rdx</span><br><span class="line"> 0.00 :   128c:   mov    -0x18(%rbp),%rax</span><br><span class="line">50.02 :   1290:   add    %rdx,%rax</span><br><span class="line"> 0.00 :   1293:   mov    (%rax),%edx</span><br><span class="line">49.98 :   1295:   mov    -0xc(%rbp),%eax</span><br><span class="line"> 0.00 :   1298:   cltq</span><br><span class="line"> 0.00 :   129a:   lea    0x0(,%rax,4),%rcx</span><br><span class="line"> 0.00 :   12a2:   mov    -0x20(%rbp),%rax</span><br><span class="line"> 0.00 :   12a6:   add    %rcx,%rax</span><br><span class="line"> 0.00 :   12a9:   mov    (%rax),%eax</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2023/11/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7/">https://a-y-1.github.io/2023/11/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></div><div class="post_share"><div class="social-share" data-image="/../cover/opt_tools.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/10/27/OpenMP/" title="OpenMP"><img class="cover" src="/../cover/openmp.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">OpenMP</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/11/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="高性能计算学习记录"><img class="cover" src="/../cover/hpc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-11</div><div class="title">高性能计算学习记录</div></div></a></div><div><a href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">CMU15-418notes(1-9)</div></div></a></div><div><a href="/2023/10/13/Pthread/" title="Pthreads简记"><img class="cover" src="/../cover/pthread.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">Pthreads简记</div></div></a></div><div><a href="/2023/10/23/CMU15-418notes(10-18)/" title="CMU15-418notes(10-18)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-23</div><div class="title">CMU15-418notes(10-18)</div></div></a></div><div><a href="/2023/10/27/OpenMP/" title="OpenMP"><img class="cover" src="/../cover/openmp.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-27</div><div class="title">OpenMP</div></div></a></div><div><a href="/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/" title="超算竞赛导引"><img class="cover" src="/../cover/sc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-27</div><div class="title">超算竞赛导引</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-Linux-Perf"><span class="toc-number">1.</span> <span class="toc-text">一.Linux Perf</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">1.概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8perf-stat"><span class="toc-number">1.2.</span> <span class="toc-text">2.使用perf stat</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Options-controlling-event-selection"><span class="toc-number">1.2.1.</span> <span class="toc-text">Options controlling event selection</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Options-controlling-environment-selection"><span class="toc-number">1.2.2.</span> <span class="toc-text">Options controlling environment selection</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Options-controlling-output"><span class="toc-number">1.2.3.</span> <span class="toc-text">Options controlling output</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8perf-record"><span class="toc-number">1.3.</span> <span class="toc-text">3.使用perf record</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Event-based-sampling-overview"><span class="toc-number">1.3.1.</span> <span class="toc-text">Event-based sampling overview</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8perf-report%E8%BF%9B%E8%A1%8C%E5%88%86%E6%9E%90"><span class="toc-number">1.4.</span> <span class="toc-text">4.使用perf report进行分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8perf-annotate%E8%BF%9B%E8%A1%8C%E6%BA%90%E7%A0%81%E7%BA%A7%E5%88%AB%E7%9A%84%E5%88%86%E6%9E%90"><span class="toc-number">1.5.</span> <span class="toc-text">5.使用perf annotate进行源码级别的分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%B0%9D%E8%AF%95%E4%BD%BF%E7%94%A8perf"><span class="toc-number">1.6.</span> <span class="toc-text">6.尝试使用perf</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7/" title="性能优化工具">性能优化工具</a><time datetime="2023-11-01T08:17:29.000Z" title="发表于 2023-11-01 16:17:29">2023-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/27/OpenMP/" title="OpenMP">OpenMP</a><time datetime="2023-10-27T12:33:29.000Z" title="发表于 2023-10-27 20:33:29">2023-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/" title="超算竞赛导引">超算竞赛导引</a><time datetime="2023-10-27T09:03:29.000Z" title="发表于 2023-10-27 17:03:29">2023-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/24/cpp%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B(thread)/" title="cpp并发编程(thread)">cpp并发编程(thread)</a><time datetime="2023-10-24T07:03:29.000Z" title="发表于 2023-10-24 15:03:29">2023-10-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/23/CMU15-418notes(10-18)/" title="CMU15-418notes(10-18)">CMU15-418notes(10-18)</a><time datetime="2023-10-23T02:59:29.000Z" title="发表于 2023-10-23 10:59:29">2023-10-23</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../cover/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
