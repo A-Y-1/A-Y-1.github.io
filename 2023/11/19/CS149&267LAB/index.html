@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CS149&amp;267LAB | 橙的Blog</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CS149&amp;CS267这两门课程的LAB记录。 CS149：https:&#x2F;&#x2F;gfxcourses.stanford.edu&#x2F;cs149&#x2F;fall23&#x2F; CS149Assignment 1: Performance Analysis on a Quad-Core CPUParallel Fractal Generation Using Threads 需要用std::thread并行化man">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS149&amp;267LAB">
+<meta property="og:url" content="https://a-y-1.github.io/2023/11/19/CS149&267LAB/index.html">
+<meta property="og:site_name" content="橙的Blog">
+<meta property="og:description" content="CS149&amp;CS267这两门课程的LAB记录。 CS149：https:&#x2F;&#x2F;gfxcourses.stanford.edu&#x2F;cs149&#x2F;fall23&#x2F; CS149Assignment 1: Performance Analysis on a Quad-Core CPUParallel Fractal Generation Using Threads 需要用std::thread并行化man">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/cover/hpc.jpg">
+<meta property="article:published_time" content="2023-11-19T14:33:29.000Z">
+<meta property="article:modified_time" content="2023-11-21T09:09:52.711Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="高性能计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/cover/hpc.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2023/11/19/CS149&amp;267LAB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CS149&267LAB',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-11-21 17:09:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的Blog"><span class="site-name">橙的Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CS149&amp;267LAB</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-19T14:33:29.000Z" title="发表于 2023-11-19 22:33:29">2023-11-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-21T09:09:52.711Z" title="更新于 2023-11-21 17:09:52">2023-11-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CS149&amp;267LAB"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>CS149&amp;CS267这两门课程的LAB记录。</p>
+<p>CS149：<a target="_blank" rel="noopener" href="https://gfxcourses.stanford.edu/cs149/fall23/">https://gfxcourses.stanford.edu/cs149/fall23/</a></p>
+<h2 id="CS149"><a href="#CS149" class="headerlink" title="CS149"></a>CS149</h2><h3 id="Assignment-1-Performance-Analysis-on-a-Quad-Core-CPU"><a href="#Assignment-1-Performance-Analysis-on-a-Quad-Core-CPU" class="headerlink" title="Assignment 1: Performance Analysis on a Quad-Core CPU"></a>Assignment 1: Performance Analysis on a Quad-Core CPU</h3><p><strong>Parallel Fractal Generation Using Threads</strong></p>
+<p>需要用std::thread并行化mandelbrot程序，该程序对二维的数据进行处理得到图像数据，直接改mandelbrotThread中的代码。由于框架已经写好，直接将height分配一下，调用串行函数就可以了。</p>
+<p>尝试使用不同数量的线程，比较加速比，本机是6核12逻辑处理器。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>线程数</th>
+<th>加速比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>1.99</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1.65</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2.46</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2.50</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3.26</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3.44</td>
+</tr>
+<tr>
+<td>8</td>
+<td>4.06</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="/2023/11/19/CS149&267LAB/image-20231120084028462.png" alt="image-20231120084028462" style="zoom: 50%;"></p>
+<p>显然加速比不是线性的，而且在奇数个线程时，线程增加没有明显的变化。在3个线程时，还比只有两个线程更慢。原因是负载不均衡的问题。为了验证，记录线程的计算时间，结果为：</p>
+<p><img src="/2023/11/19/CS149&267LAB/image-20231120090146813.png" alt="image-20231120090146813" style="zoom:80%;"></p>
+<p>线程1即第二个线程的计算时间更长，看来图像中间行的计算量比上下要大很多。从图像也看的出来：</p>
+<p><img src="/2023/11/19/CS149&267LAB/image-20231120090250446.png" alt="image-20231120090250446" style="zoom: 25%;"></p>
+<p>同理对view2进行测量，8线程的加速比是4.09x，但是图像上方的计算量更大，线程0和1的工作负载更大。</p>
+<p>为了实现题目要求的7-8x的加速比，需要通过静态分配来实现负载的均衡。因此尝试每个线程不计算连续的行，而是交替进行分配来进行均衡。进行尝试以后view1的6线程加速比达到了5.70x，但是7和8线程反而加速比下降了。不知道在虚拟机上跑该程序，是不是没有用到超线程。view2的6线程加速比为4.60x。应该是机器的问题。</p>
+<p>题中最后还问了16线程运行程序会不会有性能提升，显然在我的机器上不会了，6线程就是最佳性能了。</p>
+<p><strong>Vectorizing Code Using SIMD Intrinsics</strong></p>
+<p>该任务的要求是使用cs149intrin.h中的fake SIMD指令对一个程序进行向量化。提供了一个向量化abs为参考。这个向量化的abs是不完整的，N%VECTOR_WIDTH的部分没有计算。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">absVector</span><span class="params">(<span class="type">float</span>* values, <span class="type">float</span>* output, <span class="type">int</span> N)</span> </span>&#123;</span><br><span class="line">  __cs149_vec_float x;</span><br><span class="line">  __cs149_vec_float result;</span><br><span class="line">  __cs149_vec_float zero = _cs149_vset_float(<span class="number">0.f</span>);</span><br><span class="line">  __cs149_mask maskAll, maskIsNegative, maskIsNotNegative;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  Note: Take a careful look at this loop indexing.  This example</span></span><br><span class="line"><span class="comment">//  code is not guaranteed to work when (N % VECTOR_WIDTH) != 0.</span></span><br><span class="line"><span class="comment">//  Why is that the case?</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;N; i+=VECTOR_WIDTH) &#123;</span><br><span class="line">    <span class="comment">// All ones</span></span><br><span class="line">    maskAll = _cs149_init_ones();</span><br><span class="line">    <span class="comment">// All zeros</span></span><br><span class="line">    maskIsNegative = _cs149_init_ones(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">// Load vector of values from contiguous memory addresses</span></span><br><span class="line">    _cs149_vload_float(x, values+i, maskAll);               <span class="comment">// x = values[i];</span></span><br><span class="line">    <span class="comment">// Set mask according to predicate</span></span><br><span class="line">    _cs149_vlt_float(maskIsNegative, x, zero, maskAll);     <span class="comment">// if (x &lt; 0) &#123;</span></span><br><span class="line">    <span class="comment">// Execute instruction using mask (&quot;if&quot; clause)</span></span><br><span class="line">    _cs149_vsub_float(result, zero, x, maskIsNegative);      <span class="comment">//   output[i] = -x;</span></span><br><span class="line">    <span class="comment">// Inverse maskIsNegative to generate &quot;else&quot; mask</span></span><br><span class="line">    maskIsNotNegative = _cs149_mask_not(maskIsNegative);     <span class="comment">// &#125; else &#123;</span></span><br><span class="line">    <span class="comment">// Execute instruction (&quot;else&quot; clause)</span></span><br><span class="line">    _cs149_vload_float(result, values+i, maskIsNotNegative); <span class="comment">//   output[i] = x; &#125;</span></span><br><span class="line">    <span class="comment">// Write results back to memory</span></span><br><span class="line">    _cs149_vstore_float(output+i, result, maskAll);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>未向量化的程序为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">clampedExpSerial</span><span class="params">(<span class="type">float</span>* values, <span class="type">int</span>* exponents, <span class="type">float</span>* output, <span class="type">int</span> N)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;N; i++) &#123;</span><br><span class="line">    <span class="type">float</span> x = values[i];</span><br><span class="line">    <span class="type">int</span> y = exponents[i];</span><br><span class="line">    <span class="keyword">if</span> (y == <span class="number">0</span>) &#123;</span><br><span class="line">      output[i] = <span class="number">1.f</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="type">float</span> result = x;</span><br><span class="line">      <span class="type">int</span> count = y - <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">while</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        result *= x;</span><br><span class="line">        count--;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (result &gt; <span class="number">9.999999f</span>) &#123;</span><br><span class="line">        result = <span class="number">9.999999f</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      output[i] = result;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>仿照abs中的内容进行向量化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">clampedExpVector</span><span class="params">(<span class="type">float</span>* values, <span class="type">int</span>* exponents, <span class="type">float</span>* output, <span class="type">int</span> N)</span> </span>&#123;</span><br><span class="line">    __cs149_vec_float x, maxVal;</span><br><span class="line">    __cs149_vec_int exp, zero, one;</span><br><span class="line">    __cs149_vec_float result;</span><br><span class="line">    __cs149_mask maskAll, maskCal, maskGtMax;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line"></span><br><span class="line">    zero = _cs149_vset_int(<span class="number">0</span>);</span><br><span class="line">    one = _cs149_vset_int(<span class="number">1</span>);</span><br><span class="line">    maxVal = _cs149_vset_float(<span class="number">9.999999f</span>);</span><br><span class="line">    maskAll = _cs149_init_ones();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i+VECTOR_WIDTH&lt;=N;i+=VECTOR_WIDTH)&#123;</span><br><span class="line">      <span class="comment">//load data and set result = 1</span></span><br><span class="line">      _cs149_vload_float(x, values+i, maskAll);</span><br><span class="line">      _cs149_vload_int(exp, exponents+i, maskAll);</span><br><span class="line">      result = _cs149_vset_float(<span class="number">1.f</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//if exp &gt; 0, maskCal = true</span></span><br><span class="line">      _cs149_vgt_int(maskCal, exp, zero, maskAll);</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//while(exp&gt;0) result*=x exp--</span></span><br><span class="line">      <span class="keyword">while</span>(_cs149_cntbits(maskCal)!=<span class="number">0</span>)&#123;</span><br><span class="line">        _cs149_vmult_float(result, result, x, maskCal);</span><br><span class="line">        _cs149_vsub_int(exp, exp, one, maskCal);</span><br><span class="line">        _cs149_vgt_int(maskCal, exp, zero, maskCal);</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//if result &gt; 9.999999f </span></span><br><span class="line">      _cs149_vgt_float(maskGtMax, result, maxVal, maskAll);</span><br><span class="line">      _cs149_vset_float(result, <span class="number">9.999999f</span>, maskGtMax);</span><br><span class="line">      </span><br><span class="line">      _cs149_vstore_float(output+i, result, maskAll);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(i!=N)&#123;</span><br><span class="line">      i -= VECTOR_WIDTH;</span><br><span class="line">      <span class="built_in">clampedExpSerial</span>(values+i, exponents+i, output+i, N-i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在size为10000下，将向量宽度改为2,4,8,16，向量利用率为79.8%，72.1%，68.1%，66.3%，因为在向量宽度很大时，会有很多lanes是disabled，计算就失去了向量化的优势。</p>
+<p>extra bonus是array_sum的计算，主要是多了使用hadd和interleave指令。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// returns the sum of all elements in values</span></span><br><span class="line"><span class="comment">// You can assume N is a multiple of VECTOR_WIDTH</span></span><br><span class="line"><span class="comment">// You can assume VECTOR_WIDTH is a power of 2</span></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">arraySumVector</span><span class="params">(<span class="type">float</span>* values, <span class="type">int</span> N)</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  <span class="comment">// CS149 STUDENTS <span class="doctag">TODO:</span> Implement your vectorized version of arraySumSerial here</span></span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  __cs149_vec_float result;</span><br><span class="line">  __cs149_vec_float value;</span><br><span class="line">  __cs149_mask maskAll;</span><br><span class="line">  result = _cs149_vset_float(<span class="number">0</span>);</span><br><span class="line">  maskAll = _cs149_init_ones();</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;N; i+=VECTOR_WIDTH) &#123;</span><br><span class="line">    _cs149_vload_float(value, values+i, maskAll);</span><br><span class="line">    _cs149_vadd_float(result, value, result, maskAll);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">int</span> width = VECTOR_WIDTH;</span><br><span class="line">  <span class="keyword">while</span>(width/=<span class="number">2</span>)&#123;</span><br><span class="line">    _cs149_hadd_float(result,result);</span><br><span class="line">    _cs149_interleave_float(result,result);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">float</span> tmp[VECTOR_WIDTH];</span><br><span class="line">  _cs149_vstore_float(tmp,result,maskAll);</span><br><span class="line">  <span class="keyword">return</span> tmp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Program 3: Parallel Fractal Generation Using ISPC</strong></p>
+<p>program3仍然是一个计算图形的程序，但这次要使用ISPC进行并行化。ISPC用于描述<strong>独立计算</strong>，图形计算中每个像素点是独立的，因此可以采用ISPC。提供的程序有一些问题，根据说明，修改之后应该能实现32x的加速比。</p>
+<p>尽管和C/C++ code很像，但ISPC的实现是不同的，程序实例会在CPU的SIMD执行单元并行执行，实例的数量由编译器器根据具体机器决定，可以通过变量programCount获取，每个实例有自己的programIndex。调用ISPC函数相当于创建了一组程序实例，运行结束后将控制返回caller。</p>
+<p>ISPC也有两种实现，一种是命令式的，指明任务的分配，另一种是声明式的，用于计算独立的情况，可以专注于将问题分解：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//imperative</span></span><br><span class="line"><span class="function"><span class="keyword">export</span> <span class="title">sum</span><span class="params">(uniform <span class="type">int</span> N, uniform <span class="type">float</span>* a, uniform <span class="type">float</span>* b, uniform <span class="type">float</span>* c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// Assumption programCount divides N evenly.</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;N; i+=programCount)</span><br><span class="line">  &#123;</span><br><span class="line">    c[programIndex + i] = a[programIndex + i] + b[programIndex + i];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//declarative</span></span><br><span class="line"><span class="function"><span class="keyword">export</span> <span class="title">sum2</span><span class="params">(uniform <span class="type">int</span> N, uniform <span class="type">float</span>* a, uniform <span class="type">float</span>* b, uniform <span class="type">float</span>* c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  foreach (i = <span class="number">0</span> ... N)</span><br><span class="line">  &#123;</span><br><span class="line">    c[i] = a[i] + b[i];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>给出的mandelbrot图像计算程序可以达到5.74x的加速比，由于ISPC会转换程序为宽度为8的AVX向量指令，理想的加速比是8x，没有达到理想加速比的原因是计算负载的不均衡。与program1不同的是，这次的计算是利用向量化在单核上进行的。</p>
+<p>ISPC也提供了利用多核的方法，可以使用launch命令来创建并行任务，任务可以在不同的核中以任意顺序并行执行。使用—tasks参数启动给出的程序，可以达到11.27x的加速比。</p>
+<p>在给出的代码中，task数是2，虚拟机是8核的，如果创建8个task的话，加速比可以达到24.45x；创建10个task，加速比达到30.30x。本来到这里就应该差不多了，因为在program1时6线程就是最佳性能了，即使假设用到超线程，也只是取12，但奇怪的是，我将task改为20(因为height是800，这样可以整除)，加速比又有了一点提升，将task改为50，加速比竟然上升到了36.44x。这个加速比本身不算特别大，因为说明中已经告诉了加速比可以超过32x，但为什么task加到这么多才达到最大加速比，暂时我还没有想法。</p>
+<p>ISPC以非常便捷的方式实现了最大性能，向量化只要使用foreach语句就可以实现，线程也只需要launch命令就可以开启，极大提高了并行编程的效率。</p>
+<h2 id="CS267"><a href="#CS267" class="headerlink" title="CS267"></a>CS267</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2023/11/19/CS149&amp;267LAB/">https://a-y-1.github.io/2023/11/19/CS149&amp;267LAB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></div><div class="post_share"><div class="social-share" data-image="/../cover/hpc.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/21/CMU15-418notes(19-23)/" title="CMU15-418notes(19-23)"><img class="cover" src="/../cover/CMU15-418.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CMU15-418notes(19-23)</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7/" title="性能优化工具"><img class="cover" src="/../cover/opt_tools.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">性能优化工具</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/11/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="高性能计算学习记录"><img class="cover" src="/../cover/hpc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-11</div><div class="title">高性能计算学习记录</div></div></a></div><div><a href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">CMU15-418notes(1-9)</div></div></a></div><div><a href="/2023/10/13/Pthread/" title="Pthreads简记"><img class="cover" src="/../cover/pthread.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">Pthreads简记</div></div></a></div><div><a href="/2023/10/23/CMU15-418notes(10-18)/" title="CMU15-418notes(10-18)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-23</div><div class="title">CMU15-418notes(10-18)</div></div></a></div><div><a href="/2023/10/27/OpenMP/" title="OpenMP"><img class="cover" src="/../cover/openmp.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-27</div><div class="title">OpenMP</div></div></a></div><div><a href="/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/" title="超算竞赛导引"><img class="cover" src="/../cover/sc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-27</div><div class="title">超算竞赛导引</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CS149"><span class="toc-text">CS149</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Assignment-1-Performance-Analysis-on-a-Quad-Core-CPU"><span class="toc-text">Assignment 1: Performance Analysis on a Quad-Core CPU</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CS267"><span class="toc-text">CS267</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/21/CMU15-418notes(19-23)/" title="CMU15-418notes(19-23)">CMU15-418notes(19-23)</a><time datetime="2023-11-21T09:12:14.000Z" title="发表于 2023-11-21 17:12:14">2023-11-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/19/CS149&amp;267LAB/" title="CS149&amp;267LAB">CS149&amp;267LAB</a><time datetime="2023-11-19T14:33:29.000Z" title="发表于 2023-11-19 22:33:29">2023-11-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7/" title="性能优化工具">性能优化工具</a><time datetime="2023-11-01T08:17:29.000Z" title="发表于 2023-11-01 16:17:29">2023-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/27/OpenMP/" title="OpenMP">OpenMP</a><time datetime="2023-10-27T12:33:29.000Z" title="发表于 2023-10-27 20:33:29">2023-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/" title="超算竞赛导引">超算竞赛导引</a><time datetime="2023-10-27T09:03:29.000Z" title="发表于 2023-10-27 17:03:29">2023-10-27</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../cover/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
