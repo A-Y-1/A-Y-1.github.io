@@ -1,0 +1,279 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Efficiently Running SpMV on Long Vector Architectures | 橙的Blog</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Efficiently Running SpMV on Long Vector ArchitecturesAbstract稀疏矩阵-向量乘法（SpMV）是并行数值应用的一个重要核心。SpMV中存在稀疏和不规则的数据访问，这使得它的向量化变得复杂。这些困难使得SpMV在运行于利用SIMD并行性的长向量ISA时，经常出现非最优的结果。在这种情况下，开发新的优化方法成为了使SpMV在新兴的长向量架构上实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Efficiently Running SpMV on Long Vector Architectures">
+<meta property="og:url" content="https://a-y-1.github.io/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/index.html">
+<meta property="og:site_name" content="橙的Blog">
+<meta property="og:description" content="Efficiently Running SpMV on Long Vector ArchitecturesAbstract稀疏矩阵-向量乘法（SpMV）是并行数值应用的一个重要核心。SpMV中存在稀疏和不规则的数据访问，这使得它的向量化变得复杂。这些困难使得SpMV在运行于利用SIMD并行性的长向量ISA时，经常出现非最优的结果。在这种情况下，开发新的优化方法成为了使SpMV在新兴的长向量架构上实">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/cover/image-20231220173305208.png">
+<meta property="article:published_time" content="2023-12-22T07:25:14.000Z">
+<meta property="article:modified_time" content="2023-12-22T07:26:06.618Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="SpMV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/cover/image-20231220173305208.png"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Efficiently Running SpMV on Long Vector Architectures',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-12-22 15:26:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的Blog"><span class="site-name">橙的Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Efficiently Running SpMV on Long Vector Architectures</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-22T07:25:14.000Z" title="发表于 2023-12-22 15:25:14">2023-12-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-22T07:26:06.618Z" title="更新于 2023-12-22 15:26:06">2023-12-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87/">论文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Efficiently Running SpMV on Long Vector Architectures"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Efficiently-Running-SpMV-on-Long-Vector-Architectures"><a href="#Efficiently-Running-SpMV-on-Long-Vector-Architectures" class="headerlink" title="Efficiently Running SpMV on Long Vector Architectures"></a>Efficiently Running SpMV on Long Vector Architectures</h1><h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>稀疏矩阵-向量乘法（SpMV）是并行数值应用的一个重要核心。SpMV中存在稀疏和不规则的数据访问，这使得它的向量化变得复杂。这些困难使得SpMV在运行于利用SIMD并行性的长向量ISA时，经常出现非最优的结果。在这种情况下，开发新的优化方法成为了使SpMV在新兴的长向量架构上实现高性能执行的基础。本文通过提出几种新的优化方法，改进了最先进的SELL-C-𝜎稀疏矩阵格式。作者针对长向量架构，如NEC Vector Engine。通过结合多种优化方法，在考虑24个异构矩阵的情况下，平均比SELL-C-𝜎提高了12%。作者的优化方法提高了长向量架构的性能，因为它们实现了高度的SIMD并行性。</p>
+<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h2><p>SpMV是HPC中常见的一个计算kernel。在线性系统中通常通过迭代方法求解，在这个执行过程中使用SpMV kernel。此外数据分析领域的工作负载需要通过SpMV来操作高度不规则和稀疏的矩阵。因此，有效地执行这个基本的线性代数核心是至关重要的。</p>
+<p>SpMV的性能影响因素很多。一些提升性能的困难为：</p>
+<ul>
+<li>对向量x的访问与矩阵A的稀疏模式有关，对x的访问不规则且难以预测。</li>
+<li>𝑥是SpMV中涉及的唯一一个可以利用一定程度的数据重用的数据结构，但其访问的不规则性使得很难充分利用这些重用机会。</li>
+<li>由于矩阵中的不同的非零值分布，会带来<strong>控制流分歧</strong>(多个线程或处理单元同时执行指令。当在执行中需要根据条件进行不同的操作时，就会发生控制流分歧。这可能导致一些线程需要等待其他线程完成它们的工作，从而影响整体性能)而影响性能。在GPU或长向量处理单元上这样的问题会显著限制性能。</li>
+</ul>
+<p>对于最常见的稀疏矩阵存储格式CSR，对x的访问是不规则的，并且控制流分歧严重。因此有一些其他方式通过增加数据存储来换取对x访问的局部性的提升。SELL-C-σ和ESB是另外两种格式，通过分块和行排序来提高对x访问的局部性。许多方法提供了很好的性能，但是仍然可以针对长向量架构进行优化，本篇文章作者的工作主要有：</p>
+<ul>
+<li>作者针对长向量架构改进了SELL-C-σ，在<strong>NEC SX-Aurora Vector Engine</strong>实现了117GFlops的78%的峰值内存带宽。展示了如何在新兴的向量ISA（如Arm SVE或RISC-V向量扩展）上处理稀疏数据结构。</li>
+<li>实现评估了一些优化方法在长向量架构机器的优化效果。</li>
+<li>与一些针对多核CPU或GPU设备的先进SpMV实现进行了比较。证明了作者的方法分别实现了3.02x和1.72x的加速比。</li>
+</ul>
+<p>🔰NEC SX-Aurora Vector Engine：高性能向量处理器，向量长为16 kbit，支持谓词操作，可以执行基于条件的向量操作。</p>
+<p>🔰Arm SVE：SVE是ARM在其v8-A架构中引入的较新的向量指令集，它的设计更为灵活，支持可变长度的向量。这使得SVE能够更好地适应不同应用和硬件的需求。SVE引入了矢量长度的概念，允许程序在运行时选择不同的矢量长度，而不是被限制在固定长度的向量上。这种可伸缩性使SVE能够更好地适应不同计算需求。早期的NEON指令集主要专注于嵌入式系统和移动设备上的加速，而SVE则更为灵活，适用于各种不同类型的计算，包括高性能计算和服务器领域。</p>
+<h2 id="2-Background"><a href="#2-Background" class="headerlink" title="2 Background"></a>2 Background</h2><p>稀疏矩阵的常见存储格式有以下这些。</p>
+<p><strong>CSR</strong></p>
+<p>压缩稀疏行（CSR）是一种最常用的表示稀疏矩阵的格式。它按行顺序将非零（NNZ）元素的值和列索引分别存储在两个数组中。第三个数组保存了每一行在这些数组中的起始位置的指针。CSR的主要优点是它对任何类型的矩阵元素分布都有很大的压缩比，以及可以顺序地访问𝐴的值和列索引的可能性。它的主要缺点是不适合向量架构，以及𝑥访问的局部性差。</p>
+<p><strong>ELLPACK</strong></p>
+<p>是为了在GPU和向量架构中高效地执行而设计的。与CSR相比，它通过以列顺序存储和访问非零元素，以增加存储的代价，提高了对𝑥的内存访问的局部性。对于一个大小为𝑀 × 𝑁的矩阵𝐴，如果每行的最大长度为𝐾，它需要一个大小为𝑀 × 𝐾的数组来存储𝐴。ELLPACK的主要缺点是它只有在存储的矩阵具有规则的每行NNZ元素时，才能提供良好的性能和压缩。尽管两个压缩矩阵是二维的，实际计算中会将其按列存储为一维，然后由GPU的threads进行计算，每个thread一行。</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231220170940366.png" alt="image-20231220170940366" style="zoom:50%;"></p>
+<p>Sliced ELLPACK是ELLPACK的改进，将矩阵的行按照非零元素的个数排序，再将整个矩阵划分为固定行数的切片，这样每一切片中的行长度相近，可以更好的利用缓存局部性。适用于非零元素数分布不均匀的稀疏矩阵。</p>
+<p><strong>SELL-C-σ</strong></p>
+<p>SELL-C-σ是基于Sliced ELLPCAK的改进。将矩阵按行分为指定大小的CHUNK，并只对指定σ行进行排序，避免大规模排序的性能开销。下图中C=4，σ为8。在GPU上，最小的C为32，即一个warp的大小，在CPU上则应该为向量单元的长度。</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231220172438014.png" alt="image-20231220172438014" style="zoom:50%;"></p>
+<p><strong>ESB(ELLPACK Sparce Block)</strong></p>
+<p>ESB引入了两个额外的优化来降低带宽需求：列阻塞和使用位数组来屏蔽指令。为了提高访问的局部性，ESB将矩阵拆分为列块或片块。ESB使用位数组数据结构为切片的每一列存储一位掩码。对于列中的每个非零元素，位被设置为1。该信息稍后用于屏蔽SIMD操作的元素。它实现了大的压缩率，因为它不需要零填充(在”针对长向量架构的优化-通过调整向量长度应对控制流分歧”部分说明这是如何实现的)。</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231220173305208.png" alt="image-20231220173305208" style="zoom: 50%;"></p>
+<p>作者给出的该图中，最右侧的是采用了控制流分歧优化的SELL-C-σ，不需要0填充。</p>
+<h2 id="3-Contributions"><a href="#3-Contributions" class="headerlink" title="3 Contributions"></a>3 Contributions</h2><h3 id="3-1-SELL-C-σ格式的实现"><a href="#3-1-SELL-C-σ格式的实现" class="headerlink" title="3.1 SELL-C-σ格式的实现"></a>3.1 SELL-C-σ格式的实现</h3><p>SELL-C-σ是向量架构下高效的稀疏矩阵格式。因此作者以SELL-C-σ为基础来实现SpMV。首先作者使用了一些已有的优化手段，并针对长向量架构做了调整，主要是三个部分：</p>
+<ul>
+<li>选择随着σ参数的增加，同时考虑性能和预处理开销的合适的排序策略。</li>
+<li>使用不同粒度的任务大小来调整任务并行中格式缩放的影响。</li>
+<li>使用列分块提升访问向量x的局部性。</li>
+</ul>
+<p><strong>排序策略</strong></p>
+<p>SELL-C-σ格式需要矩阵行根据NNZ元素个数排序，这开销可能很大。作者采用基数排序降低开销。矩阵被分为不同的子集部分，在内部进行排序，而各子集的排序可以并行完成，使用OpenMP就可以实现。子集被称为reorder window，大小为σ。在使用了控制流分歧优化的基础上，作者测试了排序的性能及最佳的σ值。σ取16K可达到最佳性能，比σ取256性能提高30%，但在预处理阶段需要40%-50%的额外时间。在测试时，将矩阵转换为SELL-C-σ格式需要10到15次迭代。作者使用row_order[num_rows]存储矩阵的行顺序。</p>
+<p><strong>任务并行</strong></p>
+<p>作者将工作负载分成不同的任务，并行执行，使用OpenMP来处理任务。理想中的任务粒度取决于输入矩阵，因此作者进行了可扩展性测试，最多8个线程，人物数量为8-256。任务处理类似工作量但稀疏程度不同的矩阵。结果说明最佳的工作负载性能不应创造过多的任务。工作负载划分为8-64个任务最好。后续实验也采用了8-64个任务的配置。</p>
+<p><strong>列分块</strong></p>
+<p>已有工作分析了列分块对SpMV的影响，不过仅限于Xeon Phi，SIMD宽度为512位。作者扩展了SELL-C-σ，实现了类似的分块，测试这样优化的效果。</p>
+<h3 id="3-2-针对长向量架构的优化"><a href="#3-2-针对长向量架构的优化" class="headerlink" title="3.2 针对长向量架构的优化"></a>3.2 针对长向量架构的优化</h3><p>作者针对SX-aurora类似的长向量架构做了一些优化：</p>
+<ul>
+<li>通过缓存分配提升x的重用以及减少存储依赖(降低存储指令之间的依赖关系的优先级，从而允许一些不违反内存顺序的加载指令提前发出，而不用等待之前未解决的存储地址。)。</li>
+<li>自适应向量长度的控制流，避免存储和计算0填充元素。</li>
+<li>使用部分循环融合❓在SELL-C-σ中实现循环展开。</li>
+<li>使用特殊指令实现高效的gather和scatter操作。</li>
+</ul>
+<p>作者所有的优化都是基于以下的基本实现代码的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">sell_c_sigma_mv</span><span class="params">(mtx, x, y, num_rows)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> maxvl = <span class="number">256</span>;	<span class="comment">//每次计算的行数，即Slice的行数</span></span><br><span class="line">	<span class="comment">/* Outer loop: iterates over rows in the mtx */</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; num_rows; row += maxvl) &#123;</span><br><span class="line">		<span class="type">int</span> vl=((num_rows - row) &lt; maxvl)? (num_rows - row): maxvl;	<span class="comment">//当前迭代的行数</span></span><br><span class="line">        vr res = <span class="built_in">vxor</span>(res, res, vl);								<span class="comment">//清0结果</span></span><br><span class="line">        <span class="comment">/* Set pointers to values and column indices */</span></span><br><span class="line">        <span class="type">int</span> sli = row / maxvl;										<span class="comment">//slice编号</span></span><br><span class="line">        <span class="type">int</span> nnz_idx = mtx.slices_ptr[sli]							<span class="comment">//slice的起始位置</span></span><br><span class="line">        <span class="type">double</span> *values = &amp;mtx.values[nnz_idx];						<span class="comment">//数据的起始地址</span></span><br><span class="line">        <span class="type">int</span> *col_indices = &amp;mtx.column_indices[nnz_idx];</span><br><span class="line">        <span class="comment">/* Compute scatter addresses */</span></span><br><span class="line">        vr y_sc_addr = <span class="built_in">vload</span>(<span class="number">8</span>, &amp;mtx.vrow_order[row], vl);			<span class="comment">//以8为步长，把结果的行号存储到向量中</span></span><br><span class="line">        y_sc_addr = <span class="built_in">vshiftadd</span>(y_sc_addr, <span class="number">3UL</span>, y, maxvl);			<span class="comment">//结果的地址，索引*8+y</span></span><br><span class="line">        <span class="comment">/* Inner loop: iterates over columns in the slice */</span></span><br><span class="line">        <span class="type">int</span> swidth = mtx.slices_width[sli];							<span class="comment">//切片宽度，即有多少列</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; swidth; i++) &#123;</span><br><span class="line">            <span class="comment">/* Load mtx values and column index */</span></span><br><span class="line">            vr val = <span class="built_in">vload</span>(<span class="number">8</span>, values, vl);</span><br><span class="line">            vr col = <span class="built_in">vload</span>(<span class="number">8</span>, col_indices, vl);</span><br><span class="line">            vr xgather_addr = <span class="built_in">vshiftadd</span>(col, <span class="number">3</span>, x, vl);				<span class="comment">//x的相应位置地址gather到向量中</span></span><br><span class="line">            <span class="comment">/* Gather and multiply */</span></span><br><span class="line">            vr x_val = <span class="built_in">vgather</span>(xgather_addr, vl);</span><br><span class="line">            res = <span class="built_in">vmultiplyadd</span>(res, x_val, val, vl);</span><br><span class="line">            values += maxvl; col_indices += maxvl;					<span class="comment">//更新values和col_indices的地址</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">vscatter</span>(res, y_sc_addr, vl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>🔰TIP：这里要注意的是，前述的SELL-C-σ格式，每个切片内的元素的按照列存储的，切片是按顺序存储的。所有的切片行数相同，最后一个切片的长度也是，在values和col_indices也是这样对齐存储的，这样做是为了方便向量化操作，因此更新values的地址时要+maxvl，多余的部分也要跳过。</p>
+<p><strong>缓存分配和存储放松</strong></p>
+<p>在SpMV中，对矩阵A的访问和复用特性与对x的有很大差异。访问A的数据结构时步长是1且不会重用，而对x的访问是随机的但会重复使用。为了实现更好的性能，需要尽可能的实现数据的重用，来减少内存带宽的压力。长向量架构通常提供显式的缓存替换策略选择。充分利用这个特性，可以设定<strong>含有values和col_indices的缓存行最先被换出</strong>，从而降低向量x被换出的可能性。这被称为<strong>非缓存加载(Non-Cacheable load)</strong>。</p>
+<p>另一个方面是存储策略。作者使用一个向量寄存器存储一个slice内的中间见过，结束后通过scatter指令存储数据。分散存储指令会根据地址范围计算依赖性，这可能导致尽管具体地址不同，但延迟访问该地址范围的后续存储指令。由于我们知道scatter之后的指令不会访问相同的内存地址，所以可以<strong>指示硬件不要检查scatter和后续指令之间的依赖关系</strong>，这被称为<strong>Store Overtake</strong>。在这部分relaxation<br>period结束后再插入memory fence指令。现代向量处理器支持这样的依赖放松。</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231221152527298.png" alt="image-20231221152527298" style="zoom:50%;"></p>
+<p><strong>通过调整向量长度应对控制流分歧</strong></p>
+<p>每行的非零元素数量不一样，会导致循环迭代时的每行数据控制流分歧。例如假设有4列4行，前两行有4个非零元素，后两行只有2个非零元素，按列计算的迭代共有4轮，但后两行在最后两轮迭代其实没有计算，浪费了计算资源。</p>
+<p>一个处理控制流分歧的流行技术是使用<strong>谓词寄存器</strong>。这种寄存器包含了一个位数组指出哪些元素为0。AVX，SVE都支持这样的寄存器，使编译器能够向量化不规则的循环。但是这需要大量的存储空间，因为每个向量元素都需要一个相应的mask，而且有许多实现不是不处理0元素，而只是处理后忽略无意义的结果。</p>
+<p>作者提出了一种新方法来应对控制流分歧，这种方法依赖于向量元素数量(Ve)和向量通道(Vl)的比率，这种方法被作者称为<strong>Divergent Flow Control (DFC)</strong>。计算向量需要Ve/Vl个batch，作者的方法就是只要求硬件处理MAXnnz/Vl个batch，而且MAXnnz的大小受到向量寄存器的限制，对于SX-Aurora，向量寄存器存储256元素，因此MAXnnz在1~256之间，用一个字节就可以存储MAXnnz的信息。这里不明白作者命名MAXnnz中MAX表示什么，不过优化的操作如下：</p>
+<p>回顾上文，由于切片内数据是按列计算的，因此<strong>向量存储的是一列的数据</strong>，假设我们有一个如下的Slice，Vl是2，如果未优化，那么向量长度(列长)是4，计算需要两个batch，而最后一行的最后一个batch的计算是没有意义的，因此额外添加一个数组，记录每一列的NNZ数量分别为4 4 4 4 2，这样最后一列(最后一个向量)就只计算一个batch，从而实现性能的优化。而一个slice的行最多有256个(SX-Aurora的向量长度限制)，因此每一列NNZ元素数量只要一个字节就可以记录。作者使用一个active_lanes来实现这种优化，这个数据结构包含每个切片要执行的每个列向量操作的值。</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231221154729269.png" alt="image-20231221154729269" style="zoom: 80%;"></p>
+<p><strong>循环展开</strong></p>
+<p>循环展开是一种常见优化，可以减少控制流开销。在这里作者增加列向量长度来提高向量x的局部性，同时最大限度提高寄存器文件上的数据重用。</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231221162358667.png" alt="image-20231221162358667" style="zoom:50%;"></p>
+<p>但是这种循环展开在这里的有效实现并不简单，展开的问题在于每个切片具有不同的宽度，每个切片的宽度都小于或等于前一个切片的宽度。因此需要在最后额外计算slice1的最后几列，同时计算slice1和slice2循环的列数是slice2的列数(行宽swidth)。此外，σ应该是展开的所有切片行数的倍数。</p>
+<p>展开大小受向量寄存器数量的限制。由于每次展开时局部变量的数量都会增加，因此重要的是要在使用它们的最直接的上下文中声明它们，这使得编译器更容易管理寄存器依赖项、应用特定于体系结构的优化并避免溢出。作者的实现能够在具有192个架构寄存器的向量架构上最多展开8次，而不会产生任何溢出访问。</p>
+<p>作者进行两次展开的示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">sell_c_sigma_mv_unroll</span><span class="params">(mtx, x, y, num_rows)</span> </span>&#123;</span><br><span class="line">  <span class="type">int</span> maxvl = <span class="number">256</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; (num_rows - <span class="number">511</span>); row += <span class="number">512</span>) &#123;</span><br><span class="line">    <span class="type">int</span> sli = row / maxvl;</span><br><span class="line">    <span class="comment">/* Set pointers to values and column indices */</span></span><br><span class="line">    <span class="type">double</span> *values1 = &amp;mtx.values[slices_ptr[sli]];</span><br><span class="line">    <span class="type">double</span> *values2 = &amp;mtx.values[slices_ptr[sli+<span class="number">1</span>]];</span><br><span class="line">    <span class="type">int</span> *col_indices1 = &amp;mtx.col_idx[slices_ptr[sli]];</span><br><span class="line">    <span class="type">int</span> *col_indices2 = &amp;mtx.col_idx[slices_ptr[sli+<span class="number">1</span>]];</span><br><span class="line">    vr res1 = <span class="built_in">vxor</span>(res1, res1, maxvl);</span><br><span class="line">    vr res2 = <span class="built_in">vxor</span>(res2, res2, maxvl);</span><br><span class="line">    <span class="type">int</span> swidth = mtx.slices_width[sli];</span><br><span class="line">    <span class="type">int</span> swidth2 = mtx.slices_width[sli + <span class="number">1</span>];</span><br><span class="line">    <span class="type">int</span> al1 = active_lanes[sli];</span><br><span class="line">    <span class="type">int</span> al2 = active_lanes[sli + <span class="number">1</span>];</span><br><span class="line">    vr y_sc_addr = <span class="built_in">vload</span>(<span class="number">8</span>, &amp;mtx.vrow_order[row], maxvl);</span><br><span class="line">    y_sc_addr1 = <span class="built_in">vshiftadd</span>(y_sc_addr1, <span class="number">3</span>, y, maxvl);</span><br><span class="line">    vr y_sc_addr2 = <span class="built_in">vload</span>(<span class="number">8</span>, &amp;mtx.vrow_order[row+maxvl], maxvl);</span><br><span class="line">    y_sc_addr2 = <span class="built_in">vshiftadd</span>(y_sc_addr2, <span class="number">3UL</span>, y, maxvl);</span><br><span class="line">    <span class="comment">/* Partial loop fusion: Slices 1 &amp; 2 */</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; swidth2; i++) &#123;</span><br><span class="line">      <span class="comment">/* Compute slice 1 */</span></span><br><span class="line">      <span class="type">int</span> nl_1 = vactive_lanes[al1++] + <span class="number">1</span>;</span><br><span class="line">      vr val1 = <span class="built_in">vload</span>(<span class="number">8</span>, values1, nl_1);</span><br><span class="line">      vr col1 = <span class="built_in">vload</span>(<span class="number">8</span>, col_indices1, nl_1);</span><br><span class="line">      vr xgather_addr1 = <span class="built_in">vshiftadd</span>(col1, <span class="number">3</span>, x, nl_1);</span><br><span class="line">      vr x_val1 = <span class="built_in">vgather</span>(xgather_addr1, nl_1);</span><br><span class="line">      res1 = <span class="built_in">vmultiplyadd</span>(res1, x_val1, val1, nl_1);</span><br><span class="line">      <span class="comment">/* Compute slice 2 */</span></span><br><span class="line">      <span class="type">int</span> nl_2 = vactive_lanes[al2++] + <span class="number">1</span>;</span><br><span class="line">      vr val2 = <span class="built_in">vload</span>(<span class="number">8</span>, values2, nl_2);</span><br><span class="line">      vr col2 = <span class="built_in">vload</span>(<span class="number">8</span>, col_indices2, nl_2);</span><br><span class="line">      vr xgather_addr2 = <span class="built_in">vshiftadd</span>(col2, <span class="number">3</span>, x, nl_2);</span><br><span class="line">      vr x_val2 = <span class="built_in">vgather</span>(xgather_addr2, nl_2);</span><br><span class="line">      res2 = <span class="built_in">vmultiplyadd</span>(res2, x_val2, val2, nl_2);</span><br><span class="line">      <span class="comment">/* Advance pointers */</span></span><br><span class="line">      values1 += nl_1; values2 += nl_2;</span><br><span class="line">      col_indices1 += nl_1; col_indices2 += nl_2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* Finish computing the remaining vector ops in slice 1*/</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = swidth2; i &lt; swidth; i++) &#123;</span><br><span class="line">      <span class="comment">/* Same code as above but only for slice 1 */</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vscatter</span>(res1, y_sc_addr1, maxvl);</span><br><span class="line">    <span class="built_in">vscatter</span>(res2, y_sc_addr2, maxvl);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>gather/scatter地址的高效计算</strong></p>
+<p>在SpMV中，gather用于获取非连续的x元素，而scatter存储元素到结果向量y中时，是通过起始地址+行索引*数据大小计算的。对此进行优化，跟有加法运算的乘法指令可以被单个移位和加法指令取代。这在上面的代码中已经应用了。</p>
+<p>为了评估优化效果，作者创建了五种实现，进行了测试，在此后的章节进行评估，这五种实现为：</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231221164225131.png" alt="image-20231221164225131" style="zoom:50%;"></p>
+<h2 id="4-Methodology"><a href="#4-Methodology" class="headerlink" title="4 Methodology"></a>4 Methodology</h2><p>这一章描述了评估的实验设置。作者的实现是在NEC SX-Aurora上的，用于比较的系统有：</p>
+<ul>
+<li>Intel Xeon Platinum 8160 CPU：24核2.10GHz。L1缓存32KB，L2缓存1024KB，L3是所有核共享的，大小为33792KB。每个核都有AVX-512SIMD单元，支持512bits即16floats，8doubles的向量计算。</li>
+<li>NVIDIAV100 (Volta) GP-GPU：84SM，最大1.5GHz。84SM共享6144KB的L2缓存，4096GB的高带宽存储器(HBM2)。</li>
+</ul>
+<h3 id="4-1-SX-Aurora-VE"><a href="#4-1-SX-Aurora-VE" class="headerlink" title="4.1 SX-Aurora VE"></a>4.1 SX-Aurora VE</h3><p>NEC SX-Aurora VE是NEC长向量架构的最新实现，结合了SIMD和流水线。向量单元和向量寄存器在8周期深的流水线中使用32*64位宽的SIMD，最大向量长度为256×64位或512×32位元素。本文的VE10B处理器2018年发布，并进行了性能评估。VE的6层每层8个HBM2的48GB总容量的内存接口可以提供172.4 GB/s的内存带宽，8核共享。</p>
+<p>SpMV运算的性能优势在于大内存带宽，但同样重要的是处理器的其他特性，如内存延迟隐藏或缓存机制。8个VE核心的每一个都有一个标量处理单元(SPU)和一个向量处理单元(VPU)，连接到共用的16MBLLC(末级缓存)。核到LLC的带宽是406.9GB/s，是双向的。因此4个内核可以实现内存带宽的饱和。每个VPU有64个256 ×64位元素的架构向量寄存器，硬件中有三倍的寄存器，用于寄存器重命名。三个融合乘加向量单元在1.4 GHz时可提供每核269 GFLOPS（双精度）的峰值性能，在1.6 GHz时可提供307 GFLOPS(VE 10A型号)。所使用的VE变体的峰值性能为2.15 TFLOPS。具有8个核心的粗粒度并行性和向量级别的细粒度并行性。</p>
+<p>VE作为PCIe卡集成到其主机中，并将操作系统功能完全卸载到主机。它们以多任务和多处理模式运行，像标准CPU一样，程序可以运行在VE上，将部分代码卸载到主机(反向卸载)，或在主机上运行，并将计算内核卸载到VE（加速器，卸载模型）。异构程序也可以使用NEC提供的混合MPI构建，该混合MPI连接在主机和VE上运行的进程。在所有情况下，程序员都可以使用C、C++、Fortran等语言，并与MPI和OpenMP并行化，而加速器代码仍然可以透明地使用几乎任何Linux系统调用。</p>
+<p>NEC的专有编译器在指令的帮助下支持自动向量化。它们能够使用高级语言循环构造的扩展向量引擎ISA的大部分功能。对于本文提出的工作，我们需要更严格地控制VE功能，如向量掩码生成和控制、向量寄存器和数据的LLC缓存亲和性。因此，作者使用开源的LLVM-VE项目，它支持允许完全控制生成的代码的内部函数。</p>
+<h3 id="4-2-Experimental-Setup"><a href="#4-2-Experimental-Setup" class="headerlink" title="4.2 Experimental Setup"></a>4.2 Experimental Setup</h3><p>作者使用了在最近的文献中频繁使用的代表广泛HPC应用问题的矩阵来评估。下表列出了矩阵及一些特征，这些内容可在<a target="_blank" rel="noopener" href="https://sparse.tamu.edu/">SuiteS-parse Matrix Collection repository</a>找到。</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231221171424212.png" alt="image-20231221171424212" style="zoom:50%;"></p>
+<p>对于作者在VE中的Sell-C-𝜎实现，作者使用LLVM-VE v1.8进行编译，并链接NEC的专有编译器NCC v3.0.1。作者还使用一些专有的数学库进行平台间的性能比较：适用于上述VE、NVIDIA V100和Intel Xeon系统的NLC 2.0、cuSPARSE v10.2和MKL v2020.0。所有这些库都是在2019年或2020年发布的。所有代码都是使用-03优化级别编译的。为了便于重现，作者的<a target="_blank" rel="noopener" href="https://repo.hca.bsc.es/gitlab/cgomez/spmv-long-vector">资源库</a>中提供了所有SpMV实现、开发的基准测试工具和用于每个系统的确切环境配置文件。</p>
+<h2 id="5-Evaluation"><a href="#5-Evaluation" class="headerlink" title="5 Evaluation"></a>5 Evaluation</h2><h3 id="5-1-Performance-of-Long-Vector-Optimizations"><a href="#5-1-Performance-of-Long-Vector-Optimizations" class="headerlink" title="5.1 Performance of Long Vector Optimizations"></a>5.1 Performance of Long Vector Optimizations</h3><p>作者测试了在第三章提到的不同实现的性能。SpMV的性能与稀疏矩阵的结构高度关联。因此并不期望优化在所有评估的矩阵上都有相同的性能提升。作者考虑了矩阵的大小和密度，以及硬件性能监控计数器(PMC)提供的事件信息。PMC能提供VE的一些指标包括：标量和向量指令数，平均向量指令长，缓存未命中率。作者测量了采用提到的优化之前与之后的这些指标，来分析优化的效果。</p>
+<p>图4显示了考虑所有矩阵的GFLOP/s性能结果。共评估了六种实现。其中NLC表示使用NEC的数学库的结果。所有的测量都具有第三章所述的最佳σ和任务分配配置。</p>
+<p>图4中的dense2和nlptkk240矩阵缺少值。在dense2的情况下，包含8切片展开优化的实现需要至少2048行才能正确执行，而该矩阵只有2000行。在nlptkk240的情况下，使用 NLC 在尝试分配数据结构时会耗尽内存。尽管存在这些问题，作者仍然包含这些矩阵，因为作者认为它们对于评估目的很有价值。</p>
+<img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231222095912701.png" class title="image-20231222095912701">
+<p>从图中可以看出，有两个矩阵(<strong>mip1和torso1</strong>)的测量性能，作者的实现明显比NEC数学库差。作者测试后发现8核运行时比单核运行时，执行的标量指令数大了一个数量级，这是因为OpenMP的工作负载分配不均衡导致的。</p>
+<p><strong>DFC evaluation </strong></p>
+<p>对于大多数矩阵，DFC的效果基本可以忽略，但对于高度不规则或非常稀疏的矩阵(<strong>webbase-1M和bundle-adj</strong>)，DFC能有效降低向量长度，提高性能。对于webbase-1M，采用DFC比不采用DFC快了50%，平均向量指令长度从256降到了148。</p>
+<p><strong>Unrollling by 8 evaluation</strong></p>
+<p>作者将SELLCS-DFC和SELLCS-U8-DFC比较，评估循环展开效果。13/24的矩阵使用循环展开后带来了1%~15%的性能提升，也有特例如nlpkkt240带来了51%的性能下降。</p>
+<p>循环展开引入了将slices分配给不同任务的限制。作者的实现要求循环展开的每一个slice都小于等于上一个slice。为了保证这一点，不允许两个排序窗口的slice出现在一个循环展开当中。在一个窗口中，slice一定是长度减小的。每个任务的slice数是8的倍数。这导致任务分配的粒度比较大，最终可能导致核心之间负载分配的不平衡。<strong>bundle-adj</strong>循环展开后的情况就是由于上述原因，第一组slices的NNZ数量非常不均匀，由于上述限制，全部分配到一个task当中了。</p>
+<p>图4表明采用循环展开，行数较少的矩阵优化效果比较好，行数较多的则受益不大。PMC数据指出了性能的提升来源于向量指令计算时间的减少。对于MLGEER和MLLaplcace，循环展开带来了14%和7%的向量负载吞吐量，这不仅来源于对x访问的局部性的提升，也来源于向量指令的并行度提升。</p>
+<p><strong>Cache allocation and store relaxation policies</strong></p>
+<p>将SELLCS-U8-NC-DFC和SELLCS-U8-DFC比较，可以评估缓存分配策略和存储放松的优化效果。有2/3的矩阵都有5%~12%的性能提升。作者选取了ldoor和pwtk进行进一步的分析，这两个矩阵优化后分别提高了8%和6%的LLC命中率，并提高了10%和8%的单周期向量加载元素。并且所有的矩阵都有最大50%的L1缓存缺失的减少。没有任何一种采用优化后性能会降低的情况，这说明缓存分配策略和存储放松优化适用于任何情景。</p>
+<p><strong>Applying all optimizations</strong></p>
+<p>所有的优化可以在所有的矩阵取得平均90.3GFLOPs的性能，这比基本的SELL-CL-σ和NEC数学库的性能分别提升了12%和17%。这证明了作者优化的重要性。</p>
+<p><strong>Applicability of column blocking</strong></p>
+<p>作者还尝试了列分块，但是列分块没有任何性能的提升。一些前期的在SIMD架构的的研究表明只有在有很长的行的矩阵才有效。所以作者又测试了另外两个矩阵spal_004和12month1，这两个矩阵有很长的行。如图5,12month1可以通过16分块得到2x的性能途胜，但是在spal_004，性能随着分块增加而降低。因此可以说明，虽然列分块在长向量架构中的适用性似乎有限，但在某些特定情况下它可能会对性能产生巨大的影响。</p>
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231222111632405.png" alt="image-20231222111632405" style="zoom:50%;"></p>
+<h3 id="5-2-Comparison-with-state-of-the-art-HPC-architectures"><a href="#5-2-Comparison-with-state-of-the-art-HPC-architectures" class="headerlink" title="5.2 Comparison with state-of-the-art HPC architectures"></a>5.2 Comparison with state-of-the-art HPC architectures</h3><p>作者比较了在VE上运行采用全部优化的SpMV和在Intel和NVIDIA平台使用对应数学库的SpMV的性能和能耗。测试选取了每个矩阵在每个平台的最好结果，并包含了矩阵加载和预处理的时间。能耗测试时SpMV算法运行600K次迭代，使预处理和加载矩阵的总占比时间小于10%。</p>
+<p>图6展示了这三个平台的性能对比。下方的图表示与MKL结果相比的归一化能耗。平均而言，SELLCS-U8-NC 分别比 cuSPARSE 和 MKL 提高了 1.72𝑥 和 3.02𝑥。在能源效率方面，SELLCS-U8-NC 与 cuSPARSE 相比能耗降低 22%，与 MKL 相比能耗降低 9.09 倍。</p>
+<p>此外，图 6 上半部分所示的 VE 性能数据略低于图 4 所示的性能数据。不匹配平均低于 5%，这是引入了VE的能耗检测带来的开销。作者从比较中排除了两个矩阵：dense2，因为与展开优化不兼容；和 nlpkkt240，由于库中的内存管理错误。在表 4 中，作者给出了三种架构各自实现的双精度峰值性能的百分比。</p>
+<img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231222122551281.png" class title="image-20231222122551281">
+<p><img src="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/image-20231222123334076.png" alt="image-20231222123334076" style="zoom:50%;"></p>
+<h2 id="6-Related-work"><a href="#6-Related-work" class="headerlink" title="6 Related work"></a>6 Related work</h2><p>由于 SpMV 是多种科学计算算法中至关重要的核心，因此在过去 20 年中已经发表了大量关于许多架构上的 SpMV 优化的研究。最近，研究社区正专注于开发高效的 SpMV 实现，针对具有不同并行度的新兴架构，例如大量内核和长 SIMD 或向量单元。然而，大多数研究仅限于 CPU 中的 8 元素 SIMD 单元或 GPU 中的 32 元素扭曲 [4,8,9,13,14,16]。即使这些方法考虑了具有 AVX-512 扩展功能的最先进的英特尔 CPU 和最新的 GPU，但与我们在研究中考虑的 256 个双精度元素矢量平台 SX-Aurora 相比，它们还是有差距。</p>
+<p>多项研究提出了能够利用 SIMD/向量单元的新格式。他们通过添加零填充来创建连续元素块。然而，由于这些格式依赖于拥有足够大的彼此靠近的 NNZ 元素组才能高效，因此它们不适合长向量架构。</p>
+<p>有一些研究提出了一种两步 SpMV 算法，该算法对大数据矩阵显示出良好的性能改进。使用前一项工作(Implement-<br>ing a Sparse Matrix Vector Product for the SELL-C/SELL-C-𝜎 formats<br>on NVIDIA GPUs.)的作者提供的代码，我们能够在类似于他们研究中使用的 x86 系统中重现结果。然而，我们无法使用性能接近 VE 中 SELL-C-𝜎 代码的内在函数来开发有效的实现。</p>
+<h2 id="7-Conclusion"><a href="#7-Conclusion" class="headerlink" title="7 Conclusion"></a>7 Conclusion</h2><p>作者针对SX-Aurora长向量架构的SpMV实现显示了非常有竞争力的性能结果，大部分超过了NEC库集合中的高度优化的专有实现。作者使用开源编译器LLVM作为计算内核，并讨论了各种也可以应用于其他算法的优化。该实现适用于VE本机库，可从VE程序调用，可以轻松转换为可直接从主机上运行的程序调用的卸载库，以加速主机本机程序。该用例实际上将为预处理步骤带来调整机会，而该步骤在优化方面受到的关注较少。通过在主机端运行排序，作者预计会减少矩阵设置时间。</p>
+<p>与其他高端架构相比，图6中的性能结果表明SX-Aurora性能非常有竞争力，平均胜过竞争架构Xeon Skylake Platinum和Skylake Platinum的两个标准库MKL和cuSparse。尽管VE的峰值性能最低，为2.15 TFLOPS，而Skylake的峰值性能为3.2 TFLOPS，V100的峰值性能为7.8 TFLOPS，但它可以利用其卓越的内存带宽，实现比竞争对手更高的SpMV性能。表4中的结果表明SX-Aurora是一个平衡良好的架构。其0.567 byte/FLOP与以显式并行的长向量 ISA 配合使用，可实现最高的最大和平均性能效率百分比，分别为峰值的5.38% 和4.19%。</p>
+<p>从能耗考虑，加速器优于通用CPU，即便是使用了SIMD和高度优化的库的CPU。此外，性能测量表明长向量架构符合内存带宽要求的数据并行工作负载（例如 SpMV）的要求。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/">https://a-y-1.github.io/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpMV/">SpMV</a></div><div class="post_share"><div class="social-share" data-image="/../cover/image-20231220173305208.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/12/06/An%20OpenMP%20Runtime%20for%20Transparent%20Work%20Sharing%20across/" title="An OpenMP Runtime for Transparent Work Sharing across Cache-Incoherent Heterogeneous Nodes"><img class="cover" src="/../cover/image-20231124183039451.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">An OpenMP Runtime for Transparent Work Sharing across Cache-Incoherent Heterogeneous Nodes</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Efficiently-Running-SpMV-on-Long-Vector-Architectures"><span class="toc-text">Efficiently Running SpMV on Long Vector Architectures</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-text">Abstract</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Introduction"><span class="toc-text">1 Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Background"><span class="toc-text">2 Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Contributions"><span class="toc-text">3 Contributions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-SELL-C-%CF%83%E6%A0%BC%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">3.1 SELL-C-σ格式的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E9%92%88%E5%AF%B9%E9%95%BF%E5%90%91%E9%87%8F%E6%9E%B6%E6%9E%84%E7%9A%84%E4%BC%98%E5%8C%96"><span class="toc-text">3.2 针对长向量架构的优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Methodology"><span class="toc-text">4 Methodology</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-SX-Aurora-VE"><span class="toc-text">4.1 SX-Aurora VE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-Experimental-Setup"><span class="toc-text">4.2 Experimental Setup</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Evaluation"><span class="toc-text">5 Evaluation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-Performance-of-Long-Vector-Optimizations"><span class="toc-text">5.1 Performance of Long Vector Optimizations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-Comparison-with-state-of-the-art-HPC-architectures"><span class="toc-text">5.2 Comparison with state-of-the-art HPC architectures</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Related-work"><span class="toc-text">6 Related work</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Conclusion"><span class="toc-text">7 Conclusion</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/" title="Efficiently Running SpMV on Long Vector Architectures">Efficiently Running SpMV on Long Vector Architectures</a><time datetime="2023-12-22T07:25:14.000Z" title="发表于 2023-12-22 15:25:14">2023-12-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/06/An%20OpenMP%20Runtime%20for%20Transparent%20Work%20Sharing%20across/" title="An OpenMP Runtime for Transparent Work Sharing across Cache-Incoherent Heterogeneous Nodes">An OpenMP Runtime for Transparent Work Sharing across Cache-Incoherent Heterogeneous Nodes</a><time datetime="2023-12-06T06:12:14.000Z" title="发表于 2023-12-06 14:12:14">2023-12-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/21/CMU15-418notes(19-23)/" title="CMU15-418notes(19-23)">CMU15-418notes(19-23)</a><time datetime="2023-11-21T09:12:14.000Z" title="发表于 2023-11-21 17:12:14">2023-11-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/19/CS149LAB1&amp;LAB2/" title="CS149LAB1&amp;LAB2">CS149LAB1&amp;LAB2</a><time datetime="2023-11-19T14:33:29.000Z" title="发表于 2023-11-19 22:33:29">2023-11-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/01/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7/" title="性能优化工具">性能优化工具</a><time datetime="2023-11-01T08:17:29.000Z" title="发表于 2023-11-01 16:17:29">2023-11-01</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../cover/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
