@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Graph500 | 橙的Blog</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Graph500 Benchmarks1 Benchmark1.1 OverallGraph 500是针对数据密集型计算问题设计的一个基准测试。该基准测试包括一个生成器，生成无向图给后两个内核使用，不允许修改使特定内核受益。后两个内核分别为广度优先搜索和单源最短路计算。三个内核都会计时。 基准测试执行步骤如下：  生成边 构造图(kernel1，计时) 随机抽样64个度数为1的key，不包括自循环">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graph500">
+<meta property="og:url" content="https://a-y-1.github.io/2024/08/05/Graph500/index.html">
+<meta property="og:site_name" content="橙的Blog">
+<meta property="og:description" content="Graph500 Benchmarks1 Benchmark1.1 OverallGraph 500是针对数据密集型计算问题设计的一个基准测试。该基准测试包括一个生成器，生成无向图给后两个内核使用，不允许修改使特定内核受益。后两个内核分别为广度优先搜索和单源最短路计算。三个内核都会计时。 基准测试执行步骤如下：  生成边 构造图(kernel1，计时) 随机抽样64个度数为1的key，不包括自循环">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/cover/hpc.jpg">
+<meta property="article:published_time" content="2024-08-05T14:33:29.000Z">
+<meta property="article:modified_time" content="2024-08-05T13:19:33.667Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="高性能计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/cover/hpc.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2024/08/05/Graph500/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Graph500',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2024-08-05 21:19:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的Blog"><span class="site-name">橙的Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Graph500</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-08-05T14:33:29.000Z" title="发表于 2024-08-05 22:33:29">2024-08-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-08-05T13:19:33.667Z" title="更新于 2024-08-05 21:19:33">2024-08-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/HPCP/">HPCP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Graph500"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Graph500-Benchmarks"><a href="#Graph500-Benchmarks" class="headerlink" title="Graph500 Benchmarks"></a>Graph500 Benchmarks</h1><h2 id="1-Benchmark"><a href="#1-Benchmark" class="headerlink" title="1 Benchmark"></a>1 Benchmark</h2><h3 id="1-1-Overall"><a href="#1-1-Overall" class="headerlink" title="1.1 Overall"></a>1.1 Overall</h3><p>Graph 500是针对数据密集型计算问题设计的一个基准测试。该基准测试包括一个生成器，生成无向图给后两个内核使用，不允许修改使特定内核受益。后两个内核分别为广度优先搜索和单源最短路计算。三个内核都会计时。</p>
+<p>基准测试执行步骤如下：</p>
+<ul>
+<li>生成边</li>
+<li>构造图(kernel1，计时)</li>
+<li>随机抽样64个度数为1的key，不包括自循环</li>
+<li>对每个搜索键<ul>
+<li>计算父数组(kernel2，计时)</li>
+<li>验证父数组是否为正确的BFS搜索树</li>
+</ul>
+</li>
+<li>对每个搜索键：<ul>
+<li>计算父数组和距离数组(kernel3，计时)</li>
+<li>验证父数组和距离向量是否为正确的单源最短路径搜索树</li>
+</ul>
+</li>
+<li>计算输出性能信息</li>
+</ul>
+<p>性能信息是通过计时部分计算的。允许使用伪随机数抽样。后两个内核是分别单独进行的，而不是连续离开同一初始顶点。</p>
+<h3 id="1-2-Generating-the-Edge-List"><a href="#1-2-Generating-the-Edge-List" class="headerlink" title="1.2 Generating the Edge List"></a>1.2 Generating the Edge List</h3><p>数据生成器会生成边的列表。每个边为元组(StartVertex，EndVertex，Weight)。如果只运行kernel2，可以不生成权重。生成的输入元组列表不得表现出任何可被计算内核利用的位置性。因此，顶点必须是随机的，并且必须将元组的随机排序呈现给kernel1。weight是单精度浮点[0,1]，顶点数为N。</p>
+<p>Benchmark接受的唯一参数是SCALE，是顶点数的以二为底的对数，决定了N=2^SCALE。edgefactor为16，是边与顶点数的比率。M是边的数量，为edgefactor*N。</p>
+<p>图的生成器是一种类似R-MAT的生成器。以邻接矩阵描述R-MAT，实现可以使用任何输出等效边元组列表的替代方法。R-MAT递归将图形邻接矩阵分为四个大小相等的分区A B C D，每次添加一条边，边选择概率为四个分区之一，概率为A = 0.57 B = 0.19 C = 0.19 D = 0.05。</p>
+<p>图生成器在两个顶点之间创建少量的重复边以及自循环。在后续kernel中，可以忽略重复边、自循环和孤立的顶点，但必须将其包含在提供给第一个kernel的边缘列表中。该算法还生成具有高度局部性的数据元组。因此，作为最后一步，顶点数必须随机置换，然后shuffle边元组。</p>
+<p>允许并行运行数据生成器。在这种情况下，必须确保顶点是全局命名的，并且生成的数据在本地内存中或跨处理器的全局位置不具有任何位置性。数据可以存储到RAM或磁盘，如果存储到磁盘，可以在启动kernel1前读取数据。生成和读取都是不计时的。</p>
+<p>数据规模有五档：</p>
+
+<h3 id="1-3-Kernel-1-–-Graph-Construction"><a href="#1-3-Kernel-1-–-Graph-Construction" class="headerlink" title="1.3 Kernel 1 – Graph Construction"></a>1.3 Kernel 1 – Graph Construction</h3><p>kernel 1可以将边列表转换为任何数据结构，但数据结构不能被后续kernel修改或在后续kernel之间修改。稀疏图有多种表示方式。生成图时仅有边列表和边列表大小，其他信息必须通过计算得出，例如顶点数。该过程计时。</p>
+<h3 id="1-4-Sampling-64-Search-Keys"><a href="#1-4-Sampling-64-Search-Keys" class="headerlink" title="1.4 Sampling 64 Search Keys"></a>1.4 Sampling 64 Search Keys</h3><p>搜索键必须从图中的顶点中随机抽样。为避免琐碎的搜索，仅从连接到其他顶点的顶点中采样。他们的度数，不包括自循环，必须至少为一个。如果此类顶点少于 64 个，则运行少于 64 个搜索。此基准测试中的图形大小不应发生这种情况，但生成微不足道或几乎微不足道的图形的可能性不为零。使用的搜索键数包含在输出中，但此步骤是不计时的。</p>
+<h3 id="1-5-Kernel-2-–-Breadth-First-Search"><a href="#1-5-Kernel-2-–-Breadth-First-Search" class="headerlink" title="1.5 Kernel 2 – Breadth First Search"></a>1.5 Kernel 2 – Breadth First Search</h3><p>BFS的输入和输出是指定的，并有一定的约束，但是具体的算法并不限制，只要能产生正确的搜索树。每次搜索必须是单独进行的。</p>
+<p>对于每个搜索键，例程必须返回一个数组，其中包含有效的广度优先搜索父信息（每个顶点）。搜索键的父级是其自身(?)，树中未包含的任何顶点的父级是 -1。</p>
+<h3 id="1-6-Kernel-3-–-Single-Source-Shortest-Paths"><a href="#1-6-Kernel-3-–-Single-Source-Shortest-Paths" class="headerlink" title="1.6 Kernel 3 – Single Source Shortest Paths"></a>1.6 Kernel 3 – Single Source Shortest Paths</h3><p>类似BFS，具体算法不做限制，只要能产生正确的距离向量。不能使用kernel2的结果，只能从一个初始顶点开始进行计算。</p>
+<p>对于每个初始顶点，例程必须返回每个顶点与初始顶点之间的距离，以及有效的单源最短路径树中每个顶点的父顶点的距离。初始顶点的父项是其自身，而树中未包含的任何顶点的父项是 -1。</p>
+<h3 id="1-7-Validation"><a href="#1-7-Validation" class="headerlink" title="1.7 Validation"></a>1.7 Validation</h3><p>验证时不要求与标准结果完全精确相同。也不要求使用最大SCALE进行验证。而是在适合被评估机器的最大数据集上执行这些算法并验证。</p>
+<h3 id="1-8-输出及性能指标"><a href="#1-8-输出及性能指标" class="headerlink" title="1.8 输出及性能指标"></a>1.8 输出及性能指标</h3><p>为了衡量Graph 500性能，定义一个称为每秒遍历边数(TEPS)的指标。TEPS(n)=M/time(n)，M为无向边数。</p>
+<p>输出包含SCALE edgefactor NBFS(搜索数)以及BFS和SSSP执行的时间，中位时间，TEPS的调和平均值等指标。</p>
+<h2 id="2-Reference-code"><a href="#2-Reference-code" class="headerlink" title="2 Reference code"></a>2 Reference code</h2><p>Reference code的核心代码在src当中。为MPI并行。默认情况下processors per node应该为2的幂次方，如果不是，则需要定义-DPROCS_PER_NODE_NOT_POWER_OF_TWO。</p>
+<h3 id="2-1-AML-active-message-lib"><a href="#2-1-AML-active-message-lib" class="headerlink" title="2.1 AML(active message lib)"></a>2.1 AML(active message lib)</h3><h4 id="2-1-1-overall"><a href="#2-1-1-overall" class="headerlink" title="2.1.1 overall"></a>2.1.1 overall</h4><p>AML是基于MPI的通信库，支持异步小消息传递，将多个小消息合并发送，减小通信开销。消息是异步传递的，传递后需要进行同步。使用时需要首先调用aml_init初始化，然后通过以下函数注册消息处理程序：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//消息处理程序应该为以下格式：</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">handler</span><span class="params">(<span class="type">int</span> fromPE, <span class="type">void</span>* data, <span class="type">int</span> dataSize)</span>; <span class="comment">//fromPE为发送方rank</span></span><br><span class="line"><span class="comment">//注册消息处理程序</span></span><br><span class="line">aml_register_handler(handler, handlerid);</span><br></pre></td></tr></table></figure>
+<p>然后使用aml_send发送消息到其他节点，发送后调用aml_barrier确保消息处理完毕，最后调用aml_finalize结束使用。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aml_send(data, handlerid, dataSize, destPE)</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-2-implemention"><a href="#2-1-2-implemention" class="headerlink" title="2.1.2 implemention"></a>2.1.2 implemention</h4><p>AML首先在初始化中，对通信域进行了分隔：</p>
+<ul>
+<li>comm_intra：根据主机名将一个主机的进程划分在一个通信域内 </li>
+<li>comm：在各个主机上有相同rank的进程划分在一个通信域内</li>
+</ul>
+<p>划分后进行亲和性绑定，将进程绑定在和local_rank对应的核上，通过pthread_setaffinity_np绑定。</p>
+<p>接下来AML使用了MPI_Recv_init初始化几个异步接收操作。这是MPI-3引入的，不需要指定消息来源和标签，更加灵活。初始化的异步接收操作包括节点内的和跨节点的，还开辟了sendbuf，acks，nbuf。然后启动节点内部的异步接收，并初始化几个发送请求。这实际上是在实现<strong>One-sided communication</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//节点内部通信域也采取类似的初始化和启动</span></span><br><span class="line">	<span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; num_groups; j++ ) &#123;</span><br><span class="line">		sendsize[j] = <span class="number">0</span>; nbuf[j] = j;  acks[j]=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;NRECV;i++)</span><br><span class="line">		MPI_Start( rqrecv+i );</span><br><span class="line">	<span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; NSEND; j++ ) &#123;</span><br><span class="line">		MPI_Isend( <span class="literal">NULL</span>, <span class="number">0</span>, MPI_CHAR, MPI_PROC_NULL, <span class="number">0</span>, comm, rqsend+j );</span><br><span class="line">		activebuf[j]=num_groups+j;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p><strong>One-sided communication</strong></p>
+</div>
+<p><strong>utils.c</strong></p>
+<p>封装了一个set_global函数，初始化MPI环境，并封装了一个MPI数据类型packed_edge_mpi_type，该MPI数据类型是以下数据类型的封装：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">packed_edge</span> &#123;</span></span><br><span class="line">  <span class="type">uint32_t</span> v0_low;</span><br><span class="line">  <span class="type">uint32_t</span> v1_low;</span><br><span class="line">  <span class="type">uint32_t</span> high; <span class="comment">/* v1 in high half, v0 in low half */</span></span><br><span class="line">&#125; packed_edge;</span><br></pre></td></tr></table></figure>
+<p>封装了一个MPI_Alloc_mem。定义了一个取第一个大于等于x的2的幂次方的对数的函数。</p>
+<p><strong>common.h</strong></p>
+<p>定义了一组用于处理进程编号的宏。lgsize是节点进程数的对数。顶点是交错分布在节点上的，即若有4个顶点0 1 2 3，两个节点，则0 2在节点1，1 3在节点2。以及定义了边列表数据结构tuple_graph，边的数据可在文件中也可在内存中。还定义了一组宏，用于并行读入边列表的数据。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2024/08/05/Graph500/">https://a-y-1.github.io/2024/08/05/Graph500/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a></div><div class="post_share"><div class="social-share" data-image="/../cover/hpc.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/03/23/MPI4py/" title="MPI4py"><img class="cover" src="/../cover/MPI.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MPI4py</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/11/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="高性能计算学习记录"><img class="cover" src="/../cover/hpc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-11</div><div class="title">高性能计算学习记录</div></div></a></div><div><a href="/2023/10/13/CMU15-418notes(1-9)/" title="CMU15-418notes(1-9)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">CMU15-418notes(1-9)</div></div></a></div><div><a href="/2023/10/13/Pthread/" title="Pthreads简记"><img class="cover" src="/../cover/pthread.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">Pthreads简记</div></div></a></div><div><a href="/2023/10/23/CMU15-418notes(10-18)/" title="CMU15-418notes(10-18)"><img class="cover" src="/../cover/CMU15-418.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-23</div><div class="title">CMU15-418notes(10-18)</div></div></a></div><div><a href="/2023/10/27/OpenMP/" title="OpenMP"><img class="cover" src="/../cover/openmp.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-27</div><div class="title">OpenMP</div></div></a></div><div><a href="/2023/10/27/%E8%B6%85%E7%AE%97%E7%AB%9E%E8%B5%9B%E5%AF%BC%E5%BC%95/" title="超算竞赛导引"><img class="cover" src="/../cover/sc.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-27</div><div class="title">超算竞赛导引</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/A-Y-1"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Graph500-Benchmarks"><span class="toc-text">Graph500 Benchmarks</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Benchmark"><span class="toc-text">1 Benchmark</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-Overall"><span class="toc-text">1.1 Overall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-Generating-the-Edge-List"><span class="toc-text">1.2 Generating the Edge List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-Kernel-1-%E2%80%93-Graph-Construction"><span class="toc-text">1.3 Kernel 1 – Graph Construction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-Sampling-64-Search-Keys"><span class="toc-text">1.4 Sampling 64 Search Keys</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-Kernel-2-%E2%80%93-Breadth-First-Search"><span class="toc-text">1.5 Kernel 2 – Breadth First Search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-Kernel-3-%E2%80%93-Single-Source-Shortest-Paths"><span class="toc-text">1.6 Kernel 3 – Single Source Shortest Paths</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-Validation"><span class="toc-text">1.7 Validation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-8-%E8%BE%93%E5%87%BA%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">1.8 输出及性能指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Reference-code"><span class="toc-text">2 Reference code</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-AML-active-message-lib"><span class="toc-text">2.1 AML(active message lib)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-overall"><span class="toc-text">2.1.1 overall</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-implemention"><span class="toc-text">2.1.2 implemention</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/05/Graph500/" title="Graph500">Graph500</a><time datetime="2024-08-05T14:33:29.000Z" title="发表于 2024-08-05 22:33:29">2024-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/03/23/MPI4py/" title="MPI4py">MPI4py</a><time datetime="2024-03-23T08:47:30.000Z" title="发表于 2024-03-23 16:47:30">2024-03-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/03/13/Arm-Performance-Lib/" title="Arm-Performance-Lib">Arm-Performance-Lib</a><time datetime="2024-03-13T08:15:30.000Z" title="发表于 2024-03-13 16:15:30">2024-03-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/03/12/PETSc/" title="PETSc">PETSc</a><time datetime="2024-03-12T09:21:30.000Z" title="发表于 2024-03-12 17:21:30">2024-03-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/21/Merge-based%20Sparse%20Matrix-Vector%20Multiplication/" title="Merge-based Sparse Matrix-Vector Multiplication (SpMV) using the CSR Storage Format">Merge-based Sparse Matrix-Vector Multiplication (SpMV) using the CSR Storage Format</a><time datetime="2024-02-21T08:47:14.000Z" title="发表于 2024-02-21 16:47:14">2024-02-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../cover/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
