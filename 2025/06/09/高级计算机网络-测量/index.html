@@ -1,0 +1,415 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络-网络测量 | 橙的笔记本</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网络测量1 FlowRadar1.1 记录流量信息的常用数据结构哈希表 哈希表有B个桶及相应索引，每个桶包含：  flowID：例如一个五元组，用于标识网络流量 Counter：计数器，记录流量的包数或字节数  一个流量 f 由索引为 h(f)%B 的桶进行跟踪。当流量 f 的一个数据包到达时，更新桶。在交换机上，使用链表解决冲突对软件来说成本较高，对硬件来说则不可行。 布隆过滤器 布隆过滤器用于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络-网络测量">
+<meta property="og:url" content="https://a-y-1.github.io/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/index.html">
+<meta property="og:site_name" content="橙的笔记本">
+<meta property="og:description" content="网络测量1 FlowRadar1.1 记录流量信息的常用数据结构哈希表 哈希表有B个桶及相应索引，每个桶包含：  flowID：例如一个五元组，用于标识网络流量 Counter：计数器，记录流量的包数或字节数  一个流量 f 由索引为 h(f)%B 的桶进行跟踪。当流量 f 的一个数据包到达时，更新桶。在交换机上，使用链表解决冲突对软件来说成本较高，对硬件来说则不可行。 布隆过滤器 布隆过滤器用于">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/cover/fat-tree.jpg">
+<meta property="article:published_time" content="2025-06-09T01:55:29.000Z">
+<meta property="article:modified_time" content="2025-06-13T01:39:35.763Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/cover/fat-tree.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络-网络测量',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2025-06-13 09:39:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/fat-tree.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的笔记本"><span class="site-name">橙的笔记本</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络-网络测量</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-09T01:55:29.000Z" title="发表于 2025-06-09 09:55:29">2025-06-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-13T01:39:35.763Z" title="更新于 2025-06-13 09:39:35">2025-06-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9D%82/">杂</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络-网络测量"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="网络测量"><a href="#网络测量" class="headerlink" title="网络测量"></a>网络测量</h2><h3 id="1-FlowRadar"><a href="#1-FlowRadar" class="headerlink" title="1 FlowRadar"></a>1 FlowRadar</h3><h4 id="1-1-记录流量信息的常用数据结构"><a href="#1-1-记录流量信息的常用数据结构" class="headerlink" title="1.1 记录流量信息的常用数据结构"></a>1.1 记录流量信息的常用数据结构</h4><p><strong>哈希表</strong></p>
+<p>哈希表有B个桶及相应索引，每个桶包含：</p>
+<ul>
+<li>flowID：例如一个五元组，用于标识网络流量</li>
+<li>Counter：计数器，记录流量的包数或字节数</li>
+</ul>
+<p>一个流量 f 由索引为 h(f)%B 的桶进行跟踪。当流量 <em>f</em> 的一个数据包到达时，更新桶。在交换机上，使用链表解决冲突对软件来说成本较高，对硬件来说则不可行。</p>
+<p><strong>布隆过滤器</strong></p>
+<p>布隆过滤器用于近似决定一个元素是否属于某个集合。是一个包含 m 个位（bits）的数组，用于表示一个包含 n 个元素的集合 S。初始化时，所有位都设置为 0。使用 $k$ 个独立的哈希函数 $h_1, …, h_k$，每个哈希函数的取值范围是 $\{1, …, m\}$。每个哈希函数将集合中的每个元素映射到一个在范围 $\{1, 2, …, m\}$ 内的随机数。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531115857395.png" alt="image-20250531115857395" style="zoom: 50%;"></p>
+<p>检查值是否在S中的方式是是否K个bit全是1，如果不是，值一定不在S当中，否则认为在，但是不保证一定在。并且总是假定kn&lt;m。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531120131482.png" alt="image-20250531120131482" style="zoom:50%;"></p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531120145067.png" alt="image-20250531120145067" style="zoom:50%;"></p>
+<p>可以推出最佳的K值。</p>
+<p><strong>计数布隆过滤器</strong></p>
+<p>计数布隆过滤器的每个entry是一个值而不是一个位。当元素加入集合，计数位+1，删除时减一，查询时返回k个hash的最小计数值，如果是0，元素一定不在集合中。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531120346178.png" alt="image-20250531120346178" style="zoom:50%;"></p>
+<h4 id="1-2-概况"><a href="#1-2-概况" class="headerlink" title="1.2 概况"></a>1.2 概况</h4><p>NetFlow是CISCO开发的监控网络流量的软件，在哈希表中存储流字段（例如，5元组）和记录（例如，数据包计数器、流开始时间、流最后被看到的时间等）。可以通过SNMP（简单网络管理协议）进行查询。其问题是：</p>
+<ul>
+<li>移除旧流：需要扫描整个哈希表。当哈希表很大时，会消耗时间和CPU资源。</li>
+<li>数据包处理：对于一个40Gbps的端口，每个数据包的处理时间为120纳秒，这不足以完成哈希表的读-比较-更新-写操作。所以只能采样，例如采样率为1/100，即只监控1%的流量。</li>
+</ul>
+<p>FlowRadar的架构：</p>
+<ul>
+<li>在交换机捕获编码的流量计数器：每个数据包具有恒定的插入时间，使用固定内存。不进行采样，捕获所有流量。以小的时间尺度（例如，10毫秒）向收集器报告。</li>
+<li>在远程收集器解码和分析流量计数器：</li>
+</ul>
+<p>交换机将捕获的流量编码成流量集，并定期报告给远程服务器。远程服务器接收到编码的流量集后，进行解码，提取出流量和计数器信息。解码后的流量和计数器信息被发送到分析器进行进一步分析。</p>
+<p>使用的场景包括：</p>
+<ul>
+<li><p>瞬态环路/黑洞检测：在非常短的时间内循环或丢弃少量数据包。Netflow如果流量没有被采样，NetFlow可能会错过错误。而FlowRadar能检测到</p>
+</li>
+<li><p>匹配动作表中的错误：损坏导致数据包丢失。基于采样的NetFlow或sFlow的局限性：很难检测到这类错误。FlowRadar可以监控所有数据包，这类错误很容易被检测到。</p>
+</li>
+<li>每流的丢包情况：目的是理解网络内部的丢包情况。基于采样的解决方案（如NetFlow）无法捕获未被采样的流的丢包。FlowRadar可以直接获取所有流的每个流丢包率的整体映射。</li>
+<li>实时攻击检测：例如，小规模的流量突发可能会触发TCP超时。NetFlow在长时间内计算流中的包数。FlowRadar可以在小的时间尺度上，例如10毫秒，进行计数。</li>
+</ul>
+<h4 id="1-3-设计"><a href="#1-3-设计" class="headerlink" title="1.3 设计"></a>1.3 设计</h4><p>解决冲突的方法：使用布隆过滤器。不维护昂贵的链表，而是对冲突流的记录进行异或（XOR）操作。这种方法避免了在哈希表中为每个冲突维护链表的需要，从而节省了空间和处理时间。异或操作可以用来合并具有相同哈希值的流记录，因为它是一种可逆的操作，可以在需要时恢复原始记录。</p>
+<p><strong>编码流组</strong></p>
+<p>使用一个标准的布隆过滤器，检测数据包是否属于某个流。以及一个计数表，统计流计数器，每个表项记录FlowXOR，Flow Count，Packet Count。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531152859256.png" alt="image-20250531152859256" style="zoom:50%;"></p>
+<p>当接收到流的时候，首先检查流是否存储在布隆过滤器中，如果是新流，加入过滤器，并更新计数表。如果是存在的流，更新Packet Count。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531153125963.png" alt="image-20250531153125963" style="zoom: 33%;"></p>
+<p><strong>解码</strong></p>
+<p>singleDecode</p>
+<p>交换机每一些ms后就会像收集器发送流组编码信息。首先查找只包含一个流的单元格，即单元格中的<code>FlowCount</code>等于1。对已解码的流执行哈希函数，以定位其他单元格，然后从单元格中移除该流，并继续解码更多的流。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531153556353.png" alt="image-20250531153556353" style="zoom:67%;"></p>
+<p>NetworkDecode</p>
+<p>在网络中的不同交换机上，可以采用不同的哈希函数集来处理流数据。这样可以增加解码的灵活性和准确性。如果一个流在一个交换机上的编码流集中无法解码，它可能在另一个交换机上的编码流集中被解码。这是因为不同的哈希函数集可能会产生不同的哈希值，从而帮助识别和解码流。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531153716483.png" alt="image-20250531153716483" style="zoom:67%;"></p>
+<p>流集解码算法FlowDecode：</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531154519680.png" alt="image-20250531154519680" style="zoom:50%;"></p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531154605278.png" alt="image-20250531154605278" style="zoom:50%;"></p>
+<p>就是用已经从其他流集解码出的单流，在其他流集寻找是否出现，如果已经出现，就能将其移除，从而逐步解码。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531154721378.png" alt="image-20250531154721378" style="zoom:50%;"></p>
+<p>上述算法可以解码流ID，但是不能处理packet counter，因为包可能丢失或者处于传输过程中。假设对于交换机S2，一个流集有mc个单元格和n个流，通过解mc个方程来求解n个变量。可以使用Matlab或其他工具来解这些方程。加速方法：如果一个流出现在S1和S2中，并且其计数器在S1上已被解码，那么可以在S2上使用S1上解码的计数器值来搜索方程的解。这个过程通过解方程来恢复每个流的数据包计数，利用已解码的计数器值来加速解码过程。</p>
+<h3 id="2-Elastic-Sketch"><a href="#2-Elastic-Sketch" class="headerlink" title="2 Elastic Sketch"></a>2 Elastic Sketch</h3><h4 id="2-1-背景"><a href="#2-1-背景" class="headerlink" title="2.1 背景"></a>2.1 背景</h4><p>网络测量的内容：</p>
+<ul>
+<li>有多少不同的流</li>
+<li>top-k的重流</li>
+<li>给定流量的五元组，估计流量的大小，用于监控和管理流量</li>
+<li>流量大小的分布</li>
+</ul>
+<p>基于Sketch的测量，sketch包括：哈希表，Count-min，布隆过滤器，PCSA过滤器。</p>
+<p>哈希表存储流的方式前面已经提到过了，主要介绍Count-min(CM)这个结构，CM有d行计数器数组，每行w个计数器，使用d个成对的hash函数将流量映射到每行的一个值。介绍到一个流的数据包时，更新每一行中相应的counter，估计流量的大小时，返回d行中的<strong>最小值</strong>。CM会因为hash碰撞而导致高估流的数据包数量，永远不会低估。这个数据结构适用于大数据流的流量计数，能够在有限的空间内提供对流量大小的快速估计。</p>
+<p>通过合理设置 <em>w</em> 和 <em>d</em>，可以确保计数CM在指定的误差范围和概率内提供准确的估计。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531162807597.png" alt="image-20250531162807597" style="zoom:50%;"></p>
+<p>Sketch方案的挑战：</p>
+<ul>
+<li>需要有足够的带宽传输sketch：Sketches在交换机或host，需要传输到解析服务器，并且需要压缩，同时不能失去太多准确性</li>
+<li>高数据包到达率：每个数据包到达时都需要更新，当数据包到达率很高时，需要丢弃不重要的信息以维持系统的高效运作。</li>
+<li>不确定的流大小分布：流通常都是一部分elephants flow和大量mouse flow构成。我们通常对大流更感兴趣，需要动态分配空间应对变化的流</li>
+</ul>
+<h4 id="2-2-Elastic-sketch"><a href="#2-2-Elastic-sketch" class="headerlink" title="2.2 Elastic sketch"></a>2.2 Elastic sketch</h4><p>数据结构：</p>
+<ul>
+<li>对于重流：使用哈希表记录，每个桶包含flowID五元组，Positive votes (<em>vote</em>+): 属于该流的数据包数量，Negative votes (<em>vote</em>-): 其他流的数据包数量，flag：是否轻流的CM中包含这个流的vote+。</li>
+<li>轻流：CM记录</li>
+</ul>
+<p><strong>插入</strong></p>
+<p>当接收到流f的时候，首先映射到hash表，分case处理：桶表示为(<em>f</em>1, <em>vote</em>+, <em>flag</em>1, <em>vote</em>-) </p>
+<ul>
+<li>如果桶是空的，插入(<em>f</em>, 1, F, 0) </li>
+<li>f=f1，增加vote+</li>
+<li>f≠f1，<em>vote</em>-/ <em>vote</em>+&lt; λ，增加vote-，将f更新到CM</li>
+<li>f≠f1，vote-增加后<em>vote</em>-/ <em>vote</em>+&gt; λ，将f插入为(<em>f</em>, 1, T, 0)，f1会成为victm，在CM中增加counter的值，加上vote+</li>
+</ul>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531165755843.png" alt="image-20250531165755843" style="zoom:50%;"></p>
+<p><strong>查询</strong></p>
+<p>如果f不在heavie part，根据CM中的值返回</p>
+<p>如果f在heavy part，flag是F，则直接返回vote+，否则返回vote+和CM的结果的和</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531165927336.png" alt="image-20250531165927336" style="zoom:50%;"></p>
+<p>压缩sketch的方式可以将A分成z个列组，将每个列组内的列合并，合并方式可以是求和或者压缩。这里的列组是跨步分组，而不是连续的列分为一组。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531170101480.png" alt="image-20250531170101480" style="zoom:50%;"></p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531170241062.png" alt="image-20250531170241062" style="zoom:50%;"></p>
+<p>服务器会从测量节点接收到许多sketch，需要进行合并后发送给收集器。合并方式同样可以max或sum。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531170255341.png" alt="image-20250531170255341" style="zoom:50%;"></p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531170404089.png" alt="image-20250531170404089" style="zoom:50%;"></p>
+<p>适配数据包达到率的方式，如果数据包在队列中的长度超过阈值：</p>
+<ul>
+<li>只允许传入的数据包访问heavy part的处理</li>
+<li>如果一个流被另一个流替换，直接用新流f的大小设置为原流的大小，例如：</li>
+</ul>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531170607036.png" alt="image-20250531170607036"></p>
+<p>适应流量分布：</p>
+<ul>
+<li>heavy part初始化较小内存</li>
+<li>监视器确认如果vote+和vote-超出T2，就认为桶满了，并监察满的桶是否超出T1</li>
+<li>拷贝和结合heavy part，改变流的映射</li>
+</ul>
+<h3 id="3-Loss-Radar"><a href="#3-Loss-Radar" class="headerlink" title="3 Loss Radar"></a>3 Loss Radar</h3><p>LossRadar：快速检测到数据中心的丢包。</p>
+<p><strong>数据中心的丢包</strong></p>
+<p>网络测量需要快速检测（数十ms）到丢包，并且缩小原因范围。需要确定导致数据包丢失的设备位置，包括交换机、网卡（NIC）或主机。并需要捕获数据包头信息，包括5元组（源IP、目的IP、源端口、目的端口、协议），数据包ID。</p>
+<p>大体来说，丢包有以下几种类别：</p>
+<ul>
+<li>拥塞：由多个流量竞争同一输出端口引起，且总速率超过了该端口的容量。</li>
+<li>持续黑洞：由于匹配-动作规则损坏，交换机持续丢弃符合特定“模式”的所有数据包。</li>
+<li>瞬态黑洞</li>
+<li>随机丢弃：交换机持续随机丢弃数据包且不报告，通常由组件问题引起，例如未正确安装的线路卡或故障链路。</li>
+</ul>
+<p>Loss Radar设计的概念：</p>
+<ul>
+<li>在网络中安装计量器（meters），以捕获单向流量。这些计量器位于流量进入和离开网络域之前和之后，称为上游（upstream）和下游（downstream）计量器。</li>
+<li>每个计量器将数据包的唯一标识符编码成一个流量摘要（traffic digest），并定期将这些流量摘要报告给一个中央的LossRadar收集器。</li>
+</ul>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531175124988.png" alt="image-20250531175124988" style="zoom:50%;"></p>
+<p>设计的主要挑战：</p>
+<ul>
+<li>需要保持摘要足够小，以减少存储、带宽和处理开销。</li>
+<li>需要确定合适的位置来安装计量器，以便这些计量器能够覆盖整个网络。</li>
+<li>需要开发能够快速识别丢包根本原因（如黑洞、拥塞和随机丢弃）的时间和空间丢包分析算法。</li>
+</ul>
+<h4 id="3-1-流量摘要"><a href="#3-1-流量摘要" class="headerlink" title="3.1 流量摘要"></a>3.1 流量摘要</h4><p>使用Invertible Bloom Filter (IBF)，可逆布隆过滤器。</p>
+<ul>
+<li>数据包x通过k个哈希函数（基于x.sig计算）映射到k个单元格。</li>
+<li>x.sig是数据包的唯一标识（如5元组和IP_ID等头部字段）。</li>
+<li>每个单元格更新规则：<ul>
+<li>异或和：<code>xorSum = xorSum ⊕ x.sig</code></li>
+<li>计数器：<code>count = count + 1</code></li>
+</ul>
+</li>
+</ul>
+<p>丢失数据包检测：通过比较发送端（UM）和接收端（DM）的摘要差异实现：</p>
+<ul>
+<li>异或和差值：<code>L_i.xorSum = UM_i.xorSum ⊕ DM_i.xorSum</code></li>
+<li>计数差值：<code>L_i.count = UM_i.count - DM_i.count</code></li>
+</ul>
+<p>若<code>L_i.count=1</code>且<code>L_i.xorSum</code>有效，则对应数据包可能丢失。</p>
+<p>解码：</p>
+<p>在差异摘要L中，找到计数为1的单元格（即<code>count=1</code>），称为<strong>纯单元格</strong>。此时，该单元格的异或和（<code>xorSum</code>）即为丢失数据包的唯一签名（<code>x.sig</code>）。根据哈希映射关系，将该数据包从所有k个关联的单元格中移除：</p>
+<ul>
+<li>每个关联单元格的<code>xorSum</code>更新为<code>xorSum ⊕ x.sig</code></li>
+<li>每个关联单元格的<code>count</code>减1</li>
+</ul>
+<p>移除操作可能导致其他单元格变为纯单元格（<code>count=1</code>），需重复上述步骤，直到无纯单元格可解码。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531175844179.png" alt="image-20250531175844179" style="zoom:50%;"></p>
+<p>LossRadar的优势：</p>
+<ul>
+<li>摘要（digest）大小仅与<strong>丢失的数据包数量</strong>（nlost）成正比，而非总数据包量（ntotal）。</li>
+<li>存储开销可预测且可控，适合大规模网络监控。</li>
+<li>每个丢失数据包的摘要可包含丰富的网络层信息，例如：5元组（源/目的IP、端口、协议）中的流ID，用于精准定位通信流。IP_ID（数据包唯一标识）和动态调整的TTL。时间戳、载荷哈希等，便于后续分析。</li>
+</ul>
+<p>丢包类型分类：</p>
+<ul>
+<li>拥塞丢包：突发性丢包，连续丢包间的时间间隔极短（微秒级）。网络节点缓冲区溢出时，短时间内连续丢弃多个数据包</li>
+<li>黑洞丢包：大流量特征：流内突发且连续的丢包。小流量特征：流内非突发但连续的丢包，且每个流仅丢失SYN握手包。本质问题：路由/防火墙策略错误导致流量被静默丢弃</li>
+<li>随机丢包：核心特征：丢包事件在时间维度上均匀分布。常见原因：硬件错误、随机误码或负载均衡策略导致</li>
+<li>环路丢包：识别标志：被丢弃数据包的TTL（生存时间）值为0。形成机制：路由环路导致数据包经过多次跳转后TTL耗尽</li>
+</ul>
+<h3 id="4-On-Off-Sketch"><a href="#4-On-Off-Sketch" class="headerlink" title="4 On-Off Sketch"></a>4 On-Off Sketch</h3><p>针对持久性（Persistence）场景优化的新型sketch算法。</p>
+<p>持久性定义<br>给定数据流中的项目e和T个非重叠连续时间窗口，e的持久性被定义为该项目在所有时间窗口中出现过的窗口数量。数学表达式为：<br>persistence(e) = |{t ∈ T | e appears in window t}|</p>
+<p>典型应用场景：</p>
+<ul>
+<li>攻击者通过长期维持低流量攻击规避传统检测，高持久性IP地址可能指示潜在攻击源</li>
+<li>欺诈机器人会持续产生点击行为，高持久性用户ID可能对应虚假流量</li>
+</ul>
+<p>核心研究问题：</p>
+<ul>
+<li>如何高效计算特定项目在时间窗口序列中的出现频次</li>
+<li>如何从海量数据中快速识别出持久性超过阈值的项目</li>
+</ul>
+<h4 id="4-1-2016-PIE"><a href="#4-1-2016-PIE" class="headerlink" title="4.1 2016 PIE"></a>4.1 2016 PIE</h4><p> 2016 PIE 提出的基础解决方案框架：</p>
+<ul>
+<li>上层采用布隆过滤器（Bloom filter）进行数据去重:通过哈希映射识别重复元素（”0/1”二进制数组表示元素是否存在）</li>
+<li>下层使用计数（CM Sketch）进行持久性估计：通过最小计数原理估算元素在时间窗口中的持续出现情况</li>
+</ul>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531182718585.png" alt="image-20250531182718585" style="zoom:50%;"></p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531182437671.png" alt="image-20250531182437671" style="zoom: 67%;"></p>
+<h4 id="4-2-On-Off-Sketch"><a href="#4-2-On-Off-Sketch" class="headerlink" title="4.2 On-Off Sketch"></a>4.2 On-Off Sketch</h4><p>数据结构由d个独立数组构成，每个数组包含l个计数器，每个计数器包含计数值和一个On/off状态字段，初始状态所有计数器为0，状态字段为ON。使用d个独立的hash函数，映射到每个数组的位置。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531182903271.png" alt="image-20250531182903271" style="zoom: 33%;"></p>
+<p><strong>插入与查询</strong></p>
+<p>对于待插入元素，计算hash值，将e映射到<em>d</em>个数组中的对应位置：</p>
+<ul>
+<li>计数器状态为On：表示当前时间窗口内该计数器未被访问，计数器值+1，并将状态改为Off，实现窗口内去重（每个元素在单个窗口仅计数1次）。</li>
+<li>状态为off：表示当前窗口已记录过该元素，保持计数器值和状态不变，避免同一窗口内重复计数</li>
+</ul>
+<p>通过状态位（On/Off）显式区分不同窗口的计数，确保元素在每个时间窗口最多贡献1次计数，计数器总值反映元素出现的窗口数（持久性）。查询时取所有<em>d</em>个对应计数器的最小值。最小值策略可抑制哈希冲突导致的高估误差。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531183853405.png" alt="image-20250531183853405" style="zoom:50%;"></p>
+<p>周期性重置机制：</p>
+<p>每个时间窗口结束时执行：</p>
+<ul>
+<li>将所有计数器的状态字段重置为”On”</li>
+<li>保持计数器数值不变（跨窗口累积）</li>
+</ul>
+<p><strong>确定持久项</strong></p>
+<p>on-off sketch不会记录items的ID，设计了一个两部分的数据结构：</p>
+<ul>
+<li>第一部分：l个counter的数组，每个counter有一个on/off状态，记录非持久项目的持久性。记为Ci</li>
+<li>第二部分：一个有l个桶的数组，记为Bi，每个桶对应一个conter，每个桶有w个KV对，K是流的ID，值是对应的计数，并且也有一个On/off state。</li>
+</ul>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531185403527.png" alt="image-20250531185403527" style="zoom: 67%;"></p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531184144420.png" alt="image-20250531184144420" style="zoom:50%;"></p>
+<p>插入时如果e1哈希后记录在Bi，增加计数器，否则增加Ci，在插入后，比对Ci和Bi中的最小计数器，决定ei是否足够持久可以存储到桶Bi当中，并且如果大于最小计数的e2，那么会和e2交换位置。否则什么都不做。</p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531184815135.png" alt="image-20250531184815135" style="zoom: 67%;"></p>
+<p><img src="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/image-20250531184857868.png" alt="image-20250531184857868" style="zoom:67%;"></p>
+<p>持久性查询时，遍历所有桶，检查每个计数器的值，当计数器值超过预设阈值时，记录对应项目ID。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/">https://a-y-1.github.io/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="/../cover/fat-tree.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/06/10/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%8D%8F%E8%AE%AE%E4%B8%8E%E8%B0%83%E5%BA%A6/" title="计算机网络-网络测量"><img class="cover" src="/../cover/fat-tree.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机网络-网络测量</div></div></a></div><div class="next-post pull-right"><a href="/2025/06/06/FastLoad-SpMV/" title="FastLoad-针对GPU加速访存的SpMV算法"><img class="cover" src="/../cover/FastLoad.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">FastLoad-针对GPU加速访存的SpMV算法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B001/" title="计算机网络自顶向下方法笔记01"><img class="cover" src="/img/0105.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-11</div><div class="title">计算机网络自顶向下方法笔记01</div></div></a></div><div><a href="/2022/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BE%AE%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="计算机网络微课笔记"><img class="cover" src="/img/0105.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-22</div><div class="title">计算机网络微课笔记</div></div></a></div><div><a href="/2022/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B002/" title="计算机网络自顶向下方法笔记02"><img class="cover" src="/img/0105.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-19</div><div class="title">计算机网络自顶向下方法笔记02</div></div></a></div><div><a href="/2022/10/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B003/" title="计算机网络自顶向下方法笔记03"><img class="cover" src="/img/0105.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-17</div><div class="title">计算机网络自顶向下方法笔记03</div></div></a></div><div><a href="/2022/12/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95%E7%AC%94%E8%AE%B004/" title="计算机网络自顶向下方法笔记04"><img class="cover" src="/img/0105.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-01</div><div class="title">计算机网络自顶向下方法笔记04</div></div></a></div><div><a href="/2025/06/10/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%8D%8F%E8%AE%AE%E4%B8%8E%E8%B0%83%E5%BA%A6/" title="计算机网络-网络测量"><img class="cover" src="/../cover/fat-tree.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-10</div><div class="title">计算机网络-网络测量</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/A-Y-1"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%B5%8B%E9%87%8F"><span class="toc-text">网络测量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-FlowRadar"><span class="toc-text">1 FlowRadar</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E8%AE%B0%E5%BD%95%E6%B5%81%E9%87%8F%E4%BF%A1%E6%81%AF%E7%9A%84%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">1.1 记录流量信息的常用数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E6%A6%82%E5%86%B5"><span class="toc-text">1.2 概况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E8%AE%BE%E8%AE%A1"><span class="toc-text">1.3 设计</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Elastic-Sketch"><span class="toc-text">2 Elastic Sketch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E8%83%8C%E6%99%AF"><span class="toc-text">2.1 背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-Elastic-sketch"><span class="toc-text">2.2 Elastic sketch</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Loss-Radar"><span class="toc-text">3 Loss Radar</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E6%B5%81%E9%87%8F%E6%91%98%E8%A6%81"><span class="toc-text">3.1 流量摘要</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-On-Off-Sketch"><span class="toc-text">4 On-Off Sketch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2016-PIE"><span class="toc-text">4.1 2016 PIE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-On-Off-Sketch"><span class="toc-text">4.2 On-Off Sketch</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/10/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%8D%8F%E8%AE%AE%E4%B8%8E%E8%B0%83%E5%BA%A6/" title="计算机网络-网络测量">计算机网络-网络测量</a><time datetime="2025-06-10T01:55:29.000Z" title="发表于 2025-06-10 09:55:29">2025-06-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/09/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%B5%8B%E9%87%8F/" title="计算机网络-网络测量">计算机网络-网络测量</a><time datetime="2025-06-09T01:55:29.000Z" title="发表于 2025-06-09 09:55:29">2025-06-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/06/FastLoad-SpMV/" title="FastLoad-针对GPU加速访存的SpMV算法">FastLoad-针对GPU加速访存的SpMV算法</a><time datetime="2025-06-06T03:12:14.000Z" title="发表于 2025-06-06 11:12:14">2025-06-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/05/31/%E8%BF%91%E6%9C%9F%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" title="近期工作的一些问题记录">近期工作的一些问题记录</a><time datetime="2025-05-31T06:07:29.000Z" title="发表于 2025-05-31 14:07:29">2025-05-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/20/ScalapackTest/" title="ScalapackTest">ScalapackTest</a><time datetime="2025-04-20T10:03:29.000Z" title="发表于 2025-04-20 18:03:29">2025-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../cover/fat-tree.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
