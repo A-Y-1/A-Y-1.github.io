@@ -1,0 +1,548 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>论文选读-异构平台的分布式GEMM | 橙的笔记本</title><meta name="author" content="橙"><meta name="copyright" content="橙"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="近期工作的Distributed-SpGEMM的相关参考太少了，考虑到本身应用的矩阵的稀疏度比较低，比较稠密，读一些分布式GEMM论文作参考。 异构平台的分布式GEMM1 A Submatrix-Based Method for ApproximateMatrix Function Evaluation in the QuantumChemistry Code CP2K 本质上是对子矩阵做直接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文选读-异构平台的分布式GEMM">
+<meta property="og:url" content="https://a-y-1.github.io/2025/10/13/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FSpGEMM/index.html">
+<meta property="og:site_name" content="橙的笔记本">
+<meta property="og:description" content="近期工作的Distributed-SpGEMM的相关参考太少了，考虑到本身应用的矩阵的稀疏度比较低，比较稠密，读一些分布式GEMM论文作参考。 异构平台的分布式GEMM1 A Submatrix-Based Method for ApproximateMatrix Function Evaluation in the QuantumChemistry Code CP2K 本质上是对子矩阵做直接">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a-y-1.github.io/img/0105.jpg">
+<meta property="article:published_time" content="2025-10-13T00:11:09.000Z">
+<meta property="article:modified_time" content="2026-01-29T14:56:40.124Z">
+<meta property="article:author" content="橙">
+<meta property="article:tag" content="HPC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a-y-1.github.io/img/0105.jpg"><link rel="shortcut icon" href="/img/orange.png"><link rel="canonical" href="https://a-y-1.github.io/2025/10/13/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FSpGEMM/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '论文选读-异构平台的分布式GEMM',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2026-01-29 22:56:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/a0.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">68</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/0105.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="橙的笔记本"><span class="site-name">橙的笔记本</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">论文选读-异构平台的分布式GEMM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-13T00:11:09.000Z" title="发表于 2025-10-13 08:11:09">2025-10-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-29T14:56:40.124Z" title="更新于 2026-01-29 22:56:40">2026-01-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87/">论文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="论文选读-异构平台的分布式GEMM"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>  近期工作的Distributed-SpGEMM的相关参考太少了，考虑到本身应用的矩阵的稀疏度比较低，比较稠密，读一些分布式GEMM论文作参考。</p>
+<h1 id="异构平台的分布式GEMM"><a href="#异构平台的分布式GEMM" class="headerlink" title="异构平台的分布式GEMM"></a>异构平台的分布式GEMM</h1><h2 id="1-A-Submatrix-Based-Method-for-Approximate"><a href="#1-A-Submatrix-Based-Method-for-Approximate" class="headerlink" title="1 A Submatrix-Based Method for Approximate"></a>1 A Submatrix-Based Method for Approximate</h2><p>Matrix Function Evaluation in the Quantum<br>Chemistry Code CP2K</p>
+<p><strong>本质上是对子矩阵做直接对角化，还是直接对角化方法，但是不对稠密矩阵做。</strong></p>
+<ul>
+<li>提出并论证了一种基于子矩阵法和矩阵符号函数的线性缩放DFT方法；</li>
+<li>子矩阵方法适用于存储在分布式格式中的特定域矩阵；</li>
+<li>方法在CP2K中的实现以及GPU/FPGA上的探索</li>
+</ul>
+<h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>核心组件是DBCSR：</p>
+<p><strong>DBCSR 数据存储格式</strong></p>
+<ul>
+<li>矩阵被划分为 <strong>二维块网格</strong>（2D grid），每个块是一个相对较小的矩阵，通常大小为 5–30 行和列。</li>
+<li>零块与非零块 的信息用 CSR（Compressed Sparse Row）格式 存储。</li>
+<li>非零块 内部的数据以 密集格式（dense） 存储。</li>
+<li>对于分布式处理，libDBCSR 会将 MPI 进程排列为 <strong>二维笛卡尔拓扑</strong>，并将矩阵块的行列映射到具体的 MPI rank 上，从而进行分块分配和计算。</li>
+<li>矩阵乘法基于 <strong>改进的 Cannon 算法（modified Cannon’s algorithm）</strong> 实现。</li>
+<li>该算法需要对许多小矩阵块进行乘法运算。</li>
+<li>libDBCSR 内部提供了 <strong>libsmm</strong> 库，用于小矩阵乘法的高效计算。</li>
+<li>对于 Intel 系统，也可以使用 <strong>libxsmm</strong>。</li>
+<li>同时，也提供了 <strong>GPU 加速版本</strong>（libsmm acc，前身为 libcusmm），进一步提升计算性能。</li>
+</ul>
+<h3 id="Sub-Matrix-Method"><a href="#Sub-Matrix-Method" class="headerlink" title="Sub Matrix Method"></a>Sub Matrix Method</h3><p>子矩阵方法是一种用于大规模稀疏对称矩阵上计算一元矩阵函数（unary matrix function）近似解的算法。它最初被提出用于求解矩阵的逆 p 次根（inverse p-th roots），后来也被应用于符号矩阵函数（sign matrix function）等场景。</p>
+<p>非零模式（sparsity pattern）决定了矩阵中哪些元素彼此“相关”。通过对每列的局部非零邻域构建子矩阵，可以在保留主要信息的同时减少计算规模。</p>
+<p><img src="/2025/10/13/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FSpGEMM/image.png" alt="image.jpg" style="zoom: 80%;"></p>
+<p>子矩阵方法在求解矩阵的符号函数上有一定的限制，本文推导了一个修正定义，让子矩阵方法可以用用于任意的子矩阵，从而能实现求解。</p>
+<p>在求解DFT的时候，随着体系增大，子矩阵的尺寸在达到一定系统规模后趋于饱和。</p>
+<p>本篇工作测试了一个液态水立方体，发现了：</p>
+<ul>
+<li>对小体系，子矩阵会随体系增大而变大；</li>
+<li>但当体系足够大（如超过约 200 个水分子），子矩阵尺寸不再增长；</li>
+<li>此时计算复杂度随体系规模 <strong>线性增长</strong>（即“线性标度”）。</li>
+</ul>
+<p>其数学与物理逻辑如下：</p>
+<ol>
+<li><p><strong>矩阵元的局域性</strong>：</p>
+<p> 由于基函数的空间局域性，矩阵元 HijH_{ij}Hij 只在距离较近的原子对之间显著。</p>
+</li>
+<li><p><strong>存在有限的作用半径</strong> </p>
+<p> 对给定的基组与截断阈值，存在一个固定的最大距离，超过这个距离的原子间相互作用可以忽略</p>
+</li>
+<li><p><strong>局域体积有限 → 每列的非零元有限</strong>：</p>
+<p> 因为 Rmax⁡R_{\max}Rmax 对所有原子都是固定的，</p>
+<p> 所以每个原子（或每个基函数）只与有限个邻居产生非零矩阵元。</p>
+<p> 于是每一列/行中非零元的数目是常数，与体系规模无关。</p>
+</li>
+<li><p><strong>子矩阵大小固定</strong></p>
+</li>
+<li><p><strong>总复杂度线性增长</strong>：</p>
+<p> 由于需要为每个列 iii 构建一个子矩阵并计算f(a^i)</p>
+<p> 整体计算量 ∝ 列数 n，这就是线性标度（linear scaling）的数学基础。</p>
+</li>
+</ol>
+<h3 id="IMPLEMENTATION-OF-THE-SUBMATRIX-METHOD-WITHIN-CP2K"><a href="#IMPLEMENTATION-OF-THE-SUBMATRIX-METHOD-WITHIN-CP2K" class="headerlink" title="IMPLEMENTATION OF THE SUBMATRIX METHOD WITHIN CP2K"></a>IMPLEMENTATION OF THE SUBMATRIX METHOD WITHIN CP2K</h3><p>CP2K使用的是libDBCSR，libDBCSR的存储格式下，每个rank不知道全局的稀疏结构信息。所以实现时，所有rank把非零块以COO格式描述，然后通信让每个进程都得到全局信息。这样各个进程就能知道有哪些矩阵块需要计算，然后分配计算任务，静态分配负载，再确定需要通信的块和进程。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>方法</th>
+<th>技术核心</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>减少通信</strong></td>
+<td>初始化时统一数据交换</td>
+<td>去重传输</td>
+<td>消除重复通信</td>
+</tr>
+<tr>
+<td><strong>减少内存</strong></td>
+<td>相似子矩阵集中处理</td>
+<td>原子排序与局域性重用</td>
+<td>减少缓存大小</td>
+</tr>
+<tr>
+<td><strong>减少计算量</strong></td>
+<td>拆分/合并子矩阵</td>
+<td>层次子矩阵或聚类合并</td>
+<td>平衡 (N_S) 与 (n_i^3)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>CP2K 的子矩阵方法在并行化方面结合了分布式与共享内存两种策略。共享内存层面使用 OpenMP 实现线程级并行，主要并行化子矩阵的生成、结果提取及求解过程，这些例程均为线程安全，实现方式是通过 OpenMP 的工作共享机制将子矩阵任务分配给不同线程，从而在节点内部实现高效并行。由于不同化学环境下子矩阵规模差异较大，单纯按数量平均分配会导致负载不均，因此在分布式层面采用基于计算量估算的贪心负载均衡算法。具体地，假定每个子矩阵计算量与其维度的立方成正比，即 O(n³)，程序计算各子矩阵的预期浮点操作数并依次累积分配给各 MPI rank，使每个 rank 的总计算量尽可能接近平均值，同时保证每个 rank 负责一段连续的子矩阵，以提高数据局部性并减少通信开销。这样实现的混合并行策略能够在不同层次上充分利用计算资源并保持较好的扩展性。</p>
+<h3 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h3><p>在评估子矩阵方法时，研究者在 CP2K 中将其用于从 Kohn-Sham 矩阵计算密度矩阵，按照 Eq. (16) 固定化学势 μ，即考虑大正则系综。子矩阵采用对角化方法求解，如 Section IV-F 所述。为了进行对比，同时使用传统的二阶 Newton–Schulz 迭代法计算稀疏 DBCSR 矩阵的符号函数，在迭代过程中同样使用对称正交化以保证可比性。</p>
+<h2 id="2-Generic-matrix-multiplication-for-multi-GPU"><a href="#2-Generic-matrix-multiplication-for-multi-GPU" class="headerlink" title="2 Generic matrix multiplication for multi-GPU"></a>2 Generic matrix multiplication for multi-GPU</h2><p>accelerated distributed-memory platforms over<br>parsec（SUMMA）</p>
+<p>SC workshop</p>
+<p>介绍了一个基于分布式异构平台的GEMM，基于PARSEC实现。</p>
+<blockquote>
+<p>PARSEC：Parallel Runtime Scheduling and Execution Controller。一个转为大规模异构计算平台设计的任务型运行时系统，采用的是 <strong>任务依赖图（DAG, Directed Acyclic Graph）</strong> 的并行执行模型，支持分布式多核节点+GPU的混合系统结构。</p>
+</blockquote>
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>现代顶级超级计算机的计算性能几乎完全来自多 GPU 加速器，因此任何高性能算法都必须最大化 GPU 利用率，以在分布式多 GPU 环境中实现全局效率。</p>
+<p>SLATE是（2019）前唯一的支持分布式多GPU系统密集矩阵运算的实现。但仅限于显存可驻留整个C的情况。本篇工作则提供了一个基于外积的分布式多GPU平台的GEMM。</p>
+<h3 id="Design-principles"><a href="#Design-principles" class="headerlink" title="Design principles"></a>Design principles</h3><p>算法整体采用基于块的外积算法：</p>
+<ul>
+<li>存储格式为2D块循环布局</li>
+<li>使用外积算法计算（<strong>SUMMA</strong>），对于每个Cij，k次迭代完成计算，每次A的Ai,k进行水平广播，B的Bk,j进行垂直广播，每个节点收到后就可以更新Ci,j</li>
+<li>如果采用eager mode进行通信，运行时会在一开始就触发所有广播，网络会被淹没，导致无序通信和拥塞，性能会下降，因此将整个C矩阵再次划分为bxc个更大的block of tiles。<ul>
+<li>每个block是逻辑同步单元</li>
+<li>每个节点上的需要同时保存的tile数是T = (b+c)Kt + bc，bc是当前block的C tiles，bc要选择得恰好使这些tiles能够装进节点CPU内存</li>
+</ul>
+</li>
+<li>GPU上，显存小于主存，因此引入第三个参数d：<ul>
+<li>把K次迭代再次切分为长度为d的chunk，每个chunk的内存需求为bc+(b+c)d</li>
+<li>每个chunk结束之后有一个local barrier，防止加载太多A/B数据导致GPU内存溢出</li>
+<li>Chunk之间有依赖关系，从而会形成任务依赖图，由运行时系统管理</li>
+</ul>
+</li>
+<li>为了进一步提高并行度与数据重用，引入lookahead机制，当前chunk在计算时，可预取未来l个chunk所需的A、B数据。</li>
+<li>GPU内部任务分配：按列循环进行分配</li>
+</ul>
+<h3 id="Communication"><a href="#Communication" class="headerlink" title="Communication"></a>Communication</h3><p>本节主要是做一些通信量分析。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>控制参数</th>
+<th>优化目标</th>
+<th>主要受限资源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inter-node</td>
+<td>(b, c)</td>
+<td>减少跨节点通信量</td>
+<td>网络带宽</td>
+</tr>
+<tr>
+<td>Intra-node</td>
+<td>(d)</td>
+<td>限制 GPU 显存占用</td>
+<td>GPU 内存</td>
+</tr>
+<tr>
+<td>Lookahead</td>
+<td>ℓ</td>
+<td>重叠通信与计算</td>
+<td>GPU 内存</td>
+</tr>
+<tr>
+<td>GPU 分配</td>
+<td>G</td>
+<td>平衡负载与并行性</td>
+<td>任务调度</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>节点内的CPU-GPU传输需要考虑三种情况：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>适用情况</th>
+<th>内存特征</th>
+<th>数据加载特征</th>
+<th>传输量构成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a)</strong></td>
+<td>小规模问题</td>
+<td>所有需要的 tiles 都能一次放入 GPU</td>
+<td>A/B 仅加载一次</td>
+<td>A: (M_t K_t / p)B: (K_t N_t / qG)C: (M_t N_t / pqG)</td>
+</tr>
+<tr>
+<td><strong>(b)</strong></td>
+<td>中等规模</td>
+<td>B 的所有列块（(c/G)）能放入显存，但 A 不行</td>
+<td>B 一次加载，A 多次加载（每个 block column）</td>
+<td>A: (Y \times b d)B: (K_t c/G)C: (bc/G)</td>
+</tr>
+<tr>
+<td><strong>(c)</strong></td>
+<td>大规模（一般情况）</td>
+<td>A/B 都不能完全装入显存</td>
+<td>A、B 都需重复加载（每 block row/col）</td>
+<td>A: (X \times b d)B: (Y \times c d)C: (bc/G)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>因为每个进程上又对C block做了一次划分，这导致需要重复进行一些数据传输，比如Cij已经传输了Ai和Bj，之后的某个Cij+x，又需要重新传输Ai。为了最大化数据重用，尽可能减小通信次数，需要在显存允许范围内尽可能选最大的b和c，以及参数d。增加了两种子情形：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>情形</th>
+<th>特征</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(c1)</strong></td>
+<td>整个 (C) 可放进 GPU 显存</td>
+<td>每个 GPU 只需循环加载 A/B，C 固定驻留</td>
+</tr>
+<tr>
+<td><strong>(c2)</strong></td>
+<td>整个 (C) 太大需分块</td>
+<td>GPU 显存中 C 也需更换；A/B 多次循环加载</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>最后，lookup参数可以根据经验值取1或2，这会导致额外存储tiles，所以取1或2这样的经验值就够了。</p>
+<h3 id="Implemention"><a href="#Implemention" class="headerlink" title="Implemention"></a>Implemention</h3><p><strong>对目标架构的适配</strong></p>
+<p>以 <strong>Summit</strong> 为代表的节点架构：</p>
+<ul>
+<li>每个节点有 <strong>2 个 IBM Power9（P9）CPU</strong>；</li>
+<li><strong>6 块 NVIDIA GPU（V100）</strong>；</li>
+<li>GPU 通过 <strong>NVLink</strong> 与两个 CPU 插槽相连；</li>
+<li>两个 P9 之间通过 <strong>X-Bus</strong> 互联，带宽仅 64 GB/s；</li>
+<li>而 GPU ↔ 最近 CPU 的 NVLink 带宽有 50 GB/s。</li>
+</ul>
+<p>GPU与近端CPU通信很快，但跨CPU通信容易成为瓶颈。为减少跨 X-Bus 的通信负担，作者采用：每个节点运行两个进程，每个进程3块GPU：</p>
+<ul>
+<li><p><strong>通信局部化</strong>：</p>
+<p>  每个进程主要与本 socket 和本地 GPU 通信，</p>
+<p>  只有少量数据需跨 socket（经 X-Bus）传输；</p>
+</li>
+<li><p><strong>减少内部竞争</strong>：</p>
+<p>  避免不同 GPU 的任务在系统后台自动拉取远程数据造成带宽冲突；</p>
+</li>
+<li><p><strong>通信效率更高</strong>：</p>
+<p>  两个进程 ⇒ 两套通信管理线程（progress threads），</p>
+<p>  有助于充分利用网络带宽并减少通信系统中的排队延迟。</p>
+</li>
+</ul>
+<p>PARSEC 框架的默认机制是：</p>
+<ul>
+<li>所有数据最初存在于主内存（RAM）；</li>
+<li>任务在需要时由运行时自动将数据从 RAM 上传到 GPU；</li>
+<li>设备间通信不是显式控制的，而是根据依赖自动推断。</li>
+</ul>
+<p>为改进性能，作者扩展了 PARSEC，实现：</p>
+<blockquote>
+<p>GPU-to-GPU 直接通信（Device-to-Device transfer）。</p>
+<ul>
+<li>每份数据有多个版本（副本）分布在不同设备；</li>
+<li>运行时通过 metadata 跟踪这些副本；</li>
+<li>当任务需要一个数据而目标 GPU 上没有副本时：<ul>
+<li>先在其他 GPU 上搜索；</li>
+<li>若找到同版本的副本 ⇒ 直接通过 NVLink 复制；</li>
+<li>否则再从主机内存上传。</li>
+</ul>
+</li>
+<li>引用计数与缓存管理：<ul>
+<li>每次 GPU 使用数据，增加引用计数；</li>
+<li>当任务完成后再减少；</li>
+<li>使用 LRU 策略释放显存，防止冗余副本长期占用。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><strong>编程语言的适配</strong></p>
+<p>PARSEC 默认是<strong>机会式调度（opportunistic scheduling）</strong>：</p>
+<ul>
+<li>所有 GPU 管理线程都可“偷取任务”（work stealing）；</li>
+<li>导致同一数据块可能被不同 GPU 交替计算；</li>
+<li>从而造成频繁的数据迁移。</li>
+</ul>
+<p>作者修改了 PARSEC 的 GPU 调度策略，利用其“<strong>last-writer heuristic</strong>”（最近写者优先）特性：</p>
+<ul>
+<li>若某块数据最近在某 GPU 上被读写，</li>
+<li>则直到该数据被显式回写到 RAM 前，</li>
+<li>只有该 GPU 能继续执行涉及该数据的写操作。</li>
+</ul>
+<p>在此基础上，论文新增了语言扩展：</p>
+<blockquote>
+<p>允许用户显式指定某块数据的目标 GPU。</p>
+</blockquote>
+<p>实现方式：</p>
+<ol>
+<li>修改 GEMM 实现，使每块 C tile 的更新链在固定 GPU 上执行；</li>
+<li>同一 tile 的所有后续更新任务都在该 GPU 上连续完成；</li>
+<li>避免中途数据迁移，提高缓存复用。</li>
+</ol>
+<h3 id="Evaluation-1"><a href="#Evaluation-1" class="headerlink" title="Evaluation"></a>Evaluation</h3><ul>
+<li>机器：Summit 超级计算机（美国橡树岭国家实验室 ORNL）</li>
+<li>节点构成：<ul>
+<li>每节点包含 2×IBM POWER9 CPU (22 cores each, 共42核心可用)</li>
+<li>6×NVIDIA V100 GPU</li>
+<li>CPU-GPU 间通过 NVLink 2.0 互连，每个 NVLink 25 GB/s 单向带宽，总计 100 GB/s 双向带宽</li>
+</ul>
+</li>
+<li>软件栈：<ul>
+<li>编译器：XLC 16.1.1-2</li>
+<li>CUDA 9.2.148</li>
+<li>Spectrum MPI 10.3.0.0</li>
+<li>BLAS 库：cuBLAS（CUDA 自带版本）</li>
+<li>运行时系统：<strong>PaRSEC</strong> + PTG (Parameterized Task Graph)</li>
+</ul>
+</li>
+<li>测试对象：并行双精度矩阵乘 PDGEMM</li>
+<li>测试流程：<ol>
+<li>所有矩阵数据最初放在主内存（CPU RAM）</li>
+<li>运行时系统负责将数据传入 GPU，执行计算</li>
+<li>最终结果矩阵 C 必须写回主内存后计时结束</li>
+</ol>
+</li>
+<li><p>性能基准：</p>
+<p>  单个 V100 的实测峰值性能为 <strong>7.2 TFLOP/s</strong>（通过重复执行大矩阵 GEMM 得到）</p>
+</li>
+<li><p>每次实验重复 5–10 次，结果用 <strong>Tukey box plot</strong>（箱线图）展示；波动极小。</p>
+</li>
+</ul>
+<p><strong>单节点实验：</strong></p>
+<p><img src="/2025/10/13/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FSpGEMM/image1.png" alt="image1.jpg" style="zoom: 80%;"></p>
+<ul>
+<li>当 t &lt; 1024 时，性能受 <strong>内存传输带宽</strong> 限制；</li>
+<li>当 t ≥ 1024 时，算术强度足够高，达到性能 <strong>平台区（plateau）</strong>；</li>
+<li>单卡至三卡时性能接近峰值（&gt;95%），四到六卡略降（≈85%），原因：<ul>
+<li>NUMA 跨 CPU-GPU 通信带宽受限；</li>
+<li>X-bus 拥塞造成性能波动。</li>
+</ul>
+</li>
+<li>最终选取 <strong>t = 1024</strong> 作为后续实验的 tile 大小。</li>
+</ul>
+<p><strong>多节点实验：</strong></p>
+<p><img src="/2025/10/13/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FSpGEMM/image2.png" alt="image2.jpg" style="zoom: 80%;"></p>
+<p><strong>通信实验</strong></p>
+<ul>
+<li>实测通信量包括：<ul>
+<li>H2D（Host→Device）</li>
+<li>D2H（Device→Host）</li>
+<li>D2D（Device↔Device）</li>
+</ul>
+</li>
+<li><p>结果：</p>
+<ul>
+<li>实际加载的 tile 数约为模型预测的 <strong>95%</strong>（缓存复用略提升效率）</li>
+<li><p><strong>约50% 的数据加载来自 GPU 间 D2D 通信</strong>，非主存；</p>
+<p>  → 表明 GPU 之间可共享数据块，显著减轻内存带宽压力。</p>
+</li>
+</ul>
+</li>
+<li><p>PARSEC 的 <strong>LRU 缓存策略</strong> 有效减少了重复加载，提高显存利用率。</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io">橙</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a-y-1.github.io/2025/10/13/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FSpGEMM/">https://a-y-1.github.io/2025/10/13/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FSpGEMM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a-y-1.github.io" target="_blank">橙的笔记本</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/HPC/">HPC</a></div><div class="post_share"><div class="social-share" data-image="/img/0105.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/11/27/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97SpGEMM/" title="论文选读-异构协同计算SpGEMM"><img class="cover" src="/img/0105.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">论文选读-异构协同计算SpGEMM</div></div></a></div><div class="next-post pull-right"><a href="/2025/09/05/%E6%98%87%E8%85%BE%E7%AE%97%E5%AD%90%E6%8C%91%E6%88%98%E8%B5%9BS5/" title="昇腾算子挑战赛S5"><img class="cover" src="/img/0105.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">昇腾算子挑战赛S5</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/01/15/Algorithm_and_hardware_co-optimized_solution_for_large_SpMV_problems/" title="Algorithm and hardware co optimized solution for large SpMV problems"><img class="cover" src="/../cover/algorithm_hardware_co_op_lspmv.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-15</div><div class="title">Algorithm and hardware co optimized solution for large SpMV problems</div></div></a></div><div><a href="/2023/12/22/Efficiently%20Running%20SpMV%20on%20Long%20Vector%20Architectures/" title="Efficiently Running SpMV on Long Vector Architectures"><img class="cover" src="/../cover/image-20231220173305208.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-22</div><div class="title">Efficiently Running SpMV on Long Vector Architectures</div></div></a></div><div><a href="/2024/02/21/Merge-based%20Sparse%20Matrix-Vector%20Multiplication/" title="Merge-based Sparse Matrix-Vector Multiplication (SpMV) using the CSR Storage Format"><img class="cover" src="/../cover/mergebasedspmv.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-21</div><div class="title">Merge-based Sparse Matrix-Vector Multiplication (SpMV) using the CSR Storage Format</div></div></a></div><div><a href="/2025/03/13/OpenFFT-SME-FFT%E7%AE%97%E6%B3%95%E5%9C%A8%E6%94%AF%E6%8C%81SME%E6%8C%87%E4%BB%A4%E9%9B%86%E7%9A%84CPU%E4%B8%8A%E7%9A%84%E5%AE%9E%E7%8E%B0/" title="OpenFFT-SME-FFT算法在支持SME指令集的CPU上的实现"><img class="cover" src="/../cover/SME01.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-13</div><div class="title">OpenFFT-SME-FFT算法在支持SME指令集的CPU上的实现</div></div></a></div><div><a href="/2024/02/20/Optimizing_SpMV_on_many_core_platform/" title="Optimizing SpMV on Emerging Many-Core Architectures"><img class="cover" src="/../cover/optimize_spmv_on_many_core.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-20</div><div class="title">Optimizing SpMV on Emerging Many-Core Architectures</div></div></a></div><div><a href="/2024/01/05/Performance%20analysis%20and%20optimization%20for%20SpMV%20based%20on%20aligned/" title="Performance analysis and optimization for SpMV based on ARM"><img class="cover" src="/../cover/ACSRandAELL.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-05</div><div class="title">Performance analysis and optimization for SpMV based on ARM</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/a0.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">橙</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">68</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/A-Y-1"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FGEMM"><span class="toc-text">异构平台的分布式GEMM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-A-Submatrix-Based-Method-for-Approximate"><span class="toc-text">1 A Submatrix-Based Method for Approximate</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Background"><span class="toc-text">Background</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sub-Matrix-Method"><span class="toc-text">Sub Matrix Method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMPLEMENTATION-OF-THE-SUBMATRIX-METHOD-WITHIN-CP2K"><span class="toc-text">IMPLEMENTATION OF THE SUBMATRIX METHOD WITHIN CP2K</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Evaluation"><span class="toc-text">Evaluation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Generic-matrix-multiplication-for-multi-GPU"><span class="toc-text">2 Generic matrix multiplication for multi-GPU</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Design-principles"><span class="toc-text">Design principles</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Communication"><span class="toc-text">Communication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Implemention"><span class="toc-text">Implemention</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Evaluation-1"><span class="toc-text">Evaluation</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/27/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97SpGEMM/" title="论文选读-异构协同计算SpGEMM">论文选读-异构协同计算SpGEMM</a><time datetime="2025-11-27T10:53:09.000Z" title="发表于 2025-11-27 18:53:09">2025-11-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/13/%E8%AE%BA%E6%96%87%E9%80%89%E8%AF%BB-%E5%BC%82%E6%9E%84%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FSpGEMM/" title="论文选读-异构平台的分布式GEMM">论文选读-异构平台的分布式GEMM</a><time datetime="2025-10-13T00:11:09.000Z" title="发表于 2025-10-13 08:11:09">2025-10-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/05/%E6%98%87%E8%85%BE%E7%AE%97%E5%AD%90%E6%8C%91%E6%88%98%E8%B5%9BS5/" title="昇腾算子挑战赛S5">昇腾算子挑战赛S5</a><time datetime="2025-09-04T23:05:00.000Z" title="发表于 2025-09-05 07:05:00">2025-09-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/01/PAC%202025%E8%B5%9B%E5%90%8E%E6%80%BB%E7%BB%93/" title="PAC 2025赛后总结">PAC 2025赛后总结</a><time datetime="2025-09-01T04:05:00.000Z" title="发表于 2025-09-01 12:05:00">2025-09-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/10/%E9%AB%98%E7%BA%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%8D%8F%E8%AE%AE%E4%B8%8E%E8%B0%83%E5%BA%A6/" title="高级计算机网络-协议与调度">高级计算机网络-协议与调度</a><time datetime="2025-06-10T01:55:29.000Z" title="发表于 2025-06-10 09:55:29">2025-06-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/0105.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By 橙</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
